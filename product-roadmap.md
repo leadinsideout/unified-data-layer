@@ -25,10 +25,17 @@ All phases shown beyond Phase 6 are outside of scope for the initial build, but 
 
 ## Current Status: MVP Complete ✅
 
+**Old MVP (Reference in `/udlmvp-deprecated/`):**
 - Semantic search with vector embeddings
 - RAG-based conversational Q&A
 - REST API with demo interface
 - Multi-client transcript storage and upload (text & PDF)
+
+**Current Rebuild (Streamlined for AI Platform Integration):**
+- Focus on semantic search as data layer for AI platforms
+- Custom GPT handles synthesis (not our API)
+- Minimal API surface: upload, search, health check
+- Deploying to Vercel for HTTPS access
 
 ---
 
@@ -58,15 +65,20 @@ Semantic search means we can take that data and AUGMENT an LLM’s existing trai
     - **NEEDED Support for better metadata (date, participants, etc.), search across multiple data fields**
     - Multi-client support via coach_id and client_id
 
-### 1.2 Semantic Search & RAG
+### 1.2 Semantic Search (Data Layer for AI Platforms)
 
-- **Status**: In Progress
-- **Goal**: Enable semantic search and conversational Q&A
+- **Status**: In Progress (Rebuild)
+- **Goal**: Provide semantic search as data layer for AI platforms
 - **Implementation**:
     - Vector similarity search with configurable thresholds
-    - RAG-based question answering with temporal context
-    - Source attribution with meeting dates
-    - Demo UI for testing
+    - Returns relevant chunks with metadata (meeting dates, similarity scores)
+    - **Custom GPT/Claude handle synthesis** - we provide data, they provide answers
+    - Minimal API: upload, search, health check
+
+**Architectural Principle**:
+- Our API provides DATA (via semantic search)
+- AI platforms provide SYNTHESIS (using their native GPT-4/Claude)
+- No redundant RAG endpoints - simpler, faster, cheaper
 
 **Key Learning**: Transcripts are the **first data type**, not the only one. The architecture needs to support multiple data types.
 
@@ -381,14 +393,15 @@ The hope is that with a common protocol like MCP, we can easily plug a Custom GP
 - **Why MCP**: Native protocol for Claude integration, more capable than REST APIs
 - **Implementation**:
     - Build MCP server exposing data layer functionality
-    - Tools: `search_data`, `ask_question`, `get_client_summary`, `list_data_items`
+    - Tools: `search_transcripts`, `upload_transcript`, `get_client_data`
+    - **Claude handles synthesis** using its built-in capabilities
     - Context: Automatic client context awareness
     - Authentication: Secure token-based auth
 - **User Experience**:
-    
+
     ```
     Coach: "What progress has [client] made on their confidence goals?"
-    Claude: *Uses MCP to search transcripts and assessments, returns insights*
+    Claude: *Uses MCP to search transcripts, synthesizes insights using Claude*
     ```
     
 
@@ -412,23 +425,27 @@ The hope is that with a common protocol like MCP, we can easily plug a Custom GP
 <aside>
 <img src="/icons/view_orange.svg" alt="/icons/view_orange.svg" width="40px" />
 
-In some cases, a platform like a Custom GPT may be able to access our API directly without needing an additional layer, like an MCP server, to give it the tools to access the database. This step would add “endpoints” (functions that structure access to the database - for example, one endpoint would allow you to retrieve all transcripts for a given client, and the requesting application would need to supply the ID for a client. 
+In some cases, a platform like a Custom GPT may be able to access our API directly without needing an additional layer, like an MCP server, to give it the tools to access the database. This step would add "endpoints" (functions that structure access to the database - for example, one endpoint would allow you to retrieve all transcripts for a given client, and the requesting application would need to supply the ID for a client.
 
 Think of a set of endpoints like a menu system. In all the infinite ways data can be accessed, an API supplies a set number of options for retrieving and updating a database so the data is used as intended.
+
+**Key Principle**: API provides DATA, AI platforms provide INSIGHTS. We focus on filtered search and retrieval, not synthesis.
 
 </aside>
 
 - **Status**: Planned
-- **Goal**: Optimize REST API for AI platform consumption
-- **Enhancements**:
-    
+- **Goal**: Optimize REST API for AI platform data retrieval
+- **Enhancements** (data retrieval, NOT synthesis):
+
     ```
-    POST /api/v2/search/unified      # Search across all data types
-    POST /api/v2/clients/{id}/summary # Client data summary for context
-    POST /api/v2/insights/patterns   # Identify patterns across sessions
-    POST /api/v2/insights/progress   # Track progress on specific topics
-    GET  /api/v2/clients/{id}/timeline # Chronological view of all data
+    POST /api/v2/search/unified          # Search across all data types
+    POST /api/v2/search/filtered         # Search with filters (date range, type, client)
+    GET  /api/v2/clients/{id}/data       # All data items for a client
+    GET  /api/v2/clients/{id}/timeline   # Chronological view of all data
+    GET  /api/v2/transcripts/{id}/chunks # Get specific transcript chunks
     ```
+
+    **Note**: No `/insights/*` or synthesis endpoints - AI platforms handle that
     
 
 ### 4.4 Authentication & Authorization for AI Platforms
