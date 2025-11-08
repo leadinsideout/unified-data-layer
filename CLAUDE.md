@@ -1,0 +1,420 @@
+# CLAUDE.md - AI Assistant Navigation Guide
+
+**Purpose**: This file helps AI assistants (like Claude) quickly understand and navigate this project.
+
+**Last Updated**: 2025-11-08
+
+---
+
+## 🎯 Project Overview
+
+**Name**: Unified Data Layer
+**Current Phase**: Phase 1, Checkpoint 1 Complete
+**Architecture**: API-first data layer for AI platform integration
+
+**Key Principle**: Our API provides DATA (semantic search), AI platforms provide SYNTHESIS (GPT-4/Claude).
+
+---
+
+## 🗺️ Project Status (Quick Reference)
+
+**Current Branch**: `phase-1-checkpoint-1`
+**Current Tag**: `v0.1.0-checkpoint-1`
+**Latest Commit**: See `docs/checkpoints/checkpoint-1.md`
+
+**What's Working**:
+- ✅ Supabase database with pgvector
+- ✅ Express API server (5 endpoints)
+- ✅ Automatic chunking & embedding pipeline
+- ✅ Health check and upload endpoints
+
+**What's Pending**:
+- ⏸️ Full embedding testing (OpenAI quota issue)
+- 🔴 Vercel deployment (Checkpoint 2)
+- 🔴 Custom GPT integration (Checkpoint 3)
+
+**Blockers**:
+- OpenAI API quota exceeded (user waiting for client approval to add billing)
+
+---
+
+## 📁 Project Structure (Navigation Map)
+
+```
+unified-data-layer/
+│
+├── CLAUDE.md                    ← YOU ARE HERE (AI navigation guide)
+├── README.md                    ← Start here for project overview
+│
+├── api/server.js                ← Main API server (521 lines)
+├── scripts/                     ← Utility scripts
+│   ├── database/                ← SQL migrations
+│   ├── embed.js                 ← Embedding generation
+│   └── test-connection.js       ← DB connection test
+│
+├── docs/                        ← ALL DOCUMENTATION
+│   ├── README.md                ← Documentation index
+│   ├── project/                 ← Strategic docs
+│   │   ├── roadmap.md           ← Product vision (8 phases)
+│   │   └── rebuild-plan.md      ← Implementation plan (checkpoints)
+│   ├── development/             ← Developer workflows
+│   │   ├── workflows.md         ← Git, testing, deployment standards
+│   │   └── workflow-tracker.md  ← When to add workflows
+│   ├── checkpoints/             ← Checkpoint status reports
+│   │   ├── README.md            ← Checkpoint index
+│   │   └── checkpoint-1.md      ← Latest checkpoint status
+│   ├── setup/                   ← Setup guides
+│   │   ├── supabase-setup.md    ← Database setup
+│   │   └── github-branch-protection.md
+│   └── (api/, architecture/)    ← Future docs
+│
+├── tests/e2e-checklist.md       ← Manual testing checklist
+├── package.json                 ← Dependencies
+├── vercel.json                  ← Deployment config
+└── .env.example                 ← Environment template
+```
+
+---
+
+## 🧭 How to Navigate This Project (AI Guide)
+
+### When User Says: "Resume from Checkpoint X"
+
+**Step 1**: Read checkpoint status
+```
+File: docs/checkpoints/checkpoint-X.md
+Purpose: Shows what's done, what's pending, blockers
+```
+
+**Step 2**: Check current branch/tag
+```bash
+git status
+git log --oneline -5
+git tag -l
+```
+
+**Step 3**: Read rebuild plan
+```
+File: docs/project/rebuild-plan.md
+Purpose: Understand overall implementation plan
+```
+
+**Step 4**: Continue from there
+
+### When User Says: "What's the project structure?"
+
+**Answer from**:
+- This file (CLAUDE.md) - Quick overview
+- README.md - User-facing overview
+- docs/README.md - Documentation index
+
+### When User Says: "How do I deploy?"
+
+**Read**:
+- docs/project/rebuild-plan.md → Checkpoint 2 section
+- vercel.json → Deployment config
+- docs/development/workflows.md → Deployment workflow section
+
+### When User Says: "What workflows should we use?"
+
+**Read**:
+- docs/development/workflows.md → Standards for git, testing, etc.
+- docs/development/workflow-tracker.md → When to add workflows
+- .github/pull_request_template.md → PR checklist
+
+### When User Asks: "What's in the roadmap?"
+
+**Read**:
+- docs/project/roadmap.md → 8-phase product vision
+- docs/project/rebuild-plan.md → Implementation details
+
+### When Debugging Issues:
+
+**Check in order**:
+1. `docs/checkpoints/checkpoint-X.md` → Known issues
+2. `README.md` → Troubleshooting section
+3. `docs/setup/` → Setup guides
+4. `api/server.js` → Implementation
+
+---
+
+## 🎯 Key Files by Purpose
+
+### Strategic Planning
+- `docs/project/roadmap.md` - Product vision, 8 phases
+- `docs/project/rebuild-plan.md` - Implementation plan
+
+### Current Status
+- `docs/checkpoints/checkpoint-1.md` - Latest checkpoint
+- `docs/checkpoints/README.md` - Checkpoint index
+
+### Development
+- `docs/development/workflows.md` - Git, testing, deployment
+- `docs/development/workflow-tracker.md` - Workflow milestones
+- `.github/pull_request_template.md` - PR template
+
+### Setup & Configuration
+- `docs/setup/supabase-setup.md` - Database setup
+- `.env.example` - Environment variables
+- `vercel.json` - Deployment config
+
+### Code
+- `api/server.js` - Express API server
+- `scripts/embed.js` - Embedding generation
+- `scripts/database/*.sql` - Database migrations
+
+### Testing
+- `tests/e2e-checklist.md` - Manual test checklist
+
+---
+
+## 🏗️ Architecture Quick Reference
+
+### Tech Stack
+- **Runtime**: Node.js (ES Modules)
+- **API**: Express.js 5.1.0
+- **Database**: Supabase (PostgreSQL + pgvector)
+- **Embeddings**: OpenAI text-embedding-3-small (1536d)
+- **Deployment**: Vercel
+
+### API Endpoints
+```
+GET  /api/health                  # Server status
+POST /api/transcripts/upload      # Upload text transcript
+POST /api/transcripts/upload-pdf  # Upload PDF transcript
+POST /api/search                  # Semantic search
+GET  /openapi.json                # OpenAPI schema for Custom GPT
+```
+
+### Database Schema
+```sql
+transcripts (
+  id, raw_text, meeting_date, created_at, metadata,
+  coach_id, client_id, fireflies_meeting_id
+)
+
+transcript_chunks (
+  id, transcript_id, chunk_index, content,
+  embedding vector(1536), created_at
+)
+
+RPC: match_transcript_chunks(query_embedding, threshold, limit)
+```
+
+### Data Flow
+```
+Upload → Chunk (500 words, 50 overlap) → Embed (OpenAI) →
+Store (Supabase) → Search (vector similarity) → Return chunks
+```
+
+---
+
+## 📋 Common Tasks Reference
+
+### Task: Review current status
+```
+Files to read:
+1. docs/checkpoints/checkpoint-1.md (latest status)
+2. README.md (project overview)
+3. git log --oneline -10 (recent commits)
+```
+
+### Task: Continue to next checkpoint
+```
+Files to read:
+1. docs/checkpoints/checkpoint-X.md (understand current state)
+2. docs/project/rebuild-plan.md (find next checkpoint tasks)
+3. docs/development/workflow-tracker.md (check workflow milestones)
+```
+
+### Task: Deploy to Vercel
+```
+Files to read:
+1. docs/project/rebuild-plan.md → Checkpoint 2
+2. vercel.json (deployment config)
+3. docs/development/workflows.md → Deployment section
+4. .env.example (environment variables needed)
+```
+
+### Task: Add new feature
+```
+Process:
+1. Create branch: git checkout -b feature/name
+2. Follow docs/development/workflows.md
+3. Use .github/pull_request_template.md for PR
+4. Update docs/checkpoints/ if completing a checkpoint
+```
+
+### Task: Fix a bug
+```
+Process:
+1. Check docs/checkpoints/checkpoint-X.md for known issues
+2. Create branch: git checkout -b fix/description
+3. Follow docs/development/workflows.md
+4. Update relevant docs if fixing documented issue
+```
+
+---
+
+## 🎓 Understanding the User's Intent
+
+### "Resume from..." = Continue Development
+- User returning after break
+- Read checkpoint status
+- Check git status
+- Ask about blockers (e.g., OpenAI quota)
+- Continue next checkpoint tasks
+
+### "Deploy to..." = Deployment Task
+- Follow deployment workflow
+- Read Checkpoint 2 from rebuild-plan.md
+- Update environment variables
+- Test deployment
+- Document results
+
+### "Test..." = Validation Task
+- Use tests/e2e-checklist.md
+- Follow checkpoint validation criteria
+- Document results in checkpoint status
+
+### "Fix..." = Debugging Task
+- Check known issues in checkpoint docs
+- Review relevant code in api/ or scripts/
+- Follow git workflow for fixes
+- Update docs if needed
+
+---
+
+## 🚨 Important Context
+
+### User Preferences
+- **Workflow**: Minimal Viable Workflow (MVW) active
+- **Testing**: Manual E2E checklists (automated tests in Phase 2)
+- **Branching**: Phase-based branches (phase-X-checkpoint-Y)
+- **Commits**: Conventional commits (feat, fix, docs, chore)
+- **Deployment**: Vercel preferred
+
+### Current Blockers
+- OpenAI quota exceeded (waiting for client billing approval)
+- Can continue to Checkpoint 2 (deployment) without full testing
+- Will return to test embeddings when quota resolved
+
+### Project Philosophy
+- **Phased approach**: Checkpoint validation before proceeding
+- **Documentation-first**: Document as you build
+- **AI platform integration**: Primary interface (not custom UI)
+- **Data not synthesis**: API returns data, GPT/Claude synthesize
+
+---
+
+## 🔄 Workflow Reminders for AI
+
+### Before Starting Any Task
+1. ✅ Read latest checkpoint status
+2. ✅ Check git status and current branch
+3. ✅ Understand what's working vs pending
+4. ✅ Ask about blockers if relevant
+
+### When Completing a Checkpoint
+1. ✅ Create feature branch
+2. ✅ Commit work with detailed message
+3. ✅ Tag with version (vX.Y.Z-checkpoint-N)
+4. ✅ Create checkpoint status doc
+5. ✅ Update checkpoint index
+
+### When User Returns After Break
+1. ✅ Check if OpenAI quota resolved (if relevant)
+2. ✅ Read checkpoint docs to understand state
+3. ✅ Review git log for recent changes
+4. ✅ Confirm next steps with user
+
+### Progressive Workflow Implementation
+```
+After Checkpoint 1: Branch protection + integration tests
+After Checkpoint 2: Database migrations + API docs
+After Checkpoint 3: Performance baselines
+See: docs/development/workflow-tracker.md for full schedule
+```
+
+---
+
+## 📚 Quick Reference Links
+
+**For User**:
+- Getting started: [README.md](README.md)
+- Full roadmap: [docs/project/roadmap.md](docs/project/roadmap.md)
+- Setup guides: [docs/setup/](docs/setup/)
+
+**For AI Assistant**:
+- Current status: [docs/checkpoints/checkpoint-1.md](docs/checkpoints/checkpoint-1.md)
+- Implementation plan: [docs/project/rebuild-plan.md](docs/project/rebuild-plan.md)
+- Workflows: [docs/development/workflows.md](docs/development/workflows.md)
+
+---
+
+## 🎯 What Makes This Project Unique
+
+1. **AI-First Architecture**: Designed for Custom GPT/MCP, not traditional web UI
+2. **Data Layer Only**: No synthesis - AI platforms handle that
+3. **Checkpoint-Based**: Clear milestones with validation
+4. **Phase Approach**: Each phase builds on previous
+5. **Documentation-Heavy**: Everything documented as we build
+6. **Workflow Evolution**: Workflows added just-in-time, not upfront
+
+---
+
+## 💡 Tips for AI Assistants
+
+### DO:
+- ✅ Read checkpoint status before suggesting next steps
+- ✅ Follow conventional commit format
+- ✅ Update docs when completing tasks
+- ✅ Use TodoWrite tool for multi-step tasks
+- ✅ Ask about blockers (e.g., OpenAI quota)
+- ✅ Reference file paths clearly (e.g., api/server.js:124)
+
+### DON'T:
+- ❌ Assume what's tested - check checkpoint docs
+- ❌ Skip reading current status
+- ❌ Forget to update checkpoint docs when finishing milestones
+- ❌ Ignore workflow-tracker.md reminders
+- ❌ Make assumptions about external dependencies (OpenAI, Supabase)
+
+### When in Doubt:
+1. Read `docs/checkpoints/checkpoint-X.md` for current state
+2. Read `docs/project/rebuild-plan.md` for what's next
+3. Ask user for clarification
+
+---
+
+## 🔖 Version History
+
+- **v0.1.0-checkpoint-1** (2025-11-08): Local MVP Foundation complete
+  - See: docs/checkpoints/checkpoint-1.md
+  - Status: Code complete, pending OpenAI quota for full testing
+
+---
+
+## 📝 Notes for Future AI Sessions
+
+### If User Says "Continue"
+1. Check if still on `phase-1-checkpoint-1` branch
+2. Read `docs/checkpoints/checkpoint-1.md`
+3. Proceed to Checkpoint 2 (Vercel deployment) per `docs/project/rebuild-plan.md`
+
+### If User Reports OpenAI Quota Fixed
+1. Run full E2E tests from `tests/e2e-checklist.md`
+2. Test upload → embed → search flow
+3. Update `docs/checkpoints/checkpoint-1.md` with results
+4. Mark Checkpoint 1 as fully validated
+
+### If User Wants to Deploy
+1. Follow Checkpoint 2 from `docs/project/rebuild-plan.md`
+2. Use `vercel.json` config
+3. Set environment variables in Vercel dashboard
+4. Test health endpoint
+5. Document in `docs/checkpoints/checkpoint-2.md`
+
+---
+
+**Remember**: This is a living document. Update it as the project evolves!

@@ -232,11 +232,17 @@ See `product-roadmap.md` for full roadmap.
 
 ## Documentation
 
-- **Setup**: `docs/setup/supabase-setup.md`
-- **Workflows**: `WORKFLOWS.md`
-- **Implementation Plan**: `REBUILD_PLAN.md`
-- **Product Roadmap**: `product-roadmap.md`
-- **Testing**: `tests/e2e-checklist.md`
+**For AI Assistants**: See [CLAUDE.md](CLAUDE.md) for project navigation guide
+
+**Full Documentation**: [docs/](docs/) - All documentation organized by purpose
+
+**Quick Links**:
+- **Setup Guides**: [docs/setup/](docs/setup/) - Supabase, GitHub, deployment
+- **Current Status**: [docs/checkpoints/](docs/checkpoints/) - Checkpoint progress
+- **Roadmap**: [docs/project/roadmap.md](docs/project/roadmap.md) - Product vision
+- **Implementation Plan**: [docs/project/rebuild-plan.md](docs/project/rebuild-plan.md) - Detailed plan
+- **Workflows**: [docs/development/workflows.md](docs/development/workflows.md) - Git, testing, deployment
+- **Testing**: [tests/e2e-checklist.md](tests/e2e-checklist.md) - Manual test checklist
 
 ---
 
