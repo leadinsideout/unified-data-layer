@@ -1,0 +1,30 @@
+{
+  "name": "unified-data-layer",
+  "version": "0.1.0",
+  "description": "Unified data layer providing semantic search over coaching transcripts for AI platform integration",
+  "type": "module",
+  "main": "api/server.js",
+  "scripts": {
+    "start": "node api/server.js",
+    "dev": "node --watch api/server.js"
+  },
+  "keywords": [
+    "semantic-search",
+    "vector-embeddings",
+    "coaching",
+    "transcripts",
+    "openai",
+    "supabase"
+  ],
+  "author": "leadinsideout",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.75.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "multer": "^2.0.2",
+    "openai": "^6.3.0",
+    "pdf-parse": "^1.1.1"
+  }
+}
