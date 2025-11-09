@@ -632,16 +632,19 @@ app.use((err, req, res, next) => {
 // SERVER START
 // ============================================
 
-app.listen(PORT, () => {
-  console.log('\n' + '='.repeat(50));
-  console.log('🚀 Unified Data Layer API Server');
-  console.log('='.repeat(50));
-  console.log(`📡 Server running on http://localhost:${PORT}`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
-  console.log(`📖 OpenAPI schema: http://localhost:${PORT}/openapi.json`);
-  console.log('='.repeat(50) + '\n');
-});
+// Only start server if running locally (not in Vercel serverless)
+if (process.env.NODE_ENV !== 'production' || process.env.VERCEL !== '1') {
+  app.listen(PORT, () => {
+    console.log('\n' + '='.repeat(50));
+    console.log('🚀 Unified Data Layer API Server');
+    console.log('='.repeat(50));
+    console.log(`📡 Server running on http://localhost:${PORT}`);
+    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
+    console.log(`📖 OpenAPI schema: http://localhost:${PORT}/openapi.json`);
+    console.log('='.repeat(50) + '\n');
+  });
+}
 
-// Export for testing
+// Export for Vercel serverless
 export default app;
