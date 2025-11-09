@@ -27,16 +27,25 @@
 
 Simplified Gitflow that aligns with checkpoint-based development.
 
+**Key Principle**: `main` is ALWAYS production-ready and deployed to Vercel production.
+
 ### Branch Structure
 
 ```
 main (production-ready, deployed to Vercel production)
-  ├── phase-1-checkpoint-1 (feature branch)
-  ├── phase-1-checkpoint-2 (feature branch)
-  ├── phase-1-checkpoint-3 (feature branch)
+  ├── phase-1-checkpoint-1 (feature branch) → merges to main via PR
+  ├── phase-1-checkpoint-2 (feature branch) → merges to main via PR
+  ├── phase-1-checkpoint-3 (feature branch) → merges to main via PR
   ├── phase-2-* (future)
-  └── hotfix/* (emergency fixes)
+  └── hotfix/* (emergency fixes) → merges to main via PR
 ```
+
+**Workflow**:
+1. Create checkpoint/feature branch from `main`
+2. Develop and test on branch (gets Vercel preview deployment)
+3. When complete, create PR to `main`
+4. Merge PR → auto-deploys to production
+5. Tag release after merge
 
 ### Workflow
 
@@ -394,7 +403,9 @@ describe('POST /api/search', () => {
 
 ### **Strategy: Vercel Auto-Deploy with Preview Environments**
 
-Every PR gets a preview deployment, every merge to main deploys to production.
+Every PR gets a preview deployment, every merge to `main` deploys to production.
+
+**Production Branch**: `main` (all checkpoint branches merge here via PR after validation)
 
 ### Vercel Configuration
 
