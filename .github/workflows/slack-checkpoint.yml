@@ -1,0 +1,98 @@
+name: Slack - Checkpoint Notifications
+
+on:
+  push:
+    tags:
+      - 'v*-checkpoint-*'
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract checkpoint info
+        id: checkpoint
+        run: |
+          TAG_NAME="${{ github.ref_name }}"
+          CHECKPOINT_NUM=$(echo $TAG_NAME | grep -oP 'checkpoint-\K\d+' || echo "unknown")
+          VERSION=$(echo $TAG_NAME | grep -oP 'v[\d.]+' || echo "unknown")
+          echo "number=$CHECKPOINT_NUM" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Get changelog
+        id: changelog
+        run: |
+          LAST_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -z "$LAST_TAG" ]; then
+            CHANGELOG=$(git log --format="- %s" HEAD | head -10)
+          else
+            CHANGELOG=$(git log --format="- %s" ${LAST_TAG}..HEAD)
+          fi
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Notify Slack
+        uses: slackapi/slack-github-action@v2
+        with:
+          payload: |
+            {
+              "text": "🎯 Checkpoint ${{ steps.checkpoint.outputs.number }} Complete",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "🎯 Checkpoint ${{ steps.checkpoint.outputs.number }} Complete"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Version:*\n${{ steps.checkpoint.outputs.version }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Tag:*\n${{ github.ref_name }}"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Changes:*\n${{ steps.changelog.outputs.changelog }}"
+                  }
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Release"
+                      },
+                      "url": "${{ github.event.repository.html_url }}/releases/tag/${{ github.ref_name }}"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Checkpoint Docs"
+                      },
+                      "url": "${{ github.event.repository.html_url }}/blob/main/docs/checkpoints/checkpoint-${{ steps.checkpoint.outputs.number }}.md"
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK

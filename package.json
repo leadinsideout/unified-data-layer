@@ -6,7 +6,13 @@
   "main": "api/server.js",
   "scripts": {
     "start": "node api/server.js",
-    "dev": "node --watch api/server.js"
+    "dev": "node --watch api/server.js",
+    "release": "standard-version",
+    "release:minor": "standard-version --release-as minor",
+    "release:major": "standard-version --release-as major",
+    "release:patch": "standard-version --release-as patch",
+    "commit": "cz",
+    "prepare": "husky"
   },
   "keywords": [
     "semantic-search",
@@ -26,5 +32,27 @@
     "multer": "^2.0.2",
     "openai": "^6.3.0",
     "pdf-parse": "^1.1.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
+    "standard-version": "^9.5.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "echo '✅ JavaScript file staged'"
+    ],
+    "*.{json,md}": [
+      "echo '✅ JSON/Markdown file staged'"
+    ]
   }
 }
