@@ -140,6 +140,30 @@ function formatEmbeddingForDB(embedding) {
 // ============================================
 
 /**
+ * Root Endpoint
+ *
+ * GET /
+ *
+ * Returns API information and available endpoints
+ */
+app.get('/', (req, res) => {
+  res.json({
+    name: 'Unified Data Layer API',
+    version: '0.2.0',
+    description: 'Semantic search API for coaching transcripts',
+    endpoints: {
+      health: 'GET /api/health',
+      upload: 'POST /api/transcripts/upload',
+      uploadPdf: 'POST /api/transcripts/upload-pdf',
+      search: 'POST /api/search',
+      openapi: 'GET /openapi.json'
+    },
+    documentation: 'https://github.com/leadinsideout/unified-data-layer',
+    status: 'operational'
+  });
+});
+
+/**
  * Health Check Endpoint
  *
  * GET /api/health
