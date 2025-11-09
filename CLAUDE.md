@@ -310,9 +310,13 @@ Process:
 ### User Preferences
 - **Workflow**: Tier 1 automation active (changelog, validation, notifications)
 - **Testing**: Manual E2E checklists (automated tests in Phase 2)
-- **Branching**: Phase-based branches (phase-X-checkpoint-Y)
+- **Branching**: GitHub Flow + Phase Branches
+  - `main` is ALWAYS production-ready (deployed to Vercel production)
+  - Checkpoint/feature branches created from `main`
+  - All work merges to `main` via approved PR
+  - Format: `phase-X-checkpoint-Y`, `feature/*`, `fix/*`, `hotfix/*`
 - **Commits**: Conventional commits enforced via commitlint (feat, fix, docs, chore)
-- **Deployment**: Vercel (production & preview)
+- **Deployment**: Vercel auto-deploy (main → production, PRs → preview)
 - **Notifications**: Slack updates for PRs, deployments, checkpoints
 - **Releases**: AI reminds, user approves, then AI runs `npm run release`
 
