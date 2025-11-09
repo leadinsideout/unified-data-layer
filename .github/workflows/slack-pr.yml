@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Notify Slack - PR Opened
         if: github.event.action == 'opened' || github.event.action == 'reopened'
-        uses: slackapi/slack-github-action@v2
+        uses: slackapi/slack-github-action@v1
         with:
           payload: |
             {
@@ -65,7 +65,7 @@ jobs:
 
       - name: Notify Slack - PR Merged
         if: github.event.action == 'closed' && github.event.pull_request.merged == true
-        uses: slackapi/slack-github-action@v2
+        uses: slackapi/slack-github-action@v1
         with:
           payload: |
             {

@@ -37,7 +37,7 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Notify Slack
-        uses: slackapi/slack-github-action@v2
+        uses: slackapi/slack-github-action@v1
         with:
           payload: |
             {
