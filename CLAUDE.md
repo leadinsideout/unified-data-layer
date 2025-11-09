@@ -362,6 +362,28 @@ After Checkpoint 3: Performance baselines
 See: docs/development/workflow-tracker.md for full schedule
 ```
 
+### When Workflow Changes (Self-Updating CLAUDE.md)
+Automatically check if CLAUDE.md needs updating after:
+1. ✅ Adding new workflows, automation, or tools
+2. ✅ Changing project structure or file organization
+3. ✅ Completing checkpoints (update status, version history)
+4. ✅ Adding new documentation files or sections
+5. ✅ Changing user preferences or project philosophy
+
+**Process**:
+1. Proactively suggest: "Should I update CLAUDE.md to reflect these changes?"
+2. Wait for user approval
+3. Update relevant sections (status, structure, workflows, version history)
+4. Commit with descriptive message
+5. Push to remote
+
+**Sections to check**:
+- Project Status (lines 19-42): Current checkpoint, what's working/pending
+- Project Structure (lines 46-95): New files, directories, configs
+- User Preferences (lines 310-317): New tools, workflows, automation
+- Workflow Reminders (lines 332-363): New processes to follow
+- Version History (lines 416-427): Checkpoint progress updates
+
 ---
 
 ## 📚 Quick Reference Links
@@ -398,6 +420,12 @@ See: docs/development/workflow-tracker.md for full schedule
 - ✅ Use TodoWrite tool for multi-step tasks
 - ✅ Ask about blockers (e.g., OpenAI quota)
 - ✅ Reference file paths clearly (e.g., api/server.js:124)
+- ✅ **AUTOMATICALLY CHECK** if CLAUDE.md needs updating when workflow changes
+  - After adding new workflows, tools, or automation
+  - After changing project structure or documentation organization
+  - After completing checkpoints (update status, version history)
+  - Proactively suggest: "Should I update CLAUDE.md to reflect these changes?"
+  - Wait for user approval, then update and commit
 
 ### DON'T:
 - ❌ Assume what's tested - check checkpoint docs
