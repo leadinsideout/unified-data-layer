@@ -6,15 +6,25 @@ Semantic search API for coaching transcripts, designed for AI platform integrati
 
 ## Status
 
-**Phase 1 - Checkpoint 1**: ✅ Local MVP Foundation (Tasks 1-10 Complete)
+**Phase 1 - Checkpoint 2**: ✅ Vercel Deployment + Tier 1 Automation Complete
 
+### Checkpoint 1: Local MVP Foundation ✅
 - ✅ Express API server with semantic search
 - ✅ Automatic transcript upload & embedding generation
 - ✅ Supabase (PostgreSQL + pgvector) integration
 - ✅ OpenAI embeddings (text-embedding-3-small)
 - 🟡 Awaiting OpenAI API key for full testing
 
-**Next**: Checkpoint 1 Validation → Deploy to Vercel → Custom GPT integration
+### Checkpoint 2: Production Deployment + Workflow Automation ✅
+- ✅ Deployed to Vercel (production & preview)
+- ✅ Automated changelog generation (standard-version)
+- ✅ Commit validation (commitlint + Husky hooks)
+- ✅ Slack notifications (PRs, deployments, checkpoints)
+- ✅ Production branching strategy (main always production-ready)
+
+**Production URL**: https://unified-data-layer.vercel.app
+
+**Next**: Checkpoint 3 - Custom GPT Integration
 
 ---
 
@@ -114,6 +124,41 @@ For detailed API documentation, see `docs/api/endpoints.md` (coming soon).
 
 ---
 
+## Deployment
+
+### Production
+
+**Live URL**: https://unified-data-layer.vercel.app
+
+The `main` branch is automatically deployed to Vercel production on every merge.
+
+**Environment Variables** (set in Vercel dashboard):
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_KEY`
+- `OPENAI_API_KEY`
+- `NODE_ENV=production`
+
+### Preview Deployments
+
+Every pull request automatically gets a preview deployment:
+- URL format: `https://unified-data-layer-git-{branch}-{team}.vercel.app`
+- Test changes before merging to production
+- Isolated environment per PR
+
+### Manual Deployment
+
+```bash
+# Deploy to production
+vercel --prod
+
+# Deploy preview
+vercel
+```
+
+See [docs/development/workflows.md](docs/development/workflows.md) for full deployment workflow.
+
+---
+
 ## Testing
 
 ### Manual E2E Testing
@@ -198,14 +243,21 @@ unified-data-layer/
 
 ## Development Workflow
 
-See `WORKFLOWS.md` for complete development standards.
+See [docs/development/workflows.md](docs/development/workflows.md) for complete development standards.
+
+**Automated Workflow** (Tier 1 Active):
+- ✅ **Commit Validation**: Conventional commits enforced via commitlint
+- ✅ **Pre-commit Hooks**: Automated checks before every commit
+- ✅ **Changelog**: Auto-generated with `npm run release`
+- ✅ **Slack Notifications**: PRs, deployments, checkpoints
+- ✅ **Auto-deploy**: `main` → production, PRs → preview
 
 **Quick workflow**:
-1. Create feature branch: `git checkout -b phase-1-checkpoint-1`
-2. Make changes and commit: `git commit -m "feat: add something"`
-3. Push and create PR: `git push -u origin phase-1-checkpoint-1`
-4. Review using PR template
-5. Merge to main
+1. Create feature branch from `main`: `git checkout -b phase-1-checkpoint-3`
+2. Make changes and commit: `git commit -m "feat: add something"` (hooks validate)
+3. Push for preview: `git push -u origin phase-1-checkpoint-3` (gets Vercel preview)
+4. Create PR to `main` (Slack notification sent)
+5. Merge PR → auto-deploys to production (Slack notification sent)
 
 ---
 
@@ -213,7 +265,7 @@ See `WORKFLOWS.md` for complete development standards.
 
 **Phase 1** (Current): Transcript foundation + Custom GPT POC
 - ✅ Checkpoint 1: Local MVP (Tasks 1-10)
-- 🟡 Checkpoint 2: Deploy to Vercel
+- ✅ Checkpoint 2: Vercel Deployment + Tier 1 Automation
 - 🔴 Checkpoint 3: Custom GPT integration (North Star Test)
 
 **Phase 2**: Multi-data-type architecture (assessments, profiles)
