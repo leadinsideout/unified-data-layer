@@ -149,7 +149,7 @@ function formatEmbeddingForDB(embedding) {
 app.get('/', (req, res) => {
   res.json({
     name: 'Unified Data Layer API',
-    version: '0.2.0',
+    version: '0.2.1',
     description: 'Semantic search API for coaching transcripts',
     endpoints: {
       health: 'GET /api/health',
