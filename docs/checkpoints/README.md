@@ -51,30 +51,36 @@ git checkout phase-1-checkpoint-1
 
 ---
 
-### Checkpoint 2: Vercel Deployment 🔴
-**Status**: Not Started
-**Tag**: `v0.2.0-checkpoint-2` (future)
-**Branch**: `phase-1-checkpoint-2` (future)
+### Checkpoint 2: Vercel Deployment ✅
+**Status**: Complete
+**Tag**: `v0.2.0-checkpoint-2`
+**Branch**: `phase-1-checkpoint-2`
+**Completed**: 2025-11-09
 
-**Goals**:
-- Deploy API to Vercel
-- Configure production environment
-- Test public HTTPS endpoint
-- Serve OpenAPI schema
-
-**Prerequisites**:
-- Checkpoint 1 complete ✅
-- Vercel account set up
+**What Was Built**:
+- Vercel production deployment
+- Public HTTPS API endpoint
 - Environment variables configured
+- OpenAPI schema accessible
 
-**Tasks** (from rebuild-plan.md):
-1. Deploy to Vercel via CLI
-2. Configure environment variables in Vercel dashboard
-3. Test health check on production URL
-4. Verify OpenAPI schema accessible
-5. Test upload endpoint (if OpenAI quota resolved)
+**What's Working**:
+- ✅ Health check endpoint: https://unified-data-layer.vercel.app/api/health
+- ✅ OpenAPI schema: https://unified-data-layer.vercel.app/openapi.json
+- ✅ Upload endpoint ready
+- ✅ Search endpoint ready
+- ✅ CORS enabled for public access
 
-**Details**: Will be created in `checkpoint-2.md` when started
+**What's Pending**:
+- ⏸️ Full upload/search testing (OpenAI quota)
+
+**Details**: [checkpoint-2.md](checkpoint-2.md)
+
+**How to Return**:
+```bash
+git checkout v0.2.0-checkpoint-2
+# or
+git checkout phase-1-checkpoint-2
+```
 
 ---
 
