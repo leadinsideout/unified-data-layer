@@ -19,7 +19,7 @@ jobs:
 
       - name: Notify Slack - Success
         if: github.event.deployment_status.state == 'success'
-        uses: slackapi/slack-github-action@v2
+        uses: slackapi/slack-github-action@v1
         with:
           payload: |
             {
@@ -89,7 +89,7 @@ jobs:
 
       - name: Notify Slack - Failure
         if: github.event.deployment_status.state == 'failure'
-        uses: slackapi/slack-github-action@v2
+        uses: slackapi/slack-github-action@v1
         with:
           payload: |
             {
