@@ -1,0 +1,14 @@
+{
+  "types": [
+    { "type": "feat", "section": "Features" },
+    { "type": "fix", "section": "Bug Fixes" },
+    { "type": "docs", "section": "Documentation" },
+    { "type": "perf", "section": "Performance Improvements" },
+    { "type": "refactor", "section": "Code Refactoring" },
+    { "type": "test", "section": "Tests", "hidden": false },
+    { "type": "chore", "section": "Chores", "hidden": true }
+  ],
+  "commitUrlFormat": "https://github.com/leadinsideout/unified-data-layer/commit/{{hash}}",
+  "compareUrlFormat": "https://github.com/leadinsideout/unified-data-layer/compare/{{previousTag}}...{{currentTag}}",
+  "issueUrlFormat": "https://github.com/leadinsideout/unified-data-layer/issues/{{id}}"
+}

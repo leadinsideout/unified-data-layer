@@ -537,9 +537,10 @@ GET  /openapi.json                 # OpenAPI schema for Custom GPT
 
 ## Reference Documents
 
-- **Product Roadmap**: `/product-roadmap.md` - Strategic vision and phase details
+- **Product Roadmap**: [roadmap.md](roadmap.md) - Strategic vision and phase details
+- **Workflows**: [../development/workflows.md](../development/workflows.md) - Development standards
+- **Checkpoint Status**: [../checkpoints/](../checkpoints/) - Progress tracking
 - **Old MVP**: `/udlmvp-deprecated/` - Reference implementation (do not use directly)
-- **Phase 1 Results**: `/PHASE_1_RESULTS.md` - Created after Checkpoint 3
 
 ---
 
