@@ -2,14 +2,14 @@
 
 **Purpose**: This file helps AI assistants (like Claude) quickly understand and navigate this project.
 
-**Last Updated**: 2025-11-08
+**Last Updated**: 2025-11-09
 
 ---
 
 ## 🎯 Project Overview
 
 **Name**: Unified Data Layer
-**Current Phase**: Phase 1, Checkpoint 1 Complete
+**Current Phase**: Phase 1, Checkpoint 2 In Progress
 **Architecture**: API-first data layer for AI platform integration
 
 **Key Principle**: Our API provides DATA (semantic search), AI platforms provide SYNTHESIS (GPT-4/Claude).
@@ -18,23 +18,28 @@
 
 ## 🗺️ Project Status (Quick Reference)
 
-**Current Branch**: `phase-1-checkpoint-1`
+**Current Branch**: `phase-1-checkpoint-2`
 **Current Tag**: `v0.1.0-checkpoint-1`
-**Latest Commit**: See `docs/checkpoints/checkpoint-1.md`
+**Latest Commit**: See `docs/checkpoints/checkpoint-2.md`
 
 **What's Working**:
 - ✅ Supabase database with pgvector
 - ✅ Express API server (5 endpoints)
 - ✅ Automatic chunking & embedding pipeline
 - ✅ Health check and upload endpoints
+- ✅ Vercel deployment (production & preview)
+- ✅ Workflow automation (Tier 1 complete)
+  - Automated changelog generation (standard-version)
+  - Commit message validation (commitlint)
+  - Slack notifications (PRs, deployments, checkpoints)
 
 **What's Pending**:
 - ⏸️ Full embedding testing (OpenAI quota issue)
-- 🔴 Vercel deployment (Checkpoint 2)
 - 🔴 Custom GPT integration (Checkpoint 3)
+- 🔴 Tier 2 workflow automation (after Checkpoint 3)
 
 **Blockers**:
-- OpenAI API quota exceeded (user waiting for client approval to add billing)
+- None (OpenAI quota not blocking deployment progress)
 
 ---
 
@@ -59,17 +64,32 @@ unified-data-layer/
 │   │   └── rebuild-plan.md      ← Implementation plan (checkpoints)
 │   ├── development/             ← Developer workflows
 │   │   ├── workflows.md         ← Git, testing, deployment standards
-│   │   └── workflow-tracker.md  ← When to add workflows
+│   │   ├── workflow-tracker.md  ← When to add workflows
+│   │   ├── workflow-enhancement-proposal.md  ← 3-tier automation plan
+│   │   ├── slack-setup-guide.md ← Slack integration setup
+│   │   └── WORKFLOW_AUTOMATION_README.md     ← Automation quick start
 │   ├── checkpoints/             ← Checkpoint status reports
 │   │   ├── README.md            ← Checkpoint index
-│   │   └── checkpoint-1.md      ← Latest checkpoint status
+│   │   ├── checkpoint-1.md      ← Checkpoint 1 status
+│   │   └── checkpoint-2.md      ← Latest checkpoint status
 │   ├── setup/                   ← Setup guides
 │   │   ├── supabase-setup.md    ← Database setup
 │   │   └── github-branch-protection.md
 │   └── (api/, architecture/)    ← Future docs
 │
+├── .github/workflows/           ← GitHub Actions
+│   ├── slack-deployment.yml     ← Deployment notifications
+│   ├── slack-pr.yml             ← Pull request notifications
+│   └── slack-checkpoint.yml     ← Checkpoint notifications
+│
+├── .husky/                      ← Git hooks
+│   ├── pre-commit               ← Pre-commit validation
+│   └── commit-msg               ← Commit message validation
+│
 ├── tests/e2e-checklist.md       ← Manual testing checklist
-├── package.json                 ← Dependencies
+├── package.json                 ← Dependencies + npm scripts
+├── .versionrc.json              ← Changelog generation config
+├── .commitlintrc.json           ← Commit message rules
 ├── vercel.json                  ← Deployment config
 └── .env.example                 ← Environment template
 ```
@@ -288,11 +308,13 @@ Process:
 ## 🚨 Important Context
 
 ### User Preferences
-- **Workflow**: Minimal Viable Workflow (MVW) active
+- **Workflow**: Tier 1 automation active (changelog, validation, notifications)
 - **Testing**: Manual E2E checklists (automated tests in Phase 2)
 - **Branching**: Phase-based branches (phase-X-checkpoint-Y)
-- **Commits**: Conventional commits (feat, fix, docs, chore)
-- **Deployment**: Vercel preferred
+- **Commits**: Conventional commits enforced via commitlint (feat, fix, docs, chore)
+- **Deployment**: Vercel (production & preview)
+- **Notifications**: Slack updates for PRs, deployments, checkpoints
+- **Releases**: AI reminds, user approves, then AI runs `npm run release`
 
 ### Current Blockers
 - OpenAI quota exceeded (waiting for client billing approval)
@@ -318,9 +340,13 @@ Process:
 ### When Completing a Checkpoint
 1. ✅ Create feature branch
 2. ✅ Commit work with detailed message
-3. ✅ Tag with version (vX.Y.Z-checkpoint-N)
-4. ✅ Create checkpoint status doc
-5. ✅ Update checkpoint index
+3. ✅ **AUTOMATICALLY REMIND** user to run release (`npm run release`)
+   - Wait for user approval before running
+   - Explain what the release will do (bump version, create CHANGELOG, create tag)
+   - Run release commands once approved
+4. ✅ Create checkpoint-specific tag (vX.Y.Z-checkpoint-N)
+5. ✅ Create checkpoint status doc
+6. ✅ Update checkpoint index
 
 ### When User Returns After Break
 1. ✅ Check if OpenAI quota resolved (if relevant)
@@ -388,6 +414,13 @@ See: docs/development/workflow-tracker.md for full schedule
 ---
 
 ## 🔖 Version History
+
+- **Checkpoint 2 (In Progress)** (2025-11-09): Vercel Deployment + Tier 1 Automation
+  - See: docs/checkpoints/checkpoint-2.md
+  - Vercel deployment: ✅ Complete
+  - Workflow automation (Tier 1): ✅ Complete
+  - Slack notifications: ✅ Complete and tested
+  - Status: Ready for release and checkpoint tag
 
 - **v0.1.0-checkpoint-1** (2025-11-08): Local MVP Foundation complete
   - See: docs/checkpoints/checkpoint-1.md
