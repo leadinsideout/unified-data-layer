@@ -315,10 +315,11 @@ Process:
   - Checkpoint/feature branches created from `main`
   - All work merges to `main` via approved PR
   - Format: `phase-X-checkpoint-Y`, `feature/*`, `fix/*`, `hotfix/*`
-- **Commits**: Conventional commits enforced via commitlint (feat, fix, docs, chore)
+- **Commits**: Conventional commits enforced via commitlint (feat, fix, docs, chore, mcp)
 - **Deployment**: Vercel auto-deploy (main → production, PRs → preview)
 - **Notifications**: Slack updates for PRs, deployments, checkpoints
 - **Releases**: AI reminds, user approves, then AI runs `npm run release`
+- **MCP Tools**: Default to using MCP tools for platform operations (see MCP Tool Usage below)
 
 ### Current Blockers
 - OpenAI quota exceeded (waiting for client billing approval)
@@ -365,6 +366,37 @@ After Checkpoint 2: Database migrations + API docs
 After Checkpoint 3: Performance baselines
 See: docs/development/workflow-tracker.md for full schedule
 ```
+
+### MCP Tool Usage
+**Always prefer MCP tools over manual methods for these platforms:**
+
+**Supabase Operations** (use `mcp__supabase__*` tools):
+- ✅ List tables: Use `mcp__supabase__list_tables` instead of manual SQL queries
+- ✅ Execute SQL: Use `mcp__supabase__execute_sql` for database queries
+- ✅ Apply migrations: Use `mcp__supabase__apply_migration` for schema changes
+- ✅ List extensions: Use `mcp__supabase__list_extensions`
+- ✅ Get advisors: Use `mcp__supabase__get_advisors` for security/performance checks
+
+**Notion Operations** (use `mcp__notion__*` tools):
+- ✅ Search workspace: Use `mcp__notion__notion-search` to find project tracker and docs
+- ✅ Fetch pages: Use `mcp__notion__notion-fetch` to read page content
+- ✅ Update pages: Use `mcp__notion__notion-update-page` to update project status
+- ✅ Create pages: Use `mcp__notion__notion-create-pages` for documentation
+- ✅ List users: Use `mcp__notion__notion-get-users` for team information
+
+**Vercel Operations** (use `mcp__vercel__*` tools):
+- ✅ List deployments: Use `mcp__vercel__list_deployments` to check deployment status
+- ✅ Get deployment: Use `mcp__vercel__get_deployment` for deployment details
+- ✅ Get logs: Use `mcp__vercel__get_deployment_build_logs` for debugging
+- ✅ Search docs: Use `mcp__vercel__search_vercel_documentation` for Vercel questions
+- ✅ List projects: Use `mcp__vercel__list_projects` to discover project IDs
+
+**When to use MCP tools:**
+- When checking database schema or data (Supabase)
+- When updating project tracker or documentation (Notion)
+- When monitoring deployments or debugging production issues (Vercel)
+- When you need real-time status of any connected platform
+- Before suggesting manual alternatives, check if an MCP tool exists
 
 ### When Workflow Changes (Self-Updating CLAUDE.md)
 Automatically check if CLAUDE.md needs updating after:
