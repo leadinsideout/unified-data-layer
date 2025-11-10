@@ -398,6 +398,80 @@ See: docs/development/workflow-tracker.md for full schedule
 - When you need real-time status of any connected platform
 - Before suggesting manual alternatives, check if an MCP tool exists
 
+### Notion Project Management Workflow
+**Automatically sync Notion project tracker with git/docs state:**
+
+**Database Structure:**
+- Main board: "Project Progress" (Kanban view)
+- Properties: Name, Status, Assign, Due Date, Priority Level, Checkpoint, Git Tag, Deployment URL, Docs Link
+- Status groups: Not started → In progress → Done
+
+**Task Naming Convention:**
+```
+Phase X - Checkpoint Y: [Checkpoint Name]
+
+Examples:
+- Phase 1 - Checkpoint 1: Local MVP Foundation
+- Phase 1 - Checkpoint 2: Vercel Deployment + Workflow Automation
+- Phase 1 - Checkpoint 3: Custom GPT Integration
+```
+
+**Automatic Update Triggers:**
+
+1. **On Checkpoint Completion:**
+   - WHEN: Git tag created matching `v*-checkpoint-*`
+   - THEN:
+     - Update matching Notion task Status → "Done"
+     - Set Git Tag property
+     - Set Deployment URL (if applicable)
+     - Set Docs Link to checkpoint-X.md
+     - Update completion date
+
+2. **On Checkpoint Start:**
+   - WHEN: Checkpoint doc created/updated with "In Progress"
+   - THEN:
+     - Find or create Notion task
+     - Update Status → "In progress"
+     - Set Assign → JJ Vega
+     - Set target Due Date
+     - Set Docs Link
+
+3. **On Deployment:**
+   - WHEN: Vercel deployment succeeds from main branch
+   - THEN:
+     - Update relevant checkpoint task
+     - Set Deployment URL property
+     - Add deployment timestamp to task notes
+
+4. **On Phase Completion:**
+   - WHEN: All checkpoints in a phase are Done
+   - THEN:
+     - Update parent Phase task Status → "Done"
+     - Add summary of all checkpoint links
+
+**What Gets Updated:**
+- Task Status (Not started / In progress / Done)
+- Checkpoint property (e.g., "Checkpoint 1")
+- Git Tag property (e.g., "v0.1.0-checkpoint-1")
+- Deployment URL (production URL when applicable)
+- Docs Link (link to checkpoint-X.md or rebuild-plan.md)
+- Task content (detailed status, links, deliverables)
+
+**When to Update Notion:**
+- ✅ After creating/updating checkpoint docs
+- ✅ After git tagging releases (automatically)
+- ✅ After successful Vercel deployments
+- ✅ At checkpoint milestones
+- ✅ When user says "update the project tracker"
+- ✅ At end of significant work sessions
+
+**Notion Update Process:**
+1. Check current checkpoint status from docs/checkpoints/
+2. Use `mcp__notion__notion-search` to find relevant tasks
+3. Use `mcp__notion__notion-update-page` to update properties and content
+4. Use `mcp__notion__notion-create-pages` for new checkpoint tasks
+5. Verify updates with `mcp__notion__notion-fetch`
+
 ### When Workflow Changes (Self-Updating CLAUDE.md)
 Automatically check if CLAUDE.md needs updating after:
 1. ✅ Adding new workflows, automation, or tools
