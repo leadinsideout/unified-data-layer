@@ -1,0 +1,126 @@
+name: Slack - Schema Change Notification
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'api/server.js'
+
+jobs:
+  notify-schema-change:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Need previous commit to compare
+
+      - name: Check for OpenAPI schema changes
+        id: check_schema
+        run: |
+          # Check if the diff includes the OpenAPI schema section (lines 494-625)
+          if git diff HEAD~1 HEAD -- api/server.js | grep -E "(openapi|paths:|/api/)" > /dev/null; then
+            echo "schema_changed=true" >> $GITHUB_OUTPUT
+            echo "Schema change detected in OpenAPI section"
+          else
+            echo "schema_changed=false" >> $GITHUB_OUTPUT
+            echo "No schema changes detected"
+          fi
+
+      - name: Extract version from package.json
+        if: steps.check_schema.outputs.schema_changed == 'true'
+        id: version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Send Slack notification
+        if: steps.check_schema.outputs.schema_changed == 'true'
+        uses: slackapi/slack-github-action@v1.27.0
+        with:
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          payload: |
+            {
+              "text": "⚠️ API Schema Updated - Action Required",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "⚠️ API Schema Updated",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*The OpenAPI schema has been modified.*\n\nCustom GPT users must re-import the schema to use the latest version."
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*API Version:*\n${{ steps.version.outputs.version }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch:*\n${{ github.ref_name }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Commit:*\n${{ github.event.head_commit.message }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Author:*\n${{ github.event.head_commit.author.name }}"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*📋 Action Required:*\n1. Review changes in CHANGELOG.md\n2. Re-import schema in Custom GPT:\n   - Go to ChatGPT → GPT Settings → Actions → Edit\n   - Click 'Import from URL'\n   - Paste: `https://unified-data-layer.vercel.app/openapi.json`\n   - Save changes"
+                  }
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Changes",
+                        "emoji": true
+                      },
+                      "url": "${{ github.event.head_commit.url }}"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Schema",
+                        "emoji": true
+                      },
+                      "url": "https://unified-data-layer.vercel.app/openapi.json"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Deployment",
+                        "emoji": true
+                      },
+                      "url": "https://unified-data-layer.vercel.app"
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

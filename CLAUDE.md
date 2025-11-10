@@ -140,6 +140,7 @@ Purpose: Understand overall implementation plan
 **Read**:
 - docs/development/workflows.md → Standards for git, testing, etc.
 - docs/development/workflow-tracker.md → When to add workflows
+- docs/development/api-versioning-strategy.md → API versioning and schema management
 - .github/pull_request_template.md → PR checklist
 
 ### When User Asks: "What's in the roadmap?"
@@ -171,6 +172,7 @@ Purpose: Understand overall implementation plan
 ### Development
 - `docs/development/workflows.md` - Git, testing, deployment
 - `docs/development/workflow-tracker.md` - Workflow milestones
+- `docs/development/api-versioning-strategy.md` - API versioning, schema management
 - `.github/pull_request_template.md` - PR template
 
 ### Setup & Configuration
@@ -363,9 +365,17 @@ Process:
 ```
 After Checkpoint 1: Branch protection + integration tests
 After Checkpoint 2: Database migrations + API docs
-After Checkpoint 3: Performance baselines
+After Checkpoint 3: Performance baselines + schema change notifications
 See: docs/development/workflow-tracker.md for full schedule
 ```
+
+### API Schema Change Management
+When modifying the OpenAPI schema in `api/server.js`:
+1. ✅ Schema changes automatically trigger Slack notification (.github/workflows/slack-schema-change.yml)
+2. ✅ Notification includes re-import instructions for Custom GPT users
+3. ✅ Version number in schema should match package.json
+4. ✅ Document breaking vs non-breaking changes in CHANGELOG
+5. ✅ See docs/development/api-versioning-strategy.md for full process
 
 ### MCP Tool Usage
 **Always prefer MCP tools over manual methods for these platforms:**

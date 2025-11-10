@@ -124,6 +124,8 @@ Workflows are added **just-in-time** when they provide value, not all upfront.
 
 | Component | Status | Estimated Time | Priority |
 |-----------|--------|---------------|----------|
+| Schema Change Notification | ✅ | 30 mins | High |
+| API Versioning Strategy Docs | ✅ | 1 hour | High |
 | Commitizen (optional) | 🔴 | 15 mins | Low |
 | Enhanced Test Coverage | 🔴 | 2 hours | Medium |
 | Performance Baseline | 🔴 | 30 mins | Medium |
@@ -131,6 +133,9 @@ Workflows are added **just-in-time** when they provide value, not all upfront.
 **Implementation Checklist**:
 
 ```markdown
+- [x] Create API versioning strategy document
+- [x] Create schema change notification workflow (.github/workflows/slack-schema-change.yml)
+- [x] Document Custom GPT re-import process
 - [ ] (Optional) Install commitizen for commit message consistency
 - [ ] Add more integration test cases based on Custom GPT learnings
 - [ ] Test edge cases discovered during Custom GPT testing
