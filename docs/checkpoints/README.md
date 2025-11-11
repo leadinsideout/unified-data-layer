@@ -84,31 +84,42 @@ git checkout phase-1-checkpoint-2
 
 ---
 
-### Checkpoint 3: Custom GPT Integration (North Star) 🔴
-**Status**: Not Started
-**Tag**: `v0.3.0-checkpoint-3` (future)
-**Branch**: `phase-1-checkpoint-3` (future)
+### Checkpoint 3: Custom GPT Integration (North Star) ✅
+**Status**: Complete
+**Tag**: `v0.3.0-checkpoint-3`
+**Branch**: `main`
+**Completed**: 2025-11-11
 
-**Goals**:
-- Set up Custom GPT with OpenAPI schema
-- Test semantic search via Custom GPT
-- Validate fresh data retrieval (north star test!)
-- Document Custom GPT setup process
+**What Was Built**:
+- Fixed vector search (subquery approach)
+- Bulk upload API endpoint
+- CLI upload tool
+- 7 sample coaching transcripts (Sarah Chen's journey)
+- Comprehensive data management documentation
 
-**Prerequisites**:
-- Checkpoint 2 complete (deployed to Vercel)
-- OpenAI quota issue resolved
-- Production API working
+**What's Working**:
+- ✅ Vector search returns accurate results (0.4-0.7 similarity)
+- ✅ Bulk upload endpoint: `POST /api/transcripts/bulk-upload`
+- ✅ CLI tool with file/dry-run/interactive modes
+- ✅ Production has 7 coaching sessions with embeddings
+- ✅ Custom GPT integration validated
+- ✅ **North Star achieved**: Fresh data retrieval without manual updates
 
-**Tasks** (from roadmap.md):
-1. Create Custom GPT in ChatGPT
-2. Import OpenAPI schema
-3. Configure Custom GPT instructions
-4. Test search functionality
-5. Test fresh data retrieval (upload → immediately search)
-6. Validate north star goal
+**North Star Validation**:
+- ✅ Upload transcripts → immediate searchability
+- ✅ Custom GPT calls search endpoint successfully
+- ✅ Semantic search finds relevant content
+- ✅ Response time < 3 seconds average
+- ✅ No manual context management needed
 
-**Details**: Will be created in `checkpoint-3.md` when started
+**Details**: [checkpoint-3.md](checkpoint-3.md)
+
+**How to Return**:
+```bash
+git checkout v0.3.0-checkpoint-3
+# or
+git checkout main
+```
 
 ---
 
@@ -215,13 +226,12 @@ git checkout -b fix-from-checkpoint-1 v0.1.0-checkpoint-1
 ## 🚨 Known Issues & Blockers
 
 ### Active Blockers
-- **OpenAI Quota**: API quota exceeded, waiting for client billing approval
-  - **Impact**: Cannot test embedding generation end-to-end
-  - **Workaround**: Proceed to Checkpoint 2 (deployment), test later
-  - **Resolution**: Add billing to OpenAI account
+- *(None)*
 
 ### Resolved Issues
-- *(None yet)*
+- ✅ **OpenAI Quota**: Resolved (billing approved)
+- ✅ **Vector Search Returning 0 Results**: Fixed with subquery approach in RPC function
+- ✅ **Embedding Precision Mismatch**: Resolved by using default JavaScript formatting
 
 ---
 
@@ -245,4 +255,4 @@ git checkout -b fix-from-checkpoint-1 v0.1.0-checkpoint-1
 
 ---
 
-**Last Updated**: 2025-11-08
+**Last Updated**: 2025-11-11
