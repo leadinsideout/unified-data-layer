@@ -291,8 +291,8 @@ See `product-roadmap.md` for full roadmap.
 **Quick Links**:
 - **Setup Guides**: [docs/setup/](docs/setup/) - Supabase, GitHub, deployment
 - **Current Status**: [docs/checkpoints/](docs/checkpoints/) - Checkpoint progress
-- **Roadmap**: [docs/project/roadmap.md](docs/project/roadmap.md) - Product vision
-- **Implementation Plan**: [docs/project/rebuild-plan.md](docs/project/rebuild-plan.md) - Detailed plan
+- **Roadmap & Implementation**: [docs/project/roadmap.md](docs/project/roadmap.md) - Product vision with checkpoint plan
+- **Phase 2 Plan**: [docs/project/phase-2-implementation-plan.md](docs/project/phase-2-implementation-plan.md) - Detailed Phase 2 plan
 - **Workflows**: [docs/development/workflows.md](docs/development/workflows.md) - Git, testing, deployment
 - **Testing**: [tests/e2e-checklist.md](tests/e2e-checklist.md) - Manual test checklist
 

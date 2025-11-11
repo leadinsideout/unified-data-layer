@@ -2,7 +2,7 @@
 
 **Purpose**: This file helps AI assistants (like Claude) quickly understand and navigate this project.
 
-**Last Updated**: 2025-11-09
+**Last Updated**: 2025-11-11
 
 ---
 
@@ -60,8 +60,8 @@ unified-data-layer/
 ├── docs/                        ← ALL DOCUMENTATION
 │   ├── README.md                ← Documentation index
 │   ├── project/                 ← Strategic docs
-│   │   ├── roadmap.md           ← Product vision (8 phases)
-│   │   └── rebuild-plan.md      ← Implementation plan (checkpoints)
+│   │   ├── roadmap.md           ← Product vision & implementation plan (checkpoints)
+│   │   └── phase-2-implementation-plan.md  ← Phase 2 detailed plan
 │   ├── development/             ← Developer workflows
 │   │   ├── workflows.md         ← Git, testing, deployment standards
 │   │   ├── workflow-tracker.md  ← When to add workflows
@@ -113,10 +113,10 @@ git log --oneline -5
 git tag -l
 ```
 
-**Step 3**: Read rebuild plan
+**Step 3**: Read roadmap
 ```
-File: docs/project/rebuild-plan.md
-Purpose: Understand overall implementation plan
+File: docs/project/roadmap.md
+Purpose: Understand overall implementation plan and checkpoints
 ```
 
 **Step 4**: Continue from there
@@ -131,7 +131,7 @@ Purpose: Understand overall implementation plan
 ### When User Says: "How do I deploy?"
 
 **Read**:
-- docs/project/rebuild-plan.md → Checkpoint 2 section
+- docs/project/roadmap.md → Checkpoint 2 section
 - vercel.json → Deployment config
 - docs/development/workflows.md → Deployment workflow section
 
@@ -146,8 +146,8 @@ Purpose: Understand overall implementation plan
 ### When User Asks: "What's in the roadmap?"
 
 **Read**:
-- docs/project/roadmap.md → 8-phase product vision
-- docs/project/rebuild-plan.md → Implementation details
+- docs/project/roadmap.md → 8-phase product vision with checkpoint implementation details
+- docs/project/phase-2-implementation-plan.md → Detailed Phase 2 plan
 
 ### When Debugging Issues:
 
@@ -162,8 +162,8 @@ Purpose: Understand overall implementation plan
 ## 🎯 Key Files by Purpose
 
 ### Strategic Planning
-- `docs/project/roadmap.md` - Product vision, 8 phases
-- `docs/project/rebuild-plan.md` - Implementation plan
+- `docs/project/roadmap.md` - Product vision, 8 phases, checkpoint implementation plan
+- `docs/project/phase-2-implementation-plan.md` - Phase 2 detailed implementation
 
 ### Current Status
 - `docs/checkpoints/checkpoint-1.md` - Latest checkpoint
@@ -245,14 +245,14 @@ Files to read:
 ```
 Files to read:
 1. docs/checkpoints/checkpoint-X.md (understand current state)
-2. docs/project/rebuild-plan.md (find next checkpoint tasks)
+2. docs/project/roadmap.md (find next checkpoint tasks)
 3. docs/development/workflow-tracker.md (check workflow milestones)
 ```
 
 ### Task: Deploy to Vercel
 ```
 Files to read:
-1. docs/project/rebuild-plan.md → Checkpoint 2
+1. docs/project/roadmap.md → Checkpoint 2
 2. vercel.json (deployment config)
 3. docs/development/workflows.md → Deployment section
 4. .env.example (environment variables needed)
@@ -464,7 +464,7 @@ Examples:
 - Checkpoint property (e.g., "Checkpoint 1")
 - Git Tag property (e.g., "v0.1.0-checkpoint-1")
 - Deployment URL (production URL when applicable)
-- Docs Link (link to checkpoint-X.md or rebuild-plan.md)
+- Docs Link (link to checkpoint-X.md or roadmap.md)
 - Task content (detailed status, links, deliverables)
 
 **When to Update Notion:**
@@ -515,7 +515,7 @@ Automatically check if CLAUDE.md needs updating after:
 
 **For AI Assistant**:
 - Current status: [docs/checkpoints/checkpoint-1.md](docs/checkpoints/checkpoint-1.md)
-- Implementation plan: [docs/project/rebuild-plan.md](docs/project/rebuild-plan.md)
+- Implementation plan: [docs/project/roadmap.md](docs/project/roadmap.md)
 - Workflows: [docs/development/workflows.md](docs/development/workflows.md)
 
 ---
@@ -556,7 +556,7 @@ Automatically check if CLAUDE.md needs updating after:
 
 ### When in Doubt:
 1. Read `docs/checkpoints/checkpoint-X.md` for current state
-2. Read `docs/project/rebuild-plan.md` for what's next
+2. Read `docs/project/roadmap.md` for what's next
 3. Ask user for clarification
 
 ---
@@ -581,7 +581,7 @@ Automatically check if CLAUDE.md needs updating after:
 ### If User Says "Continue"
 1. Check if still on `phase-1-checkpoint-1` branch
 2. Read `docs/checkpoints/checkpoint-1.md`
-3. Proceed to Checkpoint 2 (Vercel deployment) per `docs/project/rebuild-plan.md`
+3. Proceed to Checkpoint 2 (Vercel deployment) per `docs/project/roadmap.md`
 
 ### If User Reports OpenAI Quota Fixed
 1. Run full E2E tests from `tests/e2e-checklist.md`
@@ -590,7 +590,7 @@ Automatically check if CLAUDE.md needs updating after:
 4. Mark Checkpoint 1 as fully validated
 
 ### If User Wants to Deploy
-1. Follow Checkpoint 2 from `docs/project/rebuild-plan.md`
+1. Follow Checkpoint 2 from `docs/project/roadmap.md`
 2. Use `vercel.json` config
 3. Set environment variables in Vercel dashboard
 4. Test health endpoint

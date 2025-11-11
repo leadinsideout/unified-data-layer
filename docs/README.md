@@ -13,8 +13,8 @@ This directory contains all project documentation, organized by purpose.
 - Follow [setup guides](setup/) to get running
 
 **Looking for something specific?**
-- **Roadmap**: [project/roadmap.md](project/roadmap.md)
-- **Implementation Plan**: [project/rebuild-plan.md](project/rebuild-plan.md)
+- **Roadmap & Implementation Plan**: [project/roadmap.md](project/roadmap.md)
+- **Phase 2 Implementation**: [project/phase-2-implementation-plan.md](project/phase-2-implementation-plan.md)
 - **Current Status**: [checkpoints/README.md](checkpoints/README.md)
 - **Development Workflows**: [development/workflows.md](development/workflows.md)
 
@@ -27,8 +27,8 @@ This directory contains all project documentation, organized by purpose.
 
 Strategic vision, product roadmap, and implementation plans.
 
-- `roadmap.md` - 8-phase product vision and feature roadmap
-- `rebuild-plan.md` - Detailed implementation plan with checkpoints
+- `roadmap.md` - 8-phase product vision with checkpoint implementation plan
+- `phase-2-implementation-plan.md` - Detailed Phase 2 implementation plan
 - `architecture.md` - Architecture decisions (future)
 
 ### [development/](development/)
@@ -99,13 +99,13 @@ Technical architecture decisions and patterns.
 → [development/workflows.md](development/workflows.md)
 
 **...see the implementation plan**
-→ [project/rebuild-plan.md](project/rebuild-plan.md)
+→ [project/roadmap.md](project/roadmap.md)
 
 **...deploy to production**
 → [setup/vercel-deployment.md](setup/vercel-deployment.md) (future)
 
 **...integrate with Custom GPT**
-→ [project/rebuild-plan.md](project/rebuild-plan.md) → Checkpoint 3
+→ [project/roadmap.md](project/roadmap.md) → Checkpoint 3
 
 **...understand the architecture**
 → [architecture/](architecture/) (future)

@@ -1,5 +1,13 @@
 # Unified Data Layer - Rebuild Plan
 
+> **DEPRECATED**: This file has been archived as of 2025-11-11.
+>
+> **New Location**: [docs/project/roadmap.md](../project/roadmap.md)
+>
+> **Reason**: Consolidated with roadmap.md to create a single source of truth that combines strategic vision with actionable checkpoint structure.
+
+---
+
 ## Overview
 
 This document outlines the complete rebuild plan for the Unified Data Layer project. The rebuild creates a fresh codebase with a new Supabase database, following the product roadmap with a **phased approach and checkpoints**.

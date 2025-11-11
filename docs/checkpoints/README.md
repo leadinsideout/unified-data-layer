@@ -100,7 +100,7 @@ git checkout phase-1-checkpoint-2
 - OpenAI quota issue resolved
 - Production API working
 
-**Tasks** (from rebuild-plan.md):
+**Tasks** (from roadmap.md):
 1. Create Custom GPT in ChatGPT
 2. Import OpenAPI schema
 3. Configure Custom GPT instructions
@@ -143,7 +143,7 @@ git checkout phase-1-checkpoint-2
 
 4. **Link from main docs**:
    - Update README.md if major milestone
-   - Update rebuild-plan.md with actual completion date
+   - Update roadmap.md with actual completion date
 
 ### When Returning to a Checkpoint
 
@@ -163,7 +163,7 @@ git checkout -b fix-from-checkpoint-1 v0.1.0-checkpoint-1
 1. Read previous checkpoint status
 2. Verify prerequisites met
 3. Create new feature branch: `phase-X-checkpoint-Y`
-4. Follow tasks from rebuild-plan.md
+4. Follow tasks from roadmap.md
 5. Document as you go
 
 ---
