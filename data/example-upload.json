@@ -1,0 +1,20 @@
+[
+  {
+    "text": "This is an example coaching transcript. The client discussed career transitions and finding their authentic leadership voice. We explored their values and what truly motivates them beyond external validation.",
+    "meeting_date": "2025-12-01T10:00:00",
+    "metadata": {
+      "client_name": "Example Client",
+      "session_number": 1,
+      "topics": ["career transition", "authentic leadership", "values"]
+    }
+  },
+  {
+    "text": "Second session focusing on overcoming limiting beliefs. The client identified several patterns of self-sabotage and we worked on reframing negative self-talk. They committed to practicing self-compassion daily.",
+    "meeting_date": "2025-12-08T10:00:00",
+    "metadata": {
+      "client_name": "Example Client",
+      "session_number": 2,
+      "topics": ["limiting beliefs", "self-sabotage", "self-compassion"]
+    }
+  }
+]

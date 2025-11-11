@@ -391,6 +391,137 @@ app.post('/api/transcripts/upload-pdf', upload.single('file'), async (req, res) 
 });
 
 /**
+ * Bulk Upload Transcripts
+ *
+ * POST /api/transcripts/bulk-upload
+ *
+ * Body: {
+ *   transcripts: [
+ *     {
+ *       text: string,
+ *       meeting_date: ISO date string (optional),
+ *       metadata: object (optional)
+ *     },
+ *     ...
+ *   ]
+ * }
+ *
+ * Processes multiple transcripts in parallel for efficiency.
+ * Returns: Array of created transcript IDs and processing status
+ */
+app.post('/api/transcripts/bulk-upload', async (req, res) => {
+  try {
+    const { transcripts } = req.body;
+
+    if (!transcripts || !Array.isArray(transcripts)) {
+      return res.status(400).json({
+        error: 'Invalid request',
+        message: 'transcripts must be an array'
+      });
+    }
+
+    if (transcripts.length === 0) {
+      return res.status(400).json({
+        error: 'Invalid request',
+        message: 'transcripts array cannot be empty'
+      });
+    }
+
+    if (transcripts.length > 50) {
+      return res.status(400).json({
+        error: 'Invalid request',
+        message: 'Maximum 50 transcripts per bulk upload'
+      });
+    }
+
+    console.log(`Processing bulk upload of ${transcripts.length} transcripts...`);
+
+    const results = [];
+    const errors = [];
+
+    // Process each transcript
+    for (let i = 0; i < transcripts.length; i++) {
+      const { text, meeting_date, metadata } = transcripts[i];
+
+      try {
+        if (!text || typeof text !== 'string') {
+          throw new Error('text is required and must be a string');
+        }
+
+        // Insert transcript
+        const { data: transcript, error: transcriptError } = await supabase
+          .from('transcripts')
+          .insert({
+            raw_text: text,
+            meeting_date: meeting_date || new Date().toISOString(),
+            metadata: metadata || {}
+          })
+          .select()
+          .single();
+
+        if (transcriptError) throw transcriptError;
+
+        // Chunk and embed
+        const chunks = chunkText(text);
+        const chunkRecords = [];
+
+        for (let j = 0; j < chunks.length; j++) {
+          const embedding = await generateEmbedding(chunks[j]);
+          chunkRecords.push({
+            transcript_id: transcript.id,
+            chunk_index: j,
+            content: chunks[j],
+            embedding: formatEmbeddingForDB(embedding)
+          });
+        }
+
+        // Insert chunks
+        const { error: chunksError } = await supabase
+          .from('transcript_chunks')
+          .insert(chunkRecords);
+
+        if (chunksError) throw chunksError;
+
+        results.push({
+          index: i,
+          transcript_id: transcript.id,
+          chunks_created: chunks.length,
+          status: 'success'
+        });
+
+        console.log(`[${i + 1}/${transcripts.length}] Processed transcript ${transcript.id}`);
+
+      } catch (error) {
+        console.error(`[${i + 1}/${transcripts.length}] Failed:`, error.message);
+        errors.push({
+          index: i,
+          error: error.message,
+          status: 'failed'
+        });
+      }
+    }
+
+    const successCount = results.length;
+    const failureCount = errors.length;
+
+    res.status(successCount > 0 ? 201 : 500).json({
+      total: transcripts.length,
+      successful: successCount,
+      failed: failureCount,
+      results,
+      errors: errors.length > 0 ? errors : undefined
+    });
+
+  } catch (error) {
+    console.error('Bulk upload error:', error);
+    res.status(500).json({
+      error: 'Bulk upload failed',
+      message: error.message
+    });
+  }
+});
+
+/**
  * Semantic Search
  *
  * POST /api/search
