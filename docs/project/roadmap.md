@@ -591,10 +591,20 @@ GET  /api/v2/clients/{id}/timeline   # Chronological view
 
 ### 6.3 Monitoring & Observability
 
-- Error tracking (Sentry)
-- Performance monitoring
-- Usage analytics
-- Cost tracking (OpenAI API usage)
+- **Error tracking** (Sentry)
+- **Performance monitoring** (query latency, API response times)
+- **Usage analytics** (requests per endpoint, data volume)
+- **Cost tracking & automated reporting**:
+  - Real-time OpenAI API usage tracking (embeddings + GPT queries)
+  - Supabase database usage monitoring (storage, bandwidth, compute)
+  - Vercel function execution tracking (invocations, duration, bandwidth)
+  - **Automated weekly cost report email**:
+    - Recipients: Project owner + client stakeholders
+    - Includes: Week-over-week usage trends, cost breakdown by service, projected monthly cost
+    - Alerts: Threshold warnings (e.g., >20% increase week-over-week)
+    - Implementation: Vercel cron job + email service (SendGrid/Resend)
+    - Format: HTML email with charts/tables for easy consumption
+  - Cost anomaly detection (unexpected spikes in usage)
 
 ---
 
