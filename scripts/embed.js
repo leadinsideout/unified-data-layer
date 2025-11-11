@@ -77,6 +77,7 @@ async function generateEmbedding(text) {
 
 /**
  * Format embedding for PostgreSQL
+ * Uses JavaScript's default number formatting which preserves scientific notation
  */
 function formatEmbeddingForDB(embedding) {
   return '[' + embedding.join(',') + ']';

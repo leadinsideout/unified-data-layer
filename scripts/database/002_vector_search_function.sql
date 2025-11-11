@@ -24,15 +24,20 @@ AS $$
 BEGIN
   RETURN QUERY
   SELECT
-    tc.id,
-    tc.transcript_id,
-    tc.content,
-    -- Calculate similarity score (1 - cosine_distance)
-    -- Higher score = more similar (0.0 = completely different, 1.0 = identical)
-    1 - (tc.embedding <=> query_embedding_text::vector) AS similarity
-  FROM transcript_chunks tc
-  WHERE 1 - (tc.embedding <=> query_embedding_text::vector) > match_threshold
-  ORDER BY tc.embedding <=> query_embedding_text::vector
+    sub.id,
+    sub.transcript_id,
+    sub.content,
+    sub.similarity
+  FROM (
+    SELECT
+      tc.id,
+      tc.transcript_id,
+      tc.content,
+      1 - (tc.embedding <=> query_embedding_text::vector(1536)) AS similarity
+    FROM transcript_chunks tc
+  ) sub
+  WHERE sub.similarity > match_threshold
+  ORDER BY sub.similarity DESC
   LIMIT match_count;
 END;
 $$;

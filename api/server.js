@@ -132,7 +132,14 @@ async function generateEmbedding(text) {
  * @returns {string} Formatted as "[0.1,0.2,...]"
  */
 function formatEmbeddingForDB(embedding) {
-  return '[' + embedding.join(',') + ']';
+  // PostgreSQL vector type stores floats with ~10 decimal places of precision
+  // Round to match this to ensure query embeddings match stored embeddings
+  const formatted = embedding.map(val => {
+    // Use toPrecision to get ~10 significant figures
+    const str = val.toPrecision(10);
+    return parseFloat(str);
+  });
+  return '[' + formatted.join(',') + ']';
 }
 
 // ============================================
