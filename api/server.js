@@ -493,7 +493,7 @@ app.post('/api/search', async (req, res) => {
  */
 app.get('/openapi.json', (req, res) => {
   const schema = {
-    openapi: '3.0.0',
+    openapi: '3.1.0',
     info: {
       title: 'Unified Data Layer API',
       version: '0.1.0',
