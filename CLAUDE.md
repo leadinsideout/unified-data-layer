@@ -24,9 +24,12 @@
 
 **What's Working**:
 - ✅ Supabase database with pgvector
-- ✅ Express API server (5 endpoints)
+- ✅ Express API server (6 endpoints)
 - ✅ Automatic chunking & embedding pipeline
+- ✅ Semantic search with vector similarity (FIXED - subquery approach)
 - ✅ Health check and upload endpoints
+- ✅ Bulk upload API and CLI tool
+- ✅ Sample coaching data (7 sessions in production)
 - ✅ Vercel deployment (production & preview)
 - ✅ Workflow automation (Tier 1 complete)
   - Automated changelog generation (standard-version)
@@ -34,12 +37,11 @@
   - Slack notifications (PRs, deployments, checkpoints)
 
 **What's Pending**:
-- ⏸️ Full embedding testing (OpenAI quota issue)
-- 🔴 Custom GPT integration (Checkpoint 3)
+- 🔴 Custom GPT integration testing (Checkpoint 3)
 - 🔴 Tier 2 workflow automation (after Checkpoint 3)
 
 **Blockers**:
-- None (OpenAI quota not blocking deployment progress)
+- None
 
 ---
 
@@ -51,11 +53,16 @@ unified-data-layer/
 ├── CLAUDE.md                    ← YOU ARE HERE (AI navigation guide)
 ├── README.md                    ← Start here for project overview
 │
-├── api/server.js                ← Main API server (521 lines)
+├── api/server.js                ← Main API server (6 endpoints)
 ├── scripts/                     ← Utility scripts
 │   ├── database/                ← SQL migrations
 │   ├── embed.js                 ← Embedding generation
+│   ├── upload-transcripts.js    ← CLI tool for bulk uploads
+│   ├── seed-sample-data.js      ← Generate sample coaching data
 │   └── test-connection.js       ← DB connection test
+├── data/                        ← Data files
+│   ├── example-upload.json      ← Template for bulk uploads
+│   └── production-seed.json     ← Sample coaching transcripts
 │
 ├── docs/                        ← ALL DOCUMENTATION
 │   ├── README.md                ← Documentation index
@@ -183,7 +190,14 @@ Purpose: Understand overall implementation plan and checkpoints
 ### Code
 - `api/server.js` - Express API server
 - `scripts/embed.js` - Embedding generation
+- `scripts/upload-transcripts.js` - CLI tool for bulk uploads
+- `scripts/seed-sample-data.js` - Generate sample coaching data
 - `scripts/database/*.sql` - Database migrations
+
+### Data Management
+- `data/example-upload.json` - Template for bulk uploads
+- `data/production-seed.json` - Sample coaching transcripts
+- `docs/data-management.md` - Complete data management guide
 
 ### Testing
 - `tests/e2e-checklist.md` - Manual test checklist
@@ -201,11 +215,12 @@ Purpose: Understand overall implementation plan and checkpoints
 
 ### API Endpoints
 ```
-GET  /api/health                  # Server status
-POST /api/transcripts/upload      # Upload text transcript
-POST /api/transcripts/upload-pdf  # Upload PDF transcript
-POST /api/search                  # Semantic search
-GET  /openapi.json                # OpenAPI schema for Custom GPT
+GET  /api/health                      # Server status
+POST /api/transcripts/upload          # Upload single text transcript
+POST /api/transcripts/upload-pdf      # Upload single PDF transcript
+POST /api/transcripts/bulk-upload     # Upload multiple transcripts (max 50)
+POST /api/search                      # Semantic search
+GET  /openapi.json                    # OpenAPI schema for Custom GPT
 ```
 
 ### Database Schema
@@ -274,6 +289,16 @@ Process:
 2. Create branch: git checkout -b fix/description
 3. Follow docs/development/workflows.md
 4. Update relevant docs if fixing documented issue
+```
+
+### Task: Add data to production
+```
+Process:
+1. Create JSON file with transcripts (see data/example-upload.json)
+2. Upload via CLI: node scripts/upload-transcripts.js data/my-data.json
+3. Or use bulk API: POST /api/transcripts/bulk-upload
+4. Verify via search: POST /api/search with relevant query
+See: docs/data-management.md for complete guide
 ```
 
 ---
