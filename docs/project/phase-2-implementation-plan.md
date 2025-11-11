@@ -397,15 +397,168 @@ CREATE INDEX idx_data_chunks_embedding ON data_chunks
 | `goal` | 200 words | 20 words | Goals are concise, less overlap needed |
 | `note` | 300 words | 30 words | Notes are brief |
 
-### Supporting Tables (Phase 3)
+### Supporting Tables (User & Organization Management)
 
-**Phase 3 will add**:
-- `organizations` table (InsideOut + external orgs)
-- `clients` table (with org relationships)
-- `coaches` table (InsideOut employees)
-- `users` table (authentication)
+**Added in Phase 2 Checkpoint 4** to establish foundation for authentication, multi-tenancy, and data integrity:
 
-**For Phase 2**: These relationships are tracked via UUIDs in `data_items`, but no foreign key constraints yet.
+#### `coaches` Table
+
+**Purpose**: InsideOut Leadership coaches (employees)
+
+**Schema**:
+```sql
+CREATE TABLE coaches (
+  -- Identity
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+
+  -- Authentication (Phase 3 integration)
+  auth_provider_id TEXT UNIQUE,        -- Supabase Auth user ID
+  email TEXT UNIQUE NOT NULL,
+
+  -- Profile
+  name TEXT NOT NULL,
+  bio TEXT,
+  coaching_style TEXT,
+  certifications TEXT[],
+
+  -- Role & Status
+  role TEXT DEFAULT 'coach' CHECK (role IN ('coach', 'consultant', 'admin')),
+  active BOOLEAN DEFAULT true,
+
+  -- Audit
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX idx_coaches_email ON coaches(email);
+CREATE INDEX idx_coaches_active ON coaches(active);
+CREATE INDEX idx_coaches_auth_provider ON coaches(auth_provider_id);
+```
+
+#### `client_organizations` Table
+
+**Purpose**: External organizations that are clients of InsideOut
+
+**Schema**:
+```sql
+CREATE TABLE client_organizations (
+  -- Identity
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+
+  -- Profile
+  name TEXT UNIQUE NOT NULL,
+  industry TEXT,
+  size_category TEXT CHECK (size_category IN ('startup', 'small', 'medium', 'large', 'enterprise')),
+
+  -- Engagement defaults
+  visibility_default TEXT DEFAULT 'consultant_only'
+    CHECK (visibility_default IN ('consultant_only', 'coach_visible', 'public')),
+
+  -- Status
+  active BOOLEAN DEFAULT true,
+  engagement_start_date DATE,
+  engagement_end_date DATE,
+
+  -- Audit
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX idx_client_orgs_name ON client_organizations(name);
+CREATE INDEX idx_client_orgs_active ON client_organizations(active);
+```
+
+#### `clients` Table
+
+**Purpose**: Individual coaching clients (executives at external orgs)
+
+**Schema**:
+```sql
+CREATE TABLE clients (
+  -- Identity
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+
+  -- Authentication (Phase 3 - client portal access)
+  auth_provider_id TEXT UNIQUE,        -- Supabase Auth user ID (optional)
+  email TEXT UNIQUE,
+
+  -- Profile
+  name TEXT NOT NULL,
+  job_title TEXT,
+  department TEXT,
+
+  -- Organization relationship
+  client_organization_id UUID REFERENCES client_organizations(id) ON DELETE SET NULL,
+
+  -- Coaching relationship
+  primary_coach_id UUID REFERENCES coaches(id) ON DELETE SET NULL,
+  coaching_start_date DATE,
+  coaching_end_date DATE,
+
+  -- Status
+  active BOOLEAN DEFAULT true,
+
+  -- Audit
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX idx_clients_email ON clients(email);
+CREATE INDEX idx_clients_org ON clients(client_organization_id);
+CREATE INDEX idx_clients_coach ON clients(primary_coach_id);
+CREATE INDEX idx_clients_active ON clients(active);
+```
+
+#### Updated `data_items` Table (with Foreign Keys)
+
+**Changes from original design**:
+- Add foreign key constraints to coaches, clients, client_organizations
+- Ensures referential integrity
+- Enables cascading deletes/updates
+
+**Schema**:
+```sql
+CREATE TABLE data_items (
+  -- Identity
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  data_type TEXT NOT NULL,
+
+  -- Ownership hierarchy (NOW WITH FOREIGN KEYS)
+  coach_id UUID REFERENCES coaches(id) ON DELETE SET NULL,
+  client_id UUID REFERENCES clients(id) ON DELETE SET NULL,
+  client_organization_id UUID REFERENCES client_organizations(id) ON DELETE SET NULL,
+
+  -- Access control (prepare for Phase 3 RLS)
+  visibility_level TEXT DEFAULT 'private'
+    CHECK (visibility_level IN ('private', 'coach_only', 'org_visible', 'public')),
+  allowed_roles TEXT[],
+  access_restrictions JSONB,
+
+  -- Content
+  raw_content TEXT,
+  metadata JSONB,
+
+  -- Audit trail
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW(),
+  created_by UUID REFERENCES coaches(id) ON DELETE SET NULL,
+
+  -- Optional session-specific data
+  session_id UUID,
+  session_date TIMESTAMP
+);
+
+-- (Indexes same as before)
+```
+
+**Benefits of Adding User Tables in Phase 2**:
+
+1. **Data Integrity**: Foreign key constraints prevent orphaned records
+2. **Authentication Foundation**: Ready for Supabase Auth integration in Phase 3
+3. **Multi-Tenancy**: Clear tenant boundaries (coach, client, org)
+4. **Metadata Storage**: Coach bios, client job titles, org engagement details
+5. **Easier Queries**: Can join to get coach names, client orgs, etc.
+6. **RLS Preparation**: Phase 3 policies can reference `coaches.auth_provider_id`
 
 ### Metadata Schemas by Data Type
 
@@ -505,7 +658,7 @@ CREATE INDEX idx_data_chunks_embedding ON data_chunks
 
 **Duration**: 1 week
 
-**Goal**: Migrate existing Phase 1 schema to unified Phase 2 schema without data loss.
+**Goal**: Migrate existing Phase 1 schema to unified Phase 2 schema with user/org tables for authentication foundation.
 
 ### Tasks
 
@@ -514,21 +667,33 @@ CREATE INDEX idx_data_chunks_embedding ON data_chunks
 **File**: `scripts/migrations/002_multi_type_schema.sql`
 
 **Steps**:
-1. Create new `data_items` table
-2. Create new `data_chunks` table
-3. Migrate existing `transcripts` → `data_items` with `data_type = 'transcript'`
-4. Migrate existing `transcript_chunks` → `data_chunks`
-5. Add indexes
-6. Create RPC function for multi-type vector search
-7. Drop old tables (after validation)
+1. Create `coaches` table
+2. Create `client_organizations` table
+3. Create `clients` table (with FKs to coaches and orgs)
+4. Create new `data_items` table (with FKs to user tables)
+5. Create new `data_chunks` table
+6. Migrate existing `transcripts` → `data_items` with `data_type = 'transcript'`
+7. Migrate existing `transcript_chunks` → `data_chunks`
+8. Add indexes
+9. Create RPC function for multi-type vector search
+10. Drop old tables (after validation)
 
 **Migration Script Outline**:
 ```sql
--- Step 1: Create new tables
+-- Step 1: Create user & organization tables (must come first for FKs)
+CREATE TABLE coaches (...);
+CREATE TABLE client_organizations (...);
+CREATE TABLE clients (...);
+
+-- Step 2: Create data tables (with FKs to user tables)
 CREATE TABLE data_items (...);
 CREATE TABLE data_chunks (...);
 
--- Step 2: Migrate data
+-- Step 3: Seed initial user data (if migrating from Phase 1 with existing IDs)
+-- Option A: If Phase 1 had coach/client IDs in metadata, extract them
+-- Option B: Create placeholder records for migration, update later with real data
+
+-- Step 4: Migrate transcript data
 INSERT INTO data_items (id, data_type, coach_id, client_id, raw_content, metadata, created_at, session_date)
 SELECT
   id,
@@ -1691,6 +1856,456 @@ Ask Custom GPT: "Show me all DISC assessments for clients discussing leadership 
 | Test coverage | > 70% | Jest/Vitest (Phase 3) |
 | Code duplication | < 10% | Manual review |
 | Documentation completeness | 100% | All endpoints in OpenAPI |
+
+---
+
+## Scalability Analysis: Breaking Points & Mitigation Strategies
+
+### Overview
+
+This section analyzes architectural bottlenecks at three scale horizons:
+1. **50-100 users**: Early adoption (InsideOut's initial coach cohort)
+2. **100-1,000 users**: Growth phase (expanding coach team + multi-org clients)
+3. **1,000-100,000 users**: Enterprise scale (large coaching organization or platform)
+
+For each horizon, we identify:
+- **Database bottlenecks** (query performance, storage, connections)
+- **API bottlenecks** (request throughput, memory, rate limits)
+- **Embedding bottlenecks** (OpenAI API limits, cost, latency)
+- **Search bottlenecks** (vector search performance, index scaling)
+- **Cost scaling** (infrastructure, API costs, storage)
+
+---
+
+### Horizon 1: 50-100 Users (InsideOut's Initial Scale)
+
+**Assumptions**:
+- 50 coaches, 50-100 clients
+- ~5 transcripts/coach/week = 250 transcripts/week
+- ~10 assessments/client/year = 100 assessments/year
+- Data volume: ~50k chunks after 1 year
+
+#### Database Bottlenecks
+
+**UNLIKELY to break** at this scale, but watch for:
+
+1. **Vector Search Performance**
+   - **Symptom**: Queries > 3 seconds with 50k chunks
+   - **Root Cause**: pgvector IVFFlat index tuned for wrong dataset size
+   - **Fix**: Adjust IVFFlat `lists` parameter:
+     ```sql
+     -- Current: lists = 100 (good for 10k-100k vectors)
+     -- If slow, increase: lists = sqrt(50000) ≈ 224
+     CREATE INDEX idx_data_chunks_embedding ON data_chunks
+       USING ivfflat (embedding vector_cosine_ops) WITH (lists = 224);
+     ```
+   - **Prevention**: Monitor query latency, EXPLAIN ANALYZE slow searches
+
+2. **Connection Pool Exhaustion**
+   - **Symptom**: "too many connections" errors during peak usage
+   - **Root Cause**: Supabase free tier = 50 connections, Vercel serverless = new connection per request
+   - **Fix**: Use Supabase connection pooler (Supavisor) in transaction mode
+   - **Prevention**: Configure Vercel to use pooled connection string
+   - **Upgrade Path**: Supabase Pro (200 connections) if needed
+
+3. **Foreign Key Lookup Overhead**
+   - **Symptom**: Slow queries when joining `data_items` → `coaches` → `clients`
+   - **Root Cause**: Missing indexes on FK columns
+   - **Fix**: Already mitigated (indexes on coach_id, client_id, org_id)
+   - **Prevention**: Use EXPLAIN ANALYZE to verify index usage
+
+**Cost at 50-100 users**:
+- Supabase: Free tier (up to 500 MB database) → **$0/month**
+- Likely need Pro tier for connection pooling → **$25/month**
+
+#### API Bottlenecks
+
+**UNLIKELY to break** at this scale:
+
+1. **Vercel Serverless Function Timeout**
+   - **Symptom**: Requests timeout at 10 seconds (Hobby tier)
+   - **Root Cause**: Embedding generation + search takes > 10s for large uploads
+   - **Fix**: Upgrade to Pro tier (60s timeout) → **$20/month**
+   - **Alternative**: Break upload into async chunks (background job)
+
+2. **Memory Limits**
+   - **Symptom**: Function crashes when processing large PDFs
+   - **Root Cause**: Vercel Hobby tier = 1 GB memory per function
+   - **Fix**: Stream large files, chunk before loading into memory
+   - **Prevention**: Limit upload size to 5 MB in API validation
+
+3. **Rate Limiting**
+   - **Symptom**: Users get 429 errors during peak usage
+   - **Root Cause**: No rate limiting configured yet
+   - **Fix**: Implement simple rate limiting (Phase 3)
+   - **Prevention**: Not critical at 50-100 users
+
+**Cost at 50-100 users**:
+- Vercel: Hobby tier ($0) → likely need Pro tier ($20/month)
+
+#### Embedding Bottlenecks
+
+**MOST LIKELY to break**:
+
+1. **OpenAI Rate Limits**
+   - **Symptom**: 429 errors from OpenAI during batch uploads
+   - **Root Cause**: Tier 1 rate limit = 200 RPM, 40k TPM
+   - **Breaking Point**: ~15-20 transcripts uploaded simultaneously
+   - **Fix**: Implement request queuing with retry logic
+   - **Prevention**: Batch embeddings (embed multiple chunks per request)
+   - **Upgrade Path**: OpenAI Tier 2 ($50/month spent) → 5k RPM, 450k TPM
+
+2. **Embedding Cost**
+   - **Symptom**: Unexpected OpenAI bills
+   - **Assumptions**: 250 transcripts/week × 10 chunks/transcript = 2,500 chunks/week
+   - **Cost Calculation**:
+     - text-embedding-3-small = $0.02 / 1M tokens
+     - Average chunk = 500 words ≈ 666 tokens
+     - Weekly cost: (2,500 × 666 tokens) / 1M × $0.02 = **$0.03/week** = **$1.50/month**
+   - **Breaking Point**: Not a cost concern at this scale
+   - **Prevention**: Monitor usage, set budget alerts
+
+**Cost at 50-100 users**:
+- OpenAI embeddings: **~$2/month**
+- OpenAI GPT (Custom GPT queries): **~$10-20/month** (depends on query frequency)
+
+#### Search Bottlenecks
+
+**UNLIKELY to break**:
+
+1. **IVFFlat Index Build Time**
+   - **Symptom**: Adding 1,000 new chunks takes > 30 seconds
+   - **Root Cause**: Index rebuild on bulk insert
+   - **Fix**: Use batch inserts, not individual INSERTs
+   - **Prevention**: Already using batch inserts in embed.js
+
+2. **Query Latency with Filters**
+   - **Symptom**: Multi-filter queries (type + coach + org) are slow
+   - **Root Cause**: No composite index for common filter combinations
+   - **Fix**: Already mitigated (composite indexes in schema)
+   - **Prevention**: Monitor slow queries
+
+**Summary for 50-100 Users**:
+- ✅ **Low Risk**: Database, API, search all scale fine
+- ⚠️ **Medium Risk**: OpenAI rate limits during batch uploads
+- 💰 **Cost**: ~$50-60/month total (Supabase Pro + Vercel Pro + OpenAI)
+
+---
+
+### Horizon 2: 100-1,000 Users (Growth Phase)
+
+**Assumptions**:
+- 200 coaches, 800 clients
+- ~1,000 transcripts/week
+- Data volume: ~500k chunks after 1 year
+
+#### Database Bottlenecks
+
+**LIKELY to break without intervention**:
+
+1. **Vector Search Degradation**
+   - **Symptom**: Queries > 5 seconds with 500k chunks
+   - **Root Cause**: IVFFlat index doesn't scale well > 100k vectors
+   - **Breaking Point**: ~300k-500k vectors
+   - **Fix Option 1**: Upgrade to pgvector HNSW index (better for large datasets)
+     ```sql
+     -- HNSW scales better but uses more memory
+     CREATE INDEX idx_data_chunks_embedding_hnsw ON data_chunks
+       USING hnsw (embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64);
+     ```
+   - **Fix Option 2**: Partition data by coach or org, search within partition
+   - **Fix Option 3**: Offload vector search to dedicated service (Pinecone, Weaviate)
+   - **Prevention**: Monitor p95 latency, upgrade index before degradation
+
+2. **Database Storage Limits**
+   - **Symptom**: Approaching 8 GB limit (Supabase Pro tier)
+   - **Assumptions**: 500k chunks × 666 tokens/chunk × 2 bytes/char ≈ **1 GB text**
+   - **Embeddings**: 500k vectors × 1536 dimensions × 4 bytes/float = **3 GB**
+   - **Total**: ~5 GB (safe margin on Pro tier)
+   - **Breaking Point**: ~800k chunks (would need Team tier: $599/month)
+   - **Fix**: Archive old data, implement data retention policy
+   - **Prevention**: Monitor database size, set alerts at 6 GB
+
+3. **Connection Pool Exhaustion (Critical)**
+   - **Symptom**: Frequent connection errors during peak hours
+   - **Root Cause**: 200 coaches × 5 requests/coach = 1,000 concurrent connections
+   - **Supabase Pro**: 200 connections max
+   - **Fix**: Use Supavisor connection pooler (10,000+ connections)
+   - **Prevention**: Already using pooled connections (if configured)
+   - **Upgrade Path**: Supabase Team tier (400 connections) if pooler insufficient
+
+4. **Index Bloat**
+   - **Symptom**: Queries slow despite indexes
+   - **Root Cause**: Frequent updates/deletes cause index fragmentation
+   - **Fix**: VACUUM and REINDEX monthly
+   - **Prevention**: Automate maintenance via Supabase scheduled functions
+
+#### API Bottlenecks
+
+**LIKELY to break**:
+
+1. **Vercel Function Concurrent Execution Limits**
+   - **Symptom**: Requests queued, users see latency spikes
+   - **Root Cause**: Vercel Pro = 100 concurrent executions/region
+   - **Breaking Point**: 1,000 users × 10 requests/hour / 60 minutes ≈ **166 requests/min** = need 2-3 concurrent functions
+   - **Fix**: Still safe on Pro tier at this scale
+   - **Prevention**: Monitor concurrent execution metrics
+
+2. **Cold Start Latency**
+   - **Symptom**: First request after idle takes 3-5 seconds
+   - **Root Cause**: Serverless function cold start
+   - **Fix**: Vercel Pro has better cold start times (~300ms vs 1s)
+   - **Alternative**: Keep functions warm with cron ping
+
+3. **Response Payload Size**
+   - **Symptom**: Slow responses for large result sets
+   - **Root Cause**: Returning 50+ chunks in one response
+   - **Fix**: Implement pagination, limit to 10-20 results
+   - **Prevention**: Already limited to 10 results in search
+
+**Cost at 100-1,000 users**:
+- Vercel Pro: **$20/month** → may need Team tier (**$100/month**) for better monitoring
+
+#### Embedding Bottlenecks
+
+**WILL break without intervention**:
+
+1. **OpenAI Rate Limits (Critical)**
+   - **Symptom**: Consistent 429 errors during business hours
+   - **Root Cause**: 1,000 transcripts/week = 200 transcripts/day = **~8-10 transcripts/hour**
+   - **Peak Load**: Assume 50 transcripts uploaded in 1 hour (Monday morning) = **500 chunks**
+   - **Tier 1 Limits**: 200 RPM, 40k TPM
+   - **Breaking Point**: 500 chunks × 1 request each = 500 RPM → **EXCEEDS TIER 1**
+   - **Fix Option 1**: Upgrade to Tier 2 (5k RPM) via $50/month spend
+   - **Fix Option 2**: Batch embed requests (embed 10 chunks per API call)
+   - **Fix Option 3**: Implement queue with rate limiting
+   - **Prevention**: Implement #2 + #3 proactively
+
+2. **Embedding Cost Scaling**
+   - **Weekly Volume**: 1,000 transcripts × 10 chunks = 10k chunks
+   - **Cost**: (10k × 666 tokens) / 1M × $0.02 = **$0.13/week** = **$7/month**
+   - **Breaking Point**: Not a concern (linear scaling)
+   - **Prevention**: Set budget alerts
+
+**Cost at 100-1,000 users**:
+- OpenAI embeddings: **~$10/month**
+- OpenAI GPT queries: **~$50-100/month**
+
+#### Search Bottlenecks
+
+**LIKELY to break**:
+
+1. **Vector Index Memory Usage**
+   - **Symptom**: Out of memory errors during index build
+   - **Root Cause**: HNSW index requires significant RAM
+   - **Estimate**: 500k vectors × 1536 dims × 4 bytes = 3 GB + index overhead ≈ **5-6 GB**
+   - **Supabase Pro**: 8 GB RAM
+   - **Breaking Point**: ~500k chunks (would need Team tier: 16 GB RAM)
+   - **Fix**: Optimize index parameters (reduce `m`, `ef_construction`)
+   - **Alternative**: Partition search by coach/org
+
+2. **Multi-Filter Query Performance**
+   - **Symptom**: Queries with 3+ filters take > 5 seconds
+   - **Root Cause**: Index not optimized for complex WHERE clauses
+   - **Fix**: Add materialized views for common filter patterns
+   - **Prevention**: Monitor slow query log
+
+**Summary for 100-1,000 Users**:
+- ⚠️ **High Risk**: Vector search performance, OpenAI rate limits
+- 🔧 **Required Upgrades**:
+  - Upgrade to HNSW index or partition data
+  - Implement embedding request queue
+  - Upgrade to OpenAI Tier 2
+- 💰 **Cost**: ~$200-300/month (Supabase Pro $25 + Vercel Team $100 + OpenAI $100-150)
+
+---
+
+### Horizon 3: 1,000-100,000 Users (Enterprise Scale)
+
+**Assumptions**:
+- 10,000 coaches, 90,000 clients
+- ~50,000 transcripts/week
+- Data volume: **25M chunks** after 1 year
+
+#### Database Bottlenecks
+
+**WILL BREAK - Fundamental Architecture Changes Needed**:
+
+1. **PostgreSQL Storage Limits**
+   - **Data Size**: 25M chunks × 1 KB/chunk = **25 GB text** + **150 GB embeddings** = **175 GB**
+   - **Supabase Team**: 8 GB included (would cost **$1,000+/month** for 175 GB overage)
+   - **Breaking Point**: Database storage becomes prohibitively expensive
+   - **Fix**: **Offload vector embeddings to specialized vector database**
+     - Option A: Pinecone (managed vector DB) → $70/month per pod, need ~5 pods = **$350/month**
+     - Option B: Weaviate (self-hosted) → $200-500/month on AWS
+     - Option C: Qdrant (open-source) → $300-600/month managed
+   - **Architecture Change**:
+     ```
+     Supabase (metadata, user tables, relationships)
+       ↓
+     Separate Vector DB (embeddings only)
+       ↓
+     Search: Query vector DB → Get data_item_ids → Fetch metadata from Supabase
+     ```
+
+2. **Vector Search Performance Collapse**
+   - **Symptom**: Queries take 30+ seconds with 25M vectors
+   - **Root Cause**: pgvector not designed for this scale
+   - **Breaking Point**: ~1-2M vectors (well before 25M)
+   - **Fix**: **Must migrate to dedicated vector database**
+   - **Prevention**: Plan migration at 500k-1M vector mark
+
+3. **Connection Pool Saturation**
+   - **Symptom**: Constant connection errors
+   - **Root Cause**: 10,000 concurrent users × variable connection usage
+   - **Fix**: Implement connection pooling middleware (PgBouncer in transaction mode)
+   - **Upgrade Path**: Self-hosted PostgreSQL with tuned connection limits
+
+4. **Index Maintenance Downtime**
+   - **Symptom**: REINDEX takes hours, blocks writes
+   - **Root Cause**: 25M row indexes take significant time to rebuild
+   - **Fix**: Implement zero-downtime index rebuilds (CREATE INDEX CONCURRENTLY)
+   - **Prevention**: Automate with monitoring alerts
+
+#### API Bottlenecks
+
+**WILL BREAK - Need Architectural Changes**:
+
+1. **Vercel Serverless Limits**
+   - **Symptom**: Requests queued, 504 gateway timeouts
+   - **Root Cause**: Vercel Team = 1,000 concurrent executions
+   - **Peak Load**: 10,000 users × 10 requests/hour / 60 = **1,666 requests/min**
+   - **Breaking Point**: Exceed Vercel's concurrency limits
+   - **Fix**: **Migrate to dedicated infrastructure**
+     - Option A: AWS Lambda + API Gateway (higher limits)
+     - Option B: Kubernetes cluster (full control)
+     - Option C: Hybrid (Vercel frontend + AWS backend)
+
+2. **API Rate Limiting Required**
+   - **Symptom**: Abuse/spam causes service degradation
+   - **Root Cause**: No rate limiting implemented
+   - **Fix**: Implement per-user rate limits (Redis + Upstash)
+   - **Prevention**: Add to Phase 3 requirements
+
+3. **Response Time SLA Violations**
+   - **Symptom**: p95 latency > 10 seconds
+   - **Root Cause**: Synchronous embedding + search
+   - **Fix**: Implement async job queue (BullMQ + Redis)
+   - **Architecture**:
+     ```
+     Upload → Queue job → Return job_id
+     User polls /api/jobs/{id} for status
+     ```
+
+#### Embedding Bottlenecks
+
+**WILL BREAK - Cost & Rate Limits**:
+
+1. **OpenAI Rate Limits (Catastrophic)**
+   - **Weekly Volume**: 50k transcripts × 10 chunks = **500k chunks/week**
+   - **Peak Hour**: Assume 10,000 uploads/hour = **100k chunks/hour** = **1,666 chunks/min**
+   - **Tier 2 Limits**: 5k RPM, 450k TPM
+   - **Breaking Point**: **Far exceeds Tier 2**, even with batching
+   - **Fix**: **Use OpenAI Batch API** (50% cost reduction, asynchronous)
+     - Upload chunks in batches of 50,000
+     - Process overnight (24-hour SLA)
+     - Requires async upload workflow
+   - **Alternative**: Fine-tune smaller model, self-host embeddings
+
+2. **Embedding Cost Explosion**
+   - **Monthly Volume**: 500k chunks/week × 4 weeks = **2M chunks/month**
+   - **Cost**: (2M × 666 tokens) / 1M × $0.02 = **$27/month** (embeddings)
+   - **GPT Queries**: 100k users × 10 queries/month × $0.01/query = **$10,000/month**
+   - **Breaking Point**: Custom GPT queries become dominant cost
+   - **Fix**: Implement caching, query deduplication, result reuse
+   - **Prevention**: Monitor cost per user, set alerts
+
+**Cost at 1,000-100,000 users**:
+- OpenAI embeddings: **~$50/month**
+- OpenAI GPT queries: **~$10,000-15,000/month** 🚨
+
+#### Search Bottlenecks
+
+**WILL BREAK - Must Use Specialized Vector DB**:
+
+1. **Query Performance**
+   - **Symptom**: All queries > 10 seconds
+   - **Root Cause**: PostgreSQL not optimized for billion-scale vector search
+   - **Fix**: **Migrate to Pinecone/Weaviate/Qdrant**
+   - **Expected Performance**:
+     - Pinecone: <100ms for 25M vectors
+     - Weaviate: <200ms with tuning
+     - Qdrant: <150ms with quantization
+
+2. **Index Build Time**
+   - **Symptom**: Adding 100k new vectors takes hours
+   - **Root Cause**: HNSW index rebuild
+   - **Fix**: Dedicated vector DB handles incremental index updates efficiently
+
+#### Cost Scaling
+
+**Total Infrastructure Cost at 100,000 Users**:
+
+| Service | Monthly Cost | Notes |
+|---------|-------------|-------|
+| **Database** | $500-1,000 | Supabase Team or self-hosted PostgreSQL |
+| **Vector DB** | $300-500 | Pinecone/Weaviate/Qdrant managed |
+| **Compute** | $500-1,000 | AWS Lambda or Kubernetes cluster |
+| **OpenAI Embeddings** | $50-100 | Batch API reduces cost |
+| **OpenAI GPT Queries** | $10,000-15,000 | Dominant cost driver 🚨 |
+| **Redis/Caching** | $50-100 | Upstash or ElastiCache |
+| **Monitoring** | $100-200 | Datadog/New Relic |
+| **TOTAL** | **$11,500-17,000/month** | |
+
+**Cost Optimization Strategies**:
+1. **Implement aggressive caching** (reduce duplicate GPT queries by 50%)
+2. **Use OpenAI Batch API** (50% cost reduction on embeddings)
+3. **Self-host embedding model** (one-time cost, eliminates API fees)
+4. **Tier-based access** (limit query volume for free users)
+
+#### Required Architectural Changes
+
+**Cannot reach 100k users without these changes**:
+
+1. ✅ **Migrate embeddings to dedicated vector database** (Pinecone/Weaviate/Qdrant)
+2. ✅ **Implement async job queue** for uploads (BullMQ + Redis)
+3. ✅ **Add caching layer** for frequent queries (Redis/Upstash)
+4. ✅ **Migrate to dedicated infrastructure** (AWS/GCP, not serverless)
+5. ✅ **Implement robust rate limiting** (per-user, per-org)
+6. ✅ **Database sharding** or **read replicas** for metadata queries
+7. ✅ **CDN for static assets** and API responses
+8. ✅ **Multi-region deployment** for global latency
+
+**Summary for 1,000-100,000 Users**:
+- 🚨 **Critical**: Current architecture fundamentally cannot scale
+- 🔧 **Required**: Major re-architecture (dedicated vector DB, async workflows, caching)
+- 💰 **Cost**: $11k-17k/month (GPT query costs dominate)
+- ⏱️ **Timeline**: 3-6 months of engineering work to re-architect
+
+---
+
+## Scalability Recommendations by Phase
+
+### Phase 2 (Current): Build for Horizon 1 (50-100 users)
+- ✅ Use pgvector with IVFFlat index
+- ✅ Stay on Supabase Pro + Vercel Pro
+- ✅ Implement basic error handling for OpenAI rate limits
+- ⚠️ Monitor vector search latency, set alerts at 2s
+
+### Phase 3: Prepare for Horizon 2 (100-1,000 users)
+- 🔧 Upgrade to HNSW index when reaching 100k chunks
+- 🔧 Implement embedding request queue with batching
+- 🔧 Add database connection pooling (Supavisor)
+- 🔧 Implement basic caching for frequent queries
+- 📊 Set up comprehensive monitoring (query latency, costs, errors)
+
+### Phase 4-5: Re-architect for Horizon 3 (1,000-100,000 users)
+- 🏗️ Migrate to dedicated vector database (Pinecone/Weaviate)
+- 🏗️ Implement async job queue for all background processing
+- 🏗️ Add Redis caching layer
+- 🏗️ Migrate from serverless to dedicated infrastructure
+- 🏗️ Implement multi-tenant isolation (RLS + org partitioning)
+- 💰 Negotiate OpenAI enterprise pricing or self-host embeddings
 
 ---
 
