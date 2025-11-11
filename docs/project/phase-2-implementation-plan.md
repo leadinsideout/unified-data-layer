@@ -399,17 +399,53 @@ CREATE INDEX idx_data_chunks_embedding ON data_chunks
 
 ### Supporting Tables (User & Organization Management)
 
-**Added in Phase 2 Checkpoint 4** to establish foundation for authentication, multi-tenancy, and data integrity:
+**Added in Phase 2 Checkpoint 4** to establish foundation for authentication, multi-tenancy, and data integrity.
+
+**Updated 2025-11-11**: Schema revised to support multi-company architecture and company-owned coaching models based on client feedback.
+
+#### `coaching_companies` Table
+
+**Purpose**: Coaching companies that use this platform (InsideOut Leadership is the first, but architecture supports multiple companies)
+
+**Schema**:
+```sql
+CREATE TABLE coaching_companies (
+  -- Identity
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT UNIQUE NOT NULL,
+  slug TEXT UNIQUE NOT NULL,           -- URL-friendly name (e.g., 'insideout-leadership')
+
+  -- Company configuration
+  model_sharing_enabled BOOLEAN DEFAULT true,  -- Can coaches share coaching models within company?
+
+  -- Status
+  active BOOLEAN DEFAULT true,
+
+  -- Audit
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX idx_coaching_companies_slug ON coaching_companies(slug);
+CREATE INDEX idx_coaching_companies_active ON coaching_companies(active);
+```
+
+**Key Design Decision**:
+- **Multi-Company Support**: Architecture allows multiple coaching companies (InsideOut can start, others can join later)
+- **Model Sharing**: Companies can enable/disable model sharing among their coaches
 
 #### `coaches` Table
 
-**Purpose**: InsideOut Leadership coaches (employees)
+**Purpose**: Coaches employed by coaching companies
 
 **Schema**:
 ```sql
 CREATE TABLE coaches (
   -- Identity
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+
+  -- Company relationship (NEW - supports multi-company architecture)
+  coaching_company_id UUID REFERENCES coaching_companies(id) ON DELETE CASCADE,
 
   -- Authentication (Phase 3 integration)
   auth_provider_id TEXT UNIQUE,        -- Supabase Auth user ID
@@ -431,9 +467,14 @@ CREATE TABLE coaches (
 );
 
 CREATE INDEX idx_coaches_email ON coaches(email);
+CREATE INDEX idx_coaches_company ON coaches(coaching_company_id);
 CREATE INDEX idx_coaches_active ON coaches(active);
 CREATE INDEX idx_coaches_auth_provider ON coaches(auth_provider_id);
 ```
+
+**Key Design Decision**:
+- Each coach belongs to **one coaching company** (`coaching_company_id`)
+- Supports future scenario where multiple companies use the platform
 
 #### `client_organizations` Table
 
@@ -509,10 +550,94 @@ CREATE INDEX idx_clients_coach ON clients(primary_coach_id);
 CREATE INDEX idx_clients_active ON clients(active);
 ```
 
+#### `coaching_models` Table
+
+**Purpose**: Coaching models owned by companies (not individual coaches) - enables model sharing
+
+**Schema**:
+```sql
+CREATE TABLE coaching_models (
+  -- Identity
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+
+  -- Ownership (company owns the model, not individual coach)
+  coaching_company_id UUID REFERENCES coaching_companies(id) ON DELETE CASCADE,
+
+  -- Model details
+  name TEXT NOT NULL,
+  version TEXT DEFAULT '1.0',
+  model_type TEXT CHECK (model_type IN ('theory_of_change', 'framework', 'evaluation_rubric', 'competency_model')),
+
+  -- Content
+  description TEXT,
+  full_content TEXT,                   -- Full model text (also embedded in data_items)
+
+  -- Metadata
+  metadata JSONB,
+
+  -- Status
+  active BOOLEAN DEFAULT true,
+
+  -- Audit
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW(),
+  created_by UUID REFERENCES coaches(id) ON DELETE SET NULL,
+
+  UNIQUE(coaching_company_id, name, version)
+);
+
+CREATE INDEX idx_coaching_models_company ON coaching_models(coaching_company_id);
+CREATE INDEX idx_coaching_models_active ON coaching_models(active);
+CREATE INDEX idx_coaching_models_type ON coaching_models(model_type);
+```
+
+**Key Design Decision**:
+- **Company Ownership**: Models belong to the coaching company, not individual coaches
+- **Model Sharing**: All coaches in a company can access company models (if model_sharing_enabled)
+- **Versioning**: Models can have versions (v1.0, v2.0) for evolution tracking
+- **Coach Association**: Separate table tracks which coaches are trained/certified in which models
+
+#### `coach_model_associations` Table
+
+**Purpose**: Many-to-many relationship between coaches and coaching models (tracks training/certification)
+
+**Schema**:
+```sql
+CREATE TABLE coach_model_associations (
+  -- Identity
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+
+  -- Relationships
+  coach_id UUID REFERENCES coaches(id) ON DELETE CASCADE,
+  coaching_model_id UUID REFERENCES coaching_models(id) ON DELETE CASCADE,
+
+  -- Association metadata
+  proficiency_level TEXT CHECK (proficiency_level IN ('learning', 'competent', 'expert', 'certified')),
+  certification_date DATE,
+  notes TEXT,
+
+  -- Audit
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW(),
+
+  UNIQUE(coach_id, coaching_model_id)
+);
+
+CREATE INDEX idx_coach_model_coach ON coach_model_associations(coach_id);
+CREATE INDEX idx_coach_model_model ON coach_model_associations(coaching_model_id);
+CREATE INDEX idx_coach_model_proficiency ON coach_model_associations(proficiency_level);
+```
+
+**Key Design Decision**:
+- Tracks which coaches are **trained/qualified/associated** with which models
+- **Proficiency levels**: Learning → Competent → Expert → Certified
+- Enables queries like "Which coaches are certified in Theory of Change v2.0?"
+
 #### Updated `data_items` Table (with Foreign Keys)
 
 **Changes from original design**:
-- Add foreign key constraints to coaches, clients, client_organizations
+- Add foreign key constraints to coaches, clients, client_organizations, coaching_models
+- Add `coaching_model_id` for linking coaching model content
 - Ensures referential integrity
 - Enables cascading deletes/updates
 
@@ -527,6 +652,9 @@ CREATE TABLE data_items (
   coach_id UUID REFERENCES coaches(id) ON DELETE SET NULL,
   client_id UUID REFERENCES clients(id) ON DELETE SET NULL,
   client_organization_id UUID REFERENCES client_organizations(id) ON DELETE SET NULL,
+
+  -- Coaching model reference (NEW - for data_type = 'coaching_model')
+  coaching_model_id UUID REFERENCES coaching_models(id) ON DELETE SET NULL,
 
   -- Access control (prepare for Phase 3 RLS)
   visibility_level TEXT DEFAULT 'private'
@@ -548,17 +676,118 @@ CREATE TABLE data_items (
   session_date TIMESTAMP
 );
 
--- (Indexes same as before)
+-- Indexes
+CREATE INDEX idx_data_items_type ON data_items(data_type);
+CREATE INDEX idx_data_items_coach ON data_items(coach_id);
+CREATE INDEX idx_data_items_client ON data_items(client_id);
+CREATE INDEX idx_data_items_org ON data_items(client_organization_id);
+CREATE INDEX idx_data_items_coaching_model ON data_items(coaching_model_id);
+CREATE INDEX idx_data_items_visibility ON data_items(visibility_level);
+CREATE INDEX idx_data_items_created_at ON data_items(created_at DESC);
+
+-- Composite indexes for common filter combinations
+CREATE INDEX idx_data_items_coach_type ON data_items(coach_id, data_type);
+CREATE INDEX idx_data_items_org_type ON data_items(client_organization_id, data_type);
 ```
+
+**Usage Pattern for Coaching Models**:
+- When `data_type = 'coaching_model'`, populate `coaching_model_id` to link to `coaching_models` table
+- The `coaching_models` table stores metadata (name, version, type)
+- The `data_items` table stores the embedded content for vector search
+- Example query: "Get all data items related to Theory of Change v2.0"
+  ```sql
+  SELECT di.* FROM data_items di
+  JOIN coaching_models cm ON di.coaching_model_id = cm.id
+  WHERE cm.name = 'Theory of Change' AND cm.version = '2.0';
+  ```
 
 **Benefits of Adding User Tables in Phase 2**:
 
 1. **Data Integrity**: Foreign key constraints prevent orphaned records
 2. **Authentication Foundation**: Ready for Supabase Auth integration in Phase 3
-3. **Multi-Tenancy**: Clear tenant boundaries (coach, client, org)
-4. **Metadata Storage**: Coach bios, client job titles, org engagement details
-5. **Easier Queries**: Can join to get coach names, client orgs, etc.
-6. **RLS Preparation**: Phase 3 policies can reference `coaches.auth_provider_id`
+3. **Multi-Tenancy**: Clear tenant boundaries (coaching company, coach, client, org)
+4. **Multi-Company Support**: Architecture ready for multiple coaching companies on same platform
+5. **Model Sharing**: Company-owned coaching models enable knowledge sharing among coaches
+6. **Metadata Storage**: Coach bios, client job titles, org engagement details, model versions
+7. **Easier Queries**: Can join to get coach names, client orgs, coach certifications, etc.
+8. **RLS Preparation**: Phase 3 policies can reference `coaches.auth_provider_id` and `coaching_company_id`
+
+### Data Relationship Diagram
+
+```
+coaching_companies (Platform Level)
+  ├─ "InsideOut Leadership"
+  ├─ "Future Coaching Co" (future)
+  └─ ...
+
+  ↓ (owns)
+
+coaches (Employee Level)
+  ├─ Coach A (InsideOut)
+  ├─ Coach B (InsideOut)
+  └─ ...
+
+  ↓ (coaches)
+
+clients (Individual Level)
+  ├─ Client 1 @ Acme Media
+  ├─ Client 2 @ Acme Media
+  └─ ...
+
+  ↓ (work for)
+
+client_organizations (External Org Level)
+  ├─ Acme Media
+  ├─ TechCorp Inc
+  └─ ...
+
+coaching_models (Company-Owned)
+  ├─ Theory of Change v2.0 (InsideOut)
+  ├─ Leadership Framework v1.0 (InsideOut)
+  └─ ...
+
+  ↓ (many-to-many via coach_model_associations)
+
+coaches
+  ├─ Coach A → certified in Theory of Change v2.0
+  ├─ Coach B → learning Leadership Framework v1.0
+  └─ ...
+
+data_items (Search Index)
+  ├─ Transcript (coach_id, client_id, client_organization_id)
+  ├─ Assessment (client_id, client_organization_id)
+  ├─ Coaching Model (coaching_model_id) ← links to coaching_models table
+  ├─ Company Doc (client_organization_id)
+  └─ ...
+```
+
+**Key Relationships**:
+
+1. **Company → Coaches**: One-to-Many
+   - Each coach belongs to one coaching company
+   - Supports multi-company platform architecture
+
+2. **Company → Coaching Models**: One-to-Many
+   - Models are owned by the company, not individual coaches
+   - Enables model sharing among all company coaches
+
+3. **Coaches ↔ Coaching Models**: Many-to-Many (via coach_model_associations)
+   - Tracks which coaches are trained/certified in which models
+   - Includes proficiency level (learning, competent, expert, certified)
+
+4. **Coach → Clients**: One-to-Many
+   - Each client has a primary coach
+   - Coaches can have multiple clients
+
+5. **Client Organization → Clients**: One-to-Many
+   - Clients work for external organizations
+   - Multiple clients from same org can be coached by different coaches
+
+6. **Data Items → Everything**: Links to coaches, clients, orgs, coaching models
+   - Transcripts link to coach + client + org
+   - Assessments link to client + org
+   - Coaching models link to coaching_models table
+   - Company docs link to client org
 
 ### Metadata Schemas by Data Type
 
@@ -667,23 +896,33 @@ CREATE TABLE data_items (
 **File**: `scripts/migrations/002_multi_type_schema.sql`
 
 **Steps**:
-1. Create `coaches` table
-2. Create `client_organizations` table
-3. Create `clients` table (with FKs to coaches and orgs)
-4. Create new `data_items` table (with FKs to user tables)
-5. Create new `data_chunks` table
-6. Migrate existing `transcripts` → `data_items` with `data_type = 'transcript'`
-7. Migrate existing `transcript_chunks` → `data_chunks`
-8. Add indexes
-9. Create RPC function for multi-type vector search
-10. Drop old tables (after validation)
+1. Create `coaching_companies` table
+2. Create `coaches` table (with FK to coaching_companies)
+3. Create `client_organizations` table
+4. Create `clients` table (with FKs to coaches and orgs)
+5. Create `coaching_models` table (with FK to coaching_companies)
+6. Create `coach_model_associations` table (many-to-many)
+7. Create new `data_items` table (with FKs to all tables)
+8. Create new `data_chunks` table
+9. Migrate existing `transcripts` → `data_items` with `data_type = 'transcript'`
+10. Migrate existing `transcript_chunks` → `data_chunks`
+11. Add indexes
+12. Create RPC function for multi-type vector search
+13. Drop old tables (after validation)
 
 **Migration Script Outline**:
 ```sql
--- Step 1: Create user & organization tables (must come first for FKs)
-CREATE TABLE coaches (...);
+-- Step 1: Create coaching company tables (must come first for FKs)
+CREATE TABLE coaching_companies (...);
+
+-- Step 2: Create user & organization tables
+CREATE TABLE coaches (...);  -- FK to coaching_companies
 CREATE TABLE client_organizations (...);
-CREATE TABLE clients (...);
+CREATE TABLE clients (...);  -- FK to coaches, client_organizations
+
+-- Step 3: Create coaching model tables
+CREATE TABLE coaching_models (...);  -- FK to coaching_companies
+CREATE TABLE coach_model_associations (...);  -- FK to coaches, coaching_models
 
 -- Step 2: Create data tables (with FKs to user tables)
 CREATE TABLE data_items (...);
