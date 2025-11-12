@@ -704,12 +704,45 @@ app.post('/api/search', async (req, res) => {
       });
     }
 
+    // Handle organization_id - accept UUID or company name
+    let resolved_organization_id = organization_id;
+    if (organization_id && typeof organization_id === 'string') {
+      // Check if it's a valid UUID format
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      if (!uuidRegex.test(organization_id)) {
+        // Not a UUID - treat as company name and look up the ID
+        const { data: orgs, error: orgError } = await supabase
+          .from('client_organizations')
+          .select('id, name')
+          .ilike('name', organization_id)
+          .limit(1);
+
+        if (orgError) {
+          console.error('Organization lookup error:', orgError);
+          return res.status(400).json({
+            error: 'Invalid organization',
+            message: `Could not find organization: "${organization_id}"`
+          });
+        }
+
+        if (orgs && orgs.length > 0) {
+          resolved_organization_id = orgs[0].id;
+          console.log(`Resolved organization "${organization_id}" to ID: ${resolved_organization_id}`);
+        } else {
+          return res.status(400).json({
+            error: 'Organization not found',
+            message: `No organization found with name: "${organization_id}"`
+          });
+        }
+      }
+    }
+
     // Generate embedding for query
     console.log(`Searching for: "${query}" with filters:`, {
       types: types || 'all',
       coach_id,
       client_id,
-      organization_id
+      organization_id: resolved_organization_id
     });
     const queryEmbedding = await generateEmbedding(query);
     const queryEmbeddingText = formatEmbeddingForDB(queryEmbedding);
@@ -721,7 +754,7 @@ app.post('/api/search', async (req, res) => {
         filter_types: types,
         filter_coach_id: coach_id,
         filter_client_id: client_id,
-        filter_org_id: organization_id,
+        filter_org_id: resolved_organization_id,
         match_threshold: threshold,
         match_count: limit
       });
