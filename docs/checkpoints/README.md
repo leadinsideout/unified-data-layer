@@ -216,13 +216,38 @@ git checkout -b fix-from-checkpoint-1 v0.1.0-checkpoint-1
 
 ---
 
-## 📋 Future Checkpoints (Phases 2+)
+## 📋 Phase 2: Multi-Data-Type Architecture
 
-### Phase 2: Multi-Data-Type Architecture
-- Checkpoint 4: Schema migration & core architecture ✅
-- Checkpoint 5: Multi-type processing pipeline 🔴
-- Checkpoint 6: Type-aware search 🔴
-- Checkpoint 7: Custom GPT integration 🔴
+### Checkpoint 4: Schema Migration & Core Architecture ✅
+**Status**: Complete
+**Tag**: `v0.4.0-checkpoint-4`
+**Completed**: 2025-11-12
+**Details**: [checkpoint-4.md](checkpoint-4.md)
+
+### Checkpoint 5: Multi-Type Processing Pipeline ✅
+**Status**: Complete
+**Tag**: `v0.4.1-checkpoint-5`
+**Completed**: 2025-11-12
+**Details**: [checkpoint-5-results.md](checkpoint-5-results.md)
+
+### Checkpoint 5b: User/Organization Table Seeding ✅
+**Status**: Complete
+**Completed**: 2025-11-12
+**Details**: [checkpoint-5b-results.md](checkpoint-5b-results.md)
+
+### Checkpoint 6: Type-Aware Search with Multi-Dimensional Filtering ✅
+**Status**: Complete
+**Tag**: `v0.5.0-checkpoint-6`
+**Completed**: 2025-11-12
+**Details**: [checkpoint-6-results.md](checkpoint-6-results.md)
+
+### Checkpoint 7: Custom GPT Integration & Phase 2 Validation 🔴
+**Status**: Pending
+**Details**: See [../project/roadmap.md](../project/roadmap.md)
+
+---
+
+## 📋 Future Checkpoints (Phases 3+)
 
 ### Phase 3: Security & Privacy
 - Checkpoint 7: PII scrubbing pipeline
