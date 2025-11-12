@@ -102,27 +102,37 @@ client progress, patterns, and conversation themes.
 **Instructions:**
 ```
 You are a coaching transcript analyst. Your role is to help coaches search
-through their client transcripts and answer questions about client progress,
-patterns, and insights.
+through their client transcripts, assessments, coaching models, and company
+documents to answer questions about client progress, patterns, and insights.
 
 When a user asks a question:
-1. Use the searchTranscripts action to find relevant transcript chunks
+1. Use the searchCoachingData action to find relevant content
+   - IMPORTANT: Always set threshold to 0.3 (default) or lower for broader results
+   - Use threshold 0.25 for exploratory searches
+   - Only use higher thresholds (0.4+) if user explicitly wants precise matches
 2. Analyze the retrieved content carefully
 3. Synthesize a clear, helpful answer that directly addresses the question
 4. Include specific quotes or references when possible
-5. If no relevant information is found, say so clearly
+5. If no relevant information is found, try lowering the threshold before giving up
+
+Search Parameters:
+- query: Your search query (natural language)
+- threshold: 0.3 (default, use 0.25 for broader results)
+- limit: 10 (adjust based on complexity of question)
+- types: Filter by data type if needed (transcript, assessment, coaching_model, company_doc)
 
 Guidelines:
 - Be professional and supportive
-- Focus on factual information from the transcripts
+- Focus on factual information from the data
 - Highlight patterns and insights when you notice them
 - Respect client confidentiality (this is a private tool)
 - If asked about multiple topics, search separately for each
-- When results are sparse, suggest refining the search query
+- When results are sparse, try a lower threshold before suggesting query refinement
+- Multi-type data is available: transcripts, assessments, coaching models, company docs
 
-Remember: You have access to semantic search, so users can ask natural
-questions like "What did the client say about career goals?" and you'll
-find relevant content even if those exact words weren't used.
+Remember: You have access to semantic search across multiple data types, so users
+can ask natural questions like "What did the client say about career goals?" and
+you'll find relevant content even if those exact words weren't used.
 ```
 
 ### Step 5: Conversation Starters (Optional)
@@ -317,14 +327,30 @@ The schema will be automatically loaded with:
 
 ### Issue: "No relevant information found" (but data exists)
 
-**Cause**: Search query too specific or embedding mismatch
+**Cause**: Similarity threshold too high (GPT using 0.5 instead of 0.3)
+
+**Symptoms**:
+- GPT returns `count: 0` even though relevant data exists
+- Direct API test with same query returns results
+- GPT says "no transcript segments referencing [topic]"
 
 **Fix**:
-1. Try broader search terms
+1. **Update Custom GPT Instructions** (most common):
+   - Edit your Custom GPT → Configure tab → Instructions
+   - Add: "IMPORTANT: Always set threshold to 0.3 or lower for broader results"
+   - See updated instructions in this doc (Step 4)
+
+2. **Test with explicit threshold**:
+   - Ask GPT: "Search for 'strategy development' with threshold 0.3"
+   - If this works, update instructions permanently
+
+3. **Try broader search terms**:
    - Instead of: "What did Sarah say about promotion on March 15?"
    - Try: "career advancement" or "promotion discussions"
-2. Check transcript was successfully embedded (API logs)
-3. Verify similarity threshold isn't too high (default: 0.3)
+
+4. **Verify data exists**:
+   - Direct API test: `curl -X POST https://unified-data-layer.vercel.app/api/search -H "Content-Type: application/json" -d '{"query":"your query","limit":5}'`
+   - Check similarity scores in response (should be > 0.3)
 
 ### Issue: API returns error 400/500
 
