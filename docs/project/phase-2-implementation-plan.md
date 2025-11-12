@@ -283,6 +283,23 @@ GET /api/data?data_type=assessment&client_id=xyz
 
 ## Database Schema Design
 
+### ⚠️ Schema Implementation Note (Updated 2025-11-12)
+
+**The actual implemented schema uses a slug + JSONB metadata pattern** instead of individual columns for optional fields. This provides greater flexibility without requiring migrations for new fields.
+
+**Key Differences from Original Plan**:
+- User/org tables use `slug` fields for URL-friendly references
+- Optional fields (active, size, department, etc.) stored in JSONB `metadata`
+- GIN indexes added for frequently-queried metadata keys
+
+**For actual schema structure**, see:
+- [Schema Reference Documentation](../development/schema-reference.md) - Complete actual schema
+- [Schema Validation Audit](../checkpoints/schema-validation-audit.md) - Compatibility analysis
+
+**Impact**: The schemas shown below represent the original plan. Actual implementation is compatible but more flexible. All roadmap checkpoints remain valid with minor query pattern adjustments (JSONB operators).
+
+---
+
 ### Primary Tables
 
 #### `data_items` Table
