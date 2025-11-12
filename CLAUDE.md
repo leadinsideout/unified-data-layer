@@ -37,7 +37,8 @@
 ## 🗺️ Project Status (Quick Reference)
 
 **Current Branch**: `main`
-**Current Tag**: `v0.7.0-checkpoint-7` (Phase 2 Complete)
+**Current Version**: `v0.7.0` (Phase 2 Complete)
+**Latest Tags**: `v0.7.0` (release), `v0.7.0-checkpoint-7` (checkpoint)
 **Latest Documentation**: See `docs/checkpoints/checkpoint-7-results.md` and `docs/project/PHASE_2_RESULTS.md`
 
 **What's Working (Phase 1 Complete ✅)**:
@@ -339,6 +340,50 @@ See: docs/data-management.md for complete guide
 
 ---
 
+## 🏷️ Tag Naming Convention
+
+**Decision Date**: 2025-11-12
+**Convention**: Option A - Checkpoint-Based Versioning
+
+### Checkpoint Tags
+Format: `v0.X.0-checkpoint-Y`
+- X = Minor version (matches checkpoint number)
+- Y = Checkpoint number (sequential)
+
+Examples:
+- Checkpoint 4 → `v0.4.0-checkpoint-4`
+- Checkpoint 5 → `v0.5.0-checkpoint-5`
+- Checkpoint 6 → `v0.6.0-checkpoint-6`
+- Checkpoint 7 → `v0.7.0-checkpoint-7`
+
+### Release Tags
+Format: `v0.X.0`
+- X = Minor version (matches checkpoint number)
+- Created by `npm run release --release-as 0.X.0`
+
+Examples:
+- Checkpoint 4 complete → `v0.4.0`
+- Checkpoint 7 complete (Phase 2 end) → `v0.7.0`
+
+### Phase Complete Tags
+Format: `v0.X.0` where X is the last checkpoint of the phase
+- Phase 1 complete: `v0.3.0` (Checkpoint 3)
+- Phase 2 complete: `v0.7.0` (Checkpoint 7)
+- Phase 3 complete: `v0.10.0` (estimated, Checkpoint 10)
+
+### Why This Convention?
+- ✅ Version numbers match checkpoint numbers (predictable)
+- ✅ Simple to understand and follow
+- ✅ Clear progression through phases
+- ✅ Consistent with semantic versioning
+
+### GitHub Actions Triggers
+- Checkpoint tags (`v*-checkpoint-*`) → Slack dev channel
+- Release tags (`v0.X.0`) → Slack #team_ai channel
+- Both should be created for every checkpoint completion
+
+---
+
 ## 🎓 Understanding the User's Intent
 
 ### "Resume from..." = Continue Development
@@ -430,18 +475,31 @@ await mcp__supabase__list_projects();
 5. ✅ Ask about blockers if relevant
 
 ### When Completing a Checkpoint
-1. ✅ Create comprehensive checkpoint status doc (docs/checkpoints/checkpoint-X.md)
+1. ✅ Create comprehensive checkpoint status doc (docs/checkpoints/checkpoint-X-results.md)
 2. ✅ Update checkpoint index (docs/checkpoints/README.md)
-3. ✅ Create checkpoint-specific tag (vX.Y.Z-checkpoint-N)
-4. ✅ **AUTOMATICALLY REMIND** user to run release
-   - Wait for user approval before running
-   - Explain what the release will do (bump version to X.Y.0, create CHANGELOG, create tag)
-   - Run: `npm run release --release-as X.Y.0` (version matches checkpoint number)
-5. ✅ Push to remote with tags: `git push --follow-tags origin main`
-6. ✅ Verify Slack notifications:
-   - Checkpoint notification fires (v0.X.0-checkpoint-Y tag)
-   - Release notification fires to #team_ai (v0.X.0 tag)
-7. ✅ Update CLAUDE.md with new checkpoint status
+3. ✅ Commit all documentation changes
+4. ✅ Create checkpoint-specific tag (vX.Y.Z-checkpoint-N)
+5. ✅ **🛑 STOP - DO NOT PUSH YET**
+6. ✅ **CRITICAL: AUTOMATICALLY REMIND user to run release**
+   - **This step is MANDATORY and must not be skipped**
+   - Ask user: "Should I run the release command now to create v0.X.0?"
+   - Explain: "This will bump package.json to 0.X.0, update CHANGELOG.md, and create the v0.X.0 release tag"
+   - Wait for user approval before proceeding
+7. ✅ Run release command: `npm run release --release-as X.Y.0`
+   - Version number should match checkpoint number (Option A: Checkpoint-Based Versioning)
+   - Example: Checkpoint 7 → v0.7.0
+8. ✅ Verify release artifacts created:
+   - package.json version updated to 0.X.0
+   - CHANGELOG.md updated with new entry
+   - git tag v0.X.0 created
+9. ✅ Push all tags to remote: `git push --follow-tags origin main`
+10. ✅ Verify GitHub Actions workflows triggered:
+   - Checkpoint notification workflow (triggered by v0.X.0-checkpoint-Y tag)
+   - Release notification workflow (triggered by v0.X.0 tag → sends to #team_ai)
+11. ✅ Check Slack for notifications:
+   - Dev channel: Checkpoint completion
+   - #team_ai: Phase/release completion
+12. ✅ Update CLAUDE.md with new checkpoint status
 
 ### When User Returns After Break
 1. ✅ Check if OpenAI quota resolved (if relevant)
@@ -704,6 +762,26 @@ Automatically check if CLAUDE.md needs updating after:
 2. Plan PII scrubbing pipeline (Checkpoint 8)
 3. Design row-level security policies (Checkpoint 9)
 4. Plan API key management system (Checkpoint 10)
+
+### Phase 2 Workflow Fixes (2025-11-12)
+**Issue**: Phase 2 completed without proper release workflow execution
+**Root Cause**: AI assistant skipped step 6 in checkpoint completion workflow
+**Fixes Applied**:
+1. ✅ Created v0.7.0 release tag retroactively
+2. ✅ Updated CHANGELOG.md with Phase 2 entry
+3. ✅ Bumped package.json to v0.7.0
+4. ✅ Fixed checkpoint notification workflow (doc link issue)
+5. ✅ Updated CLAUDE.md with explicit "STOP" step and tag naming convention
+6. ✅ Documented checkpoint-based versioning (Option A)
+7. ✅ Verified Slack notifications sent to #team_ai
+
+**Lessons Learned**:
+- Step 6 in checkpoint workflow is CRITICAL and MANDATORY
+- Must remind user about release BEFORE pushing tags
+- Both checkpoint and release tags needed for complete workflow
+- See: `docs/development/WORKFLOW_GAP_ANALYSIS.md` for full analysis
+
+**Status**: Phase 2 now properly complete with all workflow steps executed
 
 ---
 
