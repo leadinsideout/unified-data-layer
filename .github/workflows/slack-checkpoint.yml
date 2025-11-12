@@ -87,7 +87,7 @@ jobs:
                         "type": "plain_text",
                         "text": "View Checkpoint Docs"
                       },
-                      "url": "${{ github.event.repository.html_url }}/blob/main/docs/checkpoints/checkpoint-${{ steps.checkpoint.outputs.number }}.md"
+                      "url": "${{ github.event.repository.html_url }}/tree/main/docs/checkpoints"
                     }
                   ]
                 }
