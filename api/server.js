@@ -223,34 +223,36 @@ app.post('/api/transcripts/upload', async (req, res) => {
       });
     }
 
-    // Insert transcript
-    const { data: transcript, error: transcriptError } = await supabase
-      .from('transcripts')
+    // Insert data item (transcript type)
+    const { data: dataItem, error: dataItemError } = await supabase
+      .from('data_items')
       .insert({
-        raw_text: text,
-        meeting_date: meeting_date || new Date().toISOString(),
+        data_type: 'transcript',
+        raw_content: text,
+        session_date: meeting_date || new Date().toISOString(),
         coach_id,
         client_id,
-        metadata
+        metadata,
+        visibility_level: 'coach_only'
       })
       .select()
       .single();
 
-    if (transcriptError) {
-      console.error('Database error:', transcriptError);
+    if (dataItemError) {
+      console.error('Database error:', dataItemError);
       throw new Error('Failed to save transcript');
     }
 
     // Chunk the text
     const chunks = chunkText(text);
-    console.log(`Created ${chunks.length} chunks for transcript ${transcript.id}`);
+    console.log(`Created ${chunks.length} chunks for data item ${dataItem.id}`);
 
     // Generate embeddings and save chunks
     const chunkRecords = [];
     for (let i = 0; i < chunks.length; i++) {
       const embedding = await generateEmbedding(chunks[i]);
       chunkRecords.push({
-        transcript_id: transcript.id,
+        data_item_id: dataItem.id,
         chunk_index: i,
         content: chunks[i],
         embedding: formatEmbeddingForDB(embedding)
@@ -259,7 +261,7 @@ app.post('/api/transcripts/upload', async (req, res) => {
 
     // Batch insert chunks
     const { error: chunksError } = await supabase
-      .from('transcript_chunks')
+      .from('data_chunks')
       .insert(chunkRecords);
 
     if (chunksError) {
@@ -268,7 +270,8 @@ app.post('/api/transcripts/upload', async (req, res) => {
     }
 
     res.status(201).json({
-      transcript_id: transcript.id,
+      transcript_id: dataItem.id, // Keep old field name for backward compatibility
+      data_item_id: dataItem.id,  // New field name
       chunks_created: chunks.length,
       message: 'Transcript uploaded and processed successfully'
     });
@@ -329,21 +332,23 @@ app.post('/api/transcripts/upload-pdf', upload.single('file'), async (req, res) 
     metadata.original_filename = req.file.originalname;
     metadata.pdf_pages = pdfData.numpages;
 
-    // Insert transcript (reuse same logic as text upload)
-    const { data: transcript, error: transcriptError } = await supabase
-      .from('transcripts')
+    // Insert data item (reuse same logic as text upload)
+    const { data: dataItem, error: dataItemError } = await supabase
+      .from('data_items')
       .insert({
-        raw_text: text,
-        meeting_date: req.body.meeting_date || new Date().toISOString(),
+        data_type: 'transcript',
+        raw_content: text,
+        session_date: req.body.meeting_date || new Date().toISOString(),
         coach_id: req.body.coach_id,
         client_id: req.body.client_id,
-        metadata
+        metadata,
+        visibility_level: 'coach_only'
       })
       .select()
       .single();
 
-    if (transcriptError) {
-      console.error('Database error:', transcriptError);
+    if (dataItemError) {
+      console.error('Database error:', dataItemError);
       throw new Error('Failed to save transcript');
     }
 
@@ -355,7 +360,7 @@ app.post('/api/transcripts/upload-pdf', upload.single('file'), async (req, res) 
     for (let i = 0; i < chunks.length; i++) {
       const embedding = await generateEmbedding(chunks[i]);
       chunkRecords.push({
-        transcript_id: transcript.id,
+        data_item_id: dataItem.id,
         chunk_index: i,
         content: chunks[i],
         embedding: formatEmbeddingForDB(embedding)
@@ -363,7 +368,7 @@ app.post('/api/transcripts/upload-pdf', upload.single('file'), async (req, res) 
     }
 
     const { error: chunksError } = await supabase
-      .from('transcript_chunks')
+      .from('data_chunks')
       .insert(chunkRecords);
 
     if (chunksError) {
@@ -372,7 +377,8 @@ app.post('/api/transcripts/upload-pdf', upload.single('file'), async (req, res) 
     }
 
     res.status(201).json({
-      transcript_id: transcript.id,
+      transcript_id: dataItem.id, // Keep old field name for backward compatibility
+      data_item_id: dataItem.id,  // New field name
       chunks_created: chunks.length,
       message: 'PDF transcript uploaded and processed successfully',
       pdf_info: {
@@ -448,18 +454,20 @@ app.post('/api/transcripts/bulk-upload', async (req, res) => {
           throw new Error('text is required and must be a string');
         }
 
-        // Insert transcript
-        const { data: transcript, error: transcriptError } = await supabase
-          .from('transcripts')
+        // Insert data item
+        const { data: dataItem, error: dataItemError } = await supabase
+          .from('data_items')
           .insert({
-            raw_text: text,
-            meeting_date: meeting_date || new Date().toISOString(),
-            metadata: metadata || {}
+            data_type: 'transcript',
+            raw_content: text,
+            session_date: meeting_date || new Date().toISOString(),
+            metadata: metadata || {},
+            visibility_level: 'coach_only'
           })
           .select()
           .single();
 
-        if (transcriptError) throw transcriptError;
+        if (dataItemError) throw dataItemError;
 
         // Chunk and embed
         const chunks = chunkText(text);
@@ -468,7 +476,7 @@ app.post('/api/transcripts/bulk-upload', async (req, res) => {
         for (let j = 0; j < chunks.length; j++) {
           const embedding = await generateEmbedding(chunks[j]);
           chunkRecords.push({
-            transcript_id: transcript.id,
+            data_item_id: dataItem.id,
             chunk_index: j,
             content: chunks[j],
             embedding: formatEmbeddingForDB(embedding)
@@ -477,19 +485,20 @@ app.post('/api/transcripts/bulk-upload', async (req, res) => {
 
         // Insert chunks
         const { error: chunksError } = await supabase
-          .from('transcript_chunks')
+          .from('data_chunks')
           .insert(chunkRecords);
 
         if (chunksError) throw chunksError;
 
         results.push({
           index: i,
-          transcript_id: transcript.id,
+          transcript_id: dataItem.id,  // Keep old field for compatibility
+          data_item_id: dataItem.id,   // New field
           chunks_created: chunks.length,
           status: 'success'
         });
 
-        console.log(`[${i + 1}/${transcripts.length}] Processed transcript ${transcript.id}`);
+        console.log(`[${i + 1}/${transcripts.length}] Processed data item ${dataItem.id}`);
 
       } catch (error) {
         console.error(`[${i + 1}/${transcripts.length}] Failed:`, error.message);
@@ -572,10 +581,14 @@ app.post('/api/search', async (req, res) => {
     const queryEmbedding = await generateEmbedding(query);
     const queryEmbeddingText = formatEmbeddingForDB(queryEmbedding);
 
-    // Call vector search function
+    // Call new vector search function (supports multi-type filtering)
     const { data: chunks, error: searchError } = await supabase
-      .rpc('match_transcript_chunks', {
+      .rpc('match_data_chunks', {
         query_embedding_text: queryEmbeddingText,
+        filter_types: ['transcript'], // Only search transcripts for backward compatibility
+        filter_coach_id: null,
+        filter_client_id: null,
+        filter_org_id: null,
         match_threshold: threshold,
         match_count: limit
       });
@@ -585,21 +598,23 @@ app.post('/api/search', async (req, res) => {
       throw new Error('Search failed');
     }
 
-    // Fetch meeting dates for results
+    // Fetch session dates for results (from data_items table)
     if (chunks && chunks.length > 0) {
-      const transcriptIds = [...new Set(chunks.map(c => c.transcript_id))];
-      const { data: transcripts } = await supabase
-        .from('transcripts')
-        .select('id, meeting_date')
-        .in('id', transcriptIds);
+      const dataItemIds = [...new Set(chunks.map(c => c.data_item_id))];
+      const { data: dataItems } = await supabase
+        .from('data_items')
+        .select('id, session_date')
+        .in('id', dataItemIds);
 
-      // Map meeting dates to results
-      const transcriptMap = Object.fromEntries(
-        transcripts.map(t => [t.id, t.meeting_date])
+      // Map session dates to results
+      const dataItemMap = Object.fromEntries(
+        dataItems.map(d => [d.id, d.session_date])
       );
 
       chunks.forEach(chunk => {
-        chunk.meeting_date = transcriptMap[chunk.transcript_id];
+        chunk.meeting_date = dataItemMap[chunk.data_item_id]; // Keep old field name for compatibility
+        chunk.session_date = dataItemMap[chunk.data_item_id]; // New field name
+        chunk.transcript_id = chunk.data_item_id; // Keep old field name for backward compatibility
       });
     }
 
