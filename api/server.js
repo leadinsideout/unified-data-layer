@@ -711,10 +711,14 @@ app.post('/api/search', async (req, res) => {
       const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
       if (!uuidRegex.test(organization_id)) {
         // Not a UUID - treat as company name and look up the ID
+        // Normalize the search term: remove hyphens, collapse spaces
+        const normalizedSearch = organization_id.replace(/-/g, '').replace(/\s+/g, ' ').trim();
+
+        // Try client_organizations first
         const { data: orgs, error: orgError } = await supabase
           .from('client_organizations')
           .select('id, name')
-          .ilike('name', organization_id)
+          .ilike('name', `%${normalizedSearch}%`)
           .limit(1);
 
         if (orgError) {
@@ -729,10 +733,34 @@ app.post('/api/search', async (req, res) => {
           resolved_organization_id = orgs[0].id;
           console.log(`Resolved organization "${organization_id}" to ID: ${resolved_organization_id}`);
         } else {
-          return res.status(400).json({
-            error: 'Organization not found',
-            message: `No organization found with name: "${organization_id}"`
-          });
+          // If not found in client_organizations, try coaching_companies
+          const { data: companies, error: compError } = await supabase
+            .from('coaching_companies')
+            .select('id, name')
+            .ilike('name', `%${normalizedSearch}%`)
+            .limit(1);
+
+          if (compError) {
+            console.error('Coaching company lookup error:', compError);
+            return res.status(400).json({
+              error: 'Invalid organization',
+              message: `Could not find organization: "${organization_id}"`
+            });
+          }
+
+          if (companies && companies.length > 0) {
+            // Found in coaching_companies - but organization_id filter is for client orgs
+            // Return helpful error message
+            return res.status(400).json({
+              error: 'Invalid filter',
+              message: `"${organization_id}" is a coaching company, not a client organization. Try removing the organization_id filter to search all data, or use a client organization name like "Acme Media" or "TechCorp Inc".`
+            });
+          } else {
+            return res.status(400).json({
+              error: 'Organization not found',
+              message: `No organization found with name: "${organization_id}". Available client organizations: check /api/organizations endpoint.`
+            });
+          }
         }
       }
     }
