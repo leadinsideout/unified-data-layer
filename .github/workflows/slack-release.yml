@@ -40,29 +40,16 @@ jobs:
       - name: Extract CHANGELOG entry
         id: changelog
         run: |
-          # Get CHANGELOG content for this version
-          if [ -f "CHANGELOG.md" ]; then
-            # Extract the section for this version (between ## [version] and next ##)
-            CHANGELOG=$(awk '/## \[${{ steps.release.outputs.version }}\]/{flag=1; next} /^## \[/{flag=0} flag' CHANGELOG.md | head -20)
-
-            # If changelog is empty or too long, fall back to git log
-            if [ -z "$CHANGELOG" ] || [ ${#CHANGELOG} -gt 2000 ]; then
-              LAST_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
-              if [ -z "$LAST_TAG" ]; then
-                CHANGELOG=$(git log --format="• %s" HEAD | head -10)
-              else
-                CHANGELOG=$(git log --format="• %s" ${LAST_TAG}..HEAD)
-              fi
-            fi
+          # Get commits since last tag for changelog
+          LAST_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -z "$LAST_TAG" ]; then
+            CHANGELOG=$(git log --format="• %s" HEAD | head -5)
           else
-            # No CHANGELOG.md, use git log
-            LAST_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
-            if [ -z "$LAST_TAG" ]; then
-              CHANGELOG=$(git log --format="• %s" HEAD | head -10)
-            else
-              CHANGELOG=$(git log --format="• %s" ${LAST_TAG}..HEAD)
-            fi
+            CHANGELOG=$(git log --format="• %s" ${LAST_TAG}..HEAD | head -5)
           fi
+
+          # Escape for JSON and limit length
+          CHANGELOG=$(echo "$CHANGELOG" | head -5 | sed 's/"/\\"/g' | sed ':a;N;$!ba;s/\n/\\n/g')
 
           echo "changelog<<EOF" >> $GITHUB_OUTPUT
           echo "$CHANGELOG" >> $GITHUB_OUTPUT
