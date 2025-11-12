@@ -1,0 +1,148 @@
+name: Slack - Release Notifications
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'  # Match v0.4.0, v1.0.0, etc. (NOT checkpoint tags)
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract release info
+        id: release
+        run: |
+          TAG_NAME="${{ github.ref_name }}"
+          VERSION=$(echo $TAG_NAME | sed 's/^v//')
+
+          # Determine release type (major, minor, patch)
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+          if [ "$MAJOR" != "0" ] && [ "$MINOR" == "0" ] && [ "$PATCH" == "0" ]; then
+            TYPE="Major"
+            EMOJI="🚀"
+          elif [ "$MINOR" != "0" ] && [ "$PATCH" == "0" ]; then
+            TYPE="Minor"
+            EMOJI="✨"
+          else
+            TYPE="Patch"
+            EMOJI="🔧"
+          fi
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "type=$TYPE" >> $GITHUB_OUTPUT
+          echo "emoji=$EMOJI" >> $GITHUB_OUTPUT
+
+      - name: Extract CHANGELOG entry
+        id: changelog
+        run: |
+          # Get CHANGELOG content for this version
+          if [ -f "CHANGELOG.md" ]; then
+            # Extract the section for this version (between ## [version] and next ##)
+            CHANGELOG=$(awk '/## \[${{ steps.release.outputs.version }}\]/{flag=1; next} /^## \[/{flag=0} flag' CHANGELOG.md | head -20)
+
+            # If changelog is empty or too long, fall back to git log
+            if [ -z "$CHANGELOG" ] || [ ${#CHANGELOG} -gt 2000 ]; then
+              LAST_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+              if [ -z "$LAST_TAG" ]; then
+                CHANGELOG=$(git log --format="• %s" HEAD | head -10)
+              else
+                CHANGELOG=$(git log --format="• %s" ${LAST_TAG}..HEAD)
+              fi
+            fi
+          else
+            # No CHANGELOG.md, use git log
+            LAST_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+            if [ -z "$LAST_TAG" ]; then
+              CHANGELOG=$(git log --format="• %s" HEAD | head -10)
+            else
+              CHANGELOG=$(git log --format="• %s" ${LAST_TAG}..HEAD)
+            fi
+          fi
+
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Get deployment URL
+        id: deployment
+        run: |
+          # Check if there's a production deployment URL
+          if [ -f "vercel.json" ]; then
+            echo "url=https://unified-data-layer.vercel.app" >> $GITHUB_OUTPUT
+          else
+            echo "url=" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Notify Slack
+        uses: slackapi/slack-github-action@v1
+        with:
+          payload: |
+            {
+              "text": "${{ steps.release.outputs.emoji }} Release ${{ steps.release.outputs.version }} (${{ steps.release.outputs.type }})",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "${{ steps.release.outputs.emoji }} Release ${{ steps.release.outputs.version }} (${{ steps.release.outputs.type }})"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Version:*\nv${{ steps.release.outputs.version }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Release Type:*\n${{ steps.release.outputs.type }} Release"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Released by:*\n${{ github.actor }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Date:*\n${{ github.event.head_commit.timestamp }}"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*What's New:*\n${{ steps.changelog.outputs.changelog }}"
+                  }
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Release Notes"
+                      },
+                      "url": "${{ github.event.repository.html_url }}/releases/tag/${{ github.ref_name }}"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View CHANGELOG"
+                      },
+                      "url": "${{ github.event.repository.html_url }}/blob/main/CHANGELOG.md"
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
