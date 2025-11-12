@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/leadinsideout/unified-data-layer/compare/v0.4.0-checkpoint-4...v0.4.0) (2025-11-12)
+
+
+### Documentation
+
+* update Slack setup guide with team webhook and release notifications ([473e257](https://github.com/leadinsideout/unified-data-layer/commit/473e257ed643d8df8705288c854317930ffa5899))
+
 ### 0.1.1 (2025-11-11)
 
 
