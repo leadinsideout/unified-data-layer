@@ -45,46 +45,35 @@ jobs:
           echo "emoji=$EMOJI" >> $GITHUB_OUTPUT
           echo "description=$DESCRIPTION" >> $GITHUB_OUTPUT
 
-      - name: Extract phase summary
+      - name: Create user-friendly summary
         id: changelog
         run: |
-          # Get comprehensive phase/release summary
+          # Create non-technical summary based on phase
           VERSION="${{ steps.release.outputs.version }}"
           IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
 
-          # Find last phase/major release tag
-          if [ "$MAJOR" != "0" ]; then
-            # For major releases, find previous major
-            PREV_VERSION=$((MAJOR - 1))
-            LAST_TAG="v${PREV_VERSION}.0.0"
-          else
-            # For phase releases, find previous phase
-            if [ "$MINOR" == "1" ]; then
-              LAST_TAG=""  # First phase, get all history
-            else
-              PREV_PHASE=$((MINOR - 1))
-              LAST_TAG="v0.${PREV_PHASE}.0"
-            fi
-          fi
-
-          # If previous tag doesn't exist, get all history
-          if [ -n "$LAST_TAG" ] && ! git rev-parse "$LAST_TAG" >/dev/null 2>&1; then
-            LAST_TAG=""
-          fi
-
-          # Extract checkpoint completions and key features
-          if [ -z "$LAST_TAG" ]; then
-            # Get all checkpoints and features
-            CHECKPOINTS=$(git log --format="• %s" --grep="checkpoint" -i HEAD | head -10)
-            FEATURES=$(git log --format="• %s" --grep="^feat" HEAD | head -10)
-          else
-            # Get checkpoints and features since last phase/major release
-            CHECKPOINTS=$(git log --format="• %s" --grep="checkpoint" -i ${LAST_TAG}..HEAD | head -10)
-            FEATURES=$(git log --format="• %s" --grep="^feat" ${LAST_TAG}..HEAD | head -10)
-          fi
-
-          # Build comprehensive summary
-          SUMMARY="**Checkpoints Completed:**\n${CHECKPOINTS}\n\n**Key Features:**\n${FEATURES}"
+          # Phase-specific summaries (update these as phases complete)
+          case "$MINOR" in
+            1)
+              SUMMARY="**What's New:**\n• Local development environment\n• Basic semantic search API\n• Coaching transcript upload\n\n**What This Means:**\n• Foundation for AI-powered coaching insights\n• Search through coaching conversations\n• Fast, relevant results"
+              ;;
+            2)
+              SUMMARY="**What's New:**\n• Support for multiple data types (transcripts, assessments, coaching frameworks, company documents)\n• Smarter search with filtering by coach, client, or organization\n• Better organization with sample data\n\n**What This Means:**\n• Search across all your coaching data in one place\n• Find patterns across different types of information\n• Get answers faster with better filtering"
+              ;;
+            3)
+              SUMMARY="**What's New:**\n• Enhanced security and privacy features\n• Automated PII (personally identifiable information) protection\n• Role-based access controls\n\n**What This Means:**\n• Your coaching data is more secure\n• Client privacy is automatically protected\n• Control who can see what data"
+              ;;
+            4)
+              SUMMARY="**What's New:**\n• Full AI platform integration (Custom GPT + Claude)\n• Real-time data updates\n• Advanced pattern analysis\n\n**What This Means:**\n• Ask questions in natural language and get instant answers\n• Works with ChatGPT and Claude\n• Automatically finds insights across sessions"
+              ;;
+            7)
+              SUMMARY="**What's New:**\n• Multi-type data support (transcripts, assessments, frameworks, documents)\n• Advanced search filtering (by coach, client, organization, data type)\n• Production-ready architecture with comprehensive testing\n\n**What This Means:**\n• Search across all your coaching data in one place\n• Find patterns across sessions, assessments, and frameworks\n• Results are faster and more relevant\n\n**Status:** Ready for testing"
+              ;;
+            *)
+              # Default for unknown phases
+              SUMMARY="**What's New:**\n• Platform improvements and enhancements\n\n**What This Means:**\n• Better performance and reliability\n• Enhanced features for coaches"
+              ;;
+          esac
 
           # Escape for JSON
           SUMMARY=$(echo "$SUMMARY" | sed 's/"/\\"/g' | sed ':a;N;$!ba;s/\n/\\n/g')
@@ -121,7 +110,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "A major milestone has been reached! Here's a summary of what's been accomplished."
+                    "text": "We've completed a major upgrade to the coaching platform."
                   }
                 },
                 {
