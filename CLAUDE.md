@@ -373,10 +373,12 @@ See: docs/data-management.md for complete guide
   - Format: `phase-X-checkpoint-Y`, `feature/*`, `fix/*`, `hotfix/*`
 - **Commits**: Conventional commits enforced via commitlint (feat, fix, docs, chore, mcp)
 - **Deployment**: Vercel auto-deploy (main → production, PRs → preview)
-- **Notifications**: Slack updates for PRs, deployments, checkpoints, releases
+- **Notifications**: Slack updates for PRs, deployments, checkpoints, phase completions
   - Dev notifications (#dev or project channel): PRs, deployments, checkpoints
-  - Team notifications (#team_ai): Release announcements only
-- **Releases**: AI reminds, user approves, then AI runs `npm run release --release-as X.Y.Z`
+  - Team notifications (#team_ai): Phase completions only (major releases: v1.0.0, v2.0.0)
+- **Releases**:
+  - Checkpoint releases: AI runs `npm run release --release-as 0.X.0` (minor versions)
+  - Phase completions: AI runs `npm run release --release-as X.0.0` (major versions, notifies #team_ai)
 - **MCP Tools**: Default to using MCP tools for platform operations (see MCP Tool Usage below)
 
 ### Current Blockers

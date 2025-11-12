@@ -1,9 +1,9 @@
-name: Slack - Release Notifications
+name: Slack - Release Notifications (Major Only)
 
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'  # Match v0.4.0, v1.0.0, etc. (NOT checkpoint tags)
+      - 'v[0-9]+.0.0'  # Match ONLY major releases: v1.0.0, v2.0.0, etc. (Phase completions)
   workflow_dispatch:  # Allow manual trigger for testing/resending
 
 jobs:
@@ -43,22 +43,41 @@ jobs:
           echo "type=$TYPE" >> $GITHUB_OUTPUT
           echo "emoji=$EMOJI" >> $GITHUB_OUTPUT
 
-      - name: Extract CHANGELOG entry
+      - name: Extract phase summary
         id: changelog
         run: |
-          # Get commits since last tag for changelog
-          LAST_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
-          if [ -z "$LAST_TAG" ]; then
-            CHANGELOG=$(git log --format="• %s" HEAD | head -5)
-          else
-            CHANGELOG=$(git log --format="• %s" ${LAST_TAG}..HEAD | head -5)
+          # For major releases, get comprehensive phase summary
+          VERSION="${{ steps.release.outputs.version }}"
+          MAJOR_VERSION=$(echo $VERSION | cut -d. -f1)
+
+          # Find last major release (e.g., v0.0.0 for v1.0.0)
+          PREV_MAJOR=$((MAJOR_VERSION - 1))
+          LAST_MAJOR_TAG="v${PREV_MAJOR}.0.0"
+
+          # If previous major tag doesn't exist, get all history
+          if ! git rev-parse "$LAST_MAJOR_TAG" >/dev/null 2>&1; then
+            LAST_MAJOR_TAG=""
           fi
 
-          # Escape for JSON and limit length
-          CHANGELOG=$(echo "$CHANGELOG" | head -5 | sed 's/"/\\"/g' | sed ':a;N;$!ba;s/\n/\\n/g')
+          # Extract checkpoint completions and key features
+          if [ -z "$LAST_MAJOR_TAG" ]; then
+            # Get all checkpoints
+            CHECKPOINTS=$(git log --format="• %s" --grep="checkpoint" -i HEAD | head -10)
+            FEATURES=$(git log --format="• %s" --grep="^feat" HEAD | head -10)
+          else
+            # Get checkpoints since last major release
+            CHECKPOINTS=$(git log --format="• %s" --grep="checkpoint" -i ${LAST_MAJOR_TAG}..HEAD | head -10)
+            FEATURES=$(git log --format="• %s" --grep="^feat" ${LAST_MAJOR_TAG}..HEAD | head -10)
+          fi
+
+          # Build comprehensive summary
+          SUMMARY="**Checkpoints Completed:**\n${CHECKPOINTS}\n\n**Key Features:**\n${FEATURES}"
+
+          # Escape for JSON
+          SUMMARY=$(echo "$SUMMARY" | sed 's/"/\\"/g' | sed ':a;N;$!ba;s/\n/\\n/g')
 
           echo "changelog<<EOF" >> $GITHUB_OUTPUT
-          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "$SUMMARY" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Get deployment URL
@@ -76,13 +95,20 @@ jobs:
         with:
           payload: |
             {
-              "text": "${{ steps.release.outputs.emoji }} Release ${{ steps.release.outputs.version }} (${{ steps.release.outputs.type }})",
+              "text": "${{ steps.release.outputs.emoji }} Phase Complete - Unified Data Layer v${{ steps.release.outputs.version }}",
               "blocks": [
                 {
                   "type": "header",
                   "text": {
                     "type": "plain_text",
-                    "text": "${{ steps.release.outputs.emoji }} Release ${{ steps.release.outputs.version }} (${{ steps.release.outputs.type }})"
+                    "text": "${{ steps.release.outputs.emoji }} Phase Complete: Unified Data Layer v${{ steps.release.outputs.version }}"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "A major milestone has been reached! Here's a summary of what's been accomplished in this phase."
                   }
                 },
                 {
@@ -98,7 +124,7 @@ jobs:
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*Release Type:*\n${{ steps.release.outputs.type }} Release"
+                      "text": "*Release Type:*\nPhase Completion"
                     },
                     {
                       "type": "mrkdwn",
@@ -110,7 +136,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*What's New:*\n${{ steps.changelog.outputs.changelog }}"
+                    "text": "${{ steps.changelog.outputs.changelog }}"
                   }
                 },
                 {

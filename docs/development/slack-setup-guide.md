@@ -70,9 +70,9 @@ https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXX
 3. Value: Paste the webhook URL from Step 1.3
 4. Click **"Add secret"**
 
-### 2.3 Add Team Webhook (for Release Notifications)
+### 2.3 Add Team Webhook (for Phase Completion Notifications)
 
-**Purpose**: Release notifications go to the #team_ai channel to keep the broader team informed.
+**Purpose**: Phase completion notifications (major releases only) go to the #team_ai channel to keep the broader team informed of significant milestones.
 
 1. Go back to your Slack App settings: https://api.slack.com/apps
 2. Select your app: **"Unified Data Layer Bot"**
@@ -91,7 +91,7 @@ https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXX
 
 **Result**: You should now have two secrets:
 - `SLACK_WEBHOOK_URL` - For dev notifications (deployments, PRs, checkpoints)
-- `SLACK_TEAM_WEBHOOK_URL` - For release announcements (#team_ai)
+- `SLACK_TEAM_WEBHOOK_URL` - For phase completion announcements (#team_ai, major releases only)
 
 ---
 
@@ -103,7 +103,7 @@ The following workflows are already configured:
 - `.github/workflows/slack-deployment.yml` - Deployment notifications
 - `.github/workflows/slack-pr.yml` - Pull request notifications
 - `.github/workflows/slack-checkpoint.yml` - Checkpoint notifications
-- `.github/workflows/slack-release.yml` - Release announcements (#team_ai)
+- `.github/workflows/slack-release.yml` - Phase completion announcements (#team_ai, major releases only)
 
 ### 3.2 Test the Integration
 
@@ -221,22 +221,31 @@ Changes:
 [View Release] [View Checkpoint Docs]
 ```
 
-### Release Announcement (to #team_ai)
+### Phase Completion Announcement (to #team_ai)
 ```
-✨ Release 0.4.0 (Minor)
-━━━━━━━━━━━━━━━━━━━
+🚀 Phase Complete: Unified Data Layer v1.0.0
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+A major milestone has been reached! Here's a summary of what's been accomplished in this phase.
+
 Project: Unified Data Layer
-Version: v0.4.0
-Release Type: Minor Release
+Version: v1.0.0
+Release Type: Phase Completion
 Released by: jjvega
 
-What's New:
-• feat(api): update server to use Phase 2 multi-type schema
-• feat(db): migrate to multi-type architecture with zero data loss
-• docs: complete Checkpoint 4 documentation
+Checkpoints Completed:
+• docs: complete Checkpoint 1 documentation
+• docs: complete Checkpoint 2 documentation
+• docs: complete Checkpoint 3 documentation
+
+Key Features:
+• feat(api): add semantic search endpoint
+• feat(db): implement vector similarity search
+• feat(upload): add bulk upload functionality
 
 [View Release Notes] [View CHANGELOG] [View Deployment]
 ```
+
+**Note**: Only major releases (v1.0.0, v2.0.0, etc.) trigger this notification. Minor/patch releases (v0.4.0, v0.4.1) do not notify the team channel.
 
 ---
 
@@ -257,12 +266,13 @@ What's New:
 - **When**: After running `git push origin v0.X.0-checkpoint-Y`
 - **File**: `.github/workflows/slack-checkpoint.yml`
 
-### Release Announcements
-- **Trigger**: Git tag pushed matching `v[0-9]+.[0-9]+.[0-9]+` (e.g., v0.4.0, v1.0.0)
-- **When**: After running `npm run release` and pushing tags
-- **Channel**: #team_ai (broader team visibility)
+### Phase Completion Announcements
+- **Trigger**: Git tag pushed matching `v[0-9]+.0.0` (ONLY major releases: v1.0.0, v2.0.0, etc.)
+- **When**: After completing an entire phase and running `npm run release --release-as X.0.0`
+- **Channel**: #team_ai (broader team visibility for major milestones only)
 - **File**: `.github/workflows/slack-release.yml`
-- **Note**: Does NOT trigger on checkpoint tags
+- **Content**: Comprehensive summary of all checkpoints and key features in the phase
+- **Note**: Minor/patch releases (v0.4.0, v0.4.1) do NOT trigger team notifications
 
 ---
 
