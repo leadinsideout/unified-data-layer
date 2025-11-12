@@ -9,7 +9,7 @@
 ## 🎯 Project Overview
 
 **Name**: Unified Data Layer
-**Current Phase**: Phase 2, Checkpoint 4 Complete ✅
+**Current Phase**: Phase 2, Checkpoint 6 Complete ✅
 **Architecture**: API-first data layer for AI platform integration
 
 **Key Principle**: Our API provides DATA (semantic search), AI platforms provide SYNTHESIS (GPT-4/Claude).
@@ -37,8 +37,8 @@
 ## 🗺️ Project Status (Quick Reference)
 
 **Current Branch**: `main`
-**Current Tag**: `v0.4.0` (Release) / `v0.4.0-checkpoint-4` (Checkpoint)
-**Latest Commit**: See `docs/checkpoints/checkpoint-4.md`
+**Current Tag**: `v0.5.0-checkpoint-6` (Latest)
+**Latest Checkpoint**: See `docs/checkpoints/checkpoint-6-results.md`
 
 **What's Working (Phase 1 Complete ✅)**:
 - ✅ Supabase database with pgvector
@@ -55,19 +55,23 @@
   - Commit message validation (commitlint)
   - Slack notifications (PRs, deployments, checkpoints)
 
-**What's Working (Phase 2 In Progress 🔄)**:
+**What's Working (Phase 2 - Checkpoints 4-6 Complete ✅)**:
 - ✅ Multi-type database schema (10 tables total)
   - User/org tables: coaching_companies, coaches, client_organizations, clients
   - Model tables: coaching_models, coach_model_associations
   - Data tables: data_items, data_chunks
 - ✅ Migration complete: 16 transcripts → data_items with embeddings preserved
 - ✅ New RPC function: `match_data_chunks` with type/coach/client/org filters
-- ✅ Old tables preserved for safety (transcripts, transcript_chunks)
+- ✅ API server updated with backward compatibility maintained
+- ✅ Multi-type processors (transcript, assessment, coaching_model, company_doc)
+- ✅ Seed data: 1 company, 3 coaches, 2 orgs, 4 clients
+- ✅ Sample data uploaded: 1 assessment, 1 coaching model, 1 company doc (+ 16 transcripts)
+- ✅ Type-aware search with multi-dimensional filtering (types, coach_id, client_id, org_id)
+- ✅ JSONB GIN indexes for query performance
+- ✅ Comprehensive schema documentation
 
 **What's Pending (Phase 2)**:
-- 🔴 Sample data for new types (assessment, coaching_model, company_doc) - Checkpoint 5
-- 🔴 Type-aware search endpoint with filters - Checkpoint 6
-- 🔴 Multi-type upload endpoints - Checkpoint 5
+- 🔴 Checkpoint 7: Custom GPT Integration & Phase 2 Validation
 
 **Blockers**:
 - None
@@ -679,23 +683,23 @@ Automatically check if CLAUDE.md needs updating after:
 
 ## 📝 Notes for Future AI Sessions
 
+### Current Status (As of 2025-11-12)
+- ✅ Phase 2 Checkpoints 4-6 complete
+- ✅ Multi-type architecture fully functional
+- ✅ Type-aware search deployed to production
+- 🔴 Next: Checkpoint 7 (Custom GPT Integration & Phase 2 Validation)
+
 ### If User Says "Continue"
-1. Check if still on `phase-1-checkpoint-1` branch
-2. Read `docs/checkpoints/checkpoint-1.md`
-3. Proceed to Checkpoint 2 (Vercel deployment) per `docs/project/roadmap.md`
+1. Check current branch (should be `main`)
+2. Read `docs/checkpoints/checkpoint-6-results.md` for latest status
+3. Proceed to Checkpoint 7 per `docs/project/roadmap.md`
 
-### If User Reports OpenAI Quota Fixed
-1. Run full E2E tests from `tests/e2e-checklist.md`
-2. Test upload → embed → search flow
-3. Update `docs/checkpoints/checkpoint-1.md` with results
-4. Mark Checkpoint 1 as fully validated
-
-### If User Wants to Deploy
-1. Follow Checkpoint 2 from `docs/project/roadmap.md`
-2. Use `vercel.json` config
-3. Set environment variables in Vercel dashboard
-4. Test health endpoint
-5. Document in `docs/checkpoints/checkpoint-2.md`
+### If Starting Checkpoint 7
+1. Review Phase 2 completion checklist
+2. Update Custom GPT with new OpenAPI schema (optional, backward compatible)
+3. Test multi-type queries via Custom GPT
+4. Validate filter combinations in conversational context
+5. Document Phase 2 completion
 
 ---
 
