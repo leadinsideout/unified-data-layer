@@ -16,6 +16,7 @@ import { createClient } from '@supabase/supabase-js';
 import OpenAI from 'openai';
 import multer from 'multer';
 import pdfParse from 'pdf-parse';
+import { DataProcessorFactory } from './processors/index.js';
 
 // Load environment variables
 dotenv.config();
@@ -39,6 +40,9 @@ const supabase = createClient(
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
+
+// Initialize data processor factory
+const processorFactory = new DataProcessorFactory(openai);
 
 // Initialize Express app
 const app = express();
@@ -156,15 +160,20 @@ function formatEmbeddingForDB(embedding) {
 app.get('/', (req, res) => {
   res.json({
     name: 'Unified Data Layer API',
-    version: '0.2.1',
-    description: 'Semantic search API for coaching transcripts',
+    version: '0.4.1',
+    description: 'Multi-type semantic search API for coaching data',
     endpoints: {
       health: 'GET /api/health',
+      // Legacy endpoints (backward compatible)
       upload: 'POST /api/transcripts/upload',
       uploadPdf: 'POST /api/transcripts/upload-pdf',
+      bulkUpload: 'POST /api/transcripts/bulk-upload',
+      // New multi-type endpoint
+      dataUpload: 'POST /api/data/upload',
       search: 'POST /api/search',
       openapi: 'GET /openapi.json'
     },
+    supported_data_types: processorFactory.getSupportedTypes(),
     documentation: 'https://github.com/leadinsideout/unified-data-layer',
     status: 'operational'
   });
@@ -525,6 +534,116 @@ app.post('/api/transcripts/bulk-upload', async (req, res) => {
     console.error('Bulk upload error:', error);
     res.status(500).json({
       error: 'Bulk upload failed',
+      message: error.message
+    });
+  }
+});
+
+/**
+ * Unified Data Upload (Multi-Type)
+ *
+ * POST /api/data/upload
+ *
+ * Body:
+ *   {
+ *     "data_type": "transcript" | "assessment" | "coaching_model" | "company_doc",
+ *     "content": "Raw content text...",
+ *     "metadata": {
+ *       // Type-specific metadata fields
+ *       // See processor documentation for required fields per type
+ *     }
+ *   }
+ *
+ * Returns:
+ *   {
+ *     "data_item_id": "uuid",
+ *     "data_type": "transcript",
+ *     "chunks_created": 5,
+ *     "message": "Data uploaded and processed successfully"
+ *   }
+ */
+app.post('/api/data/upload', async (req, res) => {
+  try {
+    const { data_type, content, metadata = {} } = req.body;
+
+    // Validation
+    if (!data_type || typeof data_type !== 'string') {
+      return res.status(400).json({
+        error: 'Invalid request',
+        message: 'data_type is required and must be a string'
+      });
+    }
+
+    if (!content || typeof content !== 'string') {
+      return res.status(400).json({
+        error: 'Invalid request',
+        message: 'content is required and must be a string'
+      });
+    }
+
+    // Check if data type is supported
+    if (!processorFactory.isTypeSupported(data_type)) {
+      return res.status(400).json({
+        error: 'Unsupported data type',
+        message: `data_type "${data_type}" is not supported. Supported types: ${processorFactory.getSupportedTypes().join(', ')}`
+      });
+    }
+
+    console.log(`Processing ${data_type} upload...`);
+
+    // Get appropriate processor
+    const processor = processorFactory.getProcessor(data_type);
+
+    // Process data (validates, processes, chunks, embeds)
+    const { dataItem, chunks } = await processor.process(content, metadata);
+
+    // Insert data item
+    const { data: insertedItem, error: dataItemError } = await supabase
+      .from('data_items')
+      .insert(dataItem)
+      .select()
+      .single();
+
+    if (dataItemError) {
+      console.error('Database error:', dataItemError);
+      throw new Error(`Failed to save ${data_type}: ${dataItemError.message}`);
+    }
+
+    console.log(`Saved ${data_type} with ID ${insertedItem.id}, creating ${chunks.length} chunks...`);
+
+    // Prepare chunk records for database
+    const chunkRecords = chunks.map((chunk, index) => ({
+      data_item_id: insertedItem.id,
+      chunk_index: index,
+      content: chunk.content,
+      embedding: processor.formatEmbeddingForDB(chunk.embedding)
+    }));
+
+    // Batch insert chunks
+    const { error: chunksError } = await supabase
+      .from('data_chunks')
+      .insert(chunkRecords);
+
+    if (chunksError) {
+      console.error('Chunks insert error:', chunksError);
+      throw new Error(`Failed to save ${data_type} chunks: ${chunksError.message}`);
+    }
+
+    res.status(201).json({
+      data_item_id: insertedItem.id,
+      data_type: data_type,
+      chunks_created: chunks.length,
+      message: `${data_type.charAt(0).toUpperCase() + data_type.slice(1)} uploaded and processed successfully`
+    });
+
+  } catch (error) {
+    console.error('Upload error:', error);
+
+    // Check if it's a validation error from processor
+    const statusCode = error.message.includes('required') || error.message.includes('must be') ? 400 : 500;
+
+    res.status(statusCode).json({
+      error: 'Upload failed',
       message: error.message
     });
   }
