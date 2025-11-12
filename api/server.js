@@ -160,8 +160,8 @@ function formatEmbeddingForDB(embedding) {
 app.get('/', (req, res) => {
   res.json({
     name: 'Unified Data Layer API',
-    version: '0.4.1',
-    description: 'Multi-type semantic search API for coaching data',
+    version: '0.5.0',
+    description: 'Multi-type semantic search API with type-aware filtering',
     endpoints: {
       health: 'GET /api/health',
       // Legacy endpoints (backward compatible)
@@ -170,10 +170,11 @@ app.get('/', (req, res) => {
       bulkUpload: 'POST /api/transcripts/bulk-upload',
       // New multi-type endpoint
       dataUpload: 'POST /api/data/upload',
-      search: 'POST /api/search',
+      search: 'POST /api/search (supports types, coach_id, client_id, organization_id filters)',
       openapi: 'GET /openapi.json'
     },
     supported_data_types: processorFactory.getSupportedTypes(),
+    search_filters: ['types', 'coach_id', 'client_id', 'organization_id', 'threshold', 'limit'],
     documentation: 'https://github.com/leadinsideout/unified-data-layer',
     status: 'operational'
   });
@@ -678,7 +679,15 @@ app.post('/api/data/upload', async (req, res) => {
  */
 app.post('/api/search', async (req, res) => {
   try {
-    const { query, threshold = 0.3, limit = 5 } = req.body;
+    const {
+      query,
+      types = null,  // null = all types, or array like ['transcript', 'assessment']
+      coach_id = null,
+      client_id = null,
+      organization_id = null,
+      threshold = 0.3,
+      limit = 10
+    } = req.body;
 
     // Validation
     if (!query || query.trim().length === 0) {
@@ -696,18 +705,23 @@ app.post('/api/search', async (req, res) => {
     }
 
     // Generate embedding for query
-    console.log(`Searching for: "${query}"`);
+    console.log(`Searching for: "${query}" with filters:`, {
+      types: types || 'all',
+      coach_id,
+      client_id,
+      organization_id
+    });
     const queryEmbedding = await generateEmbedding(query);
     const queryEmbeddingText = formatEmbeddingForDB(queryEmbedding);
 
-    // Call new vector search function (supports multi-type filtering)
+    // Call vector search function with filters
     const { data: chunks, error: searchError } = await supabase
       .rpc('match_data_chunks', {
         query_embedding_text: queryEmbeddingText,
-        filter_types: ['transcript'], // Only search transcripts for backward compatibility
-        filter_coach_id: null,
-        filter_client_id: null,
-        filter_org_id: null,
+        filter_types: types,
+        filter_coach_id: coach_id,
+        filter_client_id: client_id,
+        filter_org_id: organization_id,
         match_threshold: threshold,
         match_count: limit
       });
@@ -717,32 +731,46 @@ app.post('/api/search', async (req, res) => {
       throw new Error('Search failed');
     }
 
-    // Fetch session dates for results (from data_items table)
+    // Fetch additional context for results
     if (chunks && chunks.length > 0) {
       const dataItemIds = [...new Set(chunks.map(c => c.data_item_id))];
       const { data: dataItems } = await supabase
         .from('data_items')
-        .select('id, session_date')
+        .select('id, session_date, visibility_level, client_organization_id, created_at')
         .in('id', dataItemIds);
 
-      // Map session dates to results
+      // Map additional fields to results
       const dataItemMap = Object.fromEntries(
-        dataItems.map(d => [d.id, d.session_date])
+        dataItems.map(d => [d.id, d])
       );
 
       chunks.forEach(chunk => {
-        chunk.meeting_date = dataItemMap[chunk.data_item_id]; // Keep old field name for compatibility
-        chunk.session_date = dataItemMap[chunk.data_item_id]; // New field name
-        chunk.transcript_id = chunk.data_item_id; // Keep old field name for backward compatibility
+        const item = dataItemMap[chunk.data_item_id];
+        if (item) {
+          chunk.session_date = item.session_date;
+          chunk.visibility_level = item.visibility_level;
+          chunk.client_organization_id = item.client_organization_id;
+          chunk.created_at = item.created_at;
+
+          // Backward compatibility fields
+          chunk.meeting_date = item.session_date;
+          chunk.transcript_id = chunk.data_item_id;
+        }
       });
     }
 
     console.log(`Found ${chunks?.length || 0} results`);
 
     res.json({
-      results: chunks || [],
       query,
+      results: chunks || [],
       count: chunks?.length || 0,
+      filters_applied: {
+        types,
+        coach_id,
+        client_id,
+        organization_id
+      },
       threshold,
       limit
     });
@@ -768,8 +796,8 @@ app.get('/openapi.json', (req, res) => {
     openapi: '3.1.0',
     info: {
       title: 'Unified Data Layer API',
-      version: '0.1.0',
-      description: 'Semantic search API for coaching transcripts. Returns relevant transcript chunks for AI platform synthesis.'
+      version: '0.5.0',
+      description: 'Multi-type semantic search API for coaching data (transcripts, assessments, models, org docs). Returns relevant chunks for AI platform synthesis with type-aware filtering.'
     },
     servers: [
       {
@@ -781,9 +809,9 @@ app.get('/openapi.json', (req, res) => {
     paths: {
       '/api/search': {
         post: {
-          summary: 'Search transcripts semantically',
-          operationId: 'searchTranscripts',
-          description: 'Search coaching transcripts using semantic similarity. Returns relevant chunks for AI synthesis.',
+          summary: 'Search coaching data semantically with filters',
+          operationId: 'searchCoachingData',
+          description: 'Search across multiple data types (transcripts, assessments, coaching models, company docs) using semantic similarity. Supports filtering by type, coach, client, and organization.',
           requestBody: {
             required: true,
             content: {
@@ -795,7 +823,31 @@ app.get('/openapi.json', (req, res) => {
                     query: {
                       type: 'string',
                       description: 'Natural language search query',
-                      example: 'What did the client discuss about career goals?'
+                      example: 'What leadership development patterns emerged?'
+                    },
+                    types: {
+                      type: 'array',
+                      items: {
+                        type: 'string',
+                        enum: ['transcript', 'assessment', 'coaching_model', 'company_doc']
+                      },
+                      description: 'Filter by data types. Omit to search all types.',
+                      example: ['transcript', 'assessment']
+                    },
+                    coach_id: {
+                      type: 'string',
+                      format: 'uuid',
+                      description: 'Filter results by coach ID'
+                    },
+                    client_id: {
+                      type: 'string',
+                      format: 'uuid',
+                      description: 'Filter results by client ID'
+                    },
+                    organization_id: {
+                      type: 'string',
+                      format: 'uuid',
+                      description: 'Filter results by client organization ID'
                     },
                     threshold: {
                       type: 'number',
@@ -807,7 +859,7 @@ app.get('/openapi.json', (req, res) => {
                     limit: {
                       type: 'number',
                       description: 'Maximum number of results to return',
-                      default: 5,
+                      default: 10,
                       minimum: 1,
                       maximum: 50
                     }
@@ -818,27 +870,50 @@ app.get('/openapi.json', (req, res) => {
           },
           responses: {
             '200': {
-              description: 'Search results',
+              description: 'Search results with type-aware filtering',
               content: {
                 'application/json': {
                   schema: {
                     type: 'object',
                     properties: {
+                      query: { type: 'string' },
                       results: {
                         type: 'array',
                         items: {
                           type: 'object',
                           properties: {
-                            id: { type: 'string', format: 'uuid' },
-                            transcript_id: { type: 'string', format: 'uuid' },
-                            content: { type: 'string' },
-                            similarity: { type: 'number' },
-                            meeting_date: { type: 'string', format: 'date-time' }
+                            id: { type: 'string', format: 'uuid', description: 'Chunk ID' },
+                            data_item_id: { type: 'string', format: 'uuid', description: 'Parent data item ID' },
+                            data_type: {
+                              type: 'string',
+                              enum: ['transcript', 'assessment', 'coaching_model', 'company_doc'],
+                              description: 'Type of data'
+                            },
+                            content: { type: 'string', description: 'Matching text chunk' },
+                            similarity: { type: 'number', description: 'Similarity score (0-1)' },
+                            coach_id: { type: 'string', format: 'uuid' },
+                            client_id: { type: 'string', format: 'uuid' },
+                            client_organization_id: { type: 'string', format: 'uuid' },
+                            session_date: { type: 'string', format: 'date-time' },
+                            visibility_level: { type: 'string' },
+                            metadata: { type: 'object', description: 'Type-specific metadata' },
+                            transcript_id: { type: 'string', format: 'uuid', description: 'Legacy field (=data_item_id)' },
+                            meeting_date: { type: 'string', format: 'date-time', description: 'Legacy field (=session_date)' }
                           }
                         }
                       },
-                      query: { type: 'string' },
-                      count: { type: 'number' }
+                      count: { type: 'number' },
+                      filters_applied: {
+                        type: 'object',
+                        properties: {
+                          types: { type: 'array', items: { type: 'string' } },
+                          coach_id: { type: 'string' },
+                          client_id: { type: 'string' },
+                          organization_id: { type: 'string' }
+                        }
+                      },
+                      threshold: { type: 'number' },
+                      limit: { type: 'number' }
                     }
                   }
                 }
