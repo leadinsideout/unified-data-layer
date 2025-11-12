@@ -9,10 +9,28 @@
 ## 🎯 Project Overview
 
 **Name**: Unified Data Layer
-**Current Phase**: Phase 1, Checkpoint 2 In Progress
+**Current Phase**: Phase 2, Checkpoint 4 In Progress
 **Architecture**: API-first data layer for AI platform integration
 
 **Key Principle**: Our API provides DATA (semantic search), AI platforms provide SYNTHESIS (GPT-4/Claude).
+
+### 🔑 Project IDs (Critical Reference)
+
+**Supabase Project ID**: `wzebnjilqolwykmeozna`
+- Project Name: Unified Data Layer
+- Region: us-east-2
+- Status: Active/Healthy
+- Database Version: PostgreSQL 17.6.1
+- **IMPORTANT**: Always use this project ID for Supabase MCP operations
+
+**Vercel Project**:
+- Production URL: https://unified-data-layer.vercel.app
+- Team: leadinsideout
+
+**GitHub Repository**:
+- Owner: leadinsideout
+- Repo: unified-data-layer
+- Main Branch: `main`
 
 ---
 
@@ -22,23 +40,35 @@
 **Current Tag**: `v0.1.0-checkpoint-1`
 **Latest Commit**: See `docs/checkpoints/checkpoint-2.md`
 
-**What's Working**:
+**What's Working (Phase 1 Complete ✅)**:
 - ✅ Supabase database with pgvector
 - ✅ Express API server (6 endpoints)
 - ✅ Automatic chunking & embedding pipeline
 - ✅ Semantic search with vector similarity (FIXED - subquery approach)
 - ✅ Health check and upload endpoints
 - ✅ Bulk upload API and CLI tool
-- ✅ Sample coaching data (7 sessions in production)
+- ✅ Sample coaching data (16 transcripts in production)
 - ✅ Vercel deployment (production & preview)
+- ✅ Custom GPT integration validated
 - ✅ Workflow automation (Tier 1 complete)
   - Automated changelog generation (standard-version)
   - Commit message validation (commitlint)
   - Slack notifications (PRs, deployments, checkpoints)
 
-**What's Pending**:
-- 🔴 Custom GPT integration testing (Checkpoint 3)
-- 🔴 Tier 2 workflow automation (after Checkpoint 3)
+**What's Working (Phase 2 In Progress 🔄)**:
+- ✅ Multi-type database schema (10 tables total)
+  - User/org tables: coaching_companies, coaches, client_organizations, clients
+  - Model tables: coaching_models, coach_model_associations
+  - Data tables: data_items, data_chunks
+- ✅ Migration complete: 16 transcripts → data_items with embeddings preserved
+- ✅ New RPC function: `match_data_chunks` with type/coach/client/org filters
+- ✅ Old tables preserved for safety (transcripts, transcript_chunks)
+
+**What's Pending (Phase 2)**:
+- 🔄 Update API server for new schema (Checkpoint 4 in progress)
+- 🔴 Sample data for new types (assessment, coaching_model, company_doc)
+- 🔴 Type-aware search endpoint with filters
+- 🔴 Multi-type upload endpoints
 
 **Blockers**:
 - None
@@ -349,9 +379,7 @@ See: docs/data-management.md for complete guide
 - **MCP Tools**: Default to using MCP tools for platform operations (see MCP Tool Usage below)
 
 ### Current Blockers
-- OpenAI quota exceeded (waiting for client billing approval)
-- Can continue to Checkpoint 2 (deployment) without full testing
-- Will return to test embeddings when quota resolved
+- None
 
 ### Project Philosophy
 - **Phased approach**: Checkpoint validation before proceeding
@@ -363,11 +391,33 @@ See: docs/data-management.md for complete guide
 
 ## 🔄 Workflow Reminders for AI
 
+### Session Startup Validation (Run at Start of Every Session)
+**CRITICAL**: Always validate project IDs at the start of each session to avoid MCP tool errors.
+
+```javascript
+// Step 1: Validate Supabase Project ID
+const SUPABASE_PROJECT_ID = 'wzebnjilqolwykmeozna';
+
+// Step 2: Test MCP connection with correct ID
+await mcp__supabase__list_projects();
+// Should return: "Unified Data Layer" project
+
+// Step 3: If MCP fails, check CLAUDE.md for current project IDs
+// See: "🔑 Project IDs (Critical Reference)" section
+```
+
+**What to Validate**:
+1. ✅ Supabase Project ID: `wzebnjilqolwykmeozna` (stored in CLAUDE.md)
+2. ✅ Vercel deployment URL: https://unified-data-layer.vercel.app
+3. ✅ GitHub repo: leadinsideout/unified-data-layer
+4. ✅ MCP tools responding (test with `list_projects` first)
+
 ### Before Starting Any Task
-1. ✅ Read latest checkpoint status
-2. ✅ Check git status and current branch
-3. ✅ Understand what's working vs pending
-4. ✅ Ask about blockers if relevant
+1. ✅ **Run session startup validation** (see above)
+2. ✅ Read latest checkpoint status
+3. ✅ Check git status and current branch
+4. ✅ Understand what's working vs pending
+5. ✅ Ask about blockers if relevant
 
 ### When Completing a Checkpoint
 1. ✅ Create feature branch
