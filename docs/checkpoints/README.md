@@ -117,6 +117,43 @@ git checkout phase-1-checkpoint-2
 **How to Return**:
 ```bash
 git checkout v0.3.0-checkpoint-3
+```
+
+---
+
+### Checkpoint 4: Schema Migration & Core Architecture ✅
+**Status**: Complete
+**Tag**: `v0.4.0-checkpoint-4`
+**Branch**: `main`
+**Completed**: 2025-11-12
+
+**What Was Built**:
+- 8 new user/org tables (coaching_companies, coaches, client_organizations, clients, coaching_models, coach_model_associations)
+- 2 new data tables (data_items, data_chunks) replacing old schema
+- New RPC function `match_data_chunks` with multi-type filtering
+- Updated API server to use new schema
+- Database migration with zero data loss
+
+**What's Working**:
+- ✅ Schema migration complete (16 transcripts + 16 chunks migrated)
+- ✅ API server updated with backward compatibility
+- ✅ All upload endpoints use new schema
+- ✅ Search endpoint uses new RPC function
+- ✅ 100% test pass rate (10/10 tests)
+- ✅ Zero data loss or corruption
+
+**Migration Results**:
+- ✅ Transcripts: 16/16 migrated to data_items (100%)
+- ✅ Chunks: 16/16 migrated to data_chunks (100%)
+- ✅ Embeddings: 16/16 preserved (vector(1536))
+- ✅ Content integrity: 100% match
+- ✅ Backward compatibility maintained
+
+**Details**: [checkpoint-4.md](checkpoint-4.md)
+
+**How to Return**:
+```bash
+git checkout v0.4.0-checkpoint-4
 # or
 git checkout main
 ```
