@@ -2,7 +2,7 @@
 
 **Purpose**: Step-by-step guide to configure Slack notifications for the Unified Data Layer project
 
-**Last Updated**: 2025-11-09
+**Last Updated**: 2025-11-12
 
 ---
 
@@ -12,8 +12,9 @@ This guide will help you set up automated Slack notifications for:
 - ✅ Deployments (success/failure)
 - ✅ Pull requests (opened/merged)
 - ✅ Checkpoint completions
+- ✅ Release announcements (to #team_ai channel)
 
-**Estimated Time**: 10 minutes
+**Estimated Time**: 15 minutes
 
 ---
 
@@ -62,12 +63,35 @@ https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXX
 2. Click **"Settings"** (tab at the top)
 3. In the left sidebar, click **"Secrets and variables"** → **"Actions"**
 
-### 2.2 Add the Secret
+### 2.2 Add the Primary Webhook Secret
 
 1. Click **"New repository secret"**
 2. Name: `SLACK_WEBHOOK_URL`
 3. Value: Paste the webhook URL from Step 1.3
 4. Click **"Add secret"**
+
+### 2.3 Add Team Webhook (for Release Notifications)
+
+**Purpose**: Release notifications go to the #team_ai channel to keep the broader team informed.
+
+1. Go back to your Slack App settings: https://api.slack.com/apps
+2. Select your app: **"Unified Data Layer Bot"**
+3. Go to **"Features"** → **"Incoming Webhooks"**
+4. Click **"Add New Webhook to Workspace"**
+5. Select the **#team_ai** channel
+6. Click **"Allow"**
+7. Copy the new webhook URL
+
+**Add to GitHub Secrets:**
+1. Return to GitHub → Settings → Secrets and variables → Actions
+2. Click **"New repository secret"**
+3. Name: `SLACK_TEAM_WEBHOOK_URL`
+4. Value: Paste the #team_ai webhook URL
+5. Click **"Add secret"**
+
+**Result**: You should now have two secrets:
+- `SLACK_WEBHOOK_URL` - For dev notifications (deployments, PRs, checkpoints)
+- `SLACK_TEAM_WEBHOOK_URL` - For release announcements (#team_ai)
 
 ---
 
@@ -76,9 +100,10 @@ https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXX
 ### 3.1 Check Workflow Files
 
 The following workflows are already configured:
-- `.github/workflows/slack-deployment.yml`
-- `.github/workflows/slack-pr.yml`
-- `.github/workflows/slack-checkpoint.yml`
+- `.github/workflows/slack-deployment.yml` - Deployment notifications
+- `.github/workflows/slack-pr.yml` - Pull request notifications
+- `.github/workflows/slack-checkpoint.yml` - Checkpoint notifications
+- `.github/workflows/slack-release.yml` - Release announcements (#team_ai)
 
 ### 3.2 Test the Integration
 
@@ -196,6 +221,23 @@ Changes:
 [View Release] [View Checkpoint Docs]
 ```
 
+### Release Announcement (to #team_ai)
+```
+✨ Release 0.4.0 (Minor)
+━━━━━━━━━━━━━━━━━━━
+Project: Unified Data Layer
+Version: v0.4.0
+Release Type: Minor Release
+Released by: jjvega
+
+What's New:
+• feat(api): update server to use Phase 2 multi-type schema
+• feat(db): migrate to multi-type architecture with zero data loss
+• docs: complete Checkpoint 4 documentation
+
+[View Release Notes] [View CHANGELOG] [View Deployment]
+```
+
 ---
 
 ## Workflow Details
@@ -214,6 +256,13 @@ Changes:
 - **Trigger**: Git tag pushed matching `v*-checkpoint-*`
 - **When**: After running `git push origin v0.X.0-checkpoint-Y`
 - **File**: `.github/workflows/slack-checkpoint.yml`
+
+### Release Announcements
+- **Trigger**: Git tag pushed matching `v[0-9]+.[0-9]+.[0-9]+` (e.g., v0.4.0, v1.0.0)
+- **When**: After running `npm run release` and pushing tags
+- **Channel**: #team_ai (broader team visibility)
+- **File**: `.github/workflows/slack-release.yml`
+- **Note**: Does NOT trigger on checkpoint tags
 
 ---
 
@@ -252,4 +301,4 @@ After setup:
 
 ---
 
-**Last Updated**: 2025-11-09
+**Last Updated**: 2025-11-12

@@ -78,7 +78,7 @@ jobs:
             echo "url=" >> $GITHUB_OUTPUT
           fi
 
-      - name: Notify Slack
+      - name: Notify Slack (#team_ai channel)
         uses: slackapi/slack-github-action@v1
         with:
           payload: |
@@ -97,6 +97,10 @@ jobs:
                   "fields": [
                     {
                       "type": "mrkdwn",
+                      "text": "*Project:*\nUnified Data Layer"
+                    },
+                    {
+                      "type": "mrkdwn",
                       "text": "*Version:*\nv${{ steps.release.outputs.version }}"
                     },
                     {
@@ -106,10 +110,6 @@ jobs:
                     {
                       "type": "mrkdwn",
                       "text": "*Released by:*\n${{ github.actor }}"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Date:*\n${{ github.event.head_commit.timestamp }}"
                     }
                   ]
                 },
@@ -138,11 +138,19 @@ jobs:
                         "text": "View CHANGELOG"
                       },
                       "url": "${{ github.event.repository.html_url }}/blob/main/CHANGELOG.md"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Deployment"
+                      },
+                      "url": "https://unified-data-layer.vercel.app"
                     }
                   ]
                 }
               ]
             }
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_TEAM_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
