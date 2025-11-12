@@ -1,0 +1,19 @@
+{
+  "data_type": "assessment",
+  "content": "DISC Assessment Results for Client\n\nAssessment Type: DISC Personality Profile\nDate Taken: November 10, 2025\n\nProfile Summary:\nYou are a High D/I personality style, which means you are both direct and outgoing. You thrive in dynamic environments where you can take charge while also building relationships with others.\n\nDimensional Scores:\nDominance (D): 78/100 - You are results-oriented, direct, and enjoy taking charge of situations. You prefer environments where you can make decisions quickly and see immediate results.\n\nInfluence (I): 72/100 - You are enthusiastic, optimistic, and enjoy working with people. You excel at building relationships and motivating others through your energy and positive attitude.\n\nSteadiness (S): 35/100 - You prefer variety and change over routine. While you can be patient when needed, you're more comfortable in fast-paced environments with multiple priorities.\n\nConscientiousness (C): 28/100 - You focus on the big picture rather than details. You prefer delegating detailed work and maintaining flexibility in your approach.\n\nKey Strengths:\n- Natural leadership abilities\n- Strong communication skills\n- Ability to drive results while building relationships\n- Comfortable with risk and ambiguity\n- Energizes and motivates others\n\nPotential Blind Spots:\n- May overlook details in pursuit of quick results\n- Can be impatient with slower-paced team members\n- Might skip relationship-building in favor of task completion\n- May need to develop more patience for process and structure\n\nCommunication Preferences:\n- Prefers direct, bottom-line communication\n- Values enthusiasm and energy in interactions\n- Appreciates quick decisions and action\n- Responds well to challenges and opportunities\n\nWork Environment Fit:\n- Thrives in entrepreneurial, fast-paced settings\n- Enjoys roles with autonomy and decision-making authority\n- Prefers collaborative but competitive environments\n- Values visible results and recognition\n\nDevelopment Opportunities:\n- Practice active listening and patience\n- Develop attention to detail for critical tasks\n- Build structure and systems thinking\n- Balance speed with thoroughness\n- Consider impact on relationship-oriented team members",
+  "metadata": {
+    "assessment_type": "disc",
+    "client_id": "550e8400-e29b-41d4-a716-446655440001",
+    "coach_id": "550e8400-e29b-41d4-a716-446655440010",
+    "date_taken": "2025-11-10T14:30:00Z",
+    "scores": {
+      "dominance": 78,
+      "influence": 72,
+      "steadiness": 35,
+      "conscientiousness": 28
+    },
+    "profile_summary": "High D/I personality style - results-oriented leader with strong relationship-building skills",
+    "assessment_provider": "DISC Insights",
+    "visibility_level": "coach_only"
+  }
+}

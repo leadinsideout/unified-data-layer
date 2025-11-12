@@ -1,0 +1,28 @@
+{
+  "data_type": "coaching_model",
+  "content": "The Adaptive Leadership Framework\n\nVersion 2.0 | InsideOut Leadership\n\nCore Philosophy:\nAdaptive leadership is the practice of mobilizing people to tackle tough challenges and thrive in the face of uncertainty. Unlike technical problems that have known solutions, adaptive challenges require new learning, new perspectives, and changes in people's values, beliefs, or behavior.\n\nThe Five Principles of Adaptive Leadership:\n\n1. Get on the Balcony\nLeaders must be able to step back from the fray and see patterns, assess dynamics, and identify both the technical and adaptive elements of challenges. This requires:\n- Regular reflection and observation time\n- Seeking diverse perspectives\n- Identifying systemic patterns versus isolated incidents\n- Distinguishing between symptoms and root causes\n\n2. Identify the Adaptive Challenge\nNot all problems are adaptive. Leaders must distinguish between:\n- Technical problems: Known solutions, expert-driven, clear authority\n- Technical + Adaptive: Mix of known solutions and behavioral change\n- Adaptive challenges: No clear solutions, learning required, involves loss\n\nAdaptive challenges often involve:\n- Conflicting values and priorities\n- Gap between espoused values and behavior\n- Difficult trade-offs\n- Loyalty to past practices that no longer serve\n\n3. Regulate Distress\nAdaptive work generates disequilibrium. Leaders must:\n- Create a holding environment for difficult conversations\n- Turn up the heat enough to motivate change\n- Turn down the heat when people become overwhelmed\n- Maintain productive tension without triggering defensive responses\n\nSigns of too much distress:\n- Work avoidance behaviors\n- Scapegoating and blaming\n- Premature closure or quick fixes\n- Attack on leadership\n\n4. Maintain Disciplined Attention\nPeople naturally avoid painful topics. Leaders must:\n- Keep attention focused on the adaptive challenge\n- Surface and orchestrate conflict productively\n- Resist pressure to provide quick answers\n- Create space for collective learning\n- Challenge default thinking patterns\n\n5. Give the Work Back to the People\nAdaptive work requires people to take responsibility for the challenge. Leaders must:\n- Resist being the sole problem-solver\n- Build capacity in others to address challenges\n- Create conditions for people to do their own adaptive work\n- Provide support while maintaining accountability\n- Develop distributed leadership\n\nPractical Application Questions:\n\n1. Diagnosis:\n   - What is the technical component of this challenge?\n   - What is the adaptive component?\n   - Who needs to learn what?\n   - What losses are at stake?\n\n2. Intervention:\n   - What experiments could generate learning?\n   - How can I create a productive holding environment?\n   - Who needs to be involved in solving this?\n   - What's the right level of disequilibrium?\n\n3. Reflection:\n   - What am I noticing from the balcony?\n   - What might I be avoiding?\n   - How am I managing my own reactions?\n   - What's the system telling me?\n\nEvaluation Criteria:\n\nA coach demonstrates proficiency in this framework when they can:\n- Accurately diagnose technical vs. adaptive elements of challenges\n- Help clients identify and articulate adaptive challenges\n- Guide clients in regulating distress productively\n- Facilitate difficult conversations without providing answers\n- Support clients in building adaptive capacity\n- Demonstrate personal adaptive leadership in their own practice\n\nCommon Pitfalls:\n- Treating adaptive challenges as technical problems\n- Moving too quickly to solutions\n- Taking on the client's adaptive work\n- Avoiding necessary conflict or discomfort\n- Focusing solely on individual change vs. systemic patterns\n\nThis framework is particularly effective for:\n- Executive coaching in complex organizations\n- Leadership development programs\n- Organizational change initiatives\n- Team coaching around difficult dynamics\n- Personal leadership growth",
+  "metadata": {
+    "model_name": "Adaptive Leadership Framework",
+    "model_type": "framework",
+    "version": "2.0",
+    "coach_id": "550e8400-e29b-41d4-a716-446655440010",
+    "coaching_company_id": "550e8400-e29b-41d4-a716-446655440100",
+    "key_principles": [
+      "Get on the Balcony",
+      "Identify the Adaptive Challenge",
+      "Regulate Distress",
+      "Maintain Disciplined Attention",
+      "Give the Work Back to the People"
+    ],
+    "evaluation_criteria": [
+      "Accurately diagnose technical vs. adaptive elements",
+      "Help clients identify adaptive challenges",
+      "Guide clients in regulating distress",
+      "Facilitate difficult conversations",
+      "Support building adaptive capacity"
+    ],
+    "author": "InsideOut Leadership",
+    "visibility_level": "private",
+    "tags": ["leadership", "adaptive", "organizational-change", "systems-thinking"]
+  }
+}
