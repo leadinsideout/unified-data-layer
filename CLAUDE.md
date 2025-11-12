@@ -2,14 +2,14 @@
 
 **Purpose**: This file helps AI assistants (like Claude) quickly understand and navigate this project.
 
-**Last Updated**: 2025-11-11
+**Last Updated**: 2025-11-12
 
 ---
 
 ## 🎯 Project Overview
 
 **Name**: Unified Data Layer
-**Current Phase**: Phase 2, Checkpoint 4 In Progress
+**Current Phase**: Phase 2, Checkpoint 4 Complete ✅
 **Architecture**: API-first data layer for AI platform integration
 
 **Key Principle**: Our API provides DATA (semantic search), AI platforms provide SYNTHESIS (GPT-4/Claude).
@@ -36,9 +36,9 @@
 
 ## 🗺️ Project Status (Quick Reference)
 
-**Current Branch**: `phase-1-checkpoint-2`
-**Current Tag**: `v0.1.0-checkpoint-1`
-**Latest Commit**: See `docs/checkpoints/checkpoint-2.md`
+**Current Branch**: `main`
+**Current Tag**: `v0.4.0` (Release) / `v0.4.0-checkpoint-4` (Checkpoint)
+**Latest Commit**: See `docs/checkpoints/checkpoint-4.md`
 
 **What's Working (Phase 1 Complete ✅)**:
 - ✅ Supabase database with pgvector
@@ -65,10 +65,9 @@
 - ✅ Old tables preserved for safety (transcripts, transcript_chunks)
 
 **What's Pending (Phase 2)**:
-- 🔄 Update API server for new schema (Checkpoint 4 in progress)
-- 🔴 Sample data for new types (assessment, coaching_model, company_doc)
-- 🔴 Type-aware search endpoint with filters
-- 🔴 Multi-type upload endpoints
+- 🔴 Sample data for new types (assessment, coaching_model, company_doc) - Checkpoint 5
+- 🔴 Type-aware search endpoint with filters - Checkpoint 6
+- 🔴 Multi-type upload endpoints - Checkpoint 5
 
 **Blockers**:
 - None
@@ -374,8 +373,10 @@ See: docs/data-management.md for complete guide
   - Format: `phase-X-checkpoint-Y`, `feature/*`, `fix/*`, `hotfix/*`
 - **Commits**: Conventional commits enforced via commitlint (feat, fix, docs, chore, mcp)
 - **Deployment**: Vercel auto-deploy (main → production, PRs → preview)
-- **Notifications**: Slack updates for PRs, deployments, checkpoints
-- **Releases**: AI reminds, user approves, then AI runs `npm run release`
+- **Notifications**: Slack updates for PRs, deployments, checkpoints, releases
+  - Dev notifications (#dev or project channel): PRs, deployments, checkpoints
+  - Team notifications (#team_ai): Release announcements only
+- **Releases**: AI reminds, user approves, then AI runs `npm run release --release-as X.Y.Z`
 - **MCP Tools**: Default to using MCP tools for platform operations (see MCP Tool Usage below)
 
 ### Current Blockers
@@ -420,15 +421,18 @@ await mcp__supabase__list_projects();
 5. ✅ Ask about blockers if relevant
 
 ### When Completing a Checkpoint
-1. ✅ Create feature branch
-2. ✅ Commit work with detailed message
-3. ✅ **AUTOMATICALLY REMIND** user to run release (`npm run release`)
+1. ✅ Create comprehensive checkpoint status doc (docs/checkpoints/checkpoint-X.md)
+2. ✅ Update checkpoint index (docs/checkpoints/README.md)
+3. ✅ Create checkpoint-specific tag (vX.Y.Z-checkpoint-N)
+4. ✅ **AUTOMATICALLY REMIND** user to run release
    - Wait for user approval before running
-   - Explain what the release will do (bump version, create CHANGELOG, create tag)
-   - Run release commands once approved
-4. ✅ Create checkpoint-specific tag (vX.Y.Z-checkpoint-N)
-5. ✅ Create checkpoint status doc
-6. ✅ Update checkpoint index
+   - Explain what the release will do (bump version to X.Y.0, create CHANGELOG, create tag)
+   - Run: `npm run release --release-as X.Y.0` (version matches checkpoint number)
+5. ✅ Push to remote with tags: `git push --follow-tags origin main`
+6. ✅ Verify Slack notifications:
+   - Checkpoint notification fires (v0.X.0-checkpoint-Y tag)
+   - Release notification fires to #team_ai (v0.X.0 tag)
+7. ✅ Update CLAUDE.md with new checkpoint status
 
 ### When User Returns After Break
 1. ✅ Check if OpenAI quota resolved (if relevant)
@@ -589,7 +593,8 @@ Automatically check if CLAUDE.md needs updating after:
 - Setup guides: [docs/setup/](docs/setup/)
 
 **For AI Assistant**:
-- Current status: [docs/checkpoints/checkpoint-1.md](docs/checkpoints/checkpoint-1.md)
+- Current status: [docs/checkpoints/checkpoint-4.md](docs/checkpoints/checkpoint-4.md)
+- Checkpoint index: [docs/checkpoints/README.md](docs/checkpoints/README.md)
 - Implementation plan: [docs/project/roadmap.md](docs/project/roadmap.md)
 - Workflows: [docs/development/workflows.md](docs/development/workflows.md)
 
@@ -638,16 +643,35 @@ Automatically check if CLAUDE.md needs updating after:
 
 ## 🔖 Version History
 
-- **Checkpoint 2 (In Progress)** (2025-11-09): Vercel Deployment + Tier 1 Automation
-  - See: docs/checkpoints/checkpoint-2.md
-  - Vercel deployment: ✅ Complete
-  - Workflow automation (Tier 1): ✅ Complete
-  - Slack notifications: ✅ Complete and tested
-  - Status: Ready for release and checkpoint tag
+- **v0.4.0 / v0.4.0-checkpoint-4** (2025-11-12): Schema Migration & Core Architecture ✅
+  - See: [docs/checkpoints/checkpoint-4.md](docs/checkpoints/checkpoint-4.md)
+  - Database: Multi-type schema (8 user/org tables + 2 data tables)
+  - Migration: 16 transcripts migrated with zero data loss (100%)
+  - API: Updated to use new schema with backward compatibility
+  - Testing: 10/10 tests passed (100%)
+  - Notifications: Added release announcements to #team_ai
+  - Status: Complete and deployed to production
 
-- **v0.1.0-checkpoint-1** (2025-11-08): Local MVP Foundation complete
-  - See: docs/checkpoints/checkpoint-1.md
-  - Status: Code complete, pending OpenAI quota for full testing
+- **v0.3.0 / v0.3.0-checkpoint-3** (2025-11-11): Custom GPT Integration ✅
+  - See: [docs/checkpoints/checkpoint-3.md](docs/checkpoints/checkpoint-3.md)
+  - North Star: Fresh data retrieval without manual updates
+  - Bulk upload: API endpoint + CLI tool
+  - Sample data: 16 coaching transcripts in production
+  - Vector search: Fixed and validated (0.4-0.7 similarity)
+  - Status: Complete
+
+- **v0.2.0 / v0.2.0-checkpoint-2** (2025-11-09): Vercel Deployment + Tier 1 Automation ✅
+  - See: [docs/checkpoints/checkpoint-2.md](docs/checkpoints/checkpoint-2.md)
+  - Vercel deployment: Production + preview environments
+  - Workflow automation: Changelog, validation, Slack notifications
+  - Status: Complete
+
+- **v0.1.0 / v0.1.0-checkpoint-1** (2025-11-08): Local MVP Foundation ✅
+  - See: [docs/checkpoints/checkpoint-1.md](docs/checkpoints/checkpoint-1.md)
+  - Express API: 6 endpoints
+  - Database: Supabase + pgvector
+  - Pipeline: Chunking + embeddings
+  - Status: Complete
 
 ---
 
