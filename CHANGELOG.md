@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.7.0](https://github.com/leadinsideout/unified-data-layer/compare/v0.7.0-checkpoint-7...v0.7.0) (2025-11-12)
+
+
+### Documentation
+
+* update CLAUDE.md for Phase 2 completion ([c783b70](https://github.com/leadinsideout/unified-data-layer/commit/c783b70c99b2e49bf6d5d91bf696fbed7858d38e))
+
 ## [0.4.0](https://github.com/leadinsideout/unified-data-layer/compare/v0.4.0-checkpoint-4...v0.4.0) (2025-11-12)
 
 
