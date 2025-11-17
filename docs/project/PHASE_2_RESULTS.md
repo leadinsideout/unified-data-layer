@@ -33,7 +33,7 @@ Successfully transformed the Unified Data Layer from a single-type (transcripts 
 
 ### Checkpoint 5: Multi-Type Processing Pipeline ✅
 **Duration**: ~2 hours
-**Tag**: v0.4.1-checkpoint-5
+**Tag**: v0.5.0-checkpoint-5 (documented, work continued directly into CP6)
 
 **Deliverables**:
 - 4 data type processors (transcript, assessment, coaching_model, company_doc)

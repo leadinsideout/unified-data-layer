@@ -1,30 +1,33 @@
 # Unified Data Layer
 
-Semantic search API for coaching transcripts, designed for AI platform integration (Custom GPT, Claude Projects via MCP).
+Semantic search API for coaching data (transcripts, assessments, coaching models, company docs), designed for AI platform integration (Custom GPT, Claude Projects via MCP).
 
 **Architecture Principle**: Our API provides DATA (via semantic search), AI platforms provide SYNTHESIS (using their native GPT-4/Claude).
 
 ## Status
 
-**Phase 1 - Checkpoint 2**: ✅ Vercel Deployment + Tier 1 Automation Complete
+**Phase 2 Complete** ✅ | **Ready for Phase 3** | **Version**: v0.7.0
 
-### Checkpoint 1: Local MVP Foundation ✅
+### Phase 1: Transcript Foundation ✅ (Nov 1-11, 2025)
 - ✅ Express API server with semantic search
 - ✅ Automatic transcript upload & embedding generation
 - ✅ Supabase (PostgreSQL + pgvector) integration
 - ✅ OpenAI embeddings (text-embedding-3-small)
-- 🟡 Awaiting OpenAI API key for full testing
+- ✅ Vercel deployment (production & preview)
+- ✅ Custom GPT integration validated
+- ✅ Tier 1 workflow automation (changelog, commitlint, Slack)
 
-### Checkpoint 2: Production Deployment + Workflow Automation ✅
-- ✅ Deployed to Vercel (production & preview)
-- ✅ Automated changelog generation (standard-version)
-- ✅ Commit validation (commitlint + Husky hooks)
-- ✅ Slack notifications (PRs, deployments, checkpoints)
-- ✅ Production branching strategy (main always production-ready)
+### Phase 2: Multi-Data-Type Architecture ✅ (Nov 12, 2025)
+- ✅ Multi-type schema (transcript, assessment, model, company_doc)
+- ✅ User/organization tables (companies, coaches, clients, organizations)
+- ✅ Type-aware search with multi-dimensional filtering
+- ✅ 16 transcripts migrated with zero data loss
+- ✅ Performance: 1.6-2.1s queries (exceeds <3s target)
+- ✅ Backward compatible API
 
 **Production URL**: https://unified-data-layer.vercel.app
 
-**Next**: Checkpoint 3 - Custom GPT Integration
+**Next**: Phase 3 - Data Privacy & Security (PII scrubbing, RLS, API keys)
 
 ---
 
@@ -263,14 +266,21 @@ See [docs/development/workflows.md](docs/development/workflows.md) for complete 
 
 ## Roadmap
 
-**Phase 1** (Current): Transcript foundation + Custom GPT POC
-- ✅ Checkpoint 1: Local MVP (Tasks 1-10)
+**Phase 1** ✅ COMPLETE (Nov 1-11, 2025)
+- ✅ Checkpoint 1: Local MVP Foundation
 - ✅ Checkpoint 2: Vercel Deployment + Tier 1 Automation
-- 🔴 Checkpoint 3: Custom GPT integration (North Star Test)
+- ✅ Checkpoint 3: Custom GPT Integration
 
-**Phase 2**: Multi-data-type architecture (assessments, profiles)
+**Phase 2** ✅ COMPLETE (Nov 12, 2025)
+- ✅ Checkpoint 4: Schema Migration & Core Architecture
+- ✅ Checkpoint 5: Multi-Type Processing Pipeline
+- ✅ Checkpoint 6: Type-Aware Search & Filtering
+- ✅ Checkpoint 7: Custom GPT Integration Validation
 
-**Phase 3**: Security & privacy (PII scrubbing, RLS)
+**Phase 3** 🔴 NEXT - Security & Privacy
+- Checkpoint 8: PII scrubbing pipeline
+- Checkpoint 9: Row-level security (RLS)
+- Checkpoint 10: API key management
 
 **Phase 4**: Full AI platform integration (MCP + Custom GPT)
 
@@ -278,7 +288,9 @@ See [docs/development/workflows.md](docs/development/workflows.md) for complete 
 
 **Phase 6**: Production optimization
 
-See `product-roadmap.md` for full roadmap.
+**Target**: Phases 3-6 complete by December 15, 2025
+
+See [docs/project/roadmap.md](docs/project/roadmap.md) for full roadmap with velocity tracking.
 
 ---
 

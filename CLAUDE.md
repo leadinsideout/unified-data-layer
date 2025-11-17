@@ -2,7 +2,7 @@
 
 **Purpose**: This file helps AI assistants (like Claude) quickly understand and navigate this project.
 
-**Last Updated**: 2025-11-12
+**Last Updated**: 2025-11-17
 
 ---
 
@@ -210,8 +210,9 @@ Purpose: Understand overall implementation plan and checkpoints
 - `docs/project/phase-2-implementation-plan.md` - Phase 2 detailed implementation
 
 ### Current Status
-- `docs/checkpoints/checkpoint-1.md` - Latest checkpoint
+- `docs/checkpoints/checkpoint-7-results.md` - Latest checkpoint (Phase 2 Complete)
 - `docs/checkpoints/README.md` - Checkpoint index
+- `docs/project/PHASE_2_RESULTS.md` - Phase 2 completion summary
 
 ### Development
 - `docs/development/workflows.md` - Git, testing, deployment
@@ -260,20 +261,28 @@ POST /api/search                      # Semantic search
 GET  /openapi.json                    # OpenAPI schema for Custom GPT
 ```
 
-### Database Schema
+### Database Schema (Phase 2)
 ```sql
-transcripts (
-  id, raw_text, meeting_date, created_at, metadata,
-  coach_id, client_id, fireflies_meeting_id
+-- User/Organization Tables (8 tables)
+companies, coaches, clients, organizations, client_organizations,
+coach_clients, coach_organizations, audit_logs
+
+-- Core Data Tables
+data_items (
+  id, data_type, slug, title, raw_content, metadata JSONB,
+  company_id, coach_id, client_id, organization_id,
+  session_date, created_at
 )
 
-transcript_chunks (
-  id, transcript_id, chunk_index, content,
-  embedding vector(1536), created_at
+data_chunks (
+  id, data_item_id, chunk_index, content,
+  embedding vector(1536), metadata JSONB, created_at
 )
 
-RPC: match_transcript_chunks(query_embedding, threshold, limit)
+RPC: match_data_chunks(query_embedding, threshold, limit, filter_types, filter_coach_id, filter_client_id, filter_organization_id)
 ```
+
+**Data Types Supported**: transcript, assessment, model, company_doc
 
 ### Data Flow
 ```
@@ -288,7 +297,7 @@ Store (Supabase) → Search (vector similarity) → Return chunks
 ### Task: Review current status
 ```
 Files to read:
-1. docs/checkpoints/checkpoint-1.md (latest status)
+1. docs/checkpoints/checkpoint-7-results.md (latest status)
 2. README.md (project overview)
 3. git log --oneline -10 (recent commits)
 ```
@@ -473,6 +482,33 @@ await mcp__supabase__list_projects();
 3. ✅ Check git status and current branch
 4. ✅ Understand what's working vs pending
 5. ✅ Ask about blockers if relevant
+
+### Before Starting ANY Checkpoint (Pre-Checkpoint Cleanup Audit)
+**CRITICAL**: Run this audit at the START of each checkpoint to prevent documentation drift.
+
+1. ✅ **Check for outdated version numbers**
+   - `package.json` version matches current release
+   - `api/server.js` health endpoint version matches package.json
+   - `api/server.js` OpenAPI schema version matches package.json
+   - `api/server.js` root endpoint version matches package.json
+
+2. ✅ **Check for status inconsistencies**
+   - README.md reflects current phase/checkpoint status
+   - CLAUDE.md "Latest checkpoint" points to actual latest
+   - Checkpoint index (docs/checkpoints/README.md) numbering is correct
+   - Phase X implementation plan status updated
+
+3. ✅ **Check for missing documentation**
+   - All completed checkpoints have results docs
+   - Version history in CLAUDE.md is current
+   - Git tags match documented tags
+
+4. ✅ **Fix any issues BEFORE starting new work**
+   - Present list of issues to user
+   - Get approval to fix
+   - Commit fixes with `docs: pre-checkpoint cleanup audit`
+
+**Why This Matters**: Prevents documentation debt from piling up, ensures consistent project state, reduces confusion in future sessions.
 
 ### When Completing a Checkpoint
 1. ✅ Create comprehensive checkpoint status doc (docs/checkpoints/checkpoint-X-results.md)
@@ -660,7 +696,7 @@ Automatically check if CLAUDE.md needs updating after:
 - Setup guides: [docs/setup/](docs/setup/)
 
 **For AI Assistant**:
-- Current status: [docs/checkpoints/checkpoint-4.md](docs/checkpoints/checkpoint-4.md)
+- Current status: [docs/checkpoints/checkpoint-7-results.md](docs/checkpoints/checkpoint-7-results.md)
 - Checkpoint index: [docs/checkpoints/README.md](docs/checkpoints/README.md)
 - Implementation plan: [docs/project/roadmap.md](docs/project/roadmap.md)
 - Workflows: [docs/development/workflows.md](docs/development/workflows.md)
@@ -709,6 +745,28 @@ Automatically check if CLAUDE.md needs updating after:
 ---
 
 ## 🔖 Version History
+
+- **v0.7.0 / v0.7.0-checkpoint-7** (2025-11-12): Phase 2 Complete - Custom GPT Validation ✅
+  - See: [docs/checkpoints/checkpoint-7-results.md](docs/checkpoints/checkpoint-7-results.md)
+  - Custom GPT: Multi-type queries validated
+  - Performance: 1.6-2.1s queries (exceeds <3s target)
+  - Documentation: 500+ pages comprehensive docs
+  - Phase 2: Complete in 1 day vs 3-4 week estimate (21-28x faster)
+  - Status: Production ready, Phase 3 next
+
+- **v0.6.0 / v0.6.0-checkpoint-6** (2025-11-12): Type-Aware Search & Filtering ✅
+  - See: [docs/checkpoints/checkpoint-6-results.md](docs/checkpoints/checkpoint-6-results.md)
+  - Search: Multi-dimensional filtering (type, coach, client, org)
+  - RPC: `match_data_chunks` with all filter support
+  - Backward compatibility: No filters = all types
+  - Status: Complete
+
+- **v0.5.0 / v0.5.0-checkpoint-5** (2025-11-12): Multi-Type Processing Pipeline ✅
+  - See: [docs/project/PHASE_2_RESULTS.md](docs/project/PHASE_2_RESULTS.md)
+  - Processors: 4 types (transcript, assessment, model, company_doc)
+  - Strategy pattern: Adaptive chunking per type
+  - User seeding: 1 company, 3 coaches, 2 orgs, 4 clients
+  - Status: Complete
 
 - **v0.4.0 / v0.4.0-checkpoint-4** (2025-11-12): Schema Migration & Core Architecture ✅
   - See: [docs/checkpoints/checkpoint-4.md](docs/checkpoints/checkpoint-4.md)

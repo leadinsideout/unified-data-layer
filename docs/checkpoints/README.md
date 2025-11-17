@@ -254,14 +254,14 @@ git checkout -b fix-from-checkpoint-1 v0.1.0-checkpoint-1
 ## 📋 Future Checkpoints (Phases 3+)
 
 ### Phase 3: Security & Privacy
-- Checkpoint 7: PII scrubbing pipeline
-- Checkpoint 8: Row-level security
-- Checkpoint 9: API key management
+- Checkpoint 8: PII scrubbing pipeline
+- Checkpoint 9: Row-level security
+- Checkpoint 10: API key management
 
 ### Phase 4: Full AI Platform Integration
-- Checkpoint 10: MCP server
-- Checkpoint 11: Enhanced Custom GPT
-- Checkpoint 12: Multi-tenant auth
+- Checkpoint 11: MCP server
+- Checkpoint 12: Enhanced Custom GPT
+- Checkpoint 13: Multi-tenant auth
 
 *See: [../project/roadmap.md](../project/roadmap.md) for full phase details*
 
@@ -275,18 +275,26 @@ git checkout -b fix-from-checkpoint-1 v0.1.0-checkpoint-1
 - ✅ Custom GPT integration validated (deferred to Checkpoint 3)
 - ✅ Fresh data retrieval without manual updates (deferred)
 
-### Checkpoint 2 Success Criteria 🔴
-- 🔴 API deployed to Vercel
-- 🔴 Public HTTPS endpoint working
-- 🔴 Environment variables configured
-- 🔴 OpenAPI schema accessible
+### Checkpoint 2 Success Criteria ✅
+- ✅ API deployed to Vercel
+- ✅ Public HTTPS endpoint working
+- ✅ Environment variables configured
+- ✅ OpenAPI schema accessible
 
-### Checkpoint 3 Success Criteria 🔴
-- 🔴 Custom GPT successfully calls API
-- 🔴 Fresh transcripts searchable immediately
-- 🔴 Custom GPT synthesizes answers from chunks
-- 🔴 No manual context updates required
-- 🔴 Response time < 5 seconds
+### Checkpoint 3 Success Criteria ✅
+- ✅ Custom GPT successfully calls API
+- ✅ Fresh transcripts searchable immediately
+- ✅ Custom GPT synthesizes answers from chunks
+- ✅ No manual context updates required
+- ✅ Response time < 3 seconds (exceeds 5s target)
+
+### Phase 2 Success Criteria (Checkpoints 4-7) ✅
+- ✅ Support 4+ data types (transcript, assessment, model, company_doc)
+- ✅ Sub-3-second search across all data types (actual: 1.6-2.1s)
+- ✅ Type-aware filtering works correctly
+- ✅ Custom GPT handles multi-type queries
+- ✅ Backward compatibility maintained
+- ✅ Zero data loss migration (16/16 transcripts)
 
 ---
 
