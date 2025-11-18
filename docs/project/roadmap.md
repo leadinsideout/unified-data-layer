@@ -125,23 +125,23 @@ Phase 7-8 → Custom frontends (optional)
 | Phase | Original Estimate | **Revised Estimate** | Confidence | Key Risk Factors |
 |-------|------------------|---------------------|------------|------------------|
 | **Phase 3** | 4-5 weeks | **5-7 days** | 85% | PII accuracy testing, security validation |
-| **Phase 4** | 3-4 weeks | **8-12 days** | 85% | MCP protocol, beta testing with coaches |
+| **Phase 4** | 3-4 weeks | **6-7 days** | 90% | MCP protocol, lightweight coach testing |
 | **Phase 5** | 2-3 weeks | **5-7 days** | 75% | External API dependencies (Fireflies) |
 | **Phase 6** | 2-3 weeks | **3-4 days** | 90% | Multiple service integrations |
-| **Total P3-P6** | 11-15 weeks | **21-30 days** | 80% | ~3-4.5 weeks total |
+| **Total P3-P6** | 11-15 weeks | **19-25 days** | 85% | ~2.5-3.5 weeks total |
 
 ### December 15th Feasibility Assessment
 
-**Analysis Date**: November 17, 2025 (Updated with Phase 4 beta testing)
+**Analysis Date**: November 17, 2025 (Updated: lightweight beta testing)
 **Available Time**: 28 days (4 weeks)
-**Estimated Need**: 21-30 days (3-4.5 weeks) - includes coach beta testing
-**Buffer**: -2 to +7 days (tight but achievable)
+**Estimated Need**: 19-25 days (~2.5-3.5 weeks) - includes lightweight coach testing
+**Buffer**: +3 to +9 days
 
-**Verdict**: ✅ **FEASIBLE** (reduced from "highly feasible")
+**Verdict**: ✅ **HIGHLY FEASIBLE**
 
-- **90% confident** for Phases 3-4 (core AI integration + beta testing)
-- **75% confident** for Phases 3-6 (full production-ready)
-- **Note**: Beta testing is the new critical path item - requires coach availability
+- **95% confident** for Phases 3-4 (core AI integration + basic validation)
+- **85% confident** for Phases 3-6 (full production-ready)
+- **Note**: Lightweight coach testing (3 days max) provides stakeholder confidence
 
 ### Risk Factors to Monitor
 
@@ -149,10 +149,10 @@ Phase 7-8 → Custom frontends (optional)
    - Requires >95% accuracy with real coaching data
    - Mitigation: Use proven libraries (spaCy, Presidio), test early
 
-2. **Coach Beta Testing Availability** (Phase 4) - NEW CRITICAL PATH
-   - Requires 3-5 coaches to commit 5-8 days for testing
-   - Mitigation: Line up coaches early, provide clear testing protocol
-   - Backup plan: Ship with reduced testing if coach availability limited
+2. **Coach Beta Testing Availability** (Phase 4) - LIGHTWEIGHT
+   - Requires 2-3 coaches to commit 1-2 days for basic testing
+   - Mitigation: Clear checklist + unstructured exploration time
+   - Scope: Basic validation only, not full product testing (out of original scope)
 
 3. **External API Dependencies** (Phase 5)
    - Fireflies API availability/documentation
@@ -638,8 +638,8 @@ Build security and privacy into the architecture. This is **essential before exp
 
 **Status**: Planned (High Priority after Phase 3)
 **Original Estimate**: 3-4 weeks
-**Revised Estimate**: 8-12 days total (3-4 days implementation + 5-8 days beta testing)
-**Confidence**: 85% (includes human beta testing variable)
+**Revised Estimate**: 6-7 days total (3-4 days implementation + 3 days lightweight beta testing)
+**Confidence**: 90%
 
 ### Goal
 
@@ -664,9 +664,11 @@ Connect the data layer to Custom GPTs and Claude Projects as the **PRIMARY inter
 - Privacy mode (no training on data)
 - Multi-coach support with API keys
 
-### 4.3 Internal Beta Testing (NEW - Critical for Dec 15 Launch)
+### 4.3 Internal Beta Testing (NEW - Basic Validation)
 
-**Purpose**: Validate production readiness with real InsideOut Leadership coaches before public launch.
+**Purpose**: Basic validation with real InsideOut coaches to provide stakeholder confidence.
+
+**Scope Note**: Lightweight testing focused on fundamentals. Full product testing not in original scope - this covers basics for stakeholder peace of mind.
 
 **Prerequisites**:
 - ✅ Phase 3 complete (PII scrubbing, RLS, API keys)
@@ -677,30 +679,32 @@ Connect the data layer to Custom GPTs and Claude Projects as the **PRIMARY inter
 1. **Custom GPT Beta Versions**
    - Create coach-specific Custom GPTs with API key authentication
    - Configure privacy mode (no training on coach/client data)
-   - Add coaching-specific instructions and prompts
-   - Distribute to 3-5 InsideOut coaches for testing
+   - Add basic coaching-specific instructions
+   - Distribute to 2-3 InsideOut coaches for testing
 
-2. **Beta Testing Focus Areas**
-   - **Authentication**: Verify coach isolation works correctly
-   - **Privacy**: Confirm no data leakage between coaches
-   - **Data Quality**: Validate search results are accurate and relevant
-   - **UX/Usability**: Gather feedback on prompt patterns and workflows
-   - **Performance**: Test real-world query patterns and response times
-   - **Edge Cases**: Identify unexpected behaviors or failure modes
+2. **Testing Protocol** (Structured + Unstructured)
+   - **Structured**: Clear checklist of basic tasks to validate
+     - Authentication works (coach sees only their data)
+     - Search returns relevant results
+     - Basic query patterns function correctly
+   - **Unstructured**: Open exploration time to find edge cases
+     - Coaches try to "poke holes" in the system
+     - Report any unexpected behaviors
+   - **Feedback Collection**: Simple survey + open-ended comments
 
-3. **Testing Protocol**
-   - Provide test scenarios for coaches to execute
-   - Collect structured feedback (survey + open-ended)
-   - Monitor API logs for errors/performance issues
-   - Document all issues found
+3. **Testing Focus** (Fundamentals Only)
+   - **Authentication**: Basic coach isolation verification
+   - **Privacy**: No obvious data leakage
+   - **Data Quality**: Results are reasonably relevant
+   - **Basic Functionality**: Core features work as expected
 
-4. **Success Criteria**
-   - Zero authentication/privacy issues discovered
-   - >90% positive feedback on data quality
-   - <3s average response time maintained
-   - All critical bugs fixed before Dec 15 deadline
+4. **Success Criteria** (Reduced Scope)
+   - No critical authentication/privacy issues
+   - Core functionality works without major errors
+   - Feedback collected and documented
+   - Stakeholder confidence achieved
 
-**Timeline**: 2-3 days for setup + 3-5 days for coach testing + feedback iteration
+**Timeline**: 1 day setup + 1-2 days coach testing (max 3 days total)
 
 ### 4.4 API Enhancements
 
@@ -892,17 +896,17 @@ GET  /api/v2/clients/{id}/timeline
 1. ✅ **Phase 1**: Transcript Foundation - COMPLETE (11 days actual vs 2-3 weeks estimate)
 2. ✅ **Phase 2**: Multi-Data-Type Architecture - COMPLETE (1 day actual vs 3-4 weeks estimate)
 3. 🔴 **Phase 3**: Security & Privacy - NEXT (5-7 days revised vs 4-5 weeks original)
-4. 🔴 **Phase 4**: AI Platform Integration + Beta Testing - (8-12 days revised vs 3-4 weeks original)
+4. 🔴 **Phase 4**: AI Platform Integration + Lightweight Testing - (6-7 days revised vs 3-4 weeks original)
 
 **Original Total Timeline**: 10-13 weeks to full AI integration
-**Revised Total Timeline**: 21-30 days (~3-4.5 weeks) for Phases 3-6
+**Revised Total Timeline**: 19-25 days (~2.5-3.5 weeks) for Phases 3-6
 
 ### December 15th Target Assessment
 
 **Available**: 28 days (Nov 17 - Dec 15, 2025)
-**Estimated Need**: 21-30 days (includes 5-8 days coach beta testing)
-**Buffer**: -2 to +7 days
-**Verdict**: ✅ FEASIBLE (tight, requires early coach coordination)
+**Estimated Need**: 19-25 days (includes 3 days lightweight coach testing)
+**Buffer**: +3 to +9 days
+**Verdict**: ✅ HIGHLY FEASIBLE
 
 ### High Priority (P1) - Value Acceleration
 
