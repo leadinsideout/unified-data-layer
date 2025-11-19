@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.8.0](https://github.com/leadinsideout/unified-data-layer/compare/v0.8.0-checkpoint-8...v0.8.0) (2025-11-19)
+
 ## [0.7.0](https://github.com/leadinsideout/unified-data-layer/compare/v0.7.0-checkpoint-7...v0.7.0) (2025-11-12)
 
 
