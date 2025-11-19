@@ -534,8 +534,15 @@ await mcp__supabase__list_projects();
    - Release notification workflow (triggered by v0.X.0 tag → sends to #team_ai)
 11. ✅ Check Slack for notifications:
    - Dev channel: Checkpoint completion
-   - #team_ai: Phase/release completion
-12. ✅ Update CLAUDE.md with new checkpoint status
+   - #team_ai: Phase/release completion (ONLY for phase-ending checkpoints)
+12. ✅ **VERIFY Slack notification accuracy**:
+   - **Phase numbering**: Check that phase number is correct (see [checkpoint-phase-mapping.md](docs/development/checkpoint-phase-mapping.md))
+   - **Checkpoint name**: Verify checkpoint name matches actual feature delivered
+   - **Message content**: Confirm content is specific (not generic "platform improvements")
+   - **Channel routing**: Verify #team_ai only received phase completions (v0.3.0, v0.7.0, v0.10.0, v0.13.0)
+   - **Links**: Test that all documentation links work correctly
+   - **If errors found**: Use [slack-correction-template.md](docs/development/slack-correction-template.md) to post correction
+13. ✅ Update CLAUDE.md with new checkpoint status
 
 ### When User Returns After Break
 1. ✅ Check if OpenAI quota resolved (if relevant)

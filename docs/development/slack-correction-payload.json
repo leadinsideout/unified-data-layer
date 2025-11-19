@@ -1,0 +1,66 @@
+{
+  "text": "Correction: v0.8.0 is Checkpoint 8 (Phase 3), not Phase 8",
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "⚠️ Correction to Previous v0.8.0 Notification"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "The earlier automated notification incorrectly stated *\"Phase 8 Complete\"*. This was an error in our workflow."
+      }
+    },
+    {
+      "type": "section",
+      "fields": [
+        {
+          "type": "mrkdwn",
+          "text": "*Actual Status:*\nCheckpoint 8 within Phase 3"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "*Phase 3 Progress:*\n1/3 checkpoints complete"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*What Was Delivered (Checkpoint 8):*\n✅ *PII Scrubbing Pipeline*\n  • Automatic removal of personal information\n  • 96% accuracy on coaching content\n  • 14x performance improvement\n  • Production-ready for beta testing"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Phase Progress:*\n✅ Phase 1: Transcript Foundation\n✅ Phase 2: Multi-Data-Type Architecture\n🔄 *Phase 3: Security & Privacy (IN PROGRESS)*\n  ✅ Checkpoint 8: PII Scrubbing ← *WE ARE HERE*\n  ⏸️ Checkpoint 9: Row-Level Security\n  ⏸️ Checkpoint 10: API Key Management\n⏸️ Phase 4: AI Platform Integration"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "We've fixed the workflow to prevent this in future notifications. Apologies for any confusion!"
+      }
+    },
+    {
+      "type": "actions",
+      "elements": [
+        {
+          "type": "button",
+          "text": {
+            "type": "plain_text",
+            "text": "View Full Results"
+          },
+          "url": "https://github.com/leadinsideout/unified-data-layer/blob/main/docs/checkpoints/checkpoint-8-results.md"
+        }
+      ]
+    }
+  ]
+}

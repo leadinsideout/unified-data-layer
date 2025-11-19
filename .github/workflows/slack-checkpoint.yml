@@ -20,8 +20,71 @@ jobs:
           TAG_NAME="${{ github.ref_name }}"
           CHECKPOINT_NUM=$(echo $TAG_NAME | grep -oP 'checkpoint-\K\d+' || echo "unknown")
           VERSION=$(echo $TAG_NAME | grep -oP 'v[\d.]+' || echo "unknown")
+
+          # Map checkpoint numbers to names and phases
+          case "$CHECKPOINT_NUM" in
+            1)
+              NAME="Local MVP Foundation"
+              PHASE="1"
+              ;;
+            2)
+              NAME="Vercel Deployment + Workflow Automation"
+              PHASE="1"
+              ;;
+            3)
+              NAME="Custom GPT Integration (North Star)"
+              PHASE="1"
+              ;;
+            4)
+              NAME="Schema Migration & Core Architecture"
+              PHASE="2"
+              ;;
+            5)
+              NAME="Multi-Type Processing Pipeline"
+              PHASE="2"
+              ;;
+            6)
+              NAME="Type-Aware Search with Multi-Dimensional Filtering"
+              PHASE="2"
+              ;;
+            7)
+              NAME="Custom GPT Integration & Phase 2 Validation"
+              PHASE="2"
+              ;;
+            8)
+              NAME="PII Scrubbing Pipeline"
+              PHASE="3"
+              ;;
+            9)
+              NAME="Row-Level Security (RLS)"
+              PHASE="3"
+              ;;
+            10)
+              NAME="API Key Management"
+              PHASE="3"
+              ;;
+            11)
+              NAME="MCP Server Development"
+              PHASE="4"
+              ;;
+            12)
+              NAME="Enhanced Custom GPT"
+              PHASE="4"
+              ;;
+            13)
+              NAME="Multi-Tenant Authentication"
+              PHASE="4"
+              ;;
+            *)
+              NAME="Checkpoint $CHECKPOINT_NUM"
+              PHASE="Unknown"
+              ;;
+          esac
+
           echo "number=$CHECKPOINT_NUM" >> $GITHUB_OUTPUT
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "name=$NAME" >> $GITHUB_OUTPUT
+          echo "phase=$PHASE" >> $GITHUB_OUTPUT
 
       - name: Get changelog
         id: changelog
@@ -41,7 +104,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "🎯 Checkpoint ${{ steps.checkpoint.outputs.number }} Complete",
+              "text": "🎯 Checkpoint ${{ steps.checkpoint.outputs.number }} Complete: ${{ steps.checkpoint.outputs.name }}",
               "blocks": [
                 {
                   "type": "header",
@@ -52,10 +115,25 @@ jobs:
                 },
                 {
                   "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*${{ steps.checkpoint.outputs.name }}*"
+                  }
+                },
+                {
+                  "type": "section",
                   "fields": [
                     {
                       "type": "mrkdwn",
+                      "text": "*Phase:*\nPhase ${{ steps.checkpoint.outputs.phase }}"
+                    },
+                    {
+                      "type": "mrkdwn",
                       "text": "*Version:*\n${{ steps.checkpoint.outputs.version }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Checkpoint:*\n${{ steps.checkpoint.outputs.number }}"
                     },
                     {
                       "type": "mrkdwn",
@@ -67,12 +145,20 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Changes:*\n${{ steps.changelog.outputs.changelog }}"
+                    "text": "*Recent Changes:*\n${{ steps.changelog.outputs.changelog }}"
                   }
                 },
                 {
                   "type": "actions",
                   "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "View Checkpoint Results"
+                      },
+                      "url": "${{ github.event.repository.html_url }}/blob/main/docs/checkpoints/checkpoint-${{ steps.checkpoint.outputs.number }}-results.md"
+                    },
                     {
                       "type": "button",
                       "text": {
@@ -85,7 +171,7 @@ jobs:
                       "type": "button",
                       "text": {
                         "type": "plain_text",
-                        "text": "View Checkpoint Docs"
+                        "text": "All Checkpoints"
                       },
                       "url": "${{ github.event.repository.html_url }}/tree/main/docs/checkpoints"
                     }

@@ -3,7 +3,15 @@ name: Slack - Phase & Major Release Notifications
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.0'  # Match phase (v0.1.0, v0.2.0) and major releases (v1.0.0, v2.0.0)
+      # ONLY match phase-ending releases and major releases
+      # Phase endings: v0.3.0 (Phase 1), v0.7.0 (Phase 2), v0.10.0 (Phase 3), v0.13.0 (Phase 4)
+      # Major releases: v1.0.0, v2.0.0, etc.
+      # DO NOT match checkpoint releases: v0.4.0-v0.6.0, v0.8.0-v0.9.0, v0.11.0-v0.12.0
+      - 'v0.3.0'   # Phase 1 Complete
+      - 'v0.7.0'   # Phase 2 Complete
+      - 'v0.10.0'  # Phase 3 Complete
+      - 'v0.13.0'  # Phase 4 Complete
+      - 'v[1-9]+.0.0'  # Major releases (v1.0.0, v2.0.0, etc.)
   workflow_dispatch:  # Allow manual trigger for testing/resending
 
 jobs:
@@ -83,12 +91,12 @@ jobs:
               SUMMARY="**What's New:**\n• Multi-type data support (transcripts, assessments, frameworks, documents)\n• Advanced search filtering (by coach, client, organization, data type)\n• Production-ready architecture with comprehensive testing\n\n**What This Means:**\n• Search across all your coaching data in one place\n• Find patterns across sessions, assessments, and frameworks\n• Results are faster and more relevant\n\n**Status:** Ready for testing"
               ;;
             10)
-              # Phase 3 Complete (estimated)
-              SUMMARY="**What's New:**\n• Enhanced security and privacy features\n• Automated PII (personally identifiable information) protection\n• Role-based access controls\n\n**What This Means:**\n• Your coaching data is more secure\n• Client privacy is automatically protected\n• Control who can see what data"
+              # Phase 3 Complete
+              SUMMARY="**What's New:**\n• Automated PII scrubbing for coaching transcripts (96% accuracy)\n• Row-level security policies for multi-tenant data isolation\n• API key management with rate limiting and usage tracking\n\n**What This Means:**\n• Personal information is automatically removed from transcripts\n• Each organization can only access their own data\n• Secure API access with usage monitoring and controls\n\n**Status:** Production-ready security and privacy foundation"
               ;;
             13)
-              # Phase 4 Complete (estimated)
-              SUMMARY="**What's New:**\n• Full AI platform integration (Custom GPT + Claude)\n• Real-time data updates\n• Advanced pattern analysis\n\n**What This Means:**\n• Ask questions in natural language and get instant answers\n• Works with ChatGPT and Claude\n• Automatically finds insights across sessions"
+              # Phase 4 Complete
+              SUMMARY="**What's New:**\n• Full AI platform integration (Custom GPT + Claude MCP)\n• Real-time semantic search across all coaching data\n• Advanced pattern recognition and insight generation\n\n**What This Means:**\n• Ask questions in natural language and get instant answers\n• Works seamlessly with ChatGPT and Claude\n• AI automatically finds patterns and insights across all coaching sessions\n\n**Status:** Production-ready AI integration"
               ;;
             *)
               # Default for unknown versions
