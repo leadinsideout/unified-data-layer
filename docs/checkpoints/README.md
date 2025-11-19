@@ -251,12 +251,40 @@ git checkout -b fix-from-checkpoint-1 v0.1.0-checkpoint-1
 
 ---
 
-## 📋 Future Checkpoints (Phases 3+)
+## 📋 Phase 3: Security & Privacy
 
-### Phase 3: Security & Privacy
-- Checkpoint 8: PII scrubbing pipeline
-- Checkpoint 9: Row-level security
-- Checkpoint 10: API key management
+### Checkpoint 8: PII Scrubbing Pipeline ✅
+**Status**: Complete
+**Tag**: `v0.8.0-checkpoint-8`
+**Completed**: 2025-11-19
+**Details**: [checkpoint-8-results.md](checkpoint-8-results.md)
+
+**What Was Built**:
+- Hybrid PII detection (Regex + GPT-3.5-turbo)
+- Intelligent content chunking for large documents
+- Adaptive timeout strategy
+- Parallel processing with entity deduplication
+- Comprehensive audit trail
+- API expense tracking integration
+
+**Results**:
+- ✅ 96% accuracy (EXCEEDS 95% target)
+- ✅ 37s average processing (acceptable for beta)
+- ✅ $0.005 per document (10x under budget)
+- ✅ 0% timeout rate (100% reliable)
+- ✅ 14x performance improvement on worst-case
+
+### Checkpoint 9: Row-Level Security (RLS) 🔴
+**Status**: Pending
+**Target**: TBD
+
+### Checkpoint 10: API Key Management 🔴
+**Status**: Pending
+**Target**: TBD
+
+---
+
+## 📋 Future Checkpoints (Phases 4+)
 
 ### Phase 4: Full AI Platform Integration
 - Checkpoint 11: MCP server

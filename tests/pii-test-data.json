@@ -1,0 +1,338 @@
+{
+  "description": "PII Scrubbing Test Dataset",
+  "version": "1.0.0",
+  "created": "2025-11-19",
+  "test_cases": [
+    {
+      "id": "001",
+      "name": "Names - Full names in coaching context",
+      "category": "names",
+      "input": "Coach Sarah met with John Smith to discuss his DISC profile results. Sarah provided feedback on John's leadership style.",
+      "expected_scrubbed": "Coach [NAME] met with [NAME] to discuss his DISC profile results. [NAME] provided feedback on [NAME]'s leadership style.",
+      "expected_entities": [
+        {"text": "Sarah", "type": "NAME"},
+        {"text": "John Smith", "type": "NAME"},
+        {"text": "Sarah", "type": "NAME"},
+        {"text": "John", "type": "NAME"}
+      ],
+      "min_entities": 2,
+      "allow_partial_match": true
+    },
+    {
+      "id": "002",
+      "name": "Email addresses",
+      "category": "email",
+      "input": "Contact me at john@acme.com or reach out to sarah.johnson@techcorp.io for more information.",
+      "expected_scrubbed": "Contact me at [EMAIL] or reach out to [EMAIL] for more information.",
+      "expected_entities": [
+        {"text": "john@acme.com", "type": "EMAIL"},
+        {"text": "sarah.johnson@techcorp.io", "type": "EMAIL"}
+      ],
+      "min_entities": 2
+    },
+    {
+      "id": "003",
+      "name": "Phone numbers - Various formats",
+      "category": "phone",
+      "input": "You can reach me at 555-123-4567 or (555) 987-6543. International: +1-555-111-2222",
+      "expected_scrubbed": "You can reach me at [PHONE] or [PHONE]. International: [PHONE]",
+      "expected_entities": [
+        {"text": "555-123-4567", "type": "PHONE"},
+        {"text": "(555) 987-6543", "type": "PHONE"},
+        {"text": "+1-555-111-2222", "type": "PHONE"}
+      ],
+      "min_entities": 3
+    },
+    {
+      "id": "004",
+      "name": "Social Security Numbers",
+      "category": "ssn",
+      "input": "The SSN 123-45-6789 was used for verification purposes.",
+      "expected_scrubbed": "The SSN [SSN] was used for verification purposes.",
+      "expected_entities": [
+        {"text": "123-45-6789", "type": "SSN"}
+      ],
+      "min_entities": 1
+    },
+    {
+      "id": "005",
+      "name": "Credit card numbers",
+      "category": "credit_card",
+      "input": "Card ending in 4532-1234-5678-9010 was declined.",
+      "expected_scrubbed": "Card ending in [CREDIT_CARD] was declined.",
+      "expected_entities": [
+        {"text": "4532-1234-5678-9010", "type": "CREDIT_CARD"}
+      ],
+      "min_entities": 1
+    },
+    {
+      "id": "006",
+      "name": "False positive test - Coaching terminology should NOT be scrubbed",
+      "category": "false_positive",
+      "input": "The Myers-Briggs assessment showed INTJ patterns in Adaptive Leadership scenarios. The DISC profile revealed high D characteristics.",
+      "expected_scrubbed": "The Myers-Briggs assessment showed INTJ patterns in Adaptive Leadership scenarios. The DISC profile revealed high D characteristics.",
+      "expected_entities": [],
+      "min_entities": 0,
+      "max_entities": 0
+    },
+    {
+      "id": "007",
+      "name": "False positive test - Generic roles",
+      "category": "false_positive",
+      "input": "The client discussed challenges with their manager. A team member raised concerns about the project.",
+      "expected_scrubbed": "The client discussed challenges with their manager. A team member raised concerns about the project.",
+      "expected_entities": [],
+      "min_entities": 0,
+      "max_entities": 0
+    },
+    {
+      "id": "008",
+      "name": "False positive test - Coaching frameworks",
+      "category": "false_positive",
+      "input": "We used the GROW model and Theory of Change framework. The Growth Mindset approach was effective.",
+      "expected_scrubbed": "We used the GROW model and Theory of Change framework. The Growth Mindset approach was effective.",
+      "expected_entities": [],
+      "min_entities": 0,
+      "max_entities": 0
+    },
+    {
+      "id": "009",
+      "name": "Mixed PII and coaching content",
+      "category": "mixed",
+      "input": "Sarah (sarah@example.com) completed her DISC assessment. She scored high on the D dimension. Contact her at 555-1234 for follow-up.",
+      "expected_scrubbed": "[NAME] ([EMAIL]) completed her DISC assessment. She scored high on the D dimension. Contact her at [PHONE] for follow-up.",
+      "expected_entities": [
+        {"text": "Sarah", "type": "NAME"},
+        {"text": "sarah@example.com", "type": "EMAIL"},
+        {"text": "555-1234", "type": "PHONE"}
+      ],
+      "min_entities": 2,
+      "allow_partial_match": true
+    },
+    {
+      "id": "010",
+      "name": "Address information",
+      "category": "address",
+      "input": "The client lives at 123 Main Street, Boston, MA 02101 and works downtown.",
+      "expected_scrubbed": "The client lives at [ADDRESS] and works downtown.",
+      "expected_entities": [
+        {"text": "123 Main Street, Boston, MA 02101", "type": "ADDRESS"}
+      ],
+      "min_entities": 1,
+      "allow_partial_match": true
+    },
+    {
+      "id": "011",
+      "name": "Date of birth",
+      "category": "dob",
+      "input": "John was born on March 15, 1985 and started his career at age 22.",
+      "expected_scrubbed": "[NAME] was born on [DOB] and started [NAME] career at age 22.",
+      "expected_entities": [
+        {"text": "John", "type": "NAME"},
+        {"text": "March 15, 1985", "type": "DOB"}
+      ],
+      "min_entities": 1,
+      "allow_partial_match": true
+    },
+    {
+      "id": "012",
+      "name": "Medical information",
+      "category": "medical",
+      "input": "The client mentioned dealing with anxiety and taking medication for depression. They also discussed stress management.",
+      "expected_scrubbed": "The client mentioned dealing with [MEDICAL_INFO] and taking [MEDICAL_INFO]. They also discussed stress management.",
+      "expected_entities": [
+        {"text": "anxiety", "type": "MEDICAL"},
+        {"text": "medication for depression", "type": "MEDICAL"}
+      ],
+      "min_entities": 1,
+      "allow_partial_match": true
+    },
+    {
+      "id": "013",
+      "name": "Financial information",
+      "category": "financial",
+      "input": "Sarah earns $150,000 annually and is concerned about her retirement savings account #12345678.",
+      "expected_scrubbed": "[NAME] earns [FINANCIAL_INFO] annually and is concerned about [NAME] retirement savings account [FINANCIAL_INFO].",
+      "expected_entities": [
+        {"text": "Sarah", "type": "NAME"},
+        {"text": "$150,000", "type": "FINANCIAL"}
+      ],
+      "min_entities": 2,
+      "allow_partial_match": true
+    },
+    {
+      "id": "014",
+      "name": "Company names with person names",
+      "category": "employer",
+      "input": "Michael Chen works at Google as a senior engineer. His manager Sarah oversees the team at Apple.",
+      "expected_scrubbed": "[NAME] works at [EMPLOYER] as a senior engineer. [NAME] manager [NAME] oversees the team at [EMPLOYER].",
+      "expected_entities": [
+        {"text": "Michael Chen", "type": "NAME"},
+        {"text": "Google", "type": "EMPLOYER"},
+        {"text": "Sarah", "type": "NAME"},
+        {"text": "Apple", "type": "EMPLOYER"}
+      ],
+      "min_entities": 2,
+      "allow_partial_match": true
+    },
+    {
+      "id": "015",
+      "name": "IP addresses",
+      "category": "ip",
+      "input": "The system logged access from 192.168.1.100 and 10.0.0.45 during the session.",
+      "expected_scrubbed": "The system logged access from [IP] and [IP] during the session.",
+      "expected_entities": [
+        {"text": "192.168.1.100", "type": "IP_ADDRESS"},
+        {"text": "10.0.0.45", "type": "IP_ADDRESS"}
+      ],
+      "min_entities": 2
+    },
+    {
+      "id": "016",
+      "name": "Real coaching transcript excerpt - Clean (no PII)",
+      "category": "coaching_clean",
+      "input": "The client discussed challenges with delegation and time management. We explored the Growth Mindset framework and identified three key areas for development: 1) Setting clearer boundaries 2) Trusting team members 3) Regular reflection practices.",
+      "expected_scrubbed": "The client discussed challenges with delegation and time management. We explored the Growth Mindset framework and identified three key areas for development: 1) Setting clearer boundaries 2) Trusting team members 3) Regular reflection practices.",
+      "expected_entities": [],
+      "min_entities": 0,
+      "max_entities": 0
+    },
+    {
+      "id": "017",
+      "name": "Real coaching transcript excerpt - With PII",
+      "category": "coaching_pii",
+      "input": "Sarah Johnson (sarah.j@acme.com) discussed her transition to VP of Engineering. She mentioned her previous role at Microsoft and her concerns about work-life balance while managing a team of 50. Sarah was born in 1978 and has been in tech for 25 years.",
+      "expected_scrubbed": "[NAME] ([EMAIL]) discussed [NAME] transition to VP of Engineering. [NAME] mentioned [NAME] previous role at [EMPLOYER] and [NAME] concerns about work-life balance while managing a team of 50. [NAME] was born in [DOB] and has been in tech for 25 years.",
+      "expected_entities": [
+        {"text": "Sarah Johnson", "type": "NAME"},
+        {"text": "sarah.j@acme.com", "type": "EMAIL"},
+        {"text": "Microsoft", "type": "EMPLOYER"},
+        {"text": "1978", "type": "DOB"}
+      ],
+      "min_entities": 3,
+      "allow_partial_match": true
+    },
+    {
+      "id": "018",
+      "name": "Multiple names in conversation",
+      "category": "names",
+      "input": "During the session, Emily mentioned feedback from her manager David and colleague Maria. Emily expressed concerns about communication with the team.",
+      "expected_scrubbed": "During the session, [NAME] mentioned feedback from [NAME] manager [NAME] and colleague [NAME]. [NAME] expressed concerns about communication with the team.",
+      "expected_entities": [
+        {"text": "Emily", "type": "NAME"},
+        {"text": "David", "type": "NAME"},
+        {"text": "Maria", "type": "NAME"}
+      ],
+      "min_entities": 3,
+      "allow_partial_match": true
+    },
+    {
+      "id": "019",
+      "name": "Partial PII - Title without name",
+      "category": "false_positive",
+      "input": "The CEO discussed strategy with the VP of Sales. The Director of Engineering provided technical insights.",
+      "expected_scrubbed": "The CEO discussed strategy with the VP of Sales. The Director of Engineering provided technical insights.",
+      "expected_entities": [],
+      "min_entities": 0,
+      "max_entities": 0
+    },
+    {
+      "id": "020",
+      "name": "Complex mixed content - Stress test",
+      "category": "stress_test",
+      "input": "Coach Maria Rodriguez (maria@insideout.com, 617-555-0123) met with client John Davis at 100 Federal St, Boston MA. John discussed his DISC assessment results (High D/I profile) and challenges managing his team at Amazon. He mentioned dealing with stress and his salary of $180K. We reviewed the Adaptive Leadership framework and set goals for Q4. Follow-up scheduled for next Tuesday.",
+      "expected_scrubbed": "Coach [NAME] ([EMAIL], [PHONE]) met with client [NAME] at [ADDRESS]. [NAME] discussed his DISC assessment results (High D/I profile) and challenges managing his team at [EMPLOYER]. He mentioned dealing with [MEDICAL_INFO] and his salary of [FINANCIAL_INFO]. We reviewed the Adaptive Leadership framework and set goals for Q4. Follow-up scheduled for next Tuesday.",
+      "expected_entities": [
+        {"text": "Maria Rodriguez", "type": "NAME"},
+        {"text": "maria@insideout.com", "type": "EMAIL"},
+        {"text": "617-555-0123", "type": "PHONE"},
+        {"text": "John Davis", "type": "NAME"},
+        {"text": "100 Federal St, Boston MA", "type": "ADDRESS"},
+        {"text": "Amazon", "type": "EMPLOYER"},
+        {"text": "stress", "type": "MEDICAL"},
+        {"text": "$180K", "type": "FINANCIAL"}
+      ],
+      "min_entities": 6,
+      "allow_partial_match": true
+    },
+    {
+      "id": "021",
+      "name": "Edge case - Empty string",
+      "category": "edge_case",
+      "input": "",
+      "expected_scrubbed": "",
+      "expected_entities": [],
+      "min_entities": 0,
+      "max_entities": 0
+    },
+    {
+      "id": "022",
+      "name": "Edge case - Very short text",
+      "category": "edge_case",
+      "input": "Hi there",
+      "expected_scrubbed": "Hi there",
+      "expected_entities": [],
+      "min_entities": 0,
+      "max_entities": 0
+    },
+    {
+      "id": "023",
+      "name": "Edge case - Only PII",
+      "category": "edge_case",
+      "input": "john@example.com 555-1234",
+      "expected_scrubbed": "[EMAIL] [PHONE]",
+      "expected_entities": [
+        {"text": "john@example.com", "type": "EMAIL"},
+        {"text": "555-1234", "type": "PHONE"}
+      ],
+      "min_entities": 2
+    },
+    {
+      "id": "024",
+      "name": "Assessment names - Should NOT be scrubbed",
+      "category": "false_positive",
+      "input": "We reviewed StrengthsFinder, Enneagram Type 4, and 16 Personalities results. The client is an INFJ-T personality type.",
+      "expected_scrubbed": "We reviewed StrengthsFinder, Enneagram Type 4, and 16 Personalities results. The client is an INFJ-T personality type.",
+      "expected_entities": [],
+      "min_entities": 0,
+      "max_entities": 0
+    },
+    {
+      "id": "025",
+      "name": "ZIP codes",
+      "category": "zip",
+      "input": "The office is located in 02101 and the client lives in 94102-1234.",
+      "expected_scrubbed": "The office is located in [ZIP] and the client lives in [ZIP].",
+      "expected_entities": [
+        {"text": "02101", "type": "ZIP_CODE"},
+        {"text": "94102-1234", "type": "ZIP_CODE"}
+      ],
+      "min_entities": 2
+    }
+  ],
+  "metadata": {
+    "total_test_cases": 25,
+    "categories": {
+      "names": 3,
+      "email": 1,
+      "phone": 1,
+      "ssn": 1,
+      "credit_card": 1,
+      "false_positive": 6,
+      "mixed": 1,
+      "address": 1,
+      "dob": 1,
+      "medical": 1,
+      "financial": 1,
+      "employer": 1,
+      "ip": 1,
+      "coaching_clean": 1,
+      "coaching_pii": 1,
+      "stress_test": 1,
+      "edge_case": 3,
+      "zip": 1
+    },
+    "target_accuracy": 0.95,
+    "notes": "Tests cover regex patterns, GPT detection, coaching terminology, and edge cases"
+  }
+}

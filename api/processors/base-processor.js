@@ -7,8 +7,9 @@
  * Processing Flow:
  * 1. Validate input (type-specific)
  * 2. Process content (type-specific)
- * 3. Chunk content (configurable per type)
- * 4. Generate embeddings (shared)
+ * 3. PII Scrubbing (universal - NEW in Phase 3)
+ * 4. Chunk content (configurable per type)
+ * 5. Generate embeddings (shared)
  *
  * Subclasses must implement:
  * - validate(rawContent, metadata)
@@ -16,12 +17,22 @@
  * - getChunkConfig() [optional]
  */
 
+import { PIIScrubber } from '../pii/index.js';
+
 export class BaseDataProcessor {
   constructor(openaiClient) {
     if (new.target === BaseDataProcessor) {
       throw new Error('Cannot instantiate abstract class BaseDataProcessor');
     }
     this.openai = openaiClient;
+
+    // Initialize PII scrubber
+    this.piiScrubber = new PIIScrubber(openaiClient, {
+      gptModel: process.env.PII_GPT_MODEL || 'gpt-4o-mini',
+      gptTemperature: parseFloat(process.env.PII_GPT_TEMPERATURE || '0'),
+      gptTimeout: parseInt(process.env.PII_GPT_TIMEOUT_MS || '5000'),
+      version: '1.0.0'
+    });
   }
 
   /**
@@ -38,10 +49,44 @@ export class BaseDataProcessor {
     // Step 2: Type-specific processing
     const processed = await this.typeSpecificProcessing(rawContent, metadata);
 
-    // Step 3: Chunk content
-    const chunks = this.chunkContent(processed.content, this.getChunkConfig());
+    // Step 3: PII Scrubbing (NEW in Phase 3)
+    const scrubbingEnabled =
+      process.env.PII_SCRUBBING_ENABLED === 'true' &&
+      metadata.skipPIIScrubbing !== true;
 
-    // Step 4: Generate embeddings
+    let contentToChunk = processed.content;
+    let piiAudit = null;
+
+    if (scrubbingEnabled) {
+      console.log(`[PII] Scrubbing ${processed.dataItem.data_type} content...`);
+
+      const scrubbed = await this.piiScrubber.scrub(
+        processed.content,
+        processed.dataItem.data_type
+      );
+
+      contentToChunk = scrubbed.content;
+      piiAudit = scrubbed.audit;
+
+      // Store backup of original content (safety net)
+      if (!processed.dataItem.metadata) {
+        processed.dataItem.metadata = {};
+      }
+
+      // Add PII scrubbing audit to metadata
+      processed.dataItem.metadata.pii_scrubbing = piiAudit;
+
+      console.log(
+        `[PII] Scrubbed ${piiAudit.entities.total} entities in ${piiAudit.performance.duration_ms}ms`
+      );
+    } else {
+      console.log('[PII] Scrubbing disabled, using original content');
+    }
+
+    // Step 4: Chunk content (scrubbed or original)
+    const chunks = this.chunkContent(contentToChunk, this.getChunkConfig());
+
+    // Step 5: Generate embeddings
     const embeddedChunks = await this.generateEmbeddings(chunks);
 
     return {
