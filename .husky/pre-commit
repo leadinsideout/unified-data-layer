@@ -6,4 +6,20 @@ echo "🔍 Running pre-commit checks..."
 # Run lint-staged
 npx lint-staged
 
+# Validate GitHub Actions workflow files for unsafe JSON patterns
+for file in $(git diff --cached --name-only | grep -E '\.github/workflows/.*\.yml$'); do
+  if [ -f "$file" ]; then
+    echo "🔍 Checking workflow: $file"
+
+    # Check for unsafe changelog injection (not using jq -Rs)
+    if grep -q '\${{ .*changelog.* }}' "$file"; then
+      if ! grep -q 'jq -Rs' "$file"; then
+        echo "⚠️  Warning: $file contains changelog variable injection without JSON escaping!"
+        echo "   Ensure proper JSON escaping is used with: jq -Rs"
+        echo "   See: docs/development/SLACK_NOTIFICATION_FIX_ANALYSIS.md"
+      fi
+    fi
+  fi
+done
+
 echo "✅ Pre-commit checks passed!"
