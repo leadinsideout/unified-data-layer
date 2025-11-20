@@ -22,7 +22,22 @@ The Unified Development Methodology is a comprehensive, modular approach to soft
 
 ## Quick Navigation
 
-### 📘 **Start Here**
+### 🤔 **Not Sure Where to Start?**
+
+**If you don't know which path to take or what you need**:
+→ Use the [Methodology Consultant](./consultant/USAGE_GUIDE.md)
+
+The consultant is a specialized prompt that transforms Claude Code into a software consultant. It will:
+- Ask questions about your current pain points
+- Help you discover problems you didn't realize you had
+- Recommend which parts of the methodology to adopt
+- Create a customized 30-day adoption plan tailored to your team
+
+**Time**: 30-45 minutes for discovery session
+
+---
+
+### 📘 **Start Here (If You Know What You Need)**
 
 **If you're starting a new project (greenfield)**:
 → Read [Main Manual](./UNIFIED_DEVELOPMENT_METHODOLOGY.md) → Part 2: Greenfield Quick Start
@@ -56,7 +71,18 @@ The Unified Development Methodology is a comprehensive, modular approach to soft
 
 **Read if**: You want comprehensive understanding
 
-#### 2. [Mid-Project Adoption Guide](./MID_PROJECT_ADOPTION_GUIDE.md)
+#### 2. [Methodology Consultant](./consultant/)
+**30-45 minute discovery session | For teams who don't know what they need**
+
+**Contents**:
+- [CONSULTANT_PROMPT.md](./consultant/CONSULTANT_PROMPT.md) - Core prompt that transforms Claude Code into a software consultant
+- [USAGE_GUIDE.md](./consultant/USAGE_GUIDE.md) - How to run a consultation session
+- [EXAMPLE_SESSION.md](./consultant/EXAMPLE_SESSION.md) - Complete walkthrough with real team
+- [INTEGRATION.md](./consultant/INTEGRATION.md) - How consultant fits into methodology
+
+**Read if**: You have pain points but can't articulate them, or you're unsure if this methodology applies to your team
+
+#### 3. [Mid-Project Adoption Guide](./MID_PROJECT_ADOPTION_GUIDE.md)
 **~60 pages | For existing projects**
 
 **Contents**:

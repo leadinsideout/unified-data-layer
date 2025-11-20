@@ -297,6 +297,30 @@ Score each question **0-10** (0 = no problem, 10 = severe problem):
 - **Time**: 3 months gradual rollout
 - **See**: Part 2, Full Adoption Path
 
+---
+
+### Alternative: Use the Methodology Consultant
+
+**Don't want to self-assess? Not sure which path to take?**
+
+Instead of the scorecard above, you can use the **Methodology Consultant** - a specialized prompt that transforms Claude Code into a software consultant who guides you through discovery.
+
+**The consultant will**:
+- Ask Socratic questions about your pain points
+- Help you discover problems you didn't realize you had
+- Map your pain to specific methodology modules
+- Create a customized 30-day adoption plan tailored to your team
+
+**Time**: 30-45 minutes for discovery session
+
+**See**: [consultant/USAGE_GUIDE.md](./consultant/USAGE_GUIDE.md) for complete walkthrough
+
+**When to use the consultant vs. scorecard**:
+- ✅ Use consultant if: You can't articulate pain, team disagrees on needs, want guided discovery
+- ✅ Use scorecard if: You know your pain points, want quick self-assessment, limited time
+
+Both paths lead to the same methodology - the consultant just provides guided discovery and customization.
+
 ### Special Case: Mid-Project Adoption
 
 If your project is already in progress (3+ months old), use this modified scorecard:
