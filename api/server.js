@@ -17,6 +17,7 @@ import OpenAI from 'openai';
 import multer from 'multer';
 import pdfParse from 'pdf-parse';
 import { DataProcessorFactory } from './processors/index.js';
+import { createAuthMiddleware, createOptionalAuthMiddleware } from './middleware/auth.js';
 
 // Load environment variables
 dotenv.config();
@@ -76,6 +77,11 @@ app.use((req, res, next) => {
   console.log(`[${timestamp}] ${req.method} ${req.path}`);
   next();
 });
+
+// Authentication middleware (created but not applied globally)
+// We'll apply it selectively to protected endpoints
+const authMiddleware = createAuthMiddleware(supabase);
+const optionalAuthMiddleware = createOptionalAuthMiddleware(supabase);
 
 // ============================================
 // HELPER FUNCTIONS
@@ -221,7 +227,7 @@ app.get('/api/health', (req, res) => {
  *     "message": "Transcript uploaded and processed successfully"
  *   }
  */
-app.post('/api/transcripts/upload', async (req, res) => {
+app.post('/api/transcripts/upload', optionalAuthMiddleware, async (req, res) => {
   try {
     const { text, meeting_date, coach_id, client_id, metadata } = req.body;
 
@@ -309,7 +315,7 @@ app.post('/api/transcripts/upload', async (req, res) => {
  *
  * Returns: Same as /api/transcripts/upload
  */
-app.post('/api/transcripts/upload-pdf', upload.single('file'), async (req, res) => {
+app.post('/api/transcripts/upload-pdf', optionalAuthMiddleware, upload.single('file'), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({
@@ -425,7 +431,7 @@ app.post('/api/transcripts/upload-pdf', upload.single('file'), async (req, res) 
  * Processes multiple transcripts in parallel for efficiency.
  * Returns: Array of created transcript IDs and processing status
  */
-app.post('/api/transcripts/bulk-upload', async (req, res) => {
+app.post('/api/transcripts/bulk-upload', optionalAuthMiddleware, async (req, res) => {
   try {
     const { transcripts } = req.body;
 
@@ -563,7 +569,7 @@ app.post('/api/transcripts/bulk-upload', async (req, res) => {
  *     "message": "Data uploaded and processed successfully"
  *   }
  */
-app.post('/api/data/upload', async (req, res) => {
+app.post('/api/data/upload', optionalAuthMiddleware, async (req, res) => {
   try {
     const { data_type, content, metadata = {} } = req.body;
 
@@ -677,7 +683,7 @@ app.post('/api/data/upload', async (req, res) => {
  *     "count": 5
  *   }
  */
-app.post('/api/search', async (req, res) => {
+app.post('/api/search', optionalAuthMiddleware, async (req, res) => {
   try {
     const {
       query,
