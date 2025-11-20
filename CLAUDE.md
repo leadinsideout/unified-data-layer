@@ -520,36 +520,44 @@ await mcp__supabase__list_projects();
 ### When Completing a Checkpoint
 1. ✅ Create comprehensive checkpoint status doc (docs/checkpoints/checkpoint-X-results.md)
 2. ✅ Update checkpoint index (docs/checkpoints/README.md)
-3. ✅ Commit all documentation changes
-4. ✅ Create checkpoint-specific tag (vX.Y.Z-checkpoint-N)
-5. ✅ **🛑 STOP - DO NOT PUSH YET**
-6. ✅ **CRITICAL: AUTOMATICALLY REMIND user to run release**
+3. ✅ **Conduct Checkpoint Retrospective** (New: Post-Checkpoint 9)
+   - Create retrospective doc: `docs/checkpoints/checkpoint-X-retrospective.md`
+   - Document what went well vs what went wrong
+   - List all errors/blockers encountered with root causes
+   - Identify lessons learned and patterns
+   - Propose workflow improvements based on learnings
+   - Update workflows.md if process changes needed
+   - **Deliverable**: Retrospective document with actionable improvements
+4. ✅ Commit all documentation changes
+5. ✅ Create checkpoint-specific tag (vX.Y.Z-checkpoint-N)
+6. ✅ **🛑 STOP - DO NOT PUSH YET**
+7. ✅ **CRITICAL: AUTOMATICALLY REMIND user to run release**
    - **This step is MANDATORY and must not be skipped**
    - Ask user: "Should I run the release command now to create v0.X.0?"
    - Explain: "This will bump package.json to 0.X.0, update CHANGELOG.md, and create the v0.X.0 release tag"
    - Wait for user approval before proceeding
-7. ✅ Run release command: `npm run release --release-as X.Y.0`
+8. ✅ Run release command: `npm run release --release-as X.Y.0`
    - Version number should match checkpoint number (Option A: Checkpoint-Based Versioning)
    - Example: Checkpoint 7 → v0.7.0
-8. ✅ Verify release artifacts created:
+9. ✅ Verify release artifacts created:
    - package.json version updated to 0.X.0
    - CHANGELOG.md updated with new entry
    - git tag v0.X.0 created
-9. ✅ Push all tags to remote: `git push --follow-tags origin main`
-10. ✅ Verify GitHub Actions workflows triggered:
+10. ✅ Push all tags to remote: `git push --follow-tags origin main`
+11. ✅ Verify GitHub Actions workflows triggered:
    - Checkpoint notification workflow (triggered by v0.X.0-checkpoint-Y tag)
    - Release notification workflow (triggered by v0.X.0 tag → sends to #team_ai)
-11. ✅ Check Slack for notifications:
+12. ✅ Check Slack for notifications:
    - Dev channel: Checkpoint completion
    - #team_ai: Phase/release completion (ONLY for phase-ending checkpoints)
-12. ✅ **VERIFY Slack notification accuracy**:
+13. ✅ **VERIFY Slack notification accuracy**:
    - **Phase numbering**: Check that phase number is correct (see [checkpoint-phase-mapping.md](docs/development/checkpoint-phase-mapping.md))
    - **Checkpoint name**: Verify checkpoint name matches actual feature delivered
    - **Message content**: Confirm content is specific (not generic "platform improvements")
    - **Channel routing**: Verify #team_ai only received phase completions (v0.3.0, v0.7.0, v0.10.0, v0.13.0)
    - **Links**: Test that all documentation links work correctly
    - **If errors found**: Use [slack-correction-template.md](docs/development/slack-correction-template.md) to post correction
-13. ✅ Update CLAUDE.md with new checkpoint status
+14. ✅ Update CLAUDE.md with new checkpoint status
 
 ### When User Returns After Break
 1. ✅ Check if OpenAI quota resolved (if relevant)

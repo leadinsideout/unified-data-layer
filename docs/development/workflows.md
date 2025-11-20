@@ -505,81 +505,260 @@ vercel --prod <previous-deployment-url>
 
 ## 6. Database Migration Workflow
 
-### **Strategy: SQL Migration Files in Version Control**
+### **Strategy: SQL Migration Files with Local Testing**
 
-**Status**: 🟡 Implement when first schema change needed
+**Status**: ✅ Implemented (Checkpoint 9) - See migration-template.md for full details
 
-**When to Add**: After Checkpoint 1, before any schema modifications
+**Updated**: 2025-11-20 (Post-Checkpoint 9 Retrospective)
+
+### Overview
+
+All database schema changes must:
+1. ✅ Be tested locally before production
+2. ✅ Follow migration template structure
+3. ✅ Include rollback procedures
+4. ✅ Pass pre-migration audit
+5. ✅ Be documented with test results
 
 ### Directory Structure
 
 ```
 scripts/
-  migrations/
+  database/
     001_initial_schema.sql
-    002_add_coach_client_indexes.sql
-    003_add_metadata_columns.sql
-  migrate.js (migration runner script)
-  rollback.js (rollback script)
+    002_add_vector_embeddings.sql
+    003_multi_type_schema.sql
+    004_coaching_organizations.sql
+    005a_add_visibility_levels.sql
+    005b_add_join_tables.sql
+    006_row_level_security_final.sql
+    XXX_rollback.sql (rollback scripts)
+    XXX_test_log.txt (test results)
+    current_schema.sql (latest production schema)
 ```
 
-### Migration File Template
+### Migration Workflow Checklist
+
+#### Before Writing Migration
+
+- [ ] **Run Pre-Migration Audit**
+  - Verify current database schema (use `mcp__supabase__list_tables`)
+  - Check for missing prerequisites (join tables, helper functions)
+  - Identify special cases (admin, system users, null values)
+  - Review PostgreSQL requirements (function volatility, constraint rules)
+  - Document current state in migration header
+
+- [ ] **Review Requirements**
+  - Check design docs for required tables/relationships
+  - List all foreign key dependencies
+  - Identify edge cases for constraints
+  - Plan index strategy
+
+#### Writing Migration
+
+- [ ] **Use Migration Template**
+  - Copy from `docs/development/migration-template.md`
+  - Follow naming convention: `XXX_descriptive_name.sql`
+  - Include pre-migration audit results in header
+  - Document all prerequisites
+
+- [ ] **Structure Migration Properly**
+  - Step 1: Create tables
+  - Step 2: Create functions (with correct volatility)
+  - Step 3: Enable features (RLS, triggers, extensions)
+  - Step 4: Create policies/rules
+  - Step 5: Create indexes (no STABLE functions in predicates)
+  - Step 6: Seed test data
+  - Step 7: Verification queries
+
+- [ ] **Create Rollback Script**
+  - File: `XXX_rollback.sql`
+  - Reverse order of migration steps
+  - Include data preservation warnings
+  - Add verification queries
+
+#### Testing Migration Locally
+
+**Required**: Must test locally before applying to production
+
+- [ ] **Setup Local Environment** (if not already done)
+  - Follow `docs/setup/local-development.md`
+  - Install PostgreSQL 17.x with pgvector
+  - Create local database
+  - Restore production schema
+
+- [ ] **Test Migration Execution**
+  ```bash
+  # Backup current schema
+  pg_dump --schema-only unified_data_layer_local > backup_schema.sql
+
+  # Apply migration
+  psql-local < scripts/database/XXX_migration.sql
+
+  # Check for errors
+  echo $?  # Should be 0
+
+  # Run verification queries
+  psql-local -c "SELECT * FROM new_table LIMIT 5;"
+  ```
+
+- [ ] **Test Rollback Procedure**
+  ```bash
+  # Apply rollback
+  psql-local < scripts/database/XXX_rollback.sql
+
+  # Verify database restored
+  psql-local -c "\dt"
+  psql-local -c "\df"
+  ```
+
+- [ ] **Document Test Results**
+  - Create `scripts/database/XXX_test_log.txt`
+  - Record all test outcomes (pass/fail)
+  - Note any warnings or issues
+  - Confirm ready for production
+
+#### Applying to Production
+
+- [ ] **Create Safety Checkpoint**
+  ```bash
+  git add scripts/database/XXX_migration.sql
+  git add scripts/database/XXX_rollback.sql
+  git commit -m "feat(db): add migration XXX - ready for production"
+  ```
+
+- [ ] **Document Rollback Plan**
+  - Create rollback instructions doc
+  - Include emergency procedures
+  - Document data preservation steps
+
+- [ ] **Apply via Supabase Dashboard**
+  - Copy migration SQL to clipboard
+  - Open Supabase SQL Editor
+  - Paste and review migration
+  - Execute migration
+  - Run verification queries
+  - Check for errors
+
+- [ ] **Verify Migration Success**
+  - Run verification queries from migration
+  - Check data integrity (row counts)
+  - Test API endpoints with new schema
+  - Monitor for errors
+
+#### After Migration
+
+- [ ] **Commit Migration Files**
+  ```bash
+  git add scripts/database/XXX_migration.sql
+  git add scripts/database/XXX_rollback.sql
+  git add scripts/database/XXX_test_log.txt
+  git commit -m "feat(db): apply migration XXX to production"
+  ```
+
+- [ ] **Update Documentation**
+  - Update checkpoint docs with migration details
+  - Note any issues encountered
+  - Document production verification results
+
+- [ ] **Create Integration Tests**
+  - Test new tables/columns via API
+  - Verify RLS policies (if applicable)
+  - Test rollback in staging (if available)
+
+- [ ] **Conduct Retrospective**
+  - Review what went well
+  - Document issues encountered
+  - Update workflows if needed
+
+### Common Pitfalls (Lessons from Checkpoint 9)
+
+#### 1. Function Volatility in Index Predicates
+
+**Problem**: Cannot use STABLE/VOLATILE functions in index WHERE clauses
 
 ```sql
--- Migration: 001_initial_schema.sql
--- Description: Create initial transcripts and chunks tables
--- Author: [Your Name]
--- Date: 2025-11-08
--- Dependencies: None
--- Rollback: See down migration section
+-- ❌ FAILS
+CREATE INDEX idx_active ON api_keys(key_hash)
+  WHERE is_revoked = false AND get_current_user_id() IS NOT NULL;
+-- ERROR: functions in index predicate must be marked IMMUTABLE
 
--- ============================================
--- UP MIGRATION
--- ============================================
+-- ✅ FIX
+CREATE INDEX idx_active ON api_keys(key_hash)
+  WHERE is_revoked = false;
+-- Remove function from predicate
+```
 
--- Enable extensions
-CREATE EXTENSION IF NOT EXISTS vector;
+**Rule**: Functions using `current_setting()` or session state CANNOT be IMMUTABLE
 
--- Create tables
-CREATE TABLE IF NOT EXISTS transcripts (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  raw_text TEXT,
-  meeting_date TIMESTAMP,
-  created_at TIMESTAMP DEFAULT NOW(),
-  metadata JSONB,
-  coach_id UUID,
-  client_id UUID,
-  fireflies_meeting_id TEXT
-);
+#### 2. Missing Prerequisite Tables
 
-CREATE TABLE IF NOT EXISTS transcript_chunks (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  transcript_id UUID REFERENCES transcripts(id) ON DELETE CASCADE,
-  chunk_index INTEGER,
-  content TEXT,
-  embedding vector(1536),
-  created_at TIMESTAMP DEFAULT NOW(),
-  UNIQUE(transcript_id, chunk_index)
-);
+**Problem**: Migration references tables that don't exist yet
 
--- Create indexes
-CREATE INDEX idx_transcript_chunks_transcript_id
-  ON transcript_chunks(transcript_id);
+```sql
+-- ❌ FAILS if coach_clients doesn't exist
+CREATE POLICY coaches_see_clients ON data_items FOR SELECT
+  USING (client_id IN (SELECT client_id FROM coach_clients WHERE coach_id = get_current_coach_id()));
+-- ERROR: relation "coach_clients" does not exist
 
-CREATE INDEX idx_transcript_chunks_embedding
-  ON transcript_chunks
-  USING ivfflat (embedding vector_cosine_ops)
-  WITH (lists = 100);
+-- ✅ FIX
+-- Create prerequisite migration first: 005b_add_join_tables.sql
+-- Then run RLS migration: 006_row_level_security.sql
+```
 
--- ============================================
--- DOWN MIGRATION (for rollback)
--- ============================================
+**Rule**: Always verify all referenced tables exist before writing policies
 
--- Uncomment to enable rollback:
--- DROP INDEX IF EXISTS idx_transcript_chunks_embedding;
--- DROP INDEX IF EXISTS idx_transcript_chunks_transcript_id;
--- DROP TABLE IF EXISTS transcript_chunks CASCADE;
--- DROP TABLE IF EXISTS transcripts CASCADE;
+#### 3. Overly Restrictive Constraints
+
+**Problem**: Constraints don't allow special cases (admin, system users)
+
+```sql
+-- ❌ TOO STRICT
+CONSTRAINT key_has_single_owner CHECK (
+  (coach_id IS NOT NULL AND client_id IS NULL) OR
+  (coach_id IS NULL AND client_id IS NOT NULL)
+)
+-- Breaks for admin keys (both NULL)
+
+-- ✅ FLEXIBLE
+CONSTRAINT key_owner_not_both CHECK (
+  NOT (coach_id IS NOT NULL AND client_id IS NOT NULL)
+)
+-- Allows NULL/NULL for admin
+```
+
+**Rule**: Brainstorm edge cases before creating constraints
+
+### Resources
+
+- **Migration Template**: `docs/development/migration-template.md`
+- **Local Setup Guide**: `docs/setup/local-development.md`
+- **Checkpoint 9 Retrospective**: `docs/checkpoints/checkpoint-9-retrospective.md`
+- **PostgreSQL Function Volatility**: https://www.postgresql.org/docs/current/xfunc-volatility.html
+
+### Quick Reference
+
+```bash
+# Setup local environment (one-time)
+createdb unified_data_layer_local
+psql unified_data_layer_local -c "CREATE EXTENSION IF NOT EXISTS vector;"
+
+# Restore production schema
+supabase db dump --schema-only > scripts/database/current_schema.sql
+psql unified_data_layer_local < scripts/database/current_schema.sql
+
+# Create new migration
+touch scripts/database/007_new_feature.sql
+touch scripts/database/007_rollback.sql
+
+# Test migration locally
+psql unified_data_layer_local < scripts/database/007_new_feature.sql
+
+# Test rollback
+psql unified_data_layer_local < scripts/database/007_rollback.sql
+
+# Apply to production (after local testing passes)
+# Copy SQL to Supabase dashboard, execute, verify
 ```
 
 ### Migration Runner Script
