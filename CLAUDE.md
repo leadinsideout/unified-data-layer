@@ -544,20 +544,35 @@ await mcp__supabase__list_projects();
    - CHANGELOG.md updated with new entry
    - git tag v0.X.0 created
 10. ✅ Push all tags to remote: `git push --follow-tags origin main`
-11. ✅ Verify GitHub Actions workflows triggered:
+11. ✅ **CRITICAL: Draft Slack Message for User Approval** (New: Post-Checkpoint 9)
+   - Draft Slack notification message with checkpoint details
+   - Include: Phase/Checkpoint title, achievements, lessons learned, impact, docs
+   - Format: "Phase X, Checkpoint Y Complete: [Feature Name]"
+   - Channel: Dev/project channel (NOT #team_ai unless phase-ending checkpoint)
+   - **Show complete message to user and wait for explicit approval**
+   - User can: (A) Approve as-is, (B) Request modifications, (C) Skip notification
+   - **This step is MANDATORY - never send team communications without user approval**
+12. ✅ Verify GitHub Actions workflows triggered:
    - Checkpoint notification workflow (triggered by v0.X.0-checkpoint-Y tag)
    - Release notification workflow (triggered by v0.X.0 tag → sends to #team_ai)
-12. ✅ Check Slack for notifications:
+13. ✅ Check Slack for notifications (after user approval):
    - Dev channel: Checkpoint completion
    - #team_ai: Phase/release completion (ONLY for phase-ending checkpoints)
-13. ✅ **VERIFY Slack notification accuracy**:
+14. ✅ **VERIFY Slack notification accuracy**:
    - **Phase numbering**: Check that phase number is correct (see [checkpoint-phase-mapping.md](docs/development/checkpoint-phase-mapping.md))
    - **Checkpoint name**: Verify checkpoint name matches actual feature delivered
    - **Message content**: Confirm content is specific (not generic "platform improvements")
    - **Channel routing**: Verify #team_ai only received phase completions (v0.3.0, v0.7.0, v0.10.0, v0.13.0)
    - **Links**: Test that all documentation links work correctly
    - **If errors found**: Use [slack-correction-template.md](docs/development/slack-correction-template.md) to post correction
-14. ✅ Update CLAUDE.md with new checkpoint status
+15. ✅ **Update Methodology with Retrospective Learnings** (New: Post-Checkpoint 9)
+   - Review retrospective document for process improvements
+   - Identify gaps in UNIFIED_DEVELOPMENT_METHODOLOGY.md
+   - Propose specific updates to methodology
+   - Document in docs/methodology/CHECKPOINT_X_METHODOLOGY_UPDATES.md
+   - Apply approved updates to methodology
+   - Commit with: `docs(methodology): incorporate Checkpoint X learnings`
+16. ✅ Update CLAUDE.md with new checkpoint status
 
 ### When User Returns After Break
 1. ✅ Check if OpenAI quota resolved (if relevant)
