@@ -37,9 +37,9 @@
 ## 🗺️ Project Status (Quick Reference)
 
 **Current Branch**: `main`
-**Current Version**: `v0.7.0` (Phase 2 Complete)
-**Latest Tags**: `v0.7.0` (release), `v0.7.0-checkpoint-7` (checkpoint)
-**Latest Documentation**: See `docs/checkpoints/checkpoint-7-results.md` and `docs/project/PHASE_2_RESULTS.md`
+**Current Version**: `v0.8.0` (Phase 3 - Checkpoint 8 Complete)
+**Latest Tags**: `v0.8.0` (release), `v0.8.0-checkpoint-8` (checkpoint)
+**Latest Documentation**: See `docs/checkpoints/checkpoint-8-results.md`
 
 **What's Working (Phase 1 Complete ✅)**:
 - ✅ Supabase database with pgvector
@@ -72,10 +72,17 @@
 
 **Phase 2 Duration**: 1 day | **Status**: Production Ready
 
-**What's Next (Phase 3)**:
-- 🔴 PII scrubbing pipeline
-- 🔴 Row-level security (RLS)
-- 🔴 API key management
+**What's Working (Phase 3 - In Progress)**:
+- ✅ **Checkpoint 8**: PII scrubbing pipeline (hybrid regex + GPT detection)
+  - 96% accuracy (24/25 tests passed)
+  - 37s avg processing for 50K+ char documents
+  - $0.005 per document (10x under budget)
+  - 0% timeout rate, graceful degradation
+  - Production ready with feature flag
+
+**What's Next (Phase 3 - Remaining)**:
+- 🔴 **Checkpoint 9**: Row-level security (RLS) - NEXT
+- 🔴 **Checkpoint 10**: API key management
 
 **Blockers**:
 - None
@@ -752,6 +759,15 @@ Automatically check if CLAUDE.md needs updating after:
 ---
 
 ## 🔖 Version History
+
+- **v0.8.0 / v0.8.0-checkpoint-8** (2025-11-19): Phase 3 - PII Scrubbing Pipeline ✅
+  - See: [docs/checkpoints/checkpoint-8-results.md](docs/checkpoints/checkpoint-8-results.md)
+  - Hybrid Detection: Regex + GPT (context-aware)
+  - Performance: 37s avg for 50K+ char documents (14x improvement)
+  - Accuracy: 96% detection rate (24/25 tests passed)
+  - Cost: $0.005 per document (10x under budget)
+  - Reliability: 0% timeout rate, graceful degradation
+  - Status: Production ready
 
 - **v0.7.0 / v0.7.0-checkpoint-7** (2025-11-12): Phase 2 Complete - Custom GPT Validation ✅
   - See: [docs/checkpoints/checkpoint-7-results.md](docs/checkpoints/checkpoint-7-results.md)
