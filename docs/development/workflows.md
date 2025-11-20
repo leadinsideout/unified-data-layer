@@ -1123,3 +1123,150 @@ This document will evolve as the project grows:
 - **Testing Guide**: `docs/testing/integration-tests.md` (future)
 - **Deployment Guide**: `docs/setup/vercel-deployment.md`
 - **Migration Guide**: `docs/database/migrations.md` (future)
+
+## 9. Slack Notification Best Practices
+
+### **Pattern: JSON-Safe Payload Construction**
+
+**Status**: ✅ Implemented (Post-Checkpoint 9 Fix)
+
+**When to Use**: Any GitHub Actions workflow that sends Slack notifications with dynamic content
+
+### The Problem
+
+Directly injecting multi-line strings (like changelogs) into JSON payloads breaks parsing:
+
+**Wrong** ❌:
+```yaml
+"text": "*Recent Changes:*\n${{ steps.changelog.outputs.changelog }}"
+```
+
+When changelog contains:
+```
+- feat: add feature
+- fix: fix bug
+- docs: update docs
+```
+
+The resulting JSON becomes invalid:
+```json
+{
+  "text": "*Recent Changes:*\n- feat: add feature
+- fix: fix bug
+- docs: update docs"
+}
+```
+
+**Error**: `invalid JSON payload` - Newlines are literal, not escaped.
+
+### The Solution
+
+**Correct** ✅:
+
+```yaml
+- name: Get changelog
+  id: changelog
+  run: |
+    CHANGELOG=$(git log --format="- %s" ${LAST_TAG}..HEAD | head -5)
+
+    # Escape for JSON using jq
+    CHANGELOG_JSON=$(echo "$CHANGELOG" | jq -Rs . | sed 's/^"//;s/"$//')
+
+    echo "changelog=$CHANGELOG_JSON" >> $GITHUB_OUTPUT
+
+- name: Validate JSON payload
+  run: |
+    cat > /tmp/test-payload.json <<'PAYLOAD_EOF'
+    {
+      "text": "*Changes:*\n${{ steps.changelog.outputs.changelog }}"
+    }
+    PAYLOAD_EOF
+
+    if ! jq empty /tmp/test-payload.json 2>/dev/null; then
+      echo "❌ JSON validation failed!"
+      exit 1
+    fi
+
+- name: Notify Slack
+  uses: slackapi/slack-github-action@v1
+  with:
+    payload: |
+      {
+        "text": "*Recent Changes:*\n${{ steps.changelog.outputs.changelog }}"
+      }
+```
+
+### Key Points
+
+1. **Always escape with jq**: Use `jq -Rs` to convert raw string to JSON-safe string
+2. **Validate before sending**: Add validation step to catch errors early
+3. **Test locally**: Use `scripts/test-slack-payload.sh [checkpoint]`
+4. **Limit output size**: Use `head -5` to keep messages concise
+
+### Prevention
+
+**Pre-commit hook** (automatically checks workflow files):
+```bash
+# In .husky/pre-commit
+if grep -q '\${{ .*changelog.* }}' "$file"; then
+  if ! grep -q 'jq -Rs' "$file"; then
+    echo "⚠️  Warning: unsafe changelog injection!"
+  fi
+fi
+```
+
+### Testing
+
+**Local test before push**:
+```bash
+./scripts/test-slack-payload.sh 9
+
+# Expected output:
+✅ JSON is valid!
+```
+
+**Create test tag to verify**:
+```bash
+git tag v0.X.Y-checkpoint-N-test
+git push origin v0.X.Y-checkpoint-N-test
+gh run watch
+
+# Clean up after verification:
+git tag -d v0.X.Y-checkpoint-N-test
+git push origin :refs/tags/v0.X.Y-checkpoint-N-test
+```
+
+### Resources
+
+- **Analysis**: `docs/development/SLACK_NOTIFICATION_FIX_ANALYSIS.md`
+- **Test Script**: `scripts/test-slack-payload.sh`
+- **Example Fix**: See `.github/workflows/slack-checkpoint.yml` lines 89-137
+
+### Common Mistakes
+
+**Mistake 1**: Injecting unescaped strings
+```yaml
+❌ "text": "${{ steps.changelog.outputs.changelog }}"
+```
+
+**Mistake 2**: Forgetting to validate
+```yaml
+❌ No validation step before Notify Slack
+```
+
+**Mistake 3**: Not testing locally
+```yaml
+❌ Pushing without running ./scripts/test-slack-payload.sh
+```
+
+### Success Criteria
+
+- ✅ All checkpoint notifications send successfully
+- ✅ No "invalid JSON payload" errors
+- ✅ Local test script passes
+- ✅ Pre-commit hook warns about unsafe patterns
+
+---
+
+**Last Updated**: 2025-11-20 (Post-Checkpoint 9 Fix)
+**Reference**: Checkpoint 9 Slack notification failure analysis
