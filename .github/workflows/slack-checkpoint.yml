@@ -91,13 +91,50 @@ jobs:
         run: |
           LAST_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
           if [ -z "$LAST_TAG" ]; then
-            CHANGELOG=$(git log --format="- %s" HEAD | head -10)
+            CHANGELOG=$(git log --format="- %s" HEAD | head -5)
           else
-            CHANGELOG=$(git log --format="- %s" ${LAST_TAG}..HEAD)
+            CHANGELOG=$(git log --format="- %s" ${LAST_TAG}..HEAD | head -5)
           fi
-          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+
+          # Escape for JSON (handles newlines, quotes, special chars)
+          # Using jq -Rs to read as raw string and output as JSON string
+          CHANGELOG_JSON=$(echo "$CHANGELOG" | jq -Rs . | sed 's/^"//;s/"$//')
+
+          echo "changelog=$CHANGELOG_JSON" >> $GITHUB_OUTPUT
+          echo "changelog_raw<<EOF" >> $GITHUB_OUTPUT
           echo "$CHANGELOG" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Validate JSON payload
+        run: |
+          # Create test payload to validate JSON structure
+          cat > /tmp/test-payload.json <<'PAYLOAD_EOF'
+          {
+            "text": "Test",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*Recent Changes:*\n${{ steps.changelog.outputs.changelog }}"
+                }
+              }
+            ]
+          }
+          PAYLOAD_EOF
+
+          # Validate JSON syntax
+          if ! jq empty /tmp/test-payload.json 2>/tmp/jq-error.txt; then
+            echo "❌ JSON validation failed!"
+            echo "Error:"
+            cat /tmp/jq-error.txt
+            echo ""
+            echo "Problematic payload:"
+            cat /tmp/test-payload.json
+            exit 1
+          fi
+
+          echo "✅ JSON payload is valid"
 
       - name: Notify Slack
         uses: slackapi/slack-github-action@v1
