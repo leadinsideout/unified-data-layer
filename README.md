@@ -6,7 +6,7 @@ Semantic search API for coaching data (transcripts, assessments, coaching models
 
 ## Status
 
-**Phase 2 Complete** ✅ | **Ready for Phase 3** | **Version**: v0.7.0
+**Phase 3 In Progress** ⏳ (67% Complete) | **Version**: v0.9.0
 
 ### Phase 1: Transcript Foundation ✅ (Nov 1-11, 2025)
 - ✅ Express API server with semantic search
@@ -277,10 +277,10 @@ See [docs/development/workflows.md](docs/development/workflows.md) for complete 
 - ✅ Checkpoint 6: Type-Aware Search & Filtering
 - ✅ Checkpoint 7: Custom GPT Integration Validation
 
-**Phase 3** 🔴 NEXT - Security & Privacy
-- Checkpoint 8: PII scrubbing pipeline
-- Checkpoint 9: Row-level security (RLS)
-- Checkpoint 10: API key management
+**Phase 3** ⏳ IN PROGRESS (67% Complete) - Security & Privacy
+- ✅ Checkpoint 8: PII Scrubbing Pipeline (COMPLETE - v0.8.0, Nov 19, 2025)
+- ✅ Checkpoint 9: Row-Level Security (RLS) (COMPLETE - v0.9.0, Nov 20, 2025)
+- 🔴 Checkpoint 10: API Key Management (NEXT - Planning Complete)
 
 **Phase 4**: Full AI platform integration (MCP + Custom GPT)
 

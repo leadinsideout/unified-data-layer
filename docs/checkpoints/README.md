@@ -226,9 +226,9 @@ git checkout -b fix-from-checkpoint-1 v0.1.0-checkpoint-1
 
 ### Checkpoint 5: Multi-Type Processing Pipeline ✅
 **Status**: Complete
-**Tag**: `v0.4.1-checkpoint-5`
+**Tag**: `v0.5.0 / v0.5.0-checkpoint-5`
 **Completed**: 2025-11-12
-**Details**: [checkpoint-5-results.md](checkpoint-5-results.md)
+**Details**: See [PHASE_2_RESULTS.md](../project/PHASE_2_RESULTS.md)
 
 ### Checkpoint 5b: User/Organization Table Seeding ✅
 **Status**: Complete
@@ -274,13 +274,24 @@ git checkout -b fix-from-checkpoint-1 v0.1.0-checkpoint-1
 - ✅ 0% timeout rate (100% reliable)
 - ✅ 14x performance improvement on worst-case
 
-### Checkpoint 9: Row-Level Security (RLS) 🔴
-**Status**: Pending
-**Target**: TBD
+### Checkpoint 9: Row-Level Security (RLS) ✅
+**Status**: Complete
+**Tag**: `v0.9.0 / v0.9.0-checkpoint-9`
+**Completed**: 2025-11-20
+**Details**: [checkpoint-9-results.md](checkpoint-9-results.md)
 
-### Checkpoint 10: API Key Management 🔴
-**Status**: Pending
+**What Was Built**:
+- 42 RLS policies across 12 tables
+- API key authentication with bcrypt hashing
+- Multi-tenant data isolation at database level
+- Comprehensive audit logging
+- <10% performance overhead
+- Zero data loss migration
+
+### Checkpoint 10: API Key Management 📋
+**Status**: Planning Complete
 **Target**: TBD
+**Planning**: [checkpoint-10-planning.md](checkpoint-10-planning.md)
 
 ---
 

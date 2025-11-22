@@ -37,9 +37,9 @@
 ## 🗺️ Project Status (Quick Reference)
 
 **Current Branch**: `main`
-**Current Version**: `v0.8.0` (Phase 3 - Checkpoint 8 Complete)
-**Latest Tags**: `v0.8.0` (release), `v0.8.0-checkpoint-8` (checkpoint)
-**Latest Documentation**: See `docs/checkpoints/checkpoint-8-results.md`
+**Current Version**: `v0.9.0` (Phase 3 - Checkpoint 9 Complete)
+**Latest Tags**: `v0.9.0` (release), `v0.9.0-checkpoint-9` (checkpoint)
+**Latest Documentation**: See `docs/checkpoints/checkpoint-9-results.md`
 
 **What's Working (Phase 1 Complete ✅)**:
 - ✅ Supabase database with pgvector
@@ -217,7 +217,7 @@ Purpose: Understand overall implementation plan and checkpoints
 - `docs/project/phase-2-implementation-plan.md` - Phase 2 detailed implementation
 
 ### Current Status
-- `docs/checkpoints/checkpoint-7-results.md` - Latest checkpoint (Phase 2 Complete)
+- `docs/checkpoints/checkpoint-9-results.md` - Latest checkpoint (Phase 3 - RLS Complete)
 - `docs/checkpoints/README.md` - Checkpoint index
 - `docs/project/PHASE_2_RESULTS.md` - Phase 2 completion summary
 
@@ -304,7 +304,7 @@ Store (Supabase) → Search (vector similarity) → Return chunks
 ### Task: Review current status
 ```
 Files to read:
-1. docs/checkpoints/checkpoint-7-results.md (latest status)
+1. docs/checkpoints/checkpoint-9-results.md (latest status)
 2. README.md (project overview)
 3. git log --oneline -10 (recent commits)
 ```
@@ -733,7 +733,7 @@ Automatically check if CLAUDE.md needs updating after:
 - Setup guides: [docs/setup/](docs/setup/)
 
 **For AI Assistant**:
-- Current status: [docs/checkpoints/checkpoint-7-results.md](docs/checkpoints/checkpoint-7-results.md)
+- Current status: [docs/checkpoints/checkpoint-9-results.md](docs/checkpoints/checkpoint-9-results.md)
 - Checkpoint index: [docs/checkpoints/README.md](docs/checkpoints/README.md)
 - Implementation plan: [docs/project/roadmap.md](docs/project/roadmap.md)
 - Workflows: [docs/development/workflows.md](docs/development/workflows.md)
@@ -782,6 +782,15 @@ Automatically check if CLAUDE.md needs updating after:
 ---
 
 ## 🔖 Version History
+
+- **v0.9.0 / v0.9.0-checkpoint-9** (2025-11-20): Phase 3 - Row-Level Security (RLS) ✅
+  - See: [docs/checkpoints/checkpoint-9-results.md](docs/checkpoints/checkpoint-9-results.md)
+  - RLS: 42 policies across 12 tables for multi-tenant data isolation
+  - Authentication: API key system with bcrypt hashing
+  - Performance: <10% overhead (acceptable)
+  - Migration: Zero data loss, 100% test pass rate
+  - Audit trail: All data access logged with user attribution
+  - Status: Production ready
 
 - **v0.8.0 / v0.8.0-checkpoint-8** (2025-11-19): Phase 3 - PII Scrubbing Pipeline ✅
   - See: [docs/checkpoints/checkpoint-8-results.md](docs/checkpoints/checkpoint-8-results.md)
