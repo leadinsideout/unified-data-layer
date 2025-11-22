@@ -616,13 +616,53 @@ Build security and privacy into the architecture. This is **essential before exp
 - Admin roles for platform management
 - Audit logging for all data access
 
-### 3.3 Secure API Keys for AI Platforms
+### 3.3 Secure API Keys for AI Platforms (Checkpoint 10)
 
-- **Critical for Phase 4**: API key generation per coach/client
-- Scoped permissions (read-only, write, admin)
-- Key rotation policies
-- Rate limiting per key
-- Revocation mechanisms
+**Status**: Planned - Admin-managed approach with full user management
+
+**Scope**:
+- **User Management**: Admin creates/manages coaches, clients, and admin users
+- **Admin User Schema**: New `admins` table for platform administrators (executive assistants, support staff)
+- **API Key Management**: Admin creates/revokes/rotates keys for all user types
+- **Admin Dashboard**: Single-file HTML UI for user + key management
+- **Authentication**: HTTP Basic Auth for admin UI access
+
+**Features**:
+1. **User Management Endpoints**:
+   - `POST /api/admin/coaches` - Create coach
+   - `POST /api/admin/clients` - Create client
+   - `POST /api/admin/admins` - Create admin user
+   - `GET /api/admin/{coaches|clients|admins}` - List users
+   - `PUT /api/admin/{coaches|clients|admins}/:id` - Update user
+2. **API Key Management Endpoints**:
+   - `POST /api/admin/keys` - Create key for user
+   - `GET /api/admin/keys` - List all keys
+   - `POST /api/admin/keys/:id/revoke` - Revoke key
+   - `POST /api/admin/keys/:id/rotate` - Rotate key
+3. **Admin UI** (`/admin` route):
+   - Users tab: Create/edit coaches, clients, admins
+   - API Keys tab: Create/revoke/rotate keys
+   - Usage analytics: Track key usage
+4. **Schema Changes**:
+   - New `admins` table (id, name, email, role, coaching_company_id)
+   - Add `admin_id` column to `api_keys` table
+   - Update `key_has_single_owner` constraint for admin_id
+
+**Deployment Model**:
+- Admins create users and API keys
+- Admins set up Custom GPTs for coaches
+- Coaches receive pre-configured GPT links (zero technical setup)
+
+**Estimated Timeline**: 9-12 hours (1.5-2 days)
+- Schema updates: 2-3 hours
+- User management: 5-6 hours
+- API key management: 2-3 hours
+
+**Why Admin Users Table**:
+- Executive assistants are not coaches or clients
+- Proper audit trail (track which admin performed actions)
+- Multiple admins with distinct identities and permissions
+- Scalable for future admin roles (super_admin, admin, support)
 
 ### 3.4 Compliance Considerations
 
