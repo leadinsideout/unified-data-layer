@@ -528,8 +528,85 @@ await mcp__supabase__list_projects();
    - Propose workflow improvements based on learnings
    - Update workflows.md if process changes needed
    - **Deliverable**: Retrospective document with actionable improvements
-4. ✅ Commit all documentation changes
-5. ✅ **🛑 MANDATORY DOCUMENTATION SYNC AUDIT** (BLOCKING - must pass before proceeding)
+
+4. ✅ **🛑 BLOCKING: Update Methodology** (New: Post-Checkpoint 10)
+
+   **Why This is BLOCKING**: Methodology updates capture learnings while fresh.
+   Deferring creates documentation debt and lost knowledge.
+
+   **Purpose**: Incremental methodology improvement from each checkpoint
+
+   **Time**: 5 minutes (vs 30-45 minutes with old approach)
+
+   **Token Cost**: ~3,400 tokens (85% savings vs 23,000 with old approach)
+
+   **Process**:
+
+   1. **AI analyzes retrospective** (~30 seconds)
+      - Reads `docs/checkpoints/checkpoint-X-retrospective.md`
+      - Identifies update categories:
+        - Pitfall: Common mistake to document
+        - Case study: Significant scenario with lessons
+        - Workflow: New or improved process
+        - Pattern: Reusable solution to recurring problem
+
+   2. **AI selects targets** (~30 seconds)
+      - Pitfall → `docs/methodology/learnings/checkpoint-X-[topic].md`
+      - Case study → `docs/methodology/learnings/checkpoint-X-[topic].md`
+      - Workflow → `docs/methodology/learnings/checkpoint-X-[topic].md`
+      - Pattern → `docs/methodology/learnings/checkpoint-X-[topic].md`
+
+   3. **AI fills template** (~1 minute)
+      - Uses appropriate template:
+        - `docs/methodology/templates/pitfall-template.md`
+        - `docs/methodology/templates/case-study-template.md`
+        - `docs/methodology/templates/workflow-template.md`
+        - `docs/methodology/templates/pattern-template.md`
+      - Fills with checkpoint-specific data
+      - Generates 50-150 line addition (not 3,500 words)
+
+   4. **AI creates learning document** (~1 minute)
+      - Creates `docs/methodology/learnings/checkpoint-X-[topic].md`
+      - Uses template structure
+      - Populates with retrospective insights
+
+   5. **AI updates indexes** (~1 minute)
+      - Updates `docs/methodology/learnings/README.md` (add checkpoint entry)
+      - Updates `docs/methodology/learnings/patterns-index.md` (cross-reference)
+
+   6. **AI shows diff** (~30 seconds)
+      - User reviews new learning document
+      - Clear before/after view
+
+   7. **User approval** (~1 minute)
+      - Approve: AI commits update
+      - Modify: User requests changes, AI revises
+      - Defer: User provides justification, documents in retrospective
+
+   **Deferral Allowed When**:
+   - No significant new learnings this checkpoint
+   - Learning already documented elsewhere
+   - Checkpoint was bug fix only (no new patterns)
+   - **Requirement**: Document deferral reason in retrospective
+
+   **If User Approves**:
+   - AI commits with: `docs(methodology): add Checkpoint X learnings - [topic]`
+   - Methodology now current, learnings captured
+
+   **Benefits**:
+   - ✅ 85% token reduction (3,400 vs 23,000 tokens)
+   - ✅ 83% time reduction (5 min vs 30-45 min)
+   - ✅ Knowledge captured while fresh
+   - ✅ Template ensures consistency
+   - ✅ Patterns indexed for future reference
+
+   **See Also**:
+   - [Learnings Library README](docs/methodology/learnings/README.md)
+   - [Patterns Index](docs/methodology/learnings/patterns-index.md)
+   - [Templates](docs/methodology/templates/)
+
+5. ✅ Commit all documentation changes
+6. ✅ **🛑 MANDATORY DOCUMENTATION SYNC AUDIT** (BLOCKING - must pass before proceeding)
    - **Purpose**: Prevent version drift and documentation inconsistencies
    - **When**: After checkpoint docs created, BEFORE creating git tags
    - **How**: Run systematic audit of all version-sensitive files
@@ -566,26 +643,26 @@ await mcp__supabase__list_projects();
    3. Get approval to fix
    4. Fix all issues in single commit: `docs: pre-release documentation sync`
    5. Re-run this audit until ALL checks pass
-   6. Only then proceed to step 6
+   6. Only then proceed to step 7
 
    **Automation**: See `scripts/audit-consistency.js` for automated validation
 
-6. ✅ Create checkpoint-specific tag (vX.Y.Z-checkpoint-N)
-7. ✅ **🛑 STOP - DO NOT PUSH YET**
-8. ✅ **CRITICAL: AUTOMATICALLY REMIND user to run release**
+7. ✅ Create checkpoint-specific tag (vX.Y.Z-checkpoint-N)
+8. ✅ **🛑 STOP - DO NOT PUSH YET**
+9. ✅ **CRITICAL: AUTOMATICALLY REMIND user to run release**
    - **This step is MANDATORY and must not be skipped**
    - Ask user: "Should I run the release command now to create v0.X.0?"
    - Explain: "This will bump package.json to 0.X.0, update CHANGELOG.md, and create the v0.X.0 release tag"
    - Wait for user approval before proceeding
-9. ✅ Run release command: `npm run release --release-as X.Y.0`
+10. ✅ Run release command: `npm run release --release-as X.Y.0`
    - Version number should match checkpoint number (Option A: Checkpoint-Based Versioning)
    - Example: Checkpoint 7 → v0.7.0
-10. ✅ Verify release artifacts created:
+11. ✅ Verify release artifacts created:
    - package.json version updated to 0.X.0
    - CHANGELOG.md updated with new entry
    - git tag v0.X.0 created
-11. ✅ Push all tags to remote: `git push --follow-tags origin main`
-12. ✅ **CRITICAL: Draft Slack Message for User Approval** (New: Post-Checkpoint 9)
+12. ✅ Push all tags to remote: `git push --follow-tags origin main`
+13. ✅ **CRITICAL: Draft Slack Message for User Approval** (New: Post-Checkpoint 9)
    - Draft Slack notification message with checkpoint details
    - Include: Phase/Checkpoint title, achievements, lessons learned, impact, docs
    - Format: "Phase X, Checkpoint Y Complete: [Feature Name]"
@@ -593,27 +670,24 @@ await mcp__supabase__list_projects();
    - **Show complete message to user and wait for explicit approval**
    - User can: (A) Approve as-is, (B) Request modifications, (C) Skip notification
    - **This step is MANDATORY - never send team communications without user approval**
-13. ✅ Verify GitHub Actions workflows triggered:
+14. ✅ Verify GitHub Actions workflows triggered:
    - Checkpoint notification workflow (triggered by v0.X.0-checkpoint-Y tag)
    - Release notification workflow (triggered by v0.X.0 tag → sends to #team_ai)
-14. ✅ Check Slack for notifications (after user approval):
+15. ✅ Check Slack for notifications (after user approval):
    - Dev channel: Checkpoint completion
    - #team_ai: Phase/release completion (ONLY for phase-ending checkpoints)
-15. ✅ **VERIFY Slack notification accuracy**:
+16. ✅ **VERIFY Slack notification accuracy**:
    - **Phase numbering**: Check that phase number is correct (see [checkpoint-phase-mapping.md](docs/development/checkpoint-phase-mapping.md))
    - **Checkpoint name**: Verify checkpoint name matches actual feature delivered
    - **Message content**: Confirm content is specific (not generic "platform improvements")
    - **Channel routing**: Verify #team_ai only received phase completions (v0.3.0, v0.7.0, v0.10.0, v0.13.0)
    - **Links**: Test that all documentation links work correctly
    - **If errors found**: Use [slack-correction-template.md](docs/development/slack-correction-template.md) to post correction
-16. ✅ **Update Methodology with Retrospective Learnings** (New: Post-Checkpoint 9)
-   - Review retrospective document for process improvements
-   - Identify gaps in UNIFIED_DEVELOPMENT_METHODOLOGY.md
-   - Propose specific updates to methodology
-   - Document in docs/methodology/CHECKPOINT_X_METHODOLOGY_UPDATES.md
-   - Apply approved updates to methodology
-   - Commit with: `docs(methodology): incorporate Checkpoint X learnings`
-17. ✅ Update CLAUDE.md with new checkpoint status
+17. ✅ **DEPRECATED: Update Methodology with Retrospective Learnings**
+   - **Note**: This step is now automated by step 4 (BLOCKING: Update Methodology)
+   - If step 4 was deferred with justification, revisit learnings here
+   - Otherwise, skip (methodology already current)
+18. ✅ Update CLAUDE.md with new checkpoint status
 
 ### When User Returns After Break
 1. ✅ Check if OpenAI quota resolved (if relevant)
