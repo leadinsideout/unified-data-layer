@@ -529,22 +529,63 @@ await mcp__supabase__list_projects();
    - Update workflows.md if process changes needed
    - **Deliverable**: Retrospective document with actionable improvements
 4. ✅ Commit all documentation changes
-5. ✅ Create checkpoint-specific tag (vX.Y.Z-checkpoint-N)
-6. ✅ **🛑 STOP - DO NOT PUSH YET**
-7. ✅ **CRITICAL: AUTOMATICALLY REMIND user to run release**
+5. ✅ **🛑 MANDATORY DOCUMENTATION SYNC AUDIT** (BLOCKING - must pass before proceeding)
+   - **Purpose**: Prevent version drift and documentation inconsistencies
+   - **When**: After checkpoint docs created, BEFORE creating git tags
+   - **How**: Run systematic audit of all version-sensitive files
+
+   **Version Consistency Checks** (ALL must match):
+   - [ ] `package.json` version = current checkpoint version (e.g., 0.X.0)
+   - [ ] `README.md` version references = package.json version
+   - [ ] `CLAUDE.md` "Current Version" = package.json version
+   - [ ] `CLAUDE.md` "Latest Tags" = current checkpoint tags
+   - [ ] `CLAUDE.md` "Latest Documentation" link = checkpoint-X-results.md
+   - [ ] `api/server.js` health endpoint version = package.json version
+   - [ ] `api/server.js` root endpoint version = package.json version
+   - [ ] `api/server.js` OpenAPI schema version = package.json version
+
+   **Status Consistency Checks**:
+   - [ ] `README.md` Phase X status = actual phase progress
+   - [ ] `CLAUDE.md` "What's Working" section = actual completed work
+   - [ ] `docs/checkpoints/README.md` latest checkpoint = current checkpoint
+   - [ ] Phase implementation plan status = current reality
+
+   **Link Validation**:
+   - [ ] All markdown links in checkpoint docs resolve correctly
+   - [ ] Documentation references in CLAUDE.md point to existing files
+   - [ ] No broken links in README.md
+
+   **Security & Cleanup**:
+   - [ ] No `.env` files in deprecated folders
+   - [ ] No stray credentials in old code
+   - [ ] All deprecated code folders removed if no longer needed
+
+   **If ANY check fails**:
+   1. STOP immediately - do not proceed to tagging
+   2. Present list of inconsistencies to user
+   3. Get approval to fix
+   4. Fix all issues in single commit: `docs: pre-release documentation sync`
+   5. Re-run this audit until ALL checks pass
+   6. Only then proceed to step 6
+
+   **Automation**: See `scripts/audit-consistency.js` for automated validation
+
+6. ✅ Create checkpoint-specific tag (vX.Y.Z-checkpoint-N)
+7. ✅ **🛑 STOP - DO NOT PUSH YET**
+8. ✅ **CRITICAL: AUTOMATICALLY REMIND user to run release**
    - **This step is MANDATORY and must not be skipped**
    - Ask user: "Should I run the release command now to create v0.X.0?"
    - Explain: "This will bump package.json to 0.X.0, update CHANGELOG.md, and create the v0.X.0 release tag"
    - Wait for user approval before proceeding
-8. ✅ Run release command: `npm run release --release-as X.Y.0`
+9. ✅ Run release command: `npm run release --release-as X.Y.0`
    - Version number should match checkpoint number (Option A: Checkpoint-Based Versioning)
    - Example: Checkpoint 7 → v0.7.0
-9. ✅ Verify release artifacts created:
+10. ✅ Verify release artifacts created:
    - package.json version updated to 0.X.0
    - CHANGELOG.md updated with new entry
    - git tag v0.X.0 created
-10. ✅ Push all tags to remote: `git push --follow-tags origin main`
-11. ✅ **CRITICAL: Draft Slack Message for User Approval** (New: Post-Checkpoint 9)
+11. ✅ Push all tags to remote: `git push --follow-tags origin main`
+12. ✅ **CRITICAL: Draft Slack Message for User Approval** (New: Post-Checkpoint 9)
    - Draft Slack notification message with checkpoint details
    - Include: Phase/Checkpoint title, achievements, lessons learned, impact, docs
    - Format: "Phase X, Checkpoint Y Complete: [Feature Name]"
@@ -552,27 +593,27 @@ await mcp__supabase__list_projects();
    - **Show complete message to user and wait for explicit approval**
    - User can: (A) Approve as-is, (B) Request modifications, (C) Skip notification
    - **This step is MANDATORY - never send team communications without user approval**
-12. ✅ Verify GitHub Actions workflows triggered:
+13. ✅ Verify GitHub Actions workflows triggered:
    - Checkpoint notification workflow (triggered by v0.X.0-checkpoint-Y tag)
    - Release notification workflow (triggered by v0.X.0 tag → sends to #team_ai)
-13. ✅ Check Slack for notifications (after user approval):
+14. ✅ Check Slack for notifications (after user approval):
    - Dev channel: Checkpoint completion
    - #team_ai: Phase/release completion (ONLY for phase-ending checkpoints)
-14. ✅ **VERIFY Slack notification accuracy**:
+15. ✅ **VERIFY Slack notification accuracy**:
    - **Phase numbering**: Check that phase number is correct (see [checkpoint-phase-mapping.md](docs/development/checkpoint-phase-mapping.md))
    - **Checkpoint name**: Verify checkpoint name matches actual feature delivered
    - **Message content**: Confirm content is specific (not generic "platform improvements")
    - **Channel routing**: Verify #team_ai only received phase completions (v0.3.0, v0.7.0, v0.10.0, v0.13.0)
    - **Links**: Test that all documentation links work correctly
    - **If errors found**: Use [slack-correction-template.md](docs/development/slack-correction-template.md) to post correction
-15. ✅ **Update Methodology with Retrospective Learnings** (New: Post-Checkpoint 9)
+16. ✅ **Update Methodology with Retrospective Learnings** (New: Post-Checkpoint 9)
    - Review retrospective document for process improvements
    - Identify gaps in UNIFIED_DEVELOPMENT_METHODOLOGY.md
    - Propose specific updates to methodology
    - Document in docs/methodology/CHECKPOINT_X_METHODOLOGY_UPDATES.md
    - Apply approved updates to methodology
    - Commit with: `docs(methodology): incorporate Checkpoint X learnings`
-16. ✅ Update CLAUDE.md with new checkpoint status
+17. ✅ Update CLAUDE.md with new checkpoint status
 
 ### When User Returns After Break
 1. ✅ Check if OpenAI quota resolved (if relevant)

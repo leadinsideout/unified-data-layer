@@ -937,6 +937,237 @@ export function chunkText(text, chunkSize = 500, overlap = 50) {
 - Update docs in same PR as code changes
 - Breaking changes MUST include migration guide
 - New endpoints MUST include in OpenAPI schema
+
+### Documentation Sync Requirements (MANDATORY)
+
+**Status**: ✅ Mandatory (Part of Definition of Done)
+
+**Purpose**: Prevent documentation drift and version inconsistencies
+
+**When to Run**: Between checkpoint documentation completion and git tag creation
+
+**See Also**: [Pre-Checkpoint Audit Checklist](pre-checkpoint-audit.md)
+
+#### Version Consistency (BLOCKING Requirement)
+
+All version numbers must match across the codebase before creating git tags:
+
+**Version Sources** (ALL must match `package.json`):
+- [ ] `package.json` → `"version": "0.X.0"` (source of truth)
+- [ ] `README.md` → Version badge/status line
+- [ ] `CLAUDE.md` → "Current Version" section
+- [ ] `CLAUDE.md` → "Latest Tags" section
+- [ ] `CLAUDE.md` → "Latest Documentation" link
+- [ ] `api/server.js` → Health endpoint (`/api/health`) version
+- [ ] `api/server.js` → Root endpoint (`/`) version
+- [ ] `api/server.js` → OpenAPI schema version
+
+**Validation Command**:
+```bash
+node scripts/audit-consistency.js
+```
+
+**If ANY mismatch found**:
+1. STOP - do not proceed with git tagging
+2. Fix all inconsistencies in single commit: `docs: pre-release version sync`
+3. Re-run validation until 100% pass
+4. Only then create checkpoint and release git tags
+
+**Why This Matters**:
+- Version drift compounds over time (2 checkpoints behind = 5+ locations to fix)
+- Inconsistent versions confuse AI assistants and users
+- Stale documentation undermines project credibility
+- Reactive cleanup takes 6-12x longer than proactive sync
+
+#### Status Consistency Requirements
+
+All status markers must reflect current reality:
+
+**Status Sources** (verify accuracy):
+- [ ] `README.md` → Phase X status line (percentage complete, checkpoint list)
+- [ ] `README.md` → Checkpoint status table (✅ complete, 🔴 pending)
+- [ ] `CLAUDE.md` → "What's Working" section (all completed features listed)
+- [ ] `CLAUDE.md` → "What's Next" section (points to correct next checkpoint)
+- [ ] `docs/checkpoints/README.md` → Latest checkpoint listed
+- [ ] Phase implementation plans → Checkpoint progress accurate
+
+**Common Mistakes**:
+- Phase shown as "Not Started" when actually 67% complete
+- Checkpoint completion dates missing
+- Old "In Progress" markers on completed work
+- "What's Next" pointing to already-completed checkpoint
+
+#### Link Validation Requirements
+
+All documentation links must resolve correctly:
+
+**Files to Check**:
+- [ ] `README.md` → All relative links to docs/ files
+- [ ] `CLAUDE.md` → All checkpoint documentation links
+- [ ] `docs/checkpoints/README.md` → All checkpoint file links
+- [ ] Latest checkpoint results doc → All internal links
+
+**Quick Validation**:
+```bash
+# Find all markdown links
+grep -r '\[.*\](.*\.md)' README.md CLAUDE.md docs/checkpoints/README.md
+
+# Verify each linked file exists
+ls docs/checkpoints/checkpoint-X-results.md
+```
+
+**If broken links found**:
+- Fix the link path OR
+- Create the missing documentation OR
+- Remove the broken reference
+
+#### Security & Cleanup Requirements
+
+**Critical Security Checks**:
+- [ ] No `.env` files outside root directory
+  ```bash
+  find . -name ".env" -not -path "./node_modules/*" -not -path "./.env"
+  ```
+
+- [ ] No credentials in deprecated folders
+  ```bash
+  find . -type d -name "*deprecated*" -o -name "*old*" -o -name "*backup*"
+  ```
+
+- [ ] All deprecated folders added to `.gitignore` OR deleted entirely
+
+**If security risk found**:
+1. STOP immediately
+2. Document the risk
+3. Get user approval
+4. Delete entire folder (don't just add to .gitignore)
+5. Commit: `security: remove deprecated folder with credentials`
+
+**Example**: `udlmvp-deprecated/` folder contained .env with actual credentials (216 KB total) - deleted before Checkpoint 10
+
+#### Automation Integration
+
+**Script**: [scripts/audit-consistency.js](../../scripts/audit-consistency.js)
+
+**Usage**:
+```bash
+node scripts/audit-consistency.js
+```
+
+**Exit Codes**:
+- `0` = All checks passed (proceed with checkpoint)
+- `1` = Warnings found (review and fix recommended)
+- `2` = Critical issues found (MUST fix before proceeding)
+
+**Example Output**:
+```
+✅ Version Consistency: PASS
+   - package.json: 0.9.0
+   - README.md: v0.9.0
+   - CLAUDE.md: v0.9.0
+   - api/server.js: 0.9.0 (3 locations)
+
+✅ Status Consistency: PASS
+⚠️  Link Validation: WARNINGS
+   - checkpoint-5-results.md not found (use PHASE_2_RESULTS.md instead)
+
+✅ Security Check: PASS
+✅ Git Status: PASS
+
+OVERALL: 4/5 PASS, 1 WARNING
+Action Required: Fix broken link before proceeding
+```
+
+**Future Integration**:
+- [ ] Add to pre-commit hook (warning mode)
+- [ ] Add to GitHub Actions CI (blocking for PRs)
+- [ ] One-click "Sync All Versions" automation
+
+#### Documentation Sync Workflow (Step-by-Step)
+
+**When**: After checkpoint documentation created, BEFORE creating git tags
+
+**Process**:
+
+1. **Commit all checkpoint documentation**
+   ```bash
+   git add docs/checkpoints/checkpoint-X-results.md
+   git add docs/checkpoints/README.md
+   git commit -m "docs: complete Checkpoint X results and index"
+   ```
+
+2. **Run documentation sync audit** (BLOCKING)
+   ```bash
+   node scripts/audit-consistency.js
+   ```
+
+3. **If audit FAILS**:
+   - Review all reported issues
+   - Fix ALL issues in single commit:
+     ```bash
+     git add .
+     git commit -m "docs: pre-release documentation sync"
+     ```
+   - Re-run audit until 100% PASS
+   - DO NOT create git tags until audit passes
+
+4. **If audit PASSES**:
+   - Proceed to git tagging:
+     ```bash
+     git tag -a v0.X.0-checkpoint-X -m "Checkpoint X: Feature Name"
+     git push origin v0.X.0-checkpoint-X
+     ```
+
+5. **Run release command**:
+   ```bash
+   npm run release --release-as 0.X.0
+   ```
+
+6. **Push all tags**:
+   ```bash
+   git push --follow-tags origin main
+   ```
+
+#### Case Study: Documentation Drift Prevention
+
+**Context**: Between Checkpoint 9 and Checkpoint 10, no sync audit was run
+
+**Issues Found** (5 total):
+1. Version drift: v0.7.0 in docs vs v0.9.0 in code (2 checkpoints behind)
+2. Status drift: Phase 3 "Not Started" vs actually 67% complete
+3. Broken link: checkpoint-5-results.md (doesn't exist)
+4. Security risk: udlmvp-deprecated/ with .env credentials (216 KB)
+5. Missing update: Checkpoint 9 not in index
+
+**Time to Fix**: 30 minutes reactive cleanup
+
+**Prevention Cost**: 5-minute proactive audit
+
+**ROI**: 6x time savings + security risk eliminated
+
+**Outcome**: Created mandatory sync workflow and automation script
+
+**Lesson**:
+> "Pre-checkpoint audits are MANDATORY, not optional. Documentation sync is part of Definition of Done, not a cleanup task for later."
+
+#### Definition of Done (Updated)
+
+A checkpoint is ONLY complete when:
+
+1. ✅ Feature implementation finished and tested
+2. ✅ Checkpoint results doc created
+3. ✅ Checkpoint retrospective written (if required)
+4. ✅ **ALL documentation synced** ← NEW REQUIREMENT
+   - All version numbers match package.json
+   - All status markers accurate
+   - All links resolve correctly
+   - No security risks (stray .env files)
+5. ✅ **Pre-release audit passes** ← NEW REQUIREMENT
+   - `node scripts/audit-consistency.js` returns exit code 0
+6. ✅ Git tags created (checkpoint + release)
+7. ✅ Slack notifications approved and sent
+
+**Documentation sync is now BLOCKING** - cannot proceed to git tagging until audit passes.
 - Complex logic MUST include inline comments
 
 ### When to Write Docs
