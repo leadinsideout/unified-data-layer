@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UDL Admin Dashboard</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Login Screen */
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .login-box h1 {
+      margin-bottom: 8px;
+      color: #2563eb;
+    }
+
+    .login-box p {
+      color: #666;
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+      width: 100%;
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+
+    .btn-secondary {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .btn-secondary:hover {
+      background: #d1d5db;
+    }
+
+    .btn-danger {
+      background: #dc2626;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #b91c1c;
+    }
+
+    .btn-success {
+      background: #16a34a;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #15803d;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    .error-message {
+      background: #fef2f2;
+      color: #dc2626;
+      padding: 12px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    /* Dashboard Layout */
+    .dashboard {
+      display: none;
+    }
+
+    .dashboard.active {
+      display: block;
+    }
+
+    .login-container.hidden {
+      display: none;
+    }
+
+    header {
+      background: white;
+      padding: 16px 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 20px;
+      color: #2563eb;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .user-info span {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 8px;
+    }
+
+    .tab {
+      padding: 8px 16px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      color: #666;
+      border-radius: 4px;
+    }
+
+    .tab:hover {
+      background: #f3f4f6;
+    }
+
+    .tab.active {
+      background: #2563eb;
+      color: white;
+    }
+
+    /* Cards */
+    .card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      margin-bottom: 24px;
+    }
+
+    .card-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-header h2 {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    th {
+      font-weight: 600;
+      color: #666;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    tr:hover {
+      background: #f9fafb;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .badge-active {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
+    .badge-revoked {
+      background: #fef2f2;
+      color: #dc2626;
+    }
+
+    .badge-coach {
+      background: #dbeafe;
+      color: #2563eb;
+    }
+
+    .badge-client {
+      background: #f3e8ff;
+      color: #9333ea;
+    }
+
+    .badge-admin {
+      background: #fef3c7;
+      color: #d97706;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      font-size: 16px;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .modal-footer {
+      padding: 16px 20px;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    /* Actions */
+    .actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+
+    /* Toast Notifications */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 2000;
+    }
+
+    .toast {
+      background: #333;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+      animation: slideIn 0.3s ease;
+    }
+
+    .toast.success {
+      background: #16a34a;
+    }
+
+    .toast.error {
+      background: #dc2626;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Key display */
+    .api-key-display {
+      background: #f3f4f6;
+      padding: 12px;
+      border-radius: 4px;
+      font-family: monospace;
+      word-break: break-all;
+      margin: 12px 0;
+    }
+
+    .copy-btn {
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Screen -->
+  <div class="login-container" id="loginContainer">
+    <div class="login-box">
+      <h1>UDL Admin</h1>
+      <p>Sign in with your admin API key</p>
+      <div class="error-message" id="loginError"></div>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="apiKey">Admin API Key</label>
+          <input type="password" id="apiKey" placeholder="sk_test_..." required>
+        </div>
+        <button type="submit" class="btn btn-primary">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="dashboard" id="dashboard">
+    <header>
+      <h1>UDL Admin Dashboard</h1>
+      <div class="user-info">
+        <span id="adminName">Admin</span>
+        <button class="btn btn-secondary btn-sm" id="logoutBtn">Logout</button>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="tabs">
+        <button class="tab active" data-tab="users">Users</button>
+        <button class="tab" data-tab="api-keys">API Keys</button>
+      </div>
+
+      <!-- Users Tab -->
+      <div class="tab-content active" id="users-tab">
+        <div class="card">
+          <div class="card-header">
+            <h2>User Management</h2>
+            <button class="btn btn-primary btn-sm" id="addUserBtn">+ Add User</button>
+          </div>
+          <div class="card-body">
+            <div class="loading" id="usersLoading">Loading users...</div>
+            <table id="usersTable" style="display: none;">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Type</th>
+                  <th>Created</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="usersTableBody"></tbody>
+            </table>
+            <div class="empty-state" id="usersEmpty" style="display: none;">
+              No users found. Click "Add User" to create one.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- API Keys Tab -->
+      <div class="tab-content" id="api-keys-tab">
+        <div class="card">
+          <div class="card-header">
+            <h2>API Key Management</h2>
+            <button class="btn btn-primary btn-sm" id="addKeyBtn">+ Create Key</button>
+          </div>
+          <div class="card-body">
+            <div class="loading" id="keysLoading">Loading API keys...</div>
+            <table id="keysTable" style="display: none;">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Prefix</th>
+                  <th>Owner</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="keysTableBody"></tbody>
+            </table>
+            <div class="empty-state" id="keysEmpty" style="display: none;">
+              No API keys found. Click "Create Key" to create one.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add User Modal -->
+  <div class="modal-overlay" id="addUserModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Add New User</h3>
+        <button class="modal-close" data-close>&times;</button>
+      </div>
+      <form id="addUserForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="userType">User Type</label>
+            <select id="userType" required>
+              <option value="coach">Coach</option>
+              <option value="client">Client</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="userName">Name</label>
+            <input type="text" id="userName" required>
+          </div>
+          <div class="form-group">
+            <label for="userEmail">Email</label>
+            <input type="email" id="userEmail" required>
+          </div>
+          <div class="form-group" id="adminRoleGroup" style="display: none;">
+            <label for="adminRole">Admin Role</label>
+            <select id="adminRole">
+              <option value="admin">Admin</option>
+              <option value="super_admin">Super Admin</option>
+              <option value="support">Support</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close>Cancel</button>
+          <button type="submit" class="btn btn-primary">Create User</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Create API Key Modal -->
+  <div class="modal-overlay" id="createKeyModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Create API Key</h3>
+        <button class="modal-close" data-close>&times;</button>
+      </div>
+      <form id="createKeyForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="keyName">Key Name</label>
+            <input type="text" id="keyName" placeholder="e.g., Production Key" required>
+          </div>
+          <div class="form-group">
+            <label for="keyOwnerType">Owner Type</label>
+            <select id="keyOwnerType" required>
+              <option value="">Select owner type...</option>
+              <option value="coach">Coach</option>
+              <option value="client">Client</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="keyOwner">Owner</label>
+            <select id="keyOwner" required disabled>
+              <option value="">Select owner type first...</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close>Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Key</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Show API Key Modal -->
+  <div class="modal-overlay" id="showKeyModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>API Key Created</h3>
+        <button class="modal-close" data-close>&times;</button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Important:</strong> Copy this key now. You won't be able to see it again!</p>
+        <div class="api-key-display" id="newApiKey"></div>
+        <button class="btn btn-secondary btn-sm copy-btn" id="copyKeyBtn">Copy to Clipboard</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-close>Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Confirm Delete</h3>
+        <button class="modal-close" data-close>&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="deleteMessage">Are you sure you want to delete this item?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-close>Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    // Configuration
+    const API_BASE = window.location.origin;
+    let authToken = localStorage.getItem('udl_admin_token');
+    let currentUsers = [];
+
+    // DOM Elements
+    const loginContainer = document.getElementById('loginContainer');
+    const dashboard = document.getElementById('dashboard');
+    const loginForm = document.getElementById('loginForm');
+    const loginError = document.getElementById('loginError');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      if (authToken) {
+        validateTokenAndShowDashboard();
+      }
+      setupEventListeners();
+    });
+
+    // Event Listeners
+    function setupEventListeners() {
+      // Login
+      loginForm.addEventListener('submit', handleLogin);
+      logoutBtn.addEventListener('click', handleLogout);
+
+      // Tabs
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+      });
+
+      // Modals
+      document.querySelectorAll('[data-close]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          btn.closest('.modal-overlay').classList.remove('active');
+        });
+      });
+
+      // Add User
+      document.getElementById('addUserBtn').addEventListener('click', () => {
+        document.getElementById('addUserModal').classList.add('active');
+      });
+      document.getElementById('addUserForm').addEventListener('submit', handleAddUser);
+      document.getElementById('userType').addEventListener('change', (e) => {
+        document.getElementById('adminRoleGroup').style.display =
+          e.target.value === 'admin' ? 'block' : 'none';
+      });
+
+      // Create API Key
+      document.getElementById('addKeyBtn').addEventListener('click', () => {
+        document.getElementById('createKeyModal').classList.add('active');
+        loadUsersForKeyCreation();
+      });
+      document.getElementById('createKeyForm').addEventListener('submit', handleCreateKey);
+      document.getElementById('keyOwnerType').addEventListener('change', handleOwnerTypeChange);
+
+      // Copy key
+      document.getElementById('copyKeyBtn').addEventListener('click', () => {
+        const key = document.getElementById('newApiKey').textContent;
+        navigator.clipboard.writeText(key);
+        showToast('API key copied to clipboard', 'success');
+      });
+    }
+
+    // Auth Functions
+    async function handleLogin(e) {
+      e.preventDefault();
+      const apiKey = document.getElementById('apiKey').value;
+
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/users`, {
+          headers: { 'Authorization': `Bearer ${apiKey}` }
+        });
+
+        if (response.ok) {
+          authToken = apiKey;
+          localStorage.setItem('udl_admin_token', apiKey);
+          showDashboard();
+          loadUsers();
+        } else {
+          const data = await response.json();
+          showLoginError(data.message || 'Invalid API key');
+        }
+      } catch (err) {
+        showLoginError('Connection error. Please try again.');
+      }
+    }
+
+    function handleLogout() {
+      authToken = null;
+      localStorage.removeItem('udl_admin_token');
+      loginContainer.classList.remove('hidden');
+      dashboard.classList.remove('active');
+      document.getElementById('apiKey').value = '';
+    }
+
+    async function validateTokenAndShowDashboard() {
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/users`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (response.ok) {
+          showDashboard();
+          loadUsers();
+        } else {
+          handleLogout();
+        }
+      } catch (err) {
+        handleLogout();
+      }
+    }
+
+    function showDashboard() {
+      loginContainer.classList.add('hidden');
+      dashboard.classList.add('active');
+    }
+
+    function showLoginError(message) {
+      loginError.textContent = message;
+      loginError.style.display = 'block';
+    }
+
+    // Tab Functions
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+      document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+      document.getElementById(`${tabName}-tab`).classList.add('active');
+
+      if (tabName === 'users') {
+        loadUsers();
+      } else if (tabName === 'api-keys') {
+        loadApiKeys();
+      }
+    }
+
+    // User Management
+    async function loadUsers() {
+      const loading = document.getElementById('usersLoading');
+      const table = document.getElementById('usersTable');
+      const empty = document.getElementById('usersEmpty');
+      const tbody = document.getElementById('usersTableBody');
+
+      loading.style.display = 'block';
+      table.style.display = 'none';
+      empty.style.display = 'none';
+
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/users`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to load users');
+
+        const data = await response.json();
+
+        // Flatten the response into a single users array with type property
+        currentUsers = [
+          ...(data.coaches || []).map(u => ({ ...u, type: 'coach' })),
+          ...(data.clients || []).map(u => ({ ...u, type: 'client' })),
+          ...(data.admins || []).map(u => ({ ...u, type: 'admin' }))
+        ];
+
+        loading.style.display = 'none';
+
+        if (currentUsers.length === 0) {
+          empty.style.display = 'block';
+          return;
+        }
+
+        tbody.innerHTML = currentUsers.map(user => `
+          <tr>
+            <td>${escapeHtml(user.name)}</td>
+            <td>${escapeHtml(user.email)}</td>
+            <td><span class="badge badge-${user.type}">${user.type}</span></td>
+            <td>${formatDate(user.created_at)}</td>
+            <td class="actions">
+              <button class="btn btn-danger btn-sm" onclick="deleteUser('${user.id}', '${user.type}', '${escapeHtml(user.name)}')">Delete</button>
+            </td>
+          </tr>
+        `).join('');
+
+        table.style.display = 'table';
+      } catch (err) {
+        loading.style.display = 'none';
+        showToast('Failed to load users', 'error');
+      }
+    }
+
+    async function handleAddUser(e) {
+      e.preventDefault();
+      const type = document.getElementById('userType').value;
+      const name = document.getElementById('userName').value;
+      const email = document.getElementById('userEmail').value;
+      const role = document.getElementById('adminRole').value;
+
+      const body = { type, name, email };
+      if (type === 'admin') {
+        body.role = role;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/users`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+
+        if (!response.ok) {
+          const data = await response.json();
+          throw new Error(data.message || 'Failed to create user');
+        }
+
+        document.getElementById('addUserModal').classList.remove('active');
+        document.getElementById('addUserForm').reset();
+        showToast('User created successfully', 'success');
+        loadUsers();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    async function deleteUser(id, type, name) {
+      document.getElementById('deleteMessage').textContent =
+        `Are you sure you want to delete ${name}? This will also delete all their API keys.`;
+      document.getElementById('deleteModal').classList.add('active');
+
+      document.getElementById('confirmDeleteBtn').onclick = async () => {
+        try {
+          const response = await fetch(`${API_BASE}/api/admin/users/${id}?type=${type}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${authToken}` }
+          });
+
+          if (!response.ok) throw new Error('Failed to delete user');
+
+          document.getElementById('deleteModal').classList.remove('active');
+          showToast('User deleted successfully', 'success');
+          loadUsers();
+        } catch (err) {
+          showToast(err.message, 'error');
+        }
+      };
+    }
+
+    // API Key Management
+    async function loadApiKeys() {
+      const loading = document.getElementById('keysLoading');
+      const table = document.getElementById('keysTable');
+      const empty = document.getElementById('keysEmpty');
+      const tbody = document.getElementById('keysTableBody');
+
+      loading.style.display = 'block';
+      table.style.display = 'none';
+      empty.style.display = 'none';
+
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/api-keys`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to load API keys');
+
+        const data = await response.json();
+        const keys = data.apiKeys || [];
+
+        loading.style.display = 'none';
+
+        if (keys.length === 0) {
+          empty.style.display = 'block';
+          return;
+        }
+
+        tbody.innerHTML = keys.map(key => `
+          <tr>
+            <td>${escapeHtml(key.name)}</td>
+            <td><code>${escapeHtml(key.key_prefix)}...</code></td>
+            <td>${getOwnerDisplay(key)}</td>
+            <td>
+              <span class="badge ${key.is_revoked ? 'badge-revoked' : 'badge-active'}">
+                ${key.is_revoked ? 'Revoked' : 'Active'}
+              </span>
+            </td>
+            <td>${formatDate(key.created_at)}</td>
+            <td class="actions">
+              ${key.is_revoked
+                ? `<button class="btn btn-success btn-sm" onclick="activateKey('${key.id}')">Activate</button>`
+                : `<button class="btn btn-secondary btn-sm" onclick="revokeKey('${key.id}')">Revoke</button>`
+              }
+              <button class="btn btn-danger btn-sm" onclick="deleteKey('${key.id}', '${escapeHtml(key.name)}')">Delete</button>
+            </td>
+          </tr>
+        `).join('');
+
+        table.style.display = 'table';
+      } catch (err) {
+        loading.style.display = 'none';
+        showToast('Failed to load API keys', 'error');
+      }
+    }
+
+    function getOwnerDisplay(key) {
+      if (key.coach_id) {
+        const coach = currentUsers.find(u => u.id === key.coach_id);
+        return `<span class="badge badge-coach">Coach</span> ${coach ? escapeHtml(coach.name) : 'Unknown'}`;
+      }
+      if (key.client_id) {
+        const client = currentUsers.find(u => u.id === key.client_id);
+        return `<span class="badge badge-client">Client</span> ${client ? escapeHtml(client.name) : 'Unknown'}`;
+      }
+      if (key.admin_id) {
+        return `<span class="badge badge-admin">Admin</span>`;
+      }
+      return 'Unknown';
+    }
+
+    async function loadUsersForKeyCreation() {
+      // Load fresh user list
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/users`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          // Flatten into unified users array
+          currentUsers = [
+            ...(data.coaches || []).map(u => ({ ...u, type: 'coach' })),
+            ...(data.clients || []).map(u => ({ ...u, type: 'client' })),
+            ...(data.admins || []).map(u => ({ ...u, type: 'admin' }))
+          ];
+        }
+      } catch (err) {
+        console.error('Failed to load users', err);
+      }
+    }
+
+    function handleOwnerTypeChange(e) {
+      const ownerType = e.target.value;
+      const ownerSelect = document.getElementById('keyOwner');
+
+      if (!ownerType) {
+        ownerSelect.disabled = true;
+        ownerSelect.innerHTML = '<option value="">Select owner type first...</option>';
+        return;
+      }
+
+      const filteredUsers = currentUsers.filter(u => u.type === ownerType);
+
+      if (filteredUsers.length === 0) {
+        ownerSelect.disabled = true;
+        ownerSelect.innerHTML = `<option value="">No ${ownerType}s found</option>`;
+        return;
+      }
+
+      ownerSelect.disabled = false;
+      ownerSelect.innerHTML = filteredUsers.map(u =>
+        `<option value="${u.id}">${escapeHtml(u.name)} (${escapeHtml(u.email)})</option>`
+      ).join('');
+    }
+
+    async function handleCreateKey(e) {
+      e.preventDefault();
+      const name = document.getElementById('keyName').value;
+      const ownerType = document.getElementById('keyOwnerType').value;
+      const ownerId = document.getElementById('keyOwner').value;
+
+      const body = { name };
+      body[`${ownerType}_id`] = ownerId;
+
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/api-keys`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+
+        if (!response.ok) {
+          const data = await response.json();
+          throw new Error(data.message || 'Failed to create API key');
+        }
+
+        const data = await response.json();
+
+        document.getElementById('createKeyModal').classList.remove('active');
+        document.getElementById('createKeyForm').reset();
+        document.getElementById('keyOwner').disabled = true;
+
+        // Show the new key
+        document.getElementById('newApiKey').textContent = data.apiKey;
+        document.getElementById('showKeyModal').classList.add('active');
+
+        loadApiKeys();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    async function revokeKey(id) {
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/api-keys/${id}/revoke`, {
+          method: 'PUT',
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to revoke key');
+
+        showToast('API key revoked', 'success');
+        loadApiKeys();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    async function activateKey(id) {
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/api-keys/${id}/activate`, {
+          method: 'PUT',
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to activate key');
+
+        showToast('API key activated', 'success');
+        loadApiKeys();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    async function deleteKey(id, name) {
+      document.getElementById('deleteMessage').textContent =
+        `Are you sure you want to delete the API key "${name}"?`;
+      document.getElementById('deleteModal').classList.add('active');
+
+      document.getElementById('confirmDeleteBtn').onclick = async () => {
+        try {
+          const response = await fetch(`${API_BASE}/api/admin/api-keys/${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${authToken}` }
+          });
+
+          if (!response.ok) throw new Error('Failed to delete key');
+
+          document.getElementById('deleteModal').classList.remove('active');
+          showToast('API key deleted', 'success');
+          loadApiKeys();
+        } catch (err) {
+          showToast(err.message, 'error');
+        }
+      };
+    }
+
+    // Utilities
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '-';
+      return new Date(dateStr).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+    }
+
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

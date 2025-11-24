@@ -12,6 +12,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { createClient } from '@supabase/supabase-js';
 import OpenAI from 'openai';
 import multer from 'multer';
@@ -23,6 +25,10 @@ import { createApiKeyRoutes } from './routes/api-keys.js';
 
 // Load environment variables
 dotenv.config();
+
+// ES Module __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Validate required environment variables
 const requiredEnvVars = ['SUPABASE_URL', 'SUPABASE_SERVICE_KEY', 'OPENAI_API_KEY'];
@@ -72,6 +78,9 @@ app.use(cors({
 
 // JSON body parser
 app.use(express.json({ limit: '10mb' }));
+
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Request logging middleware
 app.use((req, res, next) => {
