@@ -70,3 +70,4 @@ udlmvp-deprecated/
 
 # Vercel
 .vercel
+.admin-api-key
