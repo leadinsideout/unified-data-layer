@@ -428,12 +428,16 @@
   <div class="login-container" id="loginContainer">
     <div class="login-box">
       <h1>UDL Admin</h1>
-      <p>Sign in with your admin API key</p>
+      <p>Sign in with your admin credentials</p>
       <div class="error-message" id="loginError"></div>
       <form id="loginForm">
         <div class="form-group">
-          <label for="apiKey">Admin API Key</label>
-          <input type="password" id="apiKey" placeholder="sk_test_..." required>
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" placeholder="admin@example.com" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" placeholder="Enter your password" required>
         </div>
         <button type="submit" class="btn btn-primary">Sign In</button>
       </form>
@@ -700,42 +704,61 @@
     // Auth Functions
     async function handleLogin(e) {
       e.preventDefault();
-      const apiKey = document.getElementById('apiKey').value;
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
 
       try {
-        const response = await fetch(`${API_BASE}/api/admin/users`, {
-          headers: { 'Authorization': `Bearer ${apiKey}` }
+        const response = await fetch(`${API_BASE}/api/admin/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
         });
 
+        const data = await response.json();
+
         if (response.ok) {
-          authToken = apiKey;
-          localStorage.setItem('udl_admin_token', apiKey);
+          authToken = data.token;
+          localStorage.setItem('udl_admin_token', data.token);
+          localStorage.setItem('udl_admin_name', data.admin.name);
+          document.getElementById('adminName').textContent = data.admin.name;
           showDashboard();
           loadUsers();
         } else {
-          const data = await response.json();
-          showLoginError(data.message || 'Invalid API key');
+          showLoginError(data.message || 'Invalid email or password');
         }
       } catch (err) {
         showLoginError('Connection error. Please try again.');
       }
     }
 
-    function handleLogout() {
+    async function handleLogout() {
+      try {
+        await fetch(`${API_BASE}/api/admin/auth/logout`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+      } catch (err) {
+        // Ignore logout errors
+      }
+
       authToken = null;
       localStorage.removeItem('udl_admin_token');
+      localStorage.removeItem('udl_admin_name');
       loginContainer.classList.remove('hidden');
       dashboard.classList.remove('active');
-      document.getElementById('apiKey').value = '';
+      document.getElementById('loginEmail').value = '';
+      document.getElementById('loginPassword').value = '';
     }
 
     async function validateTokenAndShowDashboard() {
       try {
-        const response = await fetch(`${API_BASE}/api/admin/users`, {
+        const response = await fetch(`${API_BASE}/api/admin/auth/me`, {
           headers: { 'Authorization': `Bearer ${authToken}` }
         });
 
         if (response.ok) {
+          const data = await response.json();
+          document.getElementById('adminName').textContent = data.admin.name;
           showDashboard();
           loadUsers();
         } else {

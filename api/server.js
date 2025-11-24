@@ -22,6 +22,7 @@ import { DataProcessorFactory } from './processors/index.js';
 import { createAuthMiddleware, createOptionalAuthMiddleware } from './middleware/auth.js';
 import { createAdminRoutes } from './routes/admin.js';
 import { createApiKeyRoutes } from './routes/api-keys.js';
+import { createAdminAuthRoutes, createAdminSessionMiddleware } from './routes/admin-auth.js';
 
 // Load environment variables
 dotenv.config();
@@ -167,12 +168,19 @@ function formatEmbeddingForDB(embedding) {
 // ROUTES
 // ============================================
 
-// Register admin routes
-const adminRoutes = createAdminRoutes(supabase, authMiddleware);
+// Register admin auth routes (no auth required for login)
+const adminAuthRoutes = createAdminAuthRoutes(supabase);
+app.use('/api/admin/auth', adminAuthRoutes);
+
+// Create session middleware for admin routes
+const adminSessionMiddleware = createAdminSessionMiddleware(supabase);
+
+// Register admin routes (session OR API key auth)
+const adminRoutes = createAdminRoutes(supabase, adminSessionMiddleware);
 app.use('/api/admin', adminRoutes);
 
-// Register API key routes
-const apiKeyRoutes = createApiKeyRoutes(supabase, authMiddleware);
+// Register API key routes (session OR API key auth)
+const apiKeyRoutes = createApiKeyRoutes(supabase, adminSessionMiddleware);
 app.use('/api/admin/api-keys', apiKeyRoutes);
 
 /**
