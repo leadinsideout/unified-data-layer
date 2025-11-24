@@ -18,6 +18,8 @@ import multer from 'multer';
 import pdfParse from 'pdf-parse';
 import { DataProcessorFactory } from './processors/index.js';
 import { createAuthMiddleware, createOptionalAuthMiddleware } from './middleware/auth.js';
+import { createAdminRoutes } from './routes/admin.js';
+import { createApiKeyRoutes } from './routes/api-keys.js';
 
 // Load environment variables
 dotenv.config();
@@ -156,6 +158,14 @@ function formatEmbeddingForDB(embedding) {
 // ROUTES
 // ============================================
 
+// Register admin routes
+const adminRoutes = createAdminRoutes(supabase, authMiddleware);
+app.use('/api/admin', adminRoutes);
+
+// Register API key routes
+const apiKeyRoutes = createApiKeyRoutes(supabase, authMiddleware);
+app.use('/api/admin/api-keys', apiKeyRoutes);
+
 /**
  * Root Endpoint
  *
@@ -177,7 +187,20 @@ app.get('/', (req, res) => {
       // New multi-type endpoint
       dataUpload: 'POST /api/data/upload',
       search: 'POST /api/search (supports types, coach_id, client_id, organization_id filters)',
-      openapi: 'GET /openapi.json'
+      openapi: 'GET /openapi.json',
+      // Admin endpoints (require authentication)
+      adminUsers: 'GET /api/admin/users',
+      adminUserDetails: 'GET /api/admin/users/:id',
+      adminCreateUser: 'POST /api/admin/users',
+      adminUpdateUser: 'PUT /api/admin/users/:id',
+      adminDeleteUser: 'DELETE /api/admin/users/:id',
+      // API Key management (require authentication)
+      apiKeys: 'GET /api/admin/api-keys',
+      apiKeyDetails: 'GET /api/admin/api-keys/:id',
+      createApiKey: 'POST /api/admin/api-keys',
+      revokeApiKey: 'PUT /api/admin/api-keys/:id/revoke',
+      activateApiKey: 'PUT /api/admin/api-keys/:id/activate',
+      deleteApiKey: 'DELETE /api/admin/api-keys/:id'
     },
     supported_data_types: processorFactory.getSupportedTypes(),
     search_filters: ['types', 'coach_id', 'client_id', 'organization_id', 'threshold', 'limit'],
@@ -1052,7 +1075,19 @@ app.use((req, res) => {
       'POST /api/search',
       'POST /api/transcripts/upload',
       'POST /api/transcripts/upload-pdf',
-      'GET /openapi.json'
+      'POST /api/data/upload',
+      'GET /openapi.json',
+      'GET /api/admin/users (requires auth)',
+      'POST /api/admin/users (requires auth)',
+      'GET /api/admin/users/:id (requires auth)',
+      'PUT /api/admin/users/:id (requires auth)',
+      'DELETE /api/admin/users/:id (requires auth)',
+      'GET /api/admin/api-keys (requires auth)',
+      'POST /api/admin/api-keys (requires auth)',
+      'GET /api/admin/api-keys/:id (requires auth)',
+      'PUT /api/admin/api-keys/:id/revoke (requires auth)',
+      'PUT /api/admin/api-keys/:id/activate (requires auth)',
+      'DELETE /api/admin/api-keys/:id (requires auth)'
     ]
   });
 });

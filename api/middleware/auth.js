@@ -100,12 +100,13 @@ export function createAuthMiddleware(supabase) {
       }
 
       // Determine user role and identity
-      let userId, userRole, coachId, clientId;
+      let userId, userRole, coachId, clientId, adminId;
 
-      if (matchedKey.scopes && matchedKey.scopes.includes('admin')) {
+      if (matchedKey.admin_id) {
         // Admin key
         userRole = 'admin';
-        userId = null; // Admins don't map to specific user
+        userId = matchedKey.admin_id;
+        adminId = matchedKey.admin_id;
         coachId = null;
         clientId = null;
       } else if (matchedKey.coach_id) {
@@ -113,12 +114,14 @@ export function createAuthMiddleware(supabase) {
         userRole = 'coach';
         userId = matchedKey.coach_id;
         coachId = matchedKey.coach_id;
+        adminId = null;
         clientId = null;
       } else if (matchedKey.client_id) {
         // Client key
         userRole = 'client';
         userId = matchedKey.client_id;
         coachId = null;
+        adminId = null;
         clientId = matchedKey.client_id;
       } else {
         // Invalid key (shouldn't happen due to DB constraint, but handle anyway)
@@ -147,6 +150,7 @@ export function createAuthMiddleware(supabase) {
         userRole,
         coachId,
         clientId,
+        adminId,
         apiKeyId: matchedKey.id,
         scopes: matchedKey.scopes || []
       };
@@ -214,7 +218,8 @@ function createAuthenticatedSupabaseClient(supabase, auth) {
         _auth_user_id: auth.userId,
         _auth_user_role: auth.userRole,
         _auth_coach_id: auth.coachId,
-        _auth_client_id: auth.clientId
+        _auth_client_id: auth.clientId,
+        _auth_admin_id: auth.adminId
       };
 
       return supabase.rpc(fnName, authParams);
