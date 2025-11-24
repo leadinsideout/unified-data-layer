@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.10.0](https://github.com/leadinsideout/unified-data-layer/compare/v0.9.0...v0.10.0) (2025-11-24)
+
+### Features
+
+* **api:** implement admin user and API key management ([867a0ce](https://github.com/leadinsideout/unified-data-layer/commit/867a0ce))
+* **api:** add admin web UI dashboard ([7763a39](https://github.com/leadinsideout/unified-data-layer/commit/7763a39))
+* **security:** add email/password authentication for admin dashboard ([5100962](https://github.com/leadinsideout/unified-data-layer/commit/5100962))
+
+### Documentation
+
+* add Checkpoint 10 migration instructions ([7577357](https://github.com/leadinsideout/unified-data-layer/commit/7577357))
+* add Checkpoint 10 results and update checkpoint index ([16238e7](https://github.com/leadinsideout/unified-data-layer/commit/16238e7))
+
 ## [0.9.0](https://github.com/leadinsideout/unified-data-layer/compare/v0.9.0-checkpoint-9...v0.9.0) (2025-11-20)
 
 ## [0.8.0](https://github.com/leadinsideout/unified-data-layer/compare/v0.8.0-checkpoint-8...v0.8.0) (2025-11-19)
