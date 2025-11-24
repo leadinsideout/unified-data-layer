@@ -23,6 +23,8 @@ import { createAuthMiddleware, createOptionalAuthMiddleware } from './middleware
 import { createAdminRoutes } from './routes/admin.js';
 import { createApiKeyRoutes } from './routes/api-keys.js';
 import { createAdminAuthRoutes, createAdminSessionMiddleware } from './routes/admin-auth.js';
+import { createV2ClientRoutes, createV2SearchRoutes } from './routes/v2/index.js';
+import { createMCPRoutes } from './mcp/index.js';
 
 // Load environment variables
 dotenv.config();
@@ -183,6 +185,17 @@ app.use('/api/admin', adminRoutes);
 const apiKeyRoutes = createApiKeyRoutes(supabase, adminSessionMiddleware);
 app.use('/api/admin/api-keys', apiKeyRoutes);
 
+// Register v2 routes (for MCP server and Enhanced Custom GPT)
+const v2ClientRoutes = createV2ClientRoutes(supabase, authMiddleware);
+const v2SearchRoutes = createV2SearchRoutes(supabase, authMiddleware);
+app.use('/api/v2/clients', v2ClientRoutes);
+app.use('/api/v2/search', v2SearchRoutes);
+
+// Register MCP routes (Model Context Protocol for AI assistants)
+const mcpRoutes = createMCPRoutes(supabase, openai, authMiddleware);
+app.get('/api/mcp/sse', ...mcpRoutes.handleSSE);
+app.post('/api/mcp/messages', ...mcpRoutes.handleMessages);
+
 /**
  * Root Endpoint
  *
@@ -193,8 +206,8 @@ app.use('/api/admin/api-keys', apiKeyRoutes);
 app.get('/', (req, res) => {
   res.json({
     name: 'Unified Data Layer API',
-    version: '0.9.0',
-    description: 'Multi-type semantic search API with type-aware filtering',
+    version: '0.11.0',
+    description: 'Multi-type semantic search API with MCP server for AI assistants',
     endpoints: {
       health: 'GET /api/health',
       // Legacy endpoints (backward compatible)
@@ -205,6 +218,15 @@ app.get('/', (req, res) => {
       dataUpload: 'POST /api/data/upload',
       search: 'POST /api/search (supports types, coach_id, client_id, organization_id filters)',
       openapi: 'GET /openapi.json',
+      // V2 endpoints (for MCP server and Enhanced Custom GPT)
+      v2Clients: 'GET /api/v2/clients (list accessible clients)',
+      v2ClientTimeline: 'GET /api/v2/clients/:id/timeline (chronological history)',
+      v2ClientData: 'GET /api/v2/clients/:id/data (full data items)',
+      v2SearchUnified: 'POST /api/v2/search/unified (enhanced search with metadata)',
+      v2SearchFiltered: 'POST /api/v2/search/filtered (explicit filter structure)',
+      // MCP endpoints (Model Context Protocol for AI assistants)
+      mcpSSE: 'GET /api/mcp/sse (SSE connection for MCP clients)',
+      mcpMessages: 'POST /api/mcp/messages (MCP message handler)',
       // Admin endpoints (require authentication)
       adminUsers: 'GET /api/admin/users',
       adminUserDetails: 'GET /api/admin/users/:id',
@@ -238,7 +260,7 @@ app.get('/api/health', (req, res) => {
     status: 'healthy',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development',
-    version: '0.9.0',
+    version: '0.11.0',
     services: {
       supabase: !!process.env.SUPABASE_URL,
       openai: !!process.env.OPENAI_API_KEY
@@ -903,7 +925,7 @@ app.get('/openapi.json', (req, res) => {
     openapi: '3.1.0',
     info: {
       title: 'Unified Data Layer API',
-      version: '0.9.0',
+      version: '0.11.0',
       description: 'Multi-type semantic search API for coaching data (transcripts, assessments, models, org docs). Returns relevant chunks for AI platform synthesis with type-aware filtering.'
     },
     servers: [
@@ -1071,6 +1093,240 @@ app.get('/openapi.json', (req, res) => {
             }
           }
         }
+      },
+      '/api/v2/clients': {
+        get: {
+          summary: 'List accessible clients',
+          operationId: 'listClients',
+          description: 'List clients accessible to the authenticated user. Coaches see their assigned clients, clients see only themselves, admins see all clients in their company.',
+          security: [{ bearerAuth: [] }],
+          parameters: [
+            {
+              name: 'limit',
+              in: 'query',
+              schema: { type: 'integer', default: 50, maximum: 100 },
+              description: 'Maximum number of results'
+            }
+          ],
+          responses: {
+            '200': {
+              description: 'List of accessible clients',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      clients: {
+                        type: 'array',
+                        items: {
+                          type: 'object',
+                          properties: {
+                            id: { type: 'string', format: 'uuid' },
+                            name: { type: 'string' },
+                            email: { type: 'string' },
+                            created_at: { type: 'string', format: 'date-time' }
+                          }
+                        }
+                      },
+                      total: { type: 'integer' }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      '/api/v2/clients/{clientId}/timeline': {
+        get: {
+          summary: 'Get client timeline',
+          operationId: 'getClientTimeline',
+          description: 'Returns chronological history of all data for a specific client. Useful for reviewing coaching journey.',
+          security: [{ bearerAuth: [] }],
+          parameters: [
+            {
+              name: 'clientId',
+              in: 'path',
+              required: true,
+              schema: { type: 'string', format: 'uuid' },
+              description: 'Client ID'
+            },
+            {
+              name: 'start_date',
+              in: 'query',
+              schema: { type: 'string', format: 'date' },
+              description: 'Filter by start date (ISO format)'
+            },
+            {
+              name: 'end_date',
+              in: 'query',
+              schema: { type: 'string', format: 'date' },
+              description: 'Filter by end date (ISO format)'
+            },
+            {
+              name: 'types',
+              in: 'query',
+              schema: { type: 'string' },
+              description: 'Comma-separated data types to filter'
+            },
+            {
+              name: 'limit',
+              in: 'query',
+              schema: { type: 'integer', default: 50, maximum: 100 },
+              description: 'Maximum results'
+            }
+          ],
+          responses: {
+            '200': {
+              description: 'Client timeline with data items',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      client_id: { type: 'string', format: 'uuid' },
+                      client_name: { type: 'string' },
+                      timeline: {
+                        type: 'array',
+                        items: {
+                          type: 'object',
+                          properties: {
+                            date: { type: 'string', format: 'date' },
+                            data_type: { type: 'string' },
+                            title: { type: 'string' },
+                            summary: { type: 'string' },
+                            data_item_id: { type: 'string', format: 'uuid' },
+                            coach: {
+                              type: 'object',
+                              properties: {
+                                id: { type: 'string', format: 'uuid' },
+                                name: { type: 'string' }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      total_items: { type: 'integer' },
+                      by_type: { type: 'object' }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      '/api/v2/clients/{clientId}/data': {
+        get: {
+          summary: 'Get client data items',
+          operationId: 'getClientData',
+          description: 'Returns all data items for a specific client with full content. More detailed than timeline.',
+          security: [{ bearerAuth: [] }],
+          parameters: [
+            {
+              name: 'clientId',
+              in: 'path',
+              required: true,
+              schema: { type: 'string', format: 'uuid' },
+              description: 'Client ID'
+            },
+            {
+              name: 'types',
+              in: 'query',
+              schema: { type: 'string' },
+              description: 'Comma-separated data types to filter'
+            },
+            {
+              name: 'limit',
+              in: 'query',
+              schema: { type: 'integer', default: 50, maximum: 100 },
+              description: 'Maximum results'
+            },
+            {
+              name: 'include_chunks',
+              in: 'query',
+              schema: { type: 'boolean', default: false },
+              description: 'Include chunk data'
+            }
+          ],
+          responses: {
+            '200': {
+              description: 'Client data items with full content',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      client_id: { type: 'string', format: 'uuid' },
+                      client_name: { type: 'string' },
+                      items: { type: 'array' },
+                      total: { type: 'integer' },
+                      by_type: { type: 'object' }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      '/api/v2/search/unified': {
+        post: {
+          summary: 'Enhanced unified search',
+          operationId: 'unifiedSearch',
+          description: 'Enhanced search with timing metadata and results grouped by type.',
+          security: [{ bearerAuth: [] }],
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  required: ['query'],
+                  properties: {
+                    query: { type: 'string', description: 'Search query' },
+                    types: { type: 'array', items: { type: 'string' } },
+                    threshold: { type: 'number', default: 0.3 },
+                    limit: { type: 'integer', default: 10, maximum: 50 }
+                  }
+                }
+              }
+            }
+          },
+          responses: {
+            '200': {
+              description: 'Search results with metadata',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      results_by_type: { type: 'object' },
+                      type_counts: { type: 'object' },
+                      total_results: { type: 'integer' },
+                      metadata: {
+                        type: 'object',
+                        properties: {
+                          response_time_ms: { type: 'integer' },
+                          query: { type: 'string' }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          description: 'API key authentication. Get your API key from the admin dashboard.'
+        }
       }
     }
   };
@@ -1094,6 +1350,16 @@ app.use((req, res) => {
       'POST /api/transcripts/upload-pdf',
       'POST /api/data/upload',
       'GET /openapi.json',
+      // V2 endpoints
+      'GET /api/v2/clients (requires auth)',
+      'GET /api/v2/clients/:id/timeline (requires auth)',
+      'GET /api/v2/clients/:id/data (requires auth)',
+      'POST /api/v2/search/unified (requires auth)',
+      'POST /api/v2/search/filtered (requires auth)',
+      // MCP endpoints
+      'GET /api/mcp/sse (requires auth, SSE)',
+      'POST /api/mcp/messages (requires auth)',
+      // Admin endpoints
       'GET /api/admin/users (requires auth)',
       'POST /api/admin/users (requires auth)',
       'GET /api/admin/users/:id (requires auth)',
