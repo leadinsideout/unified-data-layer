@@ -79,8 +79,13 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// JSON body parser
-app.use(express.json({ limit: '10mb' }));
+// JSON body parser (skip for MCP messages endpoint - it reads raw body)
+app.use((req, res, next) => {
+  if (req.path === '/api/mcp/messages') {
+    return next();
+  }
+  express.json({ limit: '10mb' })(req, res, next);
+});
 
 // Serve static files from public directory
 app.use(express.static(path.join(__dirname, '..', 'public')));

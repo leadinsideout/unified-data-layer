@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "coaching-data": {
+      "url": "https://unified-data-layer.vercel.app/api/mcp/sse",
+      "transport": "sse",
+      "headers": {
+        "Authorization": "Bearer sk_test_99e85a679a70a554eb42cdace768af399cc4d86b474ad40e61d4e2a70f1b950b"
+      }
+    }
+  }
+}
