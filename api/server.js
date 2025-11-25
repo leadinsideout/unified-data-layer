@@ -755,12 +755,53 @@ app.post('/api/search', optionalAuthMiddleware, async (req, res) => {
     const {
       query,
       types = null,  // null = all types, or array like ['transcript', 'assessment']
-      coach_id = null,
-      client_id = null,
+      coach_id: body_coach_id = null,
+      client_id: body_client_id = null,
       organization_id = null,
       threshold = 0.3,
       limit = 10
     } = req.body;
+
+    // SECURITY: Use authenticated user's coach_id/client_id if available
+    // This ensures multi-tenant isolation - users can only see their own data
+    let coach_id = body_coach_id;
+    let client_id = body_client_id;
+    let auth_client_ids = null; // For coaches: list of their client IDs
+
+    if (req.apiKey) {
+      if (req.apiKey.coach_id) {
+        // Authenticated as a coach - ALWAYS use their coach_id and get their client list
+        coach_id = req.apiKey.coach_id;
+
+        // Get list of clients this coach can access
+        const { data: coachClients, error: clientsError } = await supabase
+          .from('coach_clients')
+          .select('client_id')
+          .eq('coach_id', coach_id);
+
+        if (!clientsError && coachClients) {
+          auth_client_ids = coachClients.map(c => c.client_id);
+          console.log(`Coach ${coach_id} has access to ${auth_client_ids.length} clients`);
+        }
+
+        // If body_client_id was provided, verify coach has access to that client
+        if (body_client_id && auth_client_ids && !auth_client_ids.includes(body_client_id)) {
+          return res.status(403).json({
+            error: 'Access denied',
+            message: 'You do not have access to this client'
+          });
+        }
+        // If specific client requested and authorized, use it
+        if (body_client_id && auth_client_ids && auth_client_ids.includes(body_client_id)) {
+          client_id = body_client_id;
+        }
+      } else if (req.apiKey.client_id) {
+        // Authenticated as a client - can ONLY see their own data
+        client_id = req.apiKey.client_id;
+        coach_id = null; // Client shouldn't filter by coach
+        console.log(`Client ${client_id} searching their own data`);
+      }
+    }
 
     // Validation
     if (!query || query.trim().length === 0) {
@@ -843,22 +884,55 @@ app.post('/api/search', optionalAuthMiddleware, async (req, res) => {
       types: types || 'all',
       coach_id,
       client_id,
+      auth_client_ids: auth_client_ids ? auth_client_ids.length : 'none',
       organization_id: resolved_organization_id
     });
     const queryEmbedding = await generateEmbedding(query);
     const queryEmbeddingText = formatEmbeddingForDB(queryEmbedding);
 
     // Call vector search function with filters
-    const { data: chunks, error: searchError } = await supabase
-      .rpc('match_data_chunks', {
-        query_embedding_text: queryEmbeddingText,
-        filter_types: types,
-        filter_coach_id: coach_id,
-        filter_client_id: client_id,
-        filter_org_id: resolved_organization_id,
-        match_threshold: threshold,
-        match_count: limit
-      });
+    let chunks;
+    let searchError;
+
+    // For authenticated coaches with a client list, we need to filter post-query
+    // since the RPC doesn't support client_ids array filtering
+    if (auth_client_ids && auth_client_ids.length > 0 && !client_id) {
+      // Get more results and filter by client_ids
+      const { data: rawChunks, error: rawError } = await supabase
+        .rpc('match_data_chunks', {
+          query_embedding_text: queryEmbeddingText,
+          filter_types: types,
+          filter_coach_id: coach_id, // Still filter by coach_id if available in data
+          filter_client_id: null, // Don't filter single client
+          filter_org_id: resolved_organization_id,
+          match_threshold: threshold,
+          match_count: limit * 5 // Get more to account for filtering
+        });
+
+      if (rawError) {
+        searchError = rawError;
+      } else {
+        // Filter by authorized client_ids
+        chunks = (rawChunks || []).filter(chunk =>
+          auth_client_ids.includes(chunk.client_id)
+        ).slice(0, limit);
+        console.log(`Filtered ${rawChunks?.length || 0} results to ${chunks.length} for authorized clients`);
+      }
+    } else {
+      // Standard query (single client or no auth)
+      const { data: rawChunks, error: rawError } = await supabase
+        .rpc('match_data_chunks', {
+          query_embedding_text: queryEmbeddingText,
+          filter_types: types,
+          filter_coach_id: coach_id,
+          filter_client_id: client_id,
+          filter_org_id: resolved_organization_id,
+          match_threshold: threshold,
+          match_count: limit
+        });
+      chunks = rawChunks;
+      searchError = rawError;
+    }
 
     if (searchError) {
       console.error('Search error:', searchError);
