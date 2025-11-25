@@ -1550,6 +1550,67 @@ app.get('/openapi.json', (req, res) => {
           scheme: 'bearer',
           description: 'API key authentication. Get your API key from the admin dashboard.'
         }
+      },
+      schemas: {
+        SearchRequest: {
+          type: 'object',
+          required: ['query'],
+          properties: {
+            query: {
+              type: 'string',
+              description: 'The search query text'
+            },
+            limit: {
+              type: 'integer',
+              default: 5,
+              description: 'Maximum number of results to return'
+            },
+            threshold: {
+              type: 'number',
+              default: 0.3,
+              description: 'Minimum similarity threshold (0-1)'
+            },
+            filter_types: {
+              type: 'array',
+              items: { type: 'string' },
+              description: 'Filter by data types (transcript, assessment, model, company_doc)'
+            }
+          }
+        },
+        SearchResult: {
+          type: 'object',
+          properties: {
+            id: { type: 'string' },
+            content: { type: 'string' },
+            similarity: { type: 'number' },
+            metadata: { type: 'object' },
+            data_item: {
+              type: 'object',
+              properties: {
+                id: { type: 'string' },
+                title: { type: 'string' },
+                data_type: { type: 'string' },
+                session_date: { type: 'string' }
+              }
+            }
+          }
+        },
+        HealthResponse: {
+          type: 'object',
+          properties: {
+            status: { type: 'string' },
+            version: { type: 'string' },
+            environment: { type: 'string' },
+            timestamp: { type: 'string' }
+          }
+        },
+        Error: {
+          type: 'object',
+          properties: {
+            error: { type: 'string' },
+            message: { type: 'string' }
+          }
+        }
       }
     }
   };
