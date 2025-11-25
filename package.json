@@ -1,6 +1,6 @@
 {
   "name": "unified-data-layer",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "Unified data layer providing semantic search over coaching transcripts for AI platform integration",
   "type": "module",
   "main": "api/server.js",

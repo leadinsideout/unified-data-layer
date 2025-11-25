@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.12.0](https://github.com/leadinsideout/unified-data-layer/compare/v0.11.0...v0.12.0) (2025-11-25)
+
+
+### Features
+
+* **api:** add v2/search/filtered to OpenAPI schema, update Custom GPT guide ([27d8838](https://github.com/leadinsideout/unified-data-layer/commit/27d8838ba92767dc8866074471248812eea4f25e))
+
+
+### Documentation
+
+* update CLAUDE.md with Checkpoint 11 status ([11f7be7](https://github.com/leadinsideout/unified-data-layer/commit/11f7be72d458a86681713743ab3ec175e63cdbba))
+* update README.md and CLAUDE.md for Checkpoint 11 ([2a033cd](https://github.com/leadinsideout/unified-data-layer/commit/2a033cd971d79e4cce7bfd6cef74cf625722247a))
+
 ## [0.11.0](https://github.com/leadinsideout/unified-data-layer/compare/v0.11.0-checkpoint-11...v0.11.0) (2025-11-25)
 
 ## [0.10.0](https://github.com/leadinsideout/unified-data-layer/compare/v0.9.0...v0.10.0) (2025-11-24)
