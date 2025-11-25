@@ -2,7 +2,7 @@
 
 **Purpose**: Track progress through implementation checkpoints
 
-**Current Phase**: Phase 3 Complete - Security & Privacy (Checkpoint 10 Complete)
+**Current Phase**: Phase 4 - AI Platform Integration (Checkpoint 11 Complete)
 
 ---
 
@@ -305,12 +305,39 @@ git checkout -b fix-from-checkpoint-1 v0.1.0-checkpoint-1
 
 ---
 
-## 📋 Future Checkpoints (Phases 4+)
+## 📋 Phase 4: AI Platform Integration
 
-### Phase 4: Full AI Platform Integration
-- Checkpoint 11: MCP server
-- Checkpoint 12: Enhanced Custom GPT
-- Checkpoint 13: Multi-tenant auth
+### Checkpoint 11: MCP Server Development ✅
+**Status**: Complete
+**Tag**: `v0.11.0 / v0.11.0-checkpoint-11`
+**Completed**: 2025-11-25
+**Details**: [checkpoint-11-results.md](checkpoint-11-results.md)
+
+**What Was Built**:
+- MCP server with SSE transport using official `@modelcontextprotocol/sdk`
+- 3 MCP tools: `search_data`, `upload_data`, `get_client_timeline`
+- V2 REST API endpoints for enhanced client/search operations
+- OpenAPI schema updates for v2 endpoints
+- MCP Inspector configuration and test scripts
+
+**Results**:
+- ✅ SSE connection works with proper authentication
+- ✅ All 3 MCP tools functional
+- ✅ Production deployed and tested
+- ✅ Claude Desktop compatible
+
+### Checkpoint 12: Enhanced Custom GPT
+**Status**: Not Started
+- Update Custom GPT action schema with v2 endpoints
+- Add client timeline visualization prompts
+- Improve search result synthesis
+
+### Checkpoint 13: Multi-Tenant Verification
+**Status**: Not Started
+- Beta testing with real coaches
+- Test coach seeing multiple clients
+- Test client seeing only own data
+- Document edge cases
 
 *See: [../project/roadmap.md](../project/roadmap.md) for full phase details*
 
@@ -379,4 +406,4 @@ git checkout -b fix-from-checkpoint-1 v0.1.0-checkpoint-1
 
 ---
 
-**Last Updated**: 2025-11-24
+**Last Updated**: 2025-11-25

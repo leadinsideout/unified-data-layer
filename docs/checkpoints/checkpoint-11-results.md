@@ -145,8 +145,13 @@ Automated verification of access control:
 - `scripts/test-multi-tenant.js` - Access control tests
 
 ### Files Modified
-- `api/server.js` - Added v2 and MCP route registration
+- `api/server.js` - Added v2 and MCP route registration, fixed body-parser for MCP
 - `package.json` - Added `@modelcontextprotocol/sdk` dependency
+
+### Additional Test Files
+- `scripts/test-mcp-full.js` - Full MCP client test script
+- `scripts/test-mcp-client.js` - Minimal MCP client test
+- `mcp-inspector-config.json` - MCP Inspector configuration
 
 ### Dependencies Added
 - `@modelcontextprotocol/sdk` - Official MCP SDK
@@ -194,6 +199,58 @@ After deployment, verify:
 1. MCP SSE endpoint accessible at production URL
 2. Authentication enforced on all endpoints
 3. Role-based access correctly filtering data
+
+### MCP Inspector Testing (Verified 2025-11-25)
+
+Successfully tested with MCP Inspector:
+```
+============================================================
+MCP Full Client Test
+============================================================
+Base URL: https://unified-data-layer.vercel.app
+API Key: sk_test_99e85a679a70...
+
+1. Connecting to SSE endpoint...
+   ✅ Connected: Status 200
+   Session ID: 3b7e37fb-ae24-482e-beb9-05b6550e2d3e
+
+2. Listing available tools...
+   Sending: tools/list
+   Response: Accepted
+
+3. Testing search_data tool...
+   Sending: tools/call
+   Response: Accepted
+
+✅ MCP Test Complete!
+============================================================
+```
+
+## Issues Encountered & Fixes
+
+### Body-Parser Stream Conflict
+
+**Issue**: MCP SDK's `handlePostMessage()` requires raw request body stream, but Express's `express.json()` middleware was consuming the stream before the SDK could read it.
+
+**Error**: `"stream is not readable"`
+
+**Fix**: Skip JSON body parsing for MCP messages endpoint in [api/server.js](../../api/server.js):
+```javascript
+app.use((req, res, next) => {
+  if (req.path === '/api/mcp/messages') {
+    return next();
+  }
+  express.json({ limit: '10mb' })(req, res, next);
+});
+```
+
+### Session Timeout in Inspector
+
+**Issue**: "No active SSE connection found for this session" when testing with MCP Inspector after delay.
+
+**Cause**: Vercel serverless functions don't share memory between invocations. If there's a delay between SSE connection and tool call, they may hit different instances.
+
+**Resolution**: Not a bug - Claude Desktop maintains persistent connections, so this isn't an issue in production. For MCP Inspector testing, connect and run tools immediately.
 
 ## What's Next
 
