@@ -1,12 +1,12 @@
 # Unified Data Layer
 
-Semantic search API for coaching data (transcripts, assessments, coaching models, company docs), designed for AI platform integration (Custom GPT, Claude Projects via MCP).
+Semantic search API for coaching data (transcripts, assessments, coaching models, company docs), designed for AI platform integration (Custom GPT, Claude Desktop via MCP).
 
 **Architecture Principle**: Our API provides DATA (via semantic search), AI platforms provide SYNTHESIS (using their native GPT-4/Claude).
 
 ## Status
 
-**Phase 3 In Progress** ⏳ (67% Complete) | **Version**: v0.9.0
+**Phase 4 In Progress** ⏳ (33% Complete) | **Version**: v0.11.0
 
 ### Phase 1: Transcript Foundation ✅ (Nov 1-11, 2025)
 - ✅ Express API server with semantic search
@@ -25,9 +25,22 @@ Semantic search API for coaching data (transcripts, assessments, coaching models
 - ✅ Performance: 1.6-2.1s queries (exceeds <3s target)
 - ✅ Backward compatible API
 
+### Phase 3: Security & Privacy ✅ (Nov 19-24, 2025)
+- ✅ PII scrubbing pipeline (hybrid regex + GPT detection, 96% accuracy)
+- ✅ Row-level security (42 RLS policies across 12 tables)
+- ✅ API key authentication with bcrypt hashing
+- ✅ Admin dashboard for user & API key management
+
+### Phase 4: AI Platform Integration ⏳ (Nov 25, 2025 - In Progress)
+- ✅ **Checkpoint 11**: MCP Server with SSE transport (Claude Desktop compatible)
+- ✅ 3 MCP tools: `search_data`, `upload_data`, `get_client_timeline`
+- ✅ V2 REST API endpoints for enhanced client/search operations
+- 🔴 Checkpoint 12: Enhanced Custom GPT (Next)
+- 🔴 Checkpoint 13: Multi-Tenant Verification
+
 **Production URL**: https://unified-data-layer.vercel.app
 
-**Next**: Phase 3 - Data Privacy & Security (PII scrubbing, RLS, API keys)
+**Next**: Checkpoint 12 - Enhanced Custom GPT integration
 
 ---
 
@@ -79,40 +92,47 @@ Semantic search API for coaching data (transcripts, assessments, coaching models
 
 ## API Endpoints
 
-### Health Check
-```bash
-GET /api/health
-```
+### Core Endpoints
 
-### Upload Text Transcript
-```bash
-POST /api/transcripts/upload
-Content-Type: application/json
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/health` | GET | Server health check |
+| `/api/search` | POST | Semantic search with type/coach/client filters |
+| `/api/transcripts/upload` | POST | Upload text transcript |
+| `/api/transcripts/upload-pdf` | POST | Upload PDF transcript |
+| `/api/data/upload` | POST | Upload any data type |
+| `/openapi.json` | GET | OpenAPI schema for Custom GPT |
 
-{
-  "text": "Coaching session transcript...",
-  "meeting_date": "2025-11-08T10:00:00Z",
-  "coach_id": "uuid",
-  "client_id": "uuid"
-}
-```
+### V2 Endpoints (Enhanced for AI Platforms)
 
-### Upload PDF Transcript
-```bash
-POST /api/transcripts/upload-pdf
-Content-Type: multipart/form-data
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/v2/clients` | GET | List accessible clients (role-based) |
+| `/api/v2/clients/:id/timeline` | GET | Client coaching timeline |
+| `/api/v2/clients/:id/data` | GET | Full data items with content |
+| `/api/v2/search/unified` | POST | Enhanced search with timing metadata |
 
-file: transcript.pdf
-meeting_date: 2025-11-08T10:00:00Z
-```
+### MCP Endpoints (Model Context Protocol)
 
-### Semantic Search
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/mcp/sse` | GET | SSE connection for MCP clients |
+| `/api/mcp/messages` | POST | MCP message handler |
+
+**MCP Tools Available**:
+- `search_data` - Semantic search with multi-dimensional filtering
+- `upload_data` - Upload new coaching data
+- `get_client_timeline` - Chronological history for a client
+
+### Example: Semantic Search
 ```bash
 POST /api/search
 Content-Type: application/json
+Authorization: Bearer YOUR_API_KEY
 
 {
   "query": "What did the client discuss about career goals?",
+  "types": ["transcript"],
   "threshold": 0.3,
   "limit": 5
 }
@@ -123,7 +143,7 @@ Content-Type: application/json
 GET /openapi.json
 ```
 
-For detailed API documentation, see `docs/api/endpoints.md` (coming soon).
+For detailed API documentation, see the OpenAPI schema or [docs/checkpoints/checkpoint-11-results.md](docs/checkpoints/checkpoint-11-results.md).
 
 ---
 
@@ -277,18 +297,21 @@ See [docs/development/workflows.md](docs/development/workflows.md) for complete 
 - ✅ Checkpoint 6: Type-Aware Search & Filtering
 - ✅ Checkpoint 7: Custom GPT Integration Validation
 
-**Phase 3** ⏳ IN PROGRESS (67% Complete) - Security & Privacy
-- ✅ Checkpoint 8: PII Scrubbing Pipeline (COMPLETE - v0.8.0, Nov 19, 2025)
-- ✅ Checkpoint 9: Row-Level Security (RLS) (COMPLETE - v0.9.0, Nov 20, 2025)
-- 🔴 Checkpoint 10: API Key Management (NEXT - Planning Complete)
+**Phase 3** ✅ COMPLETE (Nov 19-24, 2025) - Security & Privacy
+- ✅ Checkpoint 8: PII Scrubbing Pipeline (v0.8.0, Nov 19)
+- ✅ Checkpoint 9: Row-Level Security (v0.9.0, Nov 20)
+- ✅ Checkpoint 10: Admin User & API Key Management (v0.10.0, Nov 24)
 
-**Phase 4**: Full AI platform integration (MCP + Custom GPT)
+**Phase 4** ⏳ IN PROGRESS (33% Complete) - AI Platform Integration
+- ✅ Checkpoint 11: MCP Server Development (v0.11.0, Nov 25)
+- 🔴 Checkpoint 12: Enhanced Custom GPT (NEXT)
+- 🔴 Checkpoint 13: Multi-Tenant Verification
 
 **Phase 5**: Data source integrations (Fireflies.ai)
 
 **Phase 6**: Production optimization
 
-**Target**: Phases 3-6 complete by December 15, 2025
+**Target**: Phases 4-6 complete by December 15, 2025
 
 See [docs/project/roadmap.md](docs/project/roadmap.md) for full roadmap with velocity tracking.
 
@@ -302,10 +325,11 @@ See [docs/project/roadmap.md](docs/project/roadmap.md) for full roadmap with vel
 
 **Quick Links**:
 - **Setup Guides**: [docs/setup/](docs/setup/) - Supabase, GitHub, deployment
-- **Current Status**: [docs/checkpoints/](docs/checkpoints/) - Checkpoint progress
+- **Current Status**: [docs/checkpoints/checkpoint-11-results.md](docs/checkpoints/checkpoint-11-results.md) - Latest checkpoint
+- **Checkpoint Index**: [docs/checkpoints/](docs/checkpoints/) - All checkpoint progress
 - **Roadmap & Implementation**: [docs/project/roadmap.md](docs/project/roadmap.md) - Product vision with checkpoint plan
-- **Phase 2 Plan**: [docs/project/phase-2-implementation-plan.md](docs/project/phase-2-implementation-plan.md) - Detailed Phase 2 plan
 - **Workflows**: [docs/development/workflows.md](docs/development/workflows.md) - Git, testing, deployment
+- **MCP Server**: [docs/checkpoints/checkpoint-11-results.md](docs/checkpoints/checkpoint-11-results.md) - MCP integration details
 - **Testing**: [tests/e2e-checklist.md](tests/e2e-checklist.md) - Manual test checklist
 
 ---

@@ -638,6 +638,9 @@ await mcp__supabase__list_projects();
 
    **Status Consistency Checks**:
    - [ ] `README.md` Phase X status = actual phase progress
+   - [ ] `README.md` Roadmap section = current checkpoint completions
+   - [ ] `README.md` API Endpoints section = current endpoints (v2, MCP if added)
+   - [ ] `README.md` Documentation links = latest checkpoint docs
    - [ ] `CLAUDE.md` "What's Working" section = actual completed work
    - [ ] `docs/checkpoints/README.md` latest checkpoint = current checkpoint
    - [ ] Phase implementation plan status = current reality
