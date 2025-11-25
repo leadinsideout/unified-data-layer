@@ -768,10 +768,10 @@ app.post('/api/search', optionalAuthMiddleware, async (req, res) => {
     let client_id = body_client_id;
     let auth_client_ids = null; // For coaches: list of their client IDs
 
-    if (req.apiKey) {
-      if (req.apiKey.coach_id) {
+    if (req.auth) {
+      if (req.auth.coachId) {
         // Authenticated as a coach - ALWAYS use their coach_id and get their client list
-        coach_id = req.apiKey.coach_id;
+        coach_id = req.auth.coachId;
 
         // Get list of clients this coach can access
         const { data: coachClients, error: clientsError } = await supabase
@@ -795,9 +795,9 @@ app.post('/api/search', optionalAuthMiddleware, async (req, res) => {
         if (body_client_id && auth_client_ids && auth_client_ids.includes(body_client_id)) {
           client_id = body_client_id;
         }
-      } else if (req.apiKey.client_id) {
+      } else if (req.auth.clientId) {
         // Authenticated as a client - can ONLY see their own data
-        client_id = req.apiKey.client_id;
+        client_id = req.auth.clientId;
         coach_id = null; // Client shouldn't filter by coach
         console.log(`Client ${client_id} searching their own data`);
       }
