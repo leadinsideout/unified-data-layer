@@ -82,6 +82,48 @@ This directory contains checkpoint-specific learnings that extend the [core meth
 
 ---
 
+### Phase 4: AI Platform Integration
+
+#### Checkpoint 11: MCP Server Development
+**Status**: Not yet documented (learnings were incremental, no major pitfalls)
+**Key Topics**: MCP SDK integration, SSE transport, tool design patterns
+
+---
+
+#### Checkpoint 12: Enhanced Custom GPT
+**Status**: Not yet documented (documentation-focused checkpoint)
+**Key Topics**: OpenAPI schema updates, GPT instruction design
+
+---
+
+#### Checkpoint 13: Multi-Tenant Verification
+**File**: [checkpoint-13-release-workflow.md](checkpoint-13-release-workflow.md)
+**Date**: 2025-11-25
+**Status**: ✅ Documented
+
+**Key Learnings**:
+- Release workflow compliance failures
+- Session resumption without re-reading workflow
+- Empty CHANGELOG from tag ordering
+- Approval gate bypass consequences
+- Documentation sync enforcement
+
+**Pitfalls Added**:
+- Skipping User Approval Gates (Critical)
+- Empty CHANGELOG from Tag Ordering (High)
+- Session Resumption Without Context (High)
+
+**Patterns Added**:
+- Approval Gate Visual Marker workflow
+- Release Artifact Verification checklist
+
+**Impact**:
+- Established session resumption protocol
+- Created prevention mechanisms for release compliance
+- ROI: 4.5x - 25x time savings from prevention vs remediation
+
+---
+
 ### Future Checkpoints
 
 As each checkpoint completes, learnings will be documented here using the templates in [../templates/](../templates/).
@@ -190,8 +232,8 @@ Checkpoint learnings may be promoted to core methodology during major revisions 
 
 ## Statistics
 
-**Total Checkpoints Documented**: 2 (Checkpoint 9, 10)
-**Total Patterns**: 15+
+**Total Checkpoints Documented**: 3 (Checkpoint 9, 10, 13)
+**Total Patterns**: 20+
 **Total Token Savings**: ~256,000 tokens/year (vs full methodology updates)
 **Average Learning Doc Size**: 500-750 lines
 **Core Methodology Size**: 3,221 lines (frozen, rarely updated)

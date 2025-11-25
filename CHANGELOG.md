@@ -2,7 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [0.13.0](https://github.com/leadinsideout/unified-data-layer/compare/v0.13.0-checkpoint-13...v0.13.0) (2025-11-25)
+## [0.13.0](https://github.com/leadinsideout/unified-data-layer/compare/v0.12.0...v0.13.0) (2025-11-25)
+
+**Phase 4 Complete: AI Platform Integration**
+
+### Features
+
+* **security:** implement multi-tenant isolation verification with 42-test suite ([05b6b32](https://github.com/leadinsideout/unified-data-layer/commit/05b6b32))
+* **security:** add coach-client relationship as primary access boundary ([05b6b32](https://github.com/leadinsideout/unified-data-layer/commit/05b6b32))
+* **test:** create 3 coach personas (Alex, Jordan, Sam) with API keys for isolation testing ([05b6b32](https://github.com/leadinsideout/unified-data-layer/commit/05b6b32))
+* **test:** generate 44 coaching transcripts with unique isolation markers ([05b6b32](https://github.com/leadinsideout/unified-data-layer/commit/05b6b32))
+
+### Bug Fixes
+
+* **security:** fix auth property reference in search endpoint (req.apiKey → req.auth) ([e332bd3](https://github.com/leadinsideout/unified-data-layer/commit/e332bd3))
+* **security:** correct property names to camelCase (coach_id → coachId) ([e332bd3](https://github.com/leadinsideout/unified-data-layer/commit/e332bd3))
+
+### Tests
+
+* **isolation:** 14/14 positive tests - coaches can see their own clients
+* **isolation:** 22/22 negative tests - coaches cannot see other coaches' clients
+* **isolation:** 6/6 client isolation tests - clients see only their data
+* **isolation:** 100% multi-tenant isolation verified
+
+### Documentation
+
+* add checkpoint-13-results.md with comprehensive test documentation ([05b6b32](https://github.com/leadinsideout/unified-data-layer/commit/05b6b32))
+* update checkpoint index with Phase 4 completion status ([05b6b32](https://github.com/leadinsideout/unified-data-layer/commit/05b6b32))
 
 ## [0.12.0](https://github.com/leadinsideout/unified-data-layer/compare/v0.11.0...v0.12.0) (2025-11-25)
 

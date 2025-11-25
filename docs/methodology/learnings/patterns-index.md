@@ -2,7 +2,7 @@
 
 **Purpose**: Searchable index of all checkpoint learnings organized by topic, pattern type, and impact
 
-**Last Updated**: 2025-11-22
+**Last Updated**: 2025-11-25
 
 ---
 
@@ -35,6 +35,7 @@ Version Consistency | CP10 | Workflow | 6x time savings | Intermediate | checkpo
 | Slack Message Approval | 9 | Workflow | Trust preservation, prevents incorrect notifications | Simple | [checkpoint-9-rls-migrations.md](checkpoint-9-rls-migrations.md#slack-message-approval) |
 | Phase-Ending Notification Strategy | 9 | Best Practice | Team awareness without noise | Simple | [checkpoint-9-rls-migrations.md](checkpoint-9-rls-migrations.md#phase-notifications) |
 | Checkpoint Retrospective | 9 | Workflow | Captures learnings while fresh | Intermediate | [checkpoint-9-rls-migrations.md](checkpoint-9-rls-migrations.md#retrospective-pattern) |
+| Approval Gate Visual Marker | 13 | Workflow | Prevents bypassing user approval | Simple | [checkpoint-13-release-workflow.md](checkpoint-13-release-workflow.md#workflow-approval-gate-visual-marker) |
 
 ---
 
@@ -76,6 +77,7 @@ Version Consistency | CP10 | Workflow | 6x time savings | Intermediate | checkpo
 |---------|------------|------|--------|------------|------|
 | Checkpoint Validation Criteria | 9 | Workflow | Ensures completeness before merge | Intermediate | [checkpoint-9-rls-migrations.md](checkpoint-9-rls-migrations.md#validation-criteria) |
 | Audit Automation Script | 10 | Workflow | 100% consistency checks | Intermediate | [checkpoint-10-doc-sync.md](checkpoint-10-doc-sync.md#audit-script) |
+| Release Artifact Verification | 13 | Workflow | Prevents incomplete releases | Intermediate | [checkpoint-13-release-workflow.md](checkpoint-13-release-workflow.md#pattern-release-artifact-verification) |
 
 ---
 
@@ -86,6 +88,7 @@ Version Consistency | CP10 | Workflow | 6x time savings | Intermediate | checkpo
 | Methodology Self-Improvement Loop | 9 | Principle | Continuous methodology evolution | Advanced | [checkpoint-9-rls-migrations.md](checkpoint-9-rls-migrations.md#self-improvement) |
 | Retrospective → Methodology Update | 10 | Workflow | Prevents knowledge loss | Intermediate | [checkpoint-10-doc-sync.md](checkpoint-10-doc-sync.md#retrospective-integration) |
 | Systematic Audit vs Ad-Hoc Fixes | 10 | Case Study | 6x efficiency (5 issues/5 min vs 1 issue/20 min) | Intermediate | [checkpoint-10-doc-sync.md](checkpoint-10-doc-sync.md#systematic-audit) |
+| Session Resumption Protocol | 13 | Workflow | Prevents workflow compliance failures | Simple | [checkpoint-13-release-workflow.md](checkpoint-13-release-workflow.md#pitfall-session-resumption-without-context) |
 
 ---
 
@@ -93,7 +96,7 @@ Version Consistency | CP10 | Workflow | 6x time savings | Intermediate | checkpo
 
 ### Pitfalls (Common Mistakes)
 
-**Total**: 2
+**Total**: 5
 
 1. **Database Migration Without Local Testing** (CP9)
    - Impact: Prevents production failures
@@ -105,11 +108,26 @@ Version Consistency | CP10 | Workflow | 6x time savings | Intermediate | checkpo
    - Fix: Make documentation sync BLOCKING before git tags
    - [Link](checkpoint-10-doc-sync.md#docs-later-pitfall)
 
+3. **Skipping User Approval Gates** (CP13)
+   - Impact: CRITICAL - User loses control over releases
+   - Fix: Output visual marker at approval gates, wait for explicit response
+   - [Link](checkpoint-13-release-workflow.md#pitfall-skipping-user-approval-gates)
+
+4. **Empty CHANGELOG from Tag Ordering** (CP13)
+   - Impact: HIGH - Team sees incomplete release notes
+   - Fix: Run release before creating checkpoint tag, verify content before push
+   - [Link](checkpoint-13-release-workflow.md#pitfall-empty-changelog-from-tag-ordering)
+
+5. **Session Resumption Without Context** (CP13)
+   - Impact: HIGH - Workflow steps skipped, compliance failures
+   - Fix: Re-read workflow, create step checklist, confirm with user
+   - [Link](checkpoint-13-release-workflow.md#pitfall-session-resumption-without-context)
+
 ---
 
 ### Workflows (Process Improvements)
 
-**Total**: 8
+**Total**: 11
 
 1. **Checkpoint Retrospective** (CP9)
    - Creates learning document after each checkpoint
@@ -142,6 +160,18 @@ Version Consistency | CP10 | Workflow | 6x time savings | Intermediate | checkpo
 8. **Audit Automation** (CP10)
    - Scripts for automated consistency validation
    - [Link](checkpoint-10-doc-sync.md#audit-script)
+
+9. **Approval Gate Visual Marker** (CP13)
+   - Prominent visual output at user approval points
+   - [Link](checkpoint-13-release-workflow.md#workflow-approval-gate-visual-marker)
+
+10. **Release Artifact Verification** (CP13)
+    - Checklist to verify tags, versions, CHANGELOG before push
+    - [Link](checkpoint-13-release-workflow.md#pattern-release-artifact-verification)
+
+11. **Session Resumption Protocol** (CP13)
+    - Re-read workflow, enumerate steps, confirm resume point
+    - [Link](checkpoint-13-release-workflow.md#pitfall-session-resumption-without-context)
 
 ---
 
@@ -315,9 +345,9 @@ See: Checkpoint Retrospective (CP9), Methodology Self-Improvement (CP9)
 
 ## Statistics
 
-**Total Patterns**: 17
-- Pitfalls: 2
-- Workflows: 8
+**Total Patterns**: 22
+- Pitfalls: 5
+- Workflows: 11
 - Case Studies: 3
 - Best Practices: 4
 - Principles: 2
@@ -325,13 +355,14 @@ See: Checkpoint Retrospective (CP9), Methodology Self-Improvement (CP9)
 **By Checkpoint**:
 - Checkpoint 9: 8 patterns
 - Checkpoint 10: 9 patterns
+- Checkpoint 13: 5 patterns
 
 **By Complexity**:
-- Simple: 7 patterns (41%)
-- Intermediate: 7 patterns (41%)
-- Advanced: 3 patterns (18%)
+- Simple: 9 patterns (41%)
+- Intermediate: 9 patterns (41%)
+- Advanced: 4 patterns (18%)
 
-**High Impact Patterns**: 5 (29%)
+**High Impact Patterns**: 8 (36%)
 
 ---
 
@@ -350,6 +381,12 @@ See: Checkpoint Retrospective (CP9), Methodology Self-Improvement (CP9)
 ---
 
 ## Version History
+
+- **v1.1** (2025-11-25): Added Checkpoint 13 patterns
+  - Added 5 new patterns from release workflow failures
+  - 3 new pitfalls (approval gates, CHANGELOG ordering, session resumption)
+  - 2 new workflows (visual markers, artifact verification)
+  - Total patterns: 22
 
 - **v1.0** (2025-11-22): Initial patterns index
   - Indexed Checkpoint 9 and 10 learnings

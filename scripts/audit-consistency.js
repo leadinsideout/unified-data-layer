@@ -37,6 +37,7 @@ const colors = {
 
 const results = {
   versionConsistency: { status: 'UNKNOWN', issues: [] },
+  changelogValidation: { status: 'UNKNOWN', issues: [] },
   statusConsistency: { status: 'UNKNOWN', issues: [] },
   linkValidation: { status: 'UNKNOWN', issues: [] },
   securityCheck: { status: 'UNKNOWN', issues: [] },
@@ -205,11 +206,82 @@ async function checkVersionConsistency() {
 }
 
 // ============================================================================
-// CHECK 2: STATUS CONSISTENCY
+// CHECK 2: CHANGELOG VALIDATION (Added: Checkpoint 13)
+// ============================================================================
+
+async function checkChangelogValidation() {
+  printSection('CHECK 2: CHANGELOG Validation');
+
+  const issues = [];
+
+  // Get version from package.json
+  const packageJsonContent = readFile('package.json');
+  if (!packageJsonContent) {
+    issues.push('CRITICAL: package.json not found');
+    results.changelogValidation = { status: 'FAIL', issues };
+    printError('package.json not found');
+    return;
+  }
+
+  const packageJson = JSON.parse(packageJsonContent);
+  const expectedVersion = packageJson.version;
+
+  // Read CHANGELOG
+  const changelogContent = readFile('CHANGELOG.md');
+  if (!changelogContent) {
+    issues.push('CRITICAL: CHANGELOG.md not found');
+    results.changelogValidation = { status: 'FAIL', issues };
+    printError('CHANGELOG.md not found');
+    return;
+  }
+
+  // Check if current version entry exists
+  const versionPattern = new RegExp(`## \\[${expectedVersion.replace(/\./g, '\\.')}\\]`);
+  if (!versionPattern.test(changelogContent)) {
+    issues.push(`CHANGELOG.md missing entry for v${expectedVersion}`);
+    results.changelogValidation = { status: 'FAIL', issues };
+    printError(`CHANGELOG.md missing entry for v${expectedVersion}`);
+    exitCode = Math.max(exitCode, 2); // Critical
+    return;
+  }
+
+  printSuccess(`CHANGELOG.md has entry for v${expectedVersion}`);
+
+  // Check if entry has meaningful content (not empty)
+  const versionIndex = changelogContent.search(versionPattern);
+  const nextVersionPattern = /## \[\d+\.\d+\.\d+\]/g;
+  nextVersionPattern.lastIndex = versionIndex + 1;
+  const nextMatch = nextVersionPattern.exec(changelogContent);
+
+  const entryContent = nextMatch
+    ? changelogContent.substring(versionIndex, nextMatch.index)
+    : changelogContent.substring(versionIndex);
+
+  // Count non-empty, non-header lines
+  const contentLines = entryContent.split('\n').filter(line => {
+    const trimmed = line.trim();
+    return trimmed.length > 0 && !trimmed.startsWith('##') && !trimmed.startsWith('---');
+  });
+
+  if (contentLines.length >= 5) {
+    printSuccess(`CHANGELOG entry has ${contentLines.length} lines of content`);
+    results.changelogValidation = { status: 'PASS', issues: [] };
+  } else {
+    issues.push(`CHANGELOG v${expectedVersion} entry has only ${contentLines.length} lines (minimum 5 expected)`);
+    printError(`CHANGELOG entry too short: ${contentLines.length} lines (minimum 5)`);
+    printInfo('  This often happens when release tag is created before commits');
+    printInfo('  Fix: Manually add Features/Bug Fixes/Documentation entries');
+    results.changelogValidation = { status: 'FAIL', issues };
+    exitCode = Math.max(exitCode, 2); // Critical
+  }
+}
+
+// ============================================================================
+// CHECK 3: STATUS CONSISTENCY
 // ============================================================================
 
 async function checkStatusConsistency() {
-  printSection('CHECK 2: Status Consistency');
+  printSection('CHECK 3: Status Consistency');
 
   const issues = [];
 
@@ -259,11 +331,11 @@ async function checkStatusConsistency() {
 }
 
 // ============================================================================
-// CHECK 3: LINK VALIDATION
+// CHECK 4: LINK VALIDATION
 // ============================================================================
 
 async function checkLinkValidation() {
-  printSection('CHECK 3: Link Validation');
+  printSection('CHECK 4: Link Validation');
 
   const issues = [];
 
@@ -327,11 +399,11 @@ async function checkLinkValidation() {
 }
 
 // ============================================================================
-// CHECK 4: SECURITY CHECK
+// CHECK 5: SECURITY CHECK
 // ============================================================================
 
 async function checkSecurity() {
-  printSection('CHECK 4: Security Check');
+  printSection('CHECK 5: Security Check');
 
   const issues = [];
 
@@ -392,11 +464,11 @@ async function checkSecurity() {
 }
 
 // ============================================================================
-// CHECK 5: GIT STATUS
+// CHECK 6: GIT STATUS
 // ============================================================================
 
 async function checkGitStatus() {
-  printSection('CHECK 5: Git Status');
+  printSection('CHECK 6: Git Status');
 
   const issues = [];
 
@@ -446,6 +518,7 @@ function printSummary() {
 
   const checks = [
     { name: 'Version Consistency', result: results.versionConsistency },
+    { name: 'CHANGELOG Validation', result: results.changelogValidation },
     { name: 'Status Consistency', result: results.statusConsistency },
     { name: 'Link Validation', result: results.linkValidation },
     { name: 'Security Check', result: results.securityCheck },
@@ -471,7 +544,7 @@ function printSummary() {
   }
 
   console.log('');
-  console.log(`${colors.bold}OVERALL: ${passCount}/5 PASS${colors.reset}` +
+  console.log(`${colors.bold}OVERALL: ${passCount}/6 PASS${colors.reset}` +
     (warnCount > 0 ? `, ${warnCount} WARNING${warnCount !== 1 ? 'S' : ''}` : '') +
     (failCount > 0 ? `, ${failCount} FAILURE${failCount !== 1 ? 'S' : ''}` : ''));
 
@@ -508,6 +581,7 @@ async function main() {
   console.log('See: docs/development/pre-checkpoint-audit.md');
 
   await checkVersionConsistency();
+  await checkChangelogValidation();
   await checkStatusConsistency();
   await checkLinkValidation();
   await checkSecurity();
