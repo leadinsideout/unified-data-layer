@@ -2,14 +2,14 @@
 
 **Purpose**: This file helps AI assistants (like Claude) quickly understand and navigate this project.
 
-**Last Updated**: 2025-11-17
+**Last Updated**: 2025-11-25
 
 ---
 
 ## 🎯 Project Overview
 
 **Name**: Unified Data Layer
-**Current Phase**: Phase 2 COMPLETE ✅ | Ready for Phase 3
+**Current Phase**: Phase 4 - AI Platform Integration (Checkpoint 11 Complete)
 **Architecture**: API-first multi-type semantic search data layer
 
 **Key Principle**: Our API provides DATA (semantic search), AI platforms provide SYNTHESIS (GPT-4/Claude).
@@ -37,9 +37,9 @@
 ## 🗺️ Project Status (Quick Reference)
 
 **Current Branch**: `main`
-**Current Version**: `v0.9.0` (Phase 3 - Checkpoint 9 Complete)
-**Latest Tags**: `v0.9.0` (release), `v0.9.0-checkpoint-9` (checkpoint)
-**Latest Documentation**: See `docs/checkpoints/checkpoint-9-results.md`
+**Current Version**: `v0.11.0` (Phase 4 - Checkpoint 11 Complete)
+**Latest Tags**: `v0.11.0` (release), `v0.11.0-checkpoint-11` (checkpoint)
+**Latest Documentation**: See `docs/checkpoints/checkpoint-11-results.md`
 
 **What's Working (Phase 1 Complete ✅)**:
 - ✅ Supabase database with pgvector
@@ -72,17 +72,32 @@
 
 **Phase 2 Duration**: 1 day | **Status**: Production Ready
 
-**What's Working (Phase 3 - In Progress)**:
+**What's Working (Phase 3 COMPLETE ✅)**:
 - ✅ **Checkpoint 8**: PII scrubbing pipeline (hybrid regex + GPT detection)
   - 96% accuracy (24/25 tests passed)
   - 37s avg processing for 50K+ char documents
   - $0.005 per document (10x under budget)
   - 0% timeout rate, graceful degradation
-  - Production ready with feature flag
+- ✅ **Checkpoint 9**: Row-level security (RLS)
+  - 42 RLS policies across 12 tables
+  - API key authentication with bcrypt hashing
+  - Multi-tenant data isolation at database level
+- ✅ **Checkpoint 10**: Admin user & API key management
+  - Admin users table with role hierarchy
+  - 11 RESTful API endpoints
+  - Web-based admin dashboard
 
-**What's Next (Phase 3 - Remaining)**:
-- 🔴 **Checkpoint 9**: Row-level security (RLS) - NEXT
-- 🔴 **Checkpoint 10**: API key management
+**What's Working (Phase 4 - In Progress)**:
+- ✅ **Checkpoint 11**: MCP Server Development
+  - MCP server with SSE transport using `@modelcontextprotocol/sdk`
+  - 3 MCP tools: `search_data`, `upload_data`, `get_client_timeline`
+  - V2 REST API endpoints for enhanced client/search operations
+  - OpenAPI schema updates for v2 endpoints
+  - Production deployed and tested with MCP Inspector
+
+**What's Next (Phase 4 - Remaining)**:
+- 🔴 **Checkpoint 12**: Enhanced Custom GPT - NEXT
+- 🔴 **Checkpoint 13**: Multi-Tenant Verification
 
 **Blockers**:
 - None
@@ -897,6 +912,23 @@ Automatically check if CLAUDE.md needs updating after:
 ---
 
 ## 🔖 Version History
+
+- **v0.11.0 / v0.11.0-checkpoint-11** (2025-11-25): Phase 4 - MCP Server Development ✅
+  - See: [docs/checkpoints/checkpoint-11-results.md](docs/checkpoints/checkpoint-11-results.md)
+  - MCP server with SSE transport using `@modelcontextprotocol/sdk`
+  - 3 MCP tools: `search_data`, `upload_data`, `get_client_timeline`
+  - V2 REST API endpoints for enhanced client/search operations
+  - OpenAPI schema updates for v2 endpoints
+  - MCP Inspector testing verified
+  - Status: Production ready
+
+- **v0.10.0 / v0.10.0-checkpoint-10** (2025-11-24): Phase 3 - Admin User & API Key Management ✅
+  - See: [docs/checkpoints/checkpoint-10-results.md](docs/checkpoints/checkpoint-10-results.md)
+  - Admin users table with role hierarchy (super_admin, admin, support)
+  - 11 RESTful API endpoints for user and API key management
+  - Web-based admin dashboard
+  - API key authentication for admin access
+  - Status: Production ready
 
 - **v0.9.0 / v0.9.0-checkpoint-9** (2025-11-20): Phase 3 - Row-Level Security (RLS) ✅
   - See: [docs/checkpoints/checkpoint-9-results.md](docs/checkpoints/checkpoint-9-results.md)
