@@ -2,7 +2,7 @@
 
 **Purpose**: Track progress through implementation checkpoints
 
-**Current Phase**: Phase 4 - AI Platform Integration (Checkpoint 11 Complete)
+**Current Phase**: Phase 4 - AI Platform Integration (Checkpoint 12 Complete)
 
 ---
 
@@ -326,11 +326,23 @@ git checkout -b fix-from-checkpoint-1 v0.1.0-checkpoint-1
 - ✅ Production deployed and tested
 - ✅ Claude Desktop compatible
 
-### Checkpoint 12: Enhanced Custom GPT
-**Status**: Not Started
-- Update Custom GPT action schema with v2 endpoints
-- Add client timeline visualization prompts
-- Improve search result synthesis
+### Checkpoint 12: Enhanced Custom GPT ✅
+**Status**: Complete
+**Tag**: `v0.12.0 / v0.12.0-checkpoint-12`
+**Completed**: 2025-11-25
+**Details**: [checkpoint-12-results.md](checkpoint-12-results.md)
+
+**What Was Built**:
+- Added `/api/v2/search/filtered` to OpenAPI schema (was missing)
+- Updated Custom GPT setup guide with authentication instructions
+- Comprehensive v2-aware GPT instructions with workflow patterns
+- Version bump to 0.12.0 across all locations
+
+**Results**:
+- ✅ OpenAPI schema now includes all 7 operations
+- ✅ Custom GPT can discover and use filteredSearch
+- ✅ Authentication documentation complete
+- ✅ Workflow patterns documented for session prep, timelines, filtering
 
 ### Checkpoint 13: Multi-Tenant Verification
 **Status**: Not Started

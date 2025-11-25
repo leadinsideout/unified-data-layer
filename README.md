@@ -6,7 +6,7 @@ Semantic search API for coaching data (transcripts, assessments, coaching models
 
 ## Status
 
-**Phase 4 In Progress** ⏳ (33% Complete) | **Version**: v0.11.0
+**Phase 4 In Progress** ⏳ (67% Complete) | **Version**: v0.12.0
 
 ### Phase 1: Transcript Foundation ✅ (Nov 1-11, 2025)
 - ✅ Express API server with semantic search
@@ -35,12 +35,12 @@ Semantic search API for coaching data (transcripts, assessments, coaching models
 - ✅ **Checkpoint 11**: MCP Server with SSE transport (Claude Desktop compatible)
 - ✅ 3 MCP tools: `search_data`, `upload_data`, `get_client_timeline`
 - ✅ V2 REST API endpoints for enhanced client/search operations
-- 🔴 Checkpoint 12: Enhanced Custom GPT (Next)
-- 🔴 Checkpoint 13: Multi-Tenant Verification
+- ✅ **Checkpoint 12**: Enhanced Custom GPT with v2 endpoints and auth docs
+- 🔴 Checkpoint 13: Multi-Tenant Verification (Next)
 
 **Production URL**: https://unified-data-layer.vercel.app
 
-**Next**: Checkpoint 12 - Enhanced Custom GPT integration
+**Next**: Checkpoint 13 - Multi-Tenant Verification
 
 ---
 
@@ -111,6 +111,7 @@ Semantic search API for coaching data (transcripts, assessments, coaching models
 | `/api/v2/clients/:id/timeline` | GET | Client coaching timeline |
 | `/api/v2/clients/:id/data` | GET | Full data items with content |
 | `/api/v2/search/unified` | POST | Enhanced search with timing metadata |
+| `/api/v2/search/filtered` | POST | Search with complex filters (dates, types) |
 
 ### MCP Endpoints (Model Context Protocol)
 
@@ -302,10 +303,10 @@ See [docs/development/workflows.md](docs/development/workflows.md) for complete 
 - ✅ Checkpoint 9: Row-Level Security (v0.9.0, Nov 20)
 - ✅ Checkpoint 10: Admin User & API Key Management (v0.10.0, Nov 24)
 
-**Phase 4** ⏳ IN PROGRESS (33% Complete) - AI Platform Integration
+**Phase 4** ⏳ IN PROGRESS (67% Complete) - AI Platform Integration
 - ✅ Checkpoint 11: MCP Server Development (v0.11.0, Nov 25)
-- 🔴 Checkpoint 12: Enhanced Custom GPT (NEXT)
-- 🔴 Checkpoint 13: Multi-Tenant Verification
+- ✅ Checkpoint 12: Enhanced Custom GPT (v0.12.0, Nov 25)
+- 🔴 Checkpoint 13: Multi-Tenant Verification (NEXT)
 
 **Phase 5**: Data source integrations (Fireflies.ai)
 
@@ -325,7 +326,7 @@ See [docs/project/roadmap.md](docs/project/roadmap.md) for full roadmap with vel
 
 **Quick Links**:
 - **Setup Guides**: [docs/setup/](docs/setup/) - Supabase, GitHub, deployment
-- **Current Status**: [docs/checkpoints/checkpoint-11-results.md](docs/checkpoints/checkpoint-11-results.md) - Latest checkpoint
+- **Current Status**: [docs/checkpoints/checkpoint-12-results.md](docs/checkpoints/checkpoint-12-results.md) - Latest checkpoint
 - **Checkpoint Index**: [docs/checkpoints/](docs/checkpoints/) - All checkpoint progress
 - **Roadmap & Implementation**: [docs/project/roadmap.md](docs/project/roadmap.md) - Product vision with checkpoint plan
 - **Workflows**: [docs/development/workflows.md](docs/development/workflows.md) - Git, testing, deployment

@@ -4,7 +4,7 @@
 
 **Prerequisites**: ChatGPT Plus or ChatGPT Team account
 
-**Last Updated**: 2025-11-10
+**Last Updated**: 2025-11-25
 
 ---
 
@@ -29,6 +29,8 @@ A Custom GPT that can:
 - Answer questions about client progress and patterns
 - Surface insights from past conversations
 - Work with fresh data uploaded minutes ago (no manual context updates)
+- View client timelines and coaching journeys (v2 endpoints)
+- Filter searches by date range, client, and data type
 
 ### Architecture
 
@@ -101,38 +103,71 @@ client progress, patterns, and conversation themes.
 
 **Instructions:**
 ```
-You are a coaching transcript analyst. Your role is to help coaches search
-through their client transcripts, assessments, coaching models, and company
-documents to answer questions about client progress, patterns, and insights.
+You are a coaching data analyst with access to a unified data layer containing coaching transcripts, assessments, coaching models, and company documents. Your role is to help coaches search through their client data to surface insights, patterns, and actionable information.
 
-When a user asks a question:
-1. Use the searchCoachingData action to find relevant content
-   - IMPORTANT: Always set threshold to 0.3 (default) or lower for broader results
-   - Use threshold 0.25 for exploratory searches
-   - Only use higher thresholds (0.4+) if user explicitly wants precise matches
-2. Analyze the retrieved content carefully
-3. Synthesize a clear, helpful answer that directly addresses the question
-4. Include specific quotes or references when possible
-5. If no relevant information is found, try lowering the threshold before giving up
+## Available Tools
 
-Search Parameters:
-- query: Your search query (natural language)
-- threshold: 0.3 (default, use 0.25 for broader results)
-- limit: 10 (adjust based on complexity of question)
-- types: Filter by data type if needed (transcript, assessment, coaching_model, company_doc)
+### Core Search (searchCoachingData)
+Use for semantic search across all data types:
+- query: Natural language search (e.g., "leadership challenges")
+- types: Filter by data type - transcript, assessment, coaching_model, company_doc
+- threshold: 0.3 default (lower = broader results, use 0.25 for exploratory)
+- limit: 10 default (max 50)
 
-Guidelines:
-- Be professional and supportive
-- Focus on factual information from the data
-- Highlight patterns and insights when you notice them
-- Respect client confidentiality (this is a private tool)
-- If asked about multiple topics, search separately for each
-- When results are sparse, try a lower threshold before suggesting query refinement
-- Multi-type data is available: transcripts, assessments, coaching models, company docs
+### Client List (listClients)
+Use to see which clients you have access to:
+- Returns client IDs, names, and basic info
+- Use client IDs for filtering other requests
+- Always call this first if user asks about a specific client by name
 
-Remember: You have access to semantic search across multiple data types, so users
-can ask natural questions like "What did the client say about career goals?" and
-you'll find relevant content even if those exact words weren't used.
+### Client Timeline (getClientTimeline)
+Use to see a chronological history for a specific client:
+- clientId: Required - get from listClients first
+- start_date, end_date: Optional date filters (ISO format)
+- types: Optional - filter by data type
+- Great for reviewing coaching journey, preparing for sessions
+
+### Client Data (getClientData)
+Use for full data items with complete content:
+- More detailed than timeline
+- Good for deep dives into specific items
+
+### Unified Search (unifiedSearch)
+Enhanced search with response metadata:
+- Groups results by type
+- Shows response timing
+- Better for multi-type analysis
+
+### Filtered Search (filteredSearch)
+Use for complex filter combinations:
+- Structured filters object for types, date_range, clients, coaches
+- Options for threshold, limit, include_metadata, include_content
+- Best for: "Find all transcripts from Q1 2025 about leadership"
+
+## Workflow Patterns
+
+**Session Preparation:**
+1. Call listClients to confirm client access and get their ID
+2. Call getClientTimeline for recent activity
+3. Search for specific topics they've discussed
+
+**Progress Review:**
+1. Use filteredSearch with date_range to get historical data
+2. Search across transcript + assessment types
+3. Identify patterns and growth areas
+
+**Pattern Analysis:**
+1. Search with low threshold (0.25) for broad results
+2. Use types filter to focus on transcripts
+3. Synthesize common themes across clients
+
+## Guidelines
+- Start with listClients if user mentions a client name (to get their ID)
+- Use timeline for chronological views, search for topic-based queries
+- Lower threshold (0.25) for exploratory, higher (0.4+) for precise matches
+- Include client name in synthesized answers for clarity
+- Respect confidentiality - this is a private coaching tool
+- Multi-type data available: transcripts, assessments, coaching_models, company_docs
 ```
 
 ### Step 5: Conversation Starters (Optional)
@@ -140,19 +175,27 @@ you'll find relevant content even if those exact words weren't used.
 Add these suggested prompts for users:
 
 ```
-What patterns do you see across my recent client sessions?
+Which clients do I have access to?
+```
+
+```
+Show me Sarah's coaching timeline from the last 3 months
+```
+
+```
+What patterns do you see across my client sessions about leadership?
+```
+
+```
+Find all DISC assessments and summarize key insights
+```
+
+```
+Prepare me for my upcoming session with [client name]
 ```
 
 ```
 What did [client name] discuss about their career goals?
-```
-
-```
-Show me conversations about work-life balance
-```
-
-```
-What insights can you find about client progress over time?
 ```
 
 ### Step 6: Knowledge (Skip)
@@ -188,9 +231,18 @@ What insights can you find about client progress over time?
    ```
 3. Click **"Import"**
 
-The schema will be automatically loaded with:
-- `searchTranscripts` - Search coaching transcripts
-- `uploadTranscript` - Upload new transcripts (if you want GPT to help with uploads)
+The schema will be automatically loaded with these operations:
+
+**Core Operations:**
+- `searchCoachingData` - Semantic search across all data types
+- `uploadTranscript` - Upload new transcripts
+
+**V2 Operations (require authentication):**
+- `listClients` - See which clients you have access to
+- `getClientTimeline` - Chronological history for a client
+- `getClientData` - Full data items for a client
+- `unifiedSearch` - Enhanced search with metadata
+- `filteredSearch` - Search with complex filters (date ranges, etc.)
 
 **Method 2: Manual Paste (Alternative)**
 
@@ -199,19 +251,26 @@ The schema will be automatically loaded with:
 3. Paste into the Schema field
 4. Click "Import"
 
-### Step 10: Configure Action Authentication
+### Step 10: Configure Authentication
 
-**For Phase 1 (Testing):**
-1. Authentication: **None**
-2. (We're testing with public API - no auth yet)
+**⚠️ Authentication is REQUIRED for all v2 endpoints** (listClients, getClientTimeline, etc.)
 
-**For Phase 3+ (Production with Auth):**
-1. Authentication: **API Key**
-2. Auth Type: **Bearer**
-3. API Key: `[Your Production API Key]`
-4. Custom Header Name: `Authorization`
+**Setup Steps:**
+1. Click on **Authentication** dropdown
+2. Select **API Key**
+3. Auth Type: **Bearer**
+4. In the API Key field, enter your API key (format: `sk_live_xxxxx` or `sk_test_xxxxx`)
 
-*Note: You'll update this in Phase 3 when we add authentication.*
+**Getting Your API Key:**
+- **Coaches**: Request from your InsideOut Leadership admin
+- **Admins**: Create keys at `https://unified-data-layer.vercel.app/admin`
+- **Testing**: Ask your project owner for a test API key
+
+**Security Notes:**
+- Never share your API key publicly
+- API keys are scoped to your role (coach sees only their clients)
+- Keys can be revoked by admins if compromised
+- Store your key securely - treat it like a password
 
 ### Step 11: Privacy Settings
 
@@ -372,6 +431,30 @@ The schema will be automatically loaded with:
 3. Check Supabase performance metrics
 4. Consider adding caching in Phase 2+
 
+### Issue: "Authentication required" or 401 Error
+
+**Cause**: API key not configured or invalid
+
+**Fix**:
+1. Verify API key is set in Custom GPT Actions (Step 10)
+2. Ensure format is correct: `sk_live_xxxxx` or `sk_test_xxxxx`
+3. Check that Auth Type is "Bearer"
+4. Test key directly:
+   ```bash
+   curl -H "Authorization: Bearer YOUR_KEY" https://unified-data-layer.vercel.app/api/health
+   ```
+5. If key is invalid, request a new one from your admin
+
+### Issue: "Forbidden" or "You do not have access to this client"
+
+**Cause**: Your API key doesn't have permission for that client
+
+**Fix**:
+1. Call `listClients` to see which clients you can access
+2. Coaches only see their assigned clients
+3. Contact admin to verify client assignment in the system
+4. Check that your role is correct (coach vs client)
+
 ---
 
 ## Updating Your Custom GPT
@@ -463,25 +546,18 @@ recent sessions show Y."
 ## What's Next?
 
 ### After Setup
-1. ✅ **Test thoroughly** with all 3 test scenarios
-2. ✅ **Upload real transcripts** (via API)
-3. ✅ **Try various question types** to understand capabilities
-4. ✅ **Document any issues** for Phase 2 improvements
+1. ✅ **Test thoroughly** with all test scenarios above
+2. ✅ **Test v2 endpoints** - Try "Which clients do I have access to?"
+3. ✅ **Test client timeline** - Try "Show me [client]'s coaching timeline"
+4. ✅ **Upload real transcripts** (via API with authentication)
+5. ✅ **Try various question types** to understand capabilities
 
-### Phase 2 Enhancements
-- Support for multiple data types (assessments, personality profiles)
-- Better metadata filtering (date ranges, client IDs)
-- Enhanced search capabilities
-
-### Phase 3 Security
-- Authentication via API key
-- Row-level security (RLS) for multi-tenant
-- PII scrubbing
-
-### Phase 4 Production
-- MCP server integration (for Claude)
-- Shared Custom GPTs for multiple coaches
-- Real-time updates via webhooks
+### Current Phase (Phase 4 - v0.12.0)
+- ✅ V2 endpoints with authentication
+- ✅ Client timeline and data access
+- ✅ Filtered search with date ranges
+- ✅ MCP server for Claude integration
+- 🔴 **Next**: Multi-tenant verification (Checkpoint 13)
 
 ---
 
@@ -494,7 +570,7 @@ A: Not yet (Phase 1 is single-user testing). In Phase 4, you'll be able to share
 A: ChatGPT Plus subscription ($20/mo) + API costs (search queries + embeddings). See Phase 1 results doc for actual costs.
 
 **Q: Can I use this with Claude instead?**
-A: Yes! Phase 4 includes an MCP server for Claude integration (even better - no schema caching issues).
+A: Yes! We now have an MCP server at `/api/mcp/sse` for Claude Desktop integration. See [checkpoint-11-results.md](../checkpoints/checkpoint-11-results.md) for setup.
 
 **Q: What if the API goes down?**
 A: Custom GPT will return an error. Check https://unified-data-layer.vercel.app/api/health for status.
@@ -508,4 +584,5 @@ A: Not in Phase 1. Phase 2 will add update/delete capabilities.
 
 | Date | Change | Reason |
 |------|--------|--------|
+| 2025-11-25 | V2 endpoints, auth, updated instructions | Checkpoint 12 - Enhanced Custom GPT for Phase 4 |
 | 2025-11-10 | Initial creation | Checkpoint 3 - Custom GPT setup guide for Phase 1 |

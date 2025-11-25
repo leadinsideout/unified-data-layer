@@ -211,7 +211,7 @@ app.post('/api/mcp/messages', ...mcpRoutes.handleMessages);
 app.get('/', (req, res) => {
   res.json({
     name: 'Unified Data Layer API',
-    version: '0.11.0',
+    version: '0.12.0',
     description: 'Multi-type semantic search API with MCP server for AI assistants',
     endpoints: {
       health: 'GET /api/health',
@@ -265,7 +265,7 @@ app.get('/api/health', (req, res) => {
     status: 'healthy',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development',
-    version: '0.11.0',
+    version: '0.12.0',
     services: {
       supabase: !!process.env.SUPABASE_URL,
       openai: !!process.env.OPENAI_API_KEY
@@ -930,7 +930,7 @@ app.get('/openapi.json', (req, res) => {
     openapi: '3.1.0',
     info: {
       title: 'Unified Data Layer API',
-      version: '0.11.0',
+      version: '0.12.0',
       description: 'Multi-type semantic search API for coaching data (transcripts, assessments, models, org docs). Returns relevant chunks for AI platform synthesis with type-aware filtering.'
     },
     servers: [
@@ -1320,6 +1320,150 @@ app.get('/openapi.json', (req, res) => {
                   }
                 }
               }
+            }
+          }
+        }
+      },
+      '/api/v2/search/filtered': {
+        post: {
+          summary: 'Search with explicit filter structure',
+          operationId: 'filteredSearch',
+          description: 'Search with structured filters for complex queries. Supports date ranges, multiple filter dimensions, and output options. Best for advanced filtering needs like "Find all transcripts from Q1 2025 about leadership".',
+          security: [{ bearerAuth: [] }],
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  required: ['query'],
+                  properties: {
+                    query: {
+                      type: 'string',
+                      description: 'Natural language search query',
+                      example: 'leadership challenges and growth'
+                    },
+                    filters: {
+                      type: 'object',
+                      description: 'Structured filter object for complex queries',
+                      properties: {
+                        types: {
+                          type: 'array',
+                          items: {
+                            type: 'string',
+                            enum: ['transcript', 'assessment', 'coaching_model', 'company_doc']
+                          },
+                          description: 'Filter by data types',
+                          example: ['transcript', 'assessment']
+                        },
+                        date_range: {
+                          type: 'object',
+                          description: 'Filter by date range',
+                          properties: {
+                            start: {
+                              type: 'string',
+                              format: 'date',
+                              description: 'Start date (ISO format)',
+                              example: '2025-01-01'
+                            },
+                            end: {
+                              type: 'string',
+                              format: 'date',
+                              description: 'End date (ISO format)',
+                              example: '2025-12-31'
+                            }
+                          }
+                        },
+                        clients: {
+                          type: 'array',
+                          items: { type: 'string', format: 'uuid' },
+                          description: 'Filter by client IDs'
+                        },
+                        coaches: {
+                          type: 'array',
+                          items: { type: 'string', format: 'uuid' },
+                          description: 'Filter by coach IDs'
+                        },
+                        organizations: {
+                          type: 'array',
+                          items: { type: 'string', format: 'uuid' },
+                          description: 'Filter by organization IDs'
+                        }
+                      }
+                    },
+                    options: {
+                      type: 'object',
+                      description: 'Search options',
+                      properties: {
+                        threshold: {
+                          type: 'number',
+                          default: 0.3,
+                          minimum: 0,
+                          maximum: 1,
+                          description: 'Similarity threshold (lower = broader results)'
+                        },
+                        limit: {
+                          type: 'integer',
+                          default: 10,
+                          maximum: 50,
+                          description: 'Maximum results to return'
+                        },
+                        include_metadata: {
+                          type: 'boolean',
+                          default: true,
+                          description: 'Include metadata in results'
+                        },
+                        include_content: {
+                          type: 'boolean',
+                          default: true,
+                          description: 'Include content in results'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          responses: {
+            '200': {
+              description: 'Filtered search results',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      query: { type: 'string' },
+                      results: {
+                        type: 'array',
+                        items: {
+                          type: 'object',
+                          properties: {
+                            content: { type: 'string' },
+                            similarity: { type: 'number' },
+                            data_type: { type: 'string' },
+                            title: { type: 'string' },
+                            session_date: { type: 'string' }
+                          }
+                        }
+                      },
+                      count: { type: 'integer' },
+                      filters_applied: { type: 'object' },
+                      options_applied: { type: 'object' },
+                      metadata: {
+                        type: 'object',
+                        properties: {
+                          response_time_ms: { type: 'integer' },
+                          user_role: { type: 'string' }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            '401': {
+              description: 'Authentication required'
             }
           }
         }
