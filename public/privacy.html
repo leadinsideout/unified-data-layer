@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Unified Data Layer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+        .last-updated {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        ul {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .highlight {
+            background: #e8f4fd;
+            padding: 15px 20px;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+            margin: 20px 0;
+        }
+        .contact {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 30px;
+        }
+        a {
+            color: #3498db;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Privacy Policy</h1>
+        <p class="last-updated">Last Updated: November 26, 2025</p>
+
+        <p>This Privacy Policy describes how Lead Inside Out ("we", "us", or "our") collects, uses, and protects information when you use the Unified Data Layer API and associated Custom GPT integrations (the "Service").</p>
+
+        <h2>1. Information We Collect</h2>
+        <p>When you use our Service, we may collect the following types of information:</p>
+        <ul>
+            <li><strong>Coaching Session Data:</strong> Transcripts, notes, and session content that you upload to the Service</li>
+            <li><strong>Assessment Data:</strong> Client assessments, personality profiles, and evaluation results</li>
+            <li><strong>Account Information:</strong> Coach and client identifiers used for authentication and data organization</li>
+            <li><strong>Usage Data:</strong> API access logs, search queries, and system interactions for service improvement</li>
+        </ul>
+
+        <h2>2. How We Use Your Information</h2>
+        <p>We use collected information to:</p>
+        <ul>
+            <li>Provide semantic search capabilities over your coaching data</li>
+            <li>Enable AI-powered insights and summaries via Custom GPT integrations</li>
+            <li>Maintain data isolation between coaches and their respective clients</li>
+            <li>Improve and optimize the Service performance</li>
+            <li>Ensure security and prevent unauthorized access</li>
+        </ul>
+
+        <h2>3. Data Protection and Security</h2>
+        <div class="highlight">
+            <strong>Multi-Tenant Isolation:</strong> Your data is protected by row-level security policies. Coaches can only access data for their assigned clients, and clients can only access their own session data.
+        </div>
+        <p>We implement the following security measures:</p>
+        <ul>
+            <li><strong>API Key Authentication:</strong> All API access requires authenticated API keys</li>
+            <li><strong>Row-Level Security (RLS):</strong> Database-level policies ensure data isolation</li>
+            <li><strong>PII Scrubbing:</strong> Optional automatic redaction of personally identifiable information</li>
+            <li><strong>Encryption:</strong> Data is encrypted in transit (HTTPS) and at rest</li>
+            <li><strong>Audit Logging:</strong> All data access is logged for security monitoring</li>
+        </ul>
+
+        <h2>4. PII Handling</h2>
+        <p>Our Service includes optional PII (Personally Identifiable Information) scrubbing capabilities:</p>
+        <ul>
+            <li>When enabled, PII such as names, emails, phone numbers, and addresses are automatically detected and redacted</li>
+            <li>Redacted content uses typed placeholders (e.g., [NAME], [EMAIL]) to preserve context while protecting privacy</li>
+            <li>Metadata relationships (coach-client associations) are maintained separately from content</li>
+            <li>Original unredacted content is not stored when PII scrubbing is enabled</li>
+        </ul>
+
+        <h2>5. Third-Party Services</h2>
+        <p>Our Service integrates with the following third-party services:</p>
+        <ul>
+            <li><strong>OpenAI:</strong> For generating embeddings and powering Custom GPT interactions. Data sent to OpenAI is subject to <a href="https://openai.com/policies/privacy-policy" target="_blank">OpenAI's Privacy Policy</a></li>
+            <li><strong>Supabase:</strong> For database hosting and storage. Data is subject to <a href="https://supabase.com/privacy" target="_blank">Supabase's Privacy Policy</a></li>
+            <li><strong>Vercel:</strong> For API hosting. Subject to <a href="https://vercel.com/legal/privacy-policy" target="_blank">Vercel's Privacy Policy</a></li>
+        </ul>
+
+        <h2>6. Data Retention</h2>
+        <p>We retain your data for as long as your account is active or as needed to provide the Service. You may request deletion of your data at any time by contacting us.</p>
+
+        <h2>7. Your Rights</h2>
+        <p>You have the right to:</p>
+        <ul>
+            <li>Access the personal data we hold about you</li>
+            <li>Request correction of inaccurate data</li>
+            <li>Request deletion of your data</li>
+            <li>Export your data in a portable format</li>
+            <li>Withdraw consent for data processing where applicable</li>
+        </ul>
+
+        <h2>8. Children's Privacy</h2>
+        <p>Our Service is not intended for use by individuals under the age of 18. We do not knowingly collect personal information from children.</p>
+
+        <h2>9. Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date.</p>
+
+        <h2>10. Contact Us</h2>
+        <div class="contact">
+            <p>If you have any questions about this Privacy Policy or our data practices, please contact us at:</p>
+            <p><strong>Lead Inside Out</strong><br>
+            Email: <a href="mailto:privacy@leadinsideout.com">privacy@leadinsideout.com</a></p>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Lead Inside Out. All rights reserved.</p>
+            <p>Unified Data Layer API v0.13.0</p>
+        </footer>
+    </div>
+</body>
+</html>
