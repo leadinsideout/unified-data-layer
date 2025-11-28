@@ -90,12 +90,44 @@ app.use((req, res, next) => {
 // Serve static files from public directory
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// Request logging middleware
+// Request logging middleware with debug support
 app.use((req, res, next) => {
   const timestamp = new Date().toISOString();
+  req.debugId = `req-${Date.now().toString(36)}-${Math.random().toString(36).substr(2, 5)}`;
+  req.startTime = Date.now();
+
   console.log(`[${timestamp}] ${req.method} ${req.path}`);
+
+  // Debug mode logging
+  if (req.query.debug === 'true') {
+    debugLog(req, 'request_received', {
+      method: req.method,
+      path: req.path,
+      query: Object.keys(req.query).filter(k => k !== 'debug').reduce((o, k) => { o[k] = req.query[k]; return o; }, {})
+    });
+  }
+
   next();
 });
+
+/**
+ * Debug logging helper for request tracing
+ * Only logs when ?debug=true is passed
+ */
+function debugLog(req, step, data = {}) {
+  if (req.query.debug === 'true') {
+    const reqId = req.debugId || 'unknown';
+    const elapsed = req.startTime ? Date.now() - req.startTime : 0;
+    console.log(JSON.stringify({
+      debug: true,
+      reqId,
+      step,
+      elapsed_ms: elapsed,
+      timestamp: Date.now(),
+      ...data
+    }));
+  }
+}
 
 // Authentication middleware (created but not applied globally)
 // We'll apply it selectively to protected endpoints
@@ -202,6 +234,104 @@ app.get('/api/mcp/sse', ...mcpRoutes.handleSSE);
 app.post('/api/mcp/messages', ...mcpRoutes.handleMessages);
 
 /**
+ * Submit Tester Feedback
+ *
+ * POST /api/feedback
+ *
+ * Allows GPT testers to submit feedback directly to the database.
+ * Requires authentication (API key).
+ *
+ * Body:
+ *   {
+ *     "session_id": "unique-session-identifier",
+ *     "errors": "What errors were encountered",
+ *     "friction": "What felt off or clunky",
+ *     "successes": "What went well",
+ *     "additional_notes": "Any other comments"
+ *   }
+ */
+app.post('/api/feedback', authMiddleware, async (req, res) => {
+  try {
+    const { session_id, errors, friction, successes, additional_notes, chat_summary } = req.body;
+
+    // Debug logging
+    debugLog(req, 'feedback_received', { session_id });
+
+    // Validation
+    if (!session_id || typeof session_id !== 'string') {
+      return res.status(400).json({
+        error: 'Invalid request',
+        message: 'session_id is required'
+      });
+    }
+
+    // Determine tester type and persona from auth context
+    let tester_type = 'unknown';
+    let persona_name = 'Unknown';
+
+    if (req.auth.coachId) {
+      tester_type = 'coach';
+      // Look up coach name
+      const { data: coach } = await supabase
+        .from('coaches')
+        .select('name')
+        .eq('id', req.auth.coachId)
+        .single();
+      if (coach) persona_name = coach.name;
+    } else if (req.auth.clientId) {
+      tester_type = 'client';
+      // Look up client name
+      const { data: client } = await supabase
+        .from('clients')
+        .select('name')
+        .eq('id', req.auth.clientId)
+        .single();
+      if (client) persona_name = client.name;
+    }
+
+    debugLog(req, 'feedback_persona_resolved', { tester_type, persona_name });
+
+    // Insert feedback
+    const { data: feedback, error: insertError } = await supabase
+      .from('tester_feedback')
+      .insert({
+        session_id,
+        tester_type,
+        persona_name,
+        errors: errors || null,
+        friction: friction || null,
+        successes: successes || null,
+        additional_notes: additional_notes || null,
+        chat_summary: chat_summary || null,
+        api_key_id: req.auth.apiKeyId
+      })
+      .select()
+      .single();
+
+    if (insertError) {
+      console.error('Feedback insert error:', insertError);
+      debugLog(req, 'feedback_error', { error: insertError.message });
+      throw new Error('Failed to save feedback');
+    }
+
+    debugLog(req, 'feedback_saved', { feedback_id: feedback.id });
+
+    res.status(201).json({
+      success: true,
+      message: 'Feedback submitted successfully',
+      feedback_id: feedback.id
+    });
+
+  } catch (error) {
+    console.error('Feedback error:', error);
+    res.status(500).json({
+      error: 'Feedback submission failed',
+      message: error.message
+    });
+  }
+});
+
+/**
  * Root Endpoint
  *
  * GET /
@@ -211,7 +341,7 @@ app.post('/api/mcp/messages', ...mcpRoutes.handleMessages);
 app.get('/', (req, res) => {
   res.json({
     name: 'Unified Data Layer API',
-    version: '0.12.0',
+    version: '0.13.1',
     description: 'Multi-type semantic search API with MCP server for AI assistants',
     endpoints: {
       health: 'GET /api/health',
@@ -232,6 +362,8 @@ app.get('/', (req, res) => {
       // MCP endpoints (Model Context Protocol for AI assistants)
       mcpSSE: 'GET /api/mcp/sse (SSE connection for MCP clients)',
       mcpMessages: 'POST /api/mcp/messages (MCP message handler)',
+      // Feedback endpoint (for GPT testers)
+      feedback: 'POST /api/feedback (submit tester feedback)',
       // Admin endpoints (require authentication)
       adminUsers: 'GET /api/admin/users',
       adminUserDetails: 'GET /api/admin/users/:id',
@@ -265,7 +397,7 @@ app.get('/api/health', (req, res) => {
     status: 'healthy',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development',
-    version: '0.12.0',
+    version: '0.13.1',
     services: {
       supabase: !!process.env.SUPABASE_URL,
       openai: !!process.env.OPENAI_API_KEY
@@ -1004,7 +1136,7 @@ app.get('/openapi.json', (req, res) => {
     openapi: '3.1.0',
     info: {
       title: 'Unified Data Layer API',
-      version: '0.12.0',
+      version: '0.13.1',
       description: 'Multi-type semantic search API for coaching data (transcripts, assessments, models, org docs). Returns relevant chunks for AI platform synthesis with type-aware filtering.'
     },
     servers: [
@@ -1535,6 +1667,75 @@ app.get('/openapi.json', (req, res) => {
                   }
                 }
               }
+            },
+            '401': {
+              description: 'Authentication required'
+            }
+          }
+        }
+      },
+      '/api/feedback': {
+        post: {
+          summary: 'Submit tester feedback',
+          operationId: 'submitFeedback',
+          description: 'Submit feedback about the GPT experience directly to the database. Used for internal testing feedback collection. The feedback is automatically associated with the authenticated persona.',
+          security: [{ bearerAuth: [] }],
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  required: ['session_id'],
+                  properties: {
+                    session_id: {
+                      type: 'string',
+                      description: 'Unique identifier for this feedback session (generate using timestamp + random string)',
+                      example: '2025-11-28T10-30-abc123'
+                    },
+                    errors: {
+                      type: 'string',
+                      description: 'What errors were encountered during the chat?',
+                      example: 'The timeline endpoint returned a 500 error once'
+                    },
+                    friction: {
+                      type: 'string',
+                      description: 'What felt off, clunky, or could be improved?',
+                      example: 'Had to ask twice for the client list'
+                    },
+                    successes: {
+                      type: 'string',
+                      description: 'What went well?',
+                      example: 'Search was fast and accurate, loved the pattern recognition'
+                    },
+                    additional_notes: {
+                      type: 'string',
+                      description: 'Any other feedback or observations?',
+                      example: 'Overall very promising, would use this daily'
+                    }
+                  }
+                }
+              }
+            }
+          },
+          responses: {
+            '201': {
+              description: 'Feedback submitted successfully',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      success: { type: 'boolean', example: true },
+                      message: { type: 'string', example: 'Feedback submitted successfully' },
+                      feedback_id: { type: 'string', format: 'uuid' }
+                    }
+                  }
+                }
+              }
+            },
+            '400': {
+              description: 'Invalid request (missing session_id)'
             },
             '401': {
               description: 'Authentication required'
