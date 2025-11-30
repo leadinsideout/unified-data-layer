@@ -1713,6 +1713,11 @@ app.get('/openapi.json', (req, res) => {
                       type: 'string',
                       description: 'Any other feedback or observations?',
                       example: 'Overall very promising, would use this daily'
+                    },
+                    chat_summary: {
+                      type: 'string',
+                      description: 'A brief summary of the conversation topics discussed in this chat session',
+                      example: 'User asked about client timeline, searched for leadership patterns, and reviewed assessment data'
                     }
                   }
                 }
