@@ -1044,11 +1044,12 @@ app.post('/api/search', optionalAuthMiddleware, async (req, res) => {
       if (rawError) {
         searchError = rawError;
       } else {
-        // Filter by authorized client_ids
+        // Filter by authorized client_ids OR coach-owned data (client_id is null)
         chunks = (rawChunks || []).filter(chunk =>
-          auth_client_ids.includes(chunk.client_id)
+          auth_client_ids.includes(chunk.client_id) ||
+          (chunk.client_id === null && chunk.coach_id === coach_id)
         ).slice(0, limit);
-        console.log(`Filtered ${rawChunks?.length || 0} results to ${chunks.length} for authorized clients`);
+        console.log(`Filtered ${rawChunks?.length || 0} results to ${chunks.length} for authorized clients/coach-owned`);
       }
     } else {
       // Standard query (single client or no auth)

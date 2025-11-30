@@ -1,0 +1,25 @@
+{
+  "data_type": "assessment",
+  "content": "360-Degree Feedback Assessment for David Kim - VP of Sales at TechCorp Inc\n\nAssessment Date: October 22, 2025\nFacilitator: Jordan Taylor, Executive Coach\n\n[UNIQUE ISOLATION MARKER: DAVID_360_MARKER_M5N1]\n\nAssessment Overview:\nThis 360-degree feedback assessment gathered input from 12 respondents including David's manager (CEO Emily Zhang), 4 peers, and 7 direct reports. The assessment measured performance across 8 leadership competencies.\n\nRespondent Breakdown:\n- Manager (1): Emily Zhang, CEO\n- Peers (4): VP Engineering, VP Marketing, VP Product, CFO\n- Direct Reports (7): Regional Sales Directors and Account Executives\n\nCompetency Scores (1-5 scale, 5 = exceptional):\n\n1. Strategic Thinking: 4.2\n   - Manager: 4.5\n   - Peers: 4.0\n   - Direct Reports: 4.1\n\n2. Results Orientation: 4.6\n   - Manager: 5.0\n   - Peers: 4.3\n   - Direct Reports: 4.5\n\n3. Team Development: 3.4\n   - Manager: 3.5\n   - Peers: 3.2\n   - Direct Reports: 3.5\n\n4. Communication: 3.8\n   - Manager: 4.0\n   - Peers: 3.5\n   - Direct Reports: 4.0\n\n5. Collaboration: 3.6\n   - Manager: 3.5\n   - Peers: 3.2\n   - Direct Reports: 4.0\n\n6. Innovation: 4.0\n   - Manager: 4.0\n   - Peers: 3.8\n   - Direct Reports: 4.2\n\n7. Executive Presence: 4.3\n   - Manager: 4.5\n   - Peers: 4.2\n   - Direct Reports: 4.2\n\n8. Emotional Intelligence: 3.5\n   - Manager: 3.5\n   - Peers: 3.0\n   - Direct Reports: 4.0\n\nOverall Score: 3.9 out of 5.0\n\nKey Themes from Qualitative Feedback:\n\nStrengths (What David does well):\n- 'David consistently exceeds revenue targets and holds the team accountable'\n- 'He has a natural ability to read customers and close complex deals'\n- 'Strong executive presence in customer-facing situations'\n- 'Always prepared and strategic in his approach to key accounts'\n- 'Creates competitive energy that drives performance'\n\nDevelopment Areas (Areas for growth):\n- 'Could spend more time developing junior team members'\n- 'Sometimes competes with peers rather than collaborating'\n- 'Would benefit from more cross-functional relationship building'\n- 'Can be dismissive of ideas that don't align with his approach'\n- 'Tends to favor high performers and may not invest equally in all team members'\n\nHidden Strengths (Underutilized):\n- Peers noted David has strong product knowledge that could benefit other teams\n- Direct reports mentioned he's great at celebrating wins but could do this more\n\nBlind Spots (Self vs Others perception gap):\n- David rated himself 4.2 on Collaboration; others rated 3.6\n- David rated himself 4.5 on Team Development; others rated 3.4\n\nCoaching Recommendations:\n1. Focus on peer collaboration - schedule regular 1:1s with other VPs\n2. Implement structured development plans for all direct reports, not just top performers\n3. Practice seeking input before finalizing decisions\n4. Work on self-awareness around competitive behaviors in meetings\n\nAction Items:\n- Create development plans for each direct report by end of Q4\n- Schedule monthly lunch with one peer VP\n- Practice 'listen first' approach in next 3 executive meetings",
+  "metadata": {
+    "assessment_type": "360",
+    "client_id": "550e8400-e29b-41d4-a716-446655440004",
+    "coach_id": "550e8400-e29b-41d4-a716-446655440012",
+    "client_organization_id": "550e8400-e29b-41d4-a716-446655440201",
+    "visibility_level": "coach_only",
+    "date_taken": "2025-10-22T15:00:00Z",
+    "assessment_provider": "Internal 360 Assessment",
+    "scores": {
+      "strategic_thinking": 4.2,
+      "results_orientation": 4.6,
+      "team_development": 3.4,
+      "communication": 3.8,
+      "collaboration": 3.6,
+      "innovation": 4.0,
+      "executive_presence": 4.3,
+      "emotional_intelligence": 3.5,
+      "overall": 3.9
+    },
+    "profile_summary": "High-performing sales leader with exceptional results orientation and executive presence. Key development areas include team development and cross-functional collaboration."
+  }
+}

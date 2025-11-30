@@ -1,0 +1,20 @@
+{
+  "data_type": "assessment",
+  "content": "DISC Assessment Results for Michael Torres - Director of Engineering at Acme Media\n\nAssessment Date: September 28, 2025\nAssessor: Sam Chen, Executive Coach\n\n[UNIQUE ISOLATION MARKER: MICHAEL_DISC_MARKER_Q4P9]\n\nDISC Profile Scores:\nD (Dominance): 45\nI (Influence): 38\nS (Steadiness): 72\nC (Conscientiousness): 85\n\nPrimary Style: C/S - Analytical Stabilizer\n\nProfile Summary:\nMichael demonstrates a strong C/S pattern, combining analytical precision with steady, reliable execution. His high Conscientiousness score indicates he values accuracy, thoroughness, and quality in all work. The secondary Steadiness dimension shows he provides consistent, dependable leadership that team members can rely on.\n\nKey Strengths:\n- Exceptional attention to detail and quality standards\n- Methodical approach to problem-solving\n- Provides stability and consistency for his team\n- Strong technical expertise and analytical skills\n- Reliable follow-through on commitments\n\nDevelopment Areas:\n- May be overly cautious in decision-making situations\n- Could benefit from more comfort with ambiguity\n- Sometimes struggles to delegate technical decisions\n- May avoid necessary confrontation\n\nCommunication Preferences:\n- Prefers detailed, written communication\n- Appreciates time to process before responding\n- Values data and evidence in discussions\n- Responds well to logical, structured arguments\n\nLeadership Style:\n- Leads by expertise and example\n- Creates well-documented processes and standards\n- Builds trust through consistency and reliability\n- May need to be more assertive in cross-functional settings\n\nCoaching Focus Areas (Recommended):\n1. Building comfort with faster decision-making\n2. Developing executive presence in meetings\n3. Learning to lead through influence without all data\n4. Delegation and trust-building with senior engineers\n\nNext Steps:\n- Practice 'good enough' decision framework\n- Identify low-risk situations to practice assertiveness\n- Develop personal board of advisors for quick consultation",
+  "metadata": {
+    "assessment_type": "disc",
+    "client_id": "550e8400-e29b-41d4-a716-446655440002",
+    "coach_id": "550e8400-e29b-41d4-a716-446655440011",
+    "client_organization_id": "550e8400-e29b-41d4-a716-446655440200",
+    "visibility_level": "coach_only",
+    "date_taken": "2025-09-28T14:30:00Z",
+    "assessment_provider": "DISC Insights",
+    "scores": {
+      "dominance": 45,
+      "influence": 38,
+      "steadiness": 72,
+      "conscientiousness": 85
+    },
+    "profile_summary": "C/S - Analytical Stabilizer. Quality-focused leader who combines analytical precision with reliable execution."
+  }
+}

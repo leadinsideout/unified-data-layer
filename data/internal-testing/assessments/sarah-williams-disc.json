@@ -1,0 +1,20 @@
+{
+  "data_type": "assessment",
+  "content": "DISC Assessment Results for Sarah Williams - VP of Product at Acme Media\n\nAssessment Date: October 15, 2025\nAssessor: Alex Rivera, Executive Coach\n\n[UNIQUE ISOLATION MARKER: SARAH_DISC_MARKER_X7K2]\n\nDISC Profile Scores:\nD (Dominance): 78\nI (Influence): 65\nS (Steadiness): 42\nC (Conscientiousness): 55\n\nPrimary Style: D/I - Driving Influencer\n\nProfile Summary:\nSarah demonstrates a strong D/I pattern, combining decisive action-taking with interpersonal effectiveness. Her high Dominance score indicates she is results-oriented, competitive, and comfortable taking charge in challenging situations. The secondary Influence dimension shows she values relationships and can rally teams around her vision.\n\nKey Strengths:\n- Decisive decision-making under pressure\n- Ability to inspire and motivate teams\n- Results-focused with clear goal orientation\n- Comfortable with change and ambiguity\n- Direct communication style that cuts through complexity\n\nDevelopment Areas:\n- May come across as impatient with detailed processes\n- Could benefit from more active listening in team settings\n- Sometimes moves too quickly for team members to follow\n- May overlook emotional impact on others when driving results\n\nCommunication Preferences:\n- Prefers brief, direct communication\n- Appreciates bullet points and action items\n- Values efficiency in meetings\n- Responds well to challenges and goals\n\nLeadership Style:\n- Naturally takes charge in group settings\n- Sets ambitious targets and expects high performance\n- Delegates broadly but may need to follow up more consistently\n- Creates urgency and momentum\n\nCoaching Focus Areas (Recommended):\n1. Balancing drive with team inclusion\n2. Developing patience with process-oriented team members\n3. Active listening skills enhancement\n4. Building sustainable pace vs. burnout risk\n\nNext Steps:\n- Review profile with coach in upcoming session\n- Identify specific situations to practice patience\n- Create accountability mechanism for listening goals",
+  "metadata": {
+    "assessment_type": "disc",
+    "client_id": "550e8400-e29b-41d4-a716-446655440001",
+    "coach_id": "550e8400-e29b-41d4-a716-446655440010",
+    "client_organization_id": "550e8400-e29b-41d4-a716-446655440200",
+    "visibility_level": "coach_only",
+    "date_taken": "2025-10-15T09:00:00Z",
+    "assessment_provider": "DISC Insights",
+    "scores": {
+      "dominance": 78,
+      "influence": 65,
+      "steadiness": 42,
+      "conscientiousness": 55
+    },
+    "profile_summary": "D/I - Driving Influencer. Results-oriented leader who combines decisive action with interpersonal effectiveness."
+  }
+}

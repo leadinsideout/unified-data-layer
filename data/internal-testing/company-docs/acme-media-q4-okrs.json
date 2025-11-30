@@ -1,0 +1,17 @@
+{
+  "data_type": "company_doc",
+  "content": "Acme Media - Q4 2025 Company OKRs\n\nDocument Version: 1.2\nLast Updated: October 1, 2025\nOwner: Executive Leadership Team\n\n[UNIQUE ISOLATION MARKER: ACME_OKR_MARKER_H8J3]\n\n=== COMPANY MISSION ===\nTo transform how stories are told and consumed in the digital age, creating meaningful connections between content creators and audiences worldwide.\n\n=== Q4 2025 THEME ===\n\"Scale with Excellence\" - Focus on sustainable growth while maintaining quality and team health\n\n=== COMPANY-LEVEL OBJECTIVES ===\n\nOBJECTIVE 1: Accelerate Revenue Growth\nOwner: CFO\n\nKey Results:\n1.1 Achieve $42M in Q4 revenue (15% YoY growth)\n    - Current: On track (projected $41.5M)\n1.2 Increase enterprise deal size to $150K average\n    - Current: $138K (needs acceleration)\n1.3 Reduce customer churn to under 3% monthly\n    - Current: 3.2%\n\nOBJECTIVE 2: Launch Next-Gen Platform\nOwner: VP Product (Sarah Williams)\n\nKey Results:\n2.1 Ship Creator Studio 2.0 by November 15\n    - Status: In beta testing\n2.2 Achieve 85% adoption among existing creators within 30 days\n2.3 Reduce content production time by 40%\n2.4 Maintain platform uptime of 99.9%\n\nOBJECTIVE 3: Build World-Class Engineering Culture\nOwner: Director of Engineering (Michael Torres)\n\nKey Results:\n3.1 Reduce mean time to deploy from 4 hours to 30 minutes\n    - Current: 2.5 hours\n3.2 Achieve 90% code coverage on critical paths\n    - Current: 78%\n3.3 Complete migration to microservices architecture\n    - Status: 65% complete\n3.4 Zero critical security incidents\n\nOBJECTIVE 4: Strengthen Team & Culture\nOwner: Chief People Officer\n\nKey Results:\n4.1 Maintain employee NPS above 45\n    - Current: 42\n4.2 Complete leadership development program for 20 emerging leaders\n    - Status: 12 enrolled\n4.3 Reduce voluntary turnover to under 12% annually\n    - Current: 14%\n4.4 Launch executive coaching program for VPs (InsideOut Leadership partnership)\n    - Status: In progress with 2 VPs enrolled\n\n=== STRATEGIC PRIORITIES ===\n\n1. Platform Excellence\n   - Complete Creator Studio 2.0 launch\n   - Improve creator onboarding experience\n   - Expand API capabilities for enterprise clients\n\n2. Go-to-Market Expansion\n   - Enter 3 new international markets\n   - Launch partner program\n   - Develop vertical-specific solutions\n\n3. Operational Efficiency\n   - Implement automated testing pipeline\n   - Reduce infrastructure costs by 20%\n   - Streamline vendor relationships\n\n=== RISKS & DEPENDENCIES ===\n\nRisks:\n- Engineering bandwidth constraints for platform launch\n- Competitive pressure in enterprise segment\n- Key talent retention during growth phase\n\nMitigations:\n- Approved additional engineering headcount (5 FTE)\n- Accelerated product roadmap with differentiated features\n- Enhanced compensation and development programs\n\n=== REVIEW CADENCE ===\n- Weekly: Department leads sync\n- Bi-weekly: All-hands progress update\n- Monthly: Full OKR review and scoring\n- End of quarter: Retrospective and planning",
+  "metadata": {
+    "doc_type": "okr",
+    "doc_title": "Acme Media Q4 2025 Company OKRs",
+    "doc_version": "1.2",
+    "client_organization_id": "550e8400-e29b-41d4-a716-446655440200",
+    "visibility_level": "org_visible",
+    "fiscal_year": "2025",
+    "quarter": "Q4",
+    "author": "Executive Leadership Team",
+    "last_updated": "2025-10-01T00:00:00Z",
+    "confidentiality_level": "internal",
+    "tags": ["OKR", "strategy", "Q4", "2025", "company-wide"]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "data_type": "assessment",
+  "content": "MBTI Assessment Results for Emily Zhang - CEO at TechCorp Inc\n\nAssessment Date: November 5, 2025\nAssessor: Alex Rivera, Executive Coach\n\n[UNIQUE ISOLATION MARKER: EMILY_MBTI_MARKER_R3T8]\n\nMBTI Type: ENTJ - The Commander\n\nPreference Scores:\nExtraversion (E): 72% vs Introversion (I): 28%\nIntuition (N): 81% vs Sensing (S): 19%\nThinking (T): 68% vs Feeling (F): 32%\nJudging (J): 75% vs Perceiving (P): 25%\n\nType Description:\nENTJs are strategic leaders who see the big picture and excel at organizing people and resources to achieve ambitious goals. Emily's profile shows strong preferences for Extraversion and Intuition, indicating she draws energy from engaging with others and naturally focuses on future possibilities and patterns.\n\nCognitive Functions Stack:\n1. Dominant: Extraverted Thinking (Te) - Organizing and structuring the external world\n2. Auxiliary: Introverted Intuition (Ni) - Perceiving patterns and future implications\n3. Tertiary: Extraverted Sensing (Se) - Engaging with the immediate environment\n4. Inferior: Introverted Feeling (Fi) - Personal values and emotional awareness\n\nKey Strengths:\n- Natural strategic visionary\n- Decisive and action-oriented\n- Excellent at systems thinking and optimization\n- Confident communicator and presenter\n- Drives accountability and results\n\nPotential Blind Spots:\n- May overlook emotional dynamics in favor of logic\n- Can be perceived as overly direct or demanding\n- May move faster than team can absorb change\n- Risk of dismissing input that doesn't align with vision\n\nLeadership Implications:\n- Naturally gravitates toward CEO/executive roles\n- Creates clear vision and rallies organizations\n- May need to consciously slow down to bring people along\n- Benefits from complementary styles (ISFP, INFP) on leadership team\n\nStress Behaviors:\nUnder stress, Emily may:\n- Become more controlling and micromanaging\n- Make impulsive decisions\n- Withdraw emotionally while becoming more task-focused\n- Dismiss others' concerns as obstacles\n\nCoaching Focus Areas (Recommended):\n1. Developing emotional intelligence and empathy\n2. Building more inclusive decision-making processes\n3. Creating space for dissenting opinions\n4. Managing stress responses and self-care\n\nType Dynamics for Coaching:\nWork with Emily's dominant Te by providing structured frameworks and measurable outcomes. Engage her Ni through big-picture strategy discussions. Support development of Fi through values clarification exercises.",
+  "metadata": {
+    "assessment_type": "mbti",
+    "client_id": "550e8400-e29b-41d4-a716-446655440003",
+    "coach_id": "550e8400-e29b-41d4-a716-446655440010",
+    "client_organization_id": "550e8400-e29b-41d4-a716-446655440201",
+    "visibility_level": "coach_only",
+    "date_taken": "2025-11-05T10:00:00Z",
+    "assessment_provider": "Myers-Briggs Foundation",
+    "scores": {
+      "type": "ENTJ",
+      "extraversion": 72,
+      "intuition": 81,
+      "thinking": 68,
+      "judging": 75
+    },
+    "profile_summary": "ENTJ - The Commander. Strategic visionary who excels at organizing people and resources to achieve ambitious goals."
+  }
+}
