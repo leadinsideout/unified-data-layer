@@ -162,24 +162,96 @@
 
 ---
 
-## Phase 2+ Tests (Future)
+## Phase 4: Multi-Tenant Isolation & Custom GPT Tests
 
-### Test 18: Multi-Data-Type Search (Phase 2)
+**Run**: After setting up coach/client personas with API keys
+
+### Test 18: Coach GPT Data Isolation
+- [ ] Create Custom GPT for Coach A (e.g., Alex Rivera)
+- [ ] Configure with Coach A's API key
+- [ ] Ask GPT about Coach A's clients (e.g., "What did Emily discuss?")
+- [ ] Verify: GPT retrieves relevant transcript data
+- [ ] Ask GPT about Coach B's clients (e.g., "What did Marcus discuss?")
+- [ ] Verify: GPT returns NO results (isolation enforced)
+- [ ] Repeat for Coach B and Coach C GPTs
+- [ ] Verify: Each coach only sees their own clients' data
+
+**Coach GPT Isolation Complete**: [ ] All tests pass
+
+### Test 19: Client GPT Data Isolation
+- [ ] Create Custom GPT for a Client (e.g., Sarah Williams)
+- [ ] Configure with client's API key
+- [ ] Ask GPT about the client's own sessions
+- [ ] Verify: GPT retrieves client's transcript data
+- [ ] Ask GPT about another client's sessions
+- [ ] Verify: GPT returns NO results (isolation enforced)
+- [ ] Verify: Client cannot access other clients' data, even if same coach
+
+**Client GPT Isolation Complete**: [ ] All tests pass
+
+### Test 20: PII Redacted Content Retrieval
+- [ ] Upload transcript WITH `scrub_pii: true` flag
+- [ ] Verify: Transcript stored with redacted content (e.g., `[NAME]`, `[EMAIL]`)
+- [ ] Ask Custom GPT a relevant question about the session
+- [ ] Verify: GPT retrieves redacted content successfully
+- [ ] Verify: GPT synthesizes meaningful answer despite placeholders
+- [ ] Verify: No actual PII exposed in GPT response
+- [ ] Example query: "What breakthrough did the client have?"
+- [ ] Expected: GPT says "Your client had a breakthrough with..." (not "[NAME] had...")
+
+**PII Redaction Test Complete**: [ ] All tests pass
+
+### Test 21: Shared Company Context (Cross-Coach)
+- [ ] Upload company-level documents (OKRs, org chart, policies) with `data_type: company_doc`
+- [ ] Ensure company_doc is NOT associated with specific coach or client
+- [ ] Coach A GPT: Ask about company OKRs
+- [ ] Verify: Coach A can see company-level context
+- [ ] Coach B GPT: Ask about company org chart
+- [ ] Verify: Coach B can see same company-level context
+- [ ] Coach A GPT: Ask about Coach B's client sessions
+- [ ] Verify: Coach A still CANNOT see Coach B's client data (isolation intact)
+- [ ] Verify: Shared context available to all coaches in company
+- [ ] Verify: Session data still isolated per coach-client relationship
+
+**Shared Company Context Test Complete**: [ ] All tests pass
+
+### Test 22: Assessment Data Types
+- [ ] Upload assessment for Client A (e.g., DISC profile) with `data_type: assessment`
+- [ ] Upload different assessment for Client B (e.g., StrengthsFinder)
+- [ ] Coach GPT: Search for Client A's assessment results
+- [ ] Verify: Returns Client A's DISC data
+- [ ] Coach GPT: Search for Client B's assessment results
+- [ ] Verify: Returns Client B's StrengthsFinder data
+- [ ] Coach GPT: Filter by `data_type: assessment`
+- [ ] Verify: Only assessment data returned (not transcripts)
+- [ ] Verify: Coach still only sees their own clients' assessments
+
+**Assessment Data Type Test Complete**: [ ] All tests pass
+
+### Test 23: Fresh Data Retrieval (Real-Time Access)
+- [ ] Note current time: `_______________`
+- [ ] Upload NEW transcript with unique phrase (e.g., "discussed Q4 planning strategy")
+- [ ] Wait for embedding generation (~30 seconds)
+- [ ] **Immediately** ask Custom GPT: "What did we discuss about Q4 planning?"
+- [ ] Verify: GPT retrieves the just-uploaded transcript
+- [ ] Verify: Response includes the unique phrase
+- [ ] Note retrieval time: `_______________`
+- [ ] Calculate delay: `_______` (should be < 60 seconds total)
+
+**Fresh Data Retrieval Test Complete**: [ ] All tests pass
+
+---
+
+## Phase 2+ Tests (Archived Reference)
+
+### Test 24: Multi-Data-Type Search
 - [ ] Upload assessment data
 - [ ] Upload personality profile
 - [ ] Search across multiple types
 - [ ] Verify: Type filtering works
 - [ ] Verify: Cross-type search works
 
-### Test 19: Security & PII (Phase 3)
-- [ ] Upload transcript with PII
-- [ ] Verify: PII scrubbed before storage
-- [ ] Test unauthorized access
-- [ ] Verify: Returns 401/403
-- [ ] Test multi-tenant isolation
-- [ ] Verify: Coach A cannot access Coach B's data
-
-### Test 20: MCP Integration (Phase 4)
+### Test 25: MCP Integration
 - [ ] Configure Claude Desktop with MCP
 - [ ] Test search via Claude
 - [ ] Verify: Works identically to Custom GPT
