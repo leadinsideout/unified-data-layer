@@ -878,6 +878,52 @@ GET  /api/v2/clients/{id}/timeline   # Chronological view
     - Format: HTML email with charts/tables for easy consumption
   - Cost anomaly detection (unexpected spikes in usage)
 
+### 6.4 Admin UI Enhancement
+
+**Goal**: Make the admin dashboard fully self-service for non-technical administrators.
+
+**Current State** (from Checkpoint 10):
+- Basic admin dashboard exists at `/admin`
+- API key management works
+- User/coach listing available
+
+**Enhancements Needed**:
+
+1. **Data Upload Interface**
+   - Drag-and-drop file upload (JSON, PDF, TXT)
+   - Visual form for metadata assignment:
+     - Select coach (dropdown)
+     - Select client (dropdown, filtered by coach)
+     - Select data type (transcript, assessment, model, company_doc)
+     - Set session date
+     - Add custom metadata fields
+   - Bulk upload with CSV mapping
+   - Upload progress indicator with success/error feedback
+
+2. **User & Client Management**
+   - Add new coaches with auto-generated API keys
+   - Add new clients and assign to coaches
+   - Create/manage organizations
+   - Assign clients to organizations
+   - Visual relationship editor (coach ↔ client ↔ org)
+
+3. **Data Browser**
+   - Browse all data items with filtering (by type, coach, client, date)
+   - Preview content and metadata
+   - Edit metadata inline
+   - Delete items with confirmation
+   - Re-process items (re-chunk, re-embed)
+
+4. **Dashboard Improvements**
+   - Quick stats: total items, items by type, recent uploads
+   - Activity log: recent API calls, uploads, errors
+   - Health status: API, database, embedding service
+
+**Success Criteria**: A non-technical admin can:
+- Upload a new transcript and assign it to the correct coach/client in < 2 minutes
+- Add a new client and assign them to a coach without touching the database
+- Find and edit any data item without SQL knowledge
+
 ---
 
 ## Phase 7-8: Custom Frontends
