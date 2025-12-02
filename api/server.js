@@ -236,7 +236,7 @@ app.get('/api/mcp/sse', ...mcpRoutes.handleSSE);
 app.post('/api/mcp/messages', ...mcpRoutes.handleMessages);
 
 // Register Fireflies.ai integration routes (Phase 5)
-const firefliesRoutes = createFirefliesRoutes(supabase, openai, processorFactory);
+const firefliesRoutes = createFirefliesRoutes(supabase, openai);
 app.use('/api/integrations/fireflies', firefliesRoutes);
 
 /**

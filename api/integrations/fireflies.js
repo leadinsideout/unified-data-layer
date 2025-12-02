@@ -19,6 +19,42 @@ import express from 'express';
 const FIREFLIES_API_URL = 'https://api.fireflies.ai/graphql';
 
 /**
+ * Chunk text into smaller pieces for embedding
+ * Matches base-processor.js chunking logic: 500 words with 50 word overlap
+ * @param {string} text - Text to chunk
+ * @param {number} chunkSize - Words per chunk (default: 500)
+ * @param {number} overlap - Overlap words between chunks (default: 50)
+ * @returns {string[]} - Array of text chunks
+ */
+function chunkText(text, chunkSize = 500, overlap = 50) {
+  if (!text || typeof text !== 'string') {
+    return [];
+  }
+
+  const words = text.split(/\s+/).filter(w => w.length > 0);
+
+  if (words.length <= chunkSize) {
+    return [text.trim()];
+  }
+
+  const chunks = [];
+  let start = 0;
+
+  while (start < words.length) {
+    const end = Math.min(start + chunkSize, words.length);
+    chunks.push(words.slice(start, end).join(' '));
+
+    // Move start forward, accounting for overlap
+    start += chunkSize - overlap;
+
+    // If we're close to the end, break to avoid tiny final chunks
+    if (start + overlap >= words.length) break;
+  }
+
+  return chunks;
+}
+
+/**
  * Verify Fireflies webhook signature
  * @param {string} payload - Raw request body
  * @param {string} signature - x-hub-signature header value
@@ -182,10 +218,9 @@ export async function findCoachByEmail(supabase, email) {
  * Create Express routes for Fireflies integration
  * @param {Object} supabase - Supabase client
  * @param {Object} openai - OpenAI client
- * @param {Object} processorFactory - Data processor factory
  * @returns {express.Router} - Express router
  */
-export function createFirefliesRoutes(supabase, openai, processorFactory) {
+export function createFirefliesRoutes(supabase, openai) {
   const router = express.Router();
 
   // Get config from environment
@@ -280,8 +315,7 @@ export function createFirefliesRoutes(supabase, openai, processorFactory) {
       // Process and store the transcript
       console.log(`[Fireflies] Processing transcript for coach: ${coach.name}`);
 
-      const processor = processorFactory.getProcessor('transcript');
-      const chunks = processor.chunk(formattedTranscript.content);
+      const chunks = chunkText(formattedTranscript.content);
 
       // Create data item
       const { data: dataItem, error: itemError } = await supabase
@@ -400,8 +434,7 @@ export function createFirefliesRoutes(supabase, openai, processorFactory) {
       }
 
       // Process transcript (same as webhook flow)
-      const processor = processorFactory.getProcessor('transcript');
-      const chunks = processor.chunk(formattedTranscript.content);
+      const chunks = chunkText(formattedTranscript.content);
 
       const { data: dataItem, error: itemError } = await supabase
         .from('data_items')
@@ -502,7 +535,7 @@ export function createFirefliesRoutes(supabase, openai, processorFactory) {
       // Get coach
       const { data: coach, error: coachError } = await supabase
         .from('coaches')
-        .select('id, name, company_id')
+        .select('id, name, coaching_company_id')
         .eq('id', coach_id)
         .single();
 
@@ -512,8 +545,7 @@ export function createFirefliesRoutes(supabase, openai, processorFactory) {
 
       // Process the transcript
       const formattedTranscript = pending.transcript_data;
-      const processor = processorFactory.getProcessor('transcript');
-      const chunks = processor.chunk(formattedTranscript.content);
+      const chunks = chunkText(formattedTranscript.content);
 
       const { data: dataItem, error: itemError } = await supabase
         .from('data_items')
