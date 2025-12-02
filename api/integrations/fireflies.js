@@ -215,6 +215,99 @@ export async function findCoachByEmail(supabase, email) {
 }
 
 /**
+ * Find client by email address
+ * @param {Object} supabase - Supabase client
+ * @param {string} email - Email to search for
+ * @returns {Object|null} - Client record with organization or null
+ */
+export async function findClientByEmail(supabase, email) {
+  if (!email) return null;
+
+  const { data, error } = await supabase
+    .from('clients')
+    .select('id, name, email, client_organization_id, primary_coach_id')
+    .eq('email', email.toLowerCase())
+    .single();
+
+  if (error || !data) {
+    return null;
+  }
+
+  return data;
+}
+
+/**
+ * Match participants from Fireflies meeting to our database entities
+ * Identifies coach, client, and organization from attendee list
+ * @param {Object} supabase - Supabase client
+ * @param {Object} transcript - Formatted transcript with host_email, organizer_email
+ * @param {Array} attendees - Array of {email, name, displayName} from Fireflies
+ * @returns {Object} - { coach, client, organization_id, unmatched_emails }
+ */
+export async function matchParticipants(supabase, transcript, attendees) {
+  const result = {
+    coach: null,
+    client: null,
+    organization_id: null,
+    unmatched_emails: []
+  };
+
+  // Collect all unique emails from the meeting
+  const emailsToCheck = new Set();
+
+  if (transcript.host_email) emailsToCheck.add(transcript.host_email.toLowerCase());
+  if (transcript.organizer_email) emailsToCheck.add(transcript.organizer_email.toLowerCase());
+
+  if (attendees && Array.isArray(attendees)) {
+    for (const attendee of attendees) {
+      if (attendee.email) {
+        emailsToCheck.add(attendee.email.toLowerCase());
+      }
+    }
+  }
+
+  // Check each email against coaches and clients
+  for (const email of emailsToCheck) {
+    // First try to match as coach (host/organizer most likely to be coach)
+    if (!result.coach) {
+      const coach = await findCoachByEmail(supabase, email);
+      if (coach) {
+        result.coach = coach;
+        continue;
+      }
+    }
+
+    // Then try to match as client
+    if (!result.client) {
+      const client = await findClientByEmail(supabase, email);
+      if (client) {
+        result.client = client;
+        result.organization_id = client.client_organization_id;
+        continue;
+      }
+    }
+
+    // Track unmatched emails for debugging/manual assignment
+    result.unmatched_emails.push(email);
+  }
+
+  // If we found a client but no coach, try to use the client's primary coach
+  if (result.client && !result.coach && result.client.primary_coach_id) {
+    const { data: primaryCoach } = await supabase
+      .from('coaches')
+      .select('id, name, email, coaching_company_id')
+      .eq('id', result.client.primary_coach_id)
+      .single();
+
+    if (primaryCoach) {
+      result.coach = primaryCoach;
+    }
+  }
+
+  return result;
+}
+
+/**
  * Create Express routes for Fireflies integration
  * @param {Object} supabase - Supabase client
  * @param {Object} openai - OpenAI client
@@ -280,14 +373,19 @@ export function createFirefliesRoutes(supabase, openai) {
       // Format transcript for our system
       const formattedTranscript = formatTranscript(transcript);
 
-      // Find the coach by host or organizer email
-      let coach = await findCoachByEmail(supabase, formattedTranscript.host_email);
-      if (!coach) {
-        coach = await findCoachByEmail(supabase, formattedTranscript.organizer_email);
-      }
+      // Match all participants (coach, client, organization) from attendee emails
+      const matches = await matchParticipants(
+        supabase,
+        formattedTranscript,
+        transcript.meeting_attendees
+      );
 
-      if (!coach) {
-        console.warn(`[Fireflies] No coach found for emails: ${formattedTranscript.host_email}, ${formattedTranscript.organizer_email}`);
+      if (!matches.coach) {
+        console.warn(`[Fireflies] No coach found for meeting ${meetingId}`);
+        console.warn(`[Fireflies] Checked emails: ${formattedTranscript.host_email}, ${formattedTranscript.organizer_email}`);
+        if (matches.unmatched_emails.length > 0) {
+          console.warn(`[Fireflies] Unmatched attendee emails: ${matches.unmatched_emails.join(', ')}`);
+        }
 
         // Store in a queue for manual review instead of failing
         const { error: queueError } = await supabase
@@ -297,7 +395,11 @@ export function createFirefliesRoutes(supabase, openai) {
             host_email: formattedTranscript.host_email,
             organizer_email: formattedTranscript.organizer_email,
             title: formattedTranscript.title,
-            transcript_data: formattedTranscript,
+            transcript_data: {
+              ...formattedTranscript,
+              attendees: transcript.meeting_attendees,
+              unmatched_emails: matches.unmatched_emails
+            },
             status: 'pending_coach_assignment'
           });
 
@@ -308,16 +410,23 @@ export function createFirefliesRoutes(supabase, openai) {
         return res.json({
           status: 'queued',
           reason: 'No matching coach found - queued for manual assignment',
-          meeting_id: meetingId
+          meeting_id: meetingId,
+          unmatched_emails: matches.unmatched_emails
         });
       }
 
-      // Process and store the transcript
-      console.log(`[Fireflies] Processing transcript for coach: ${coach.name}`);
+      // Process and store the transcript with all matched relationships
+      console.log(`[Fireflies] Processing transcript for coach: ${matches.coach.name}`);
+      if (matches.client) {
+        console.log(`[Fireflies] Matched client: ${matches.client.name}`);
+      }
+      if (matches.organization_id) {
+        console.log(`[Fireflies] Matched organization: ${matches.organization_id}`);
+      }
 
       const chunks = chunkText(formattedTranscript.content);
 
-      // Create data item
+      // Create data item with all relationship fields populated
       const { data: dataItem, error: itemError } = await supabase
         .from('data_items')
         .insert({
@@ -326,9 +435,12 @@ export function createFirefliesRoutes(supabase, openai) {
           metadata: {
             ...formattedTranscript.metadata,
             title: formattedTranscript.title,
-            slug: `fireflies-${meetingId}`
+            slug: `fireflies-${meetingId}`,
+            unmatched_emails: matches.unmatched_emails
           },
-          coach_id: coach.id,
+          coach_id: matches.coach.id,
+          client_id: matches.client?.id || null,
+          client_organization_id: matches.organization_id || null,
           session_date: formattedTranscript.session_date
         })
         .select()
@@ -374,7 +486,10 @@ export function createFirefliesRoutes(supabase, openai) {
       return res.json({
         status: 'processed',
         data_item_id: dataItem.id,
-        coach: coach.name,
+        coach: matches.coach.name,
+        client: matches.client?.name || null,
+        client_id: matches.client?.id || null,
+        organization_id: matches.organization_id || null,
         chunks_processed: chunksProcessed,
         elapsed_ms: elapsed
       });
@@ -412,8 +527,15 @@ export function createFirefliesRoutes(supabase, openai) {
 
       const formattedTranscript = formatTranscript(transcript);
 
-      // Find coach (by ID or email)
-      let coach;
+      // Match all participants from the meeting
+      const matches = await matchParticipants(
+        supabase,
+        formattedTranscript,
+        transcript.meeting_attendees
+      );
+
+      // If coach_id is explicitly provided, use that instead of auto-match
+      let coach = matches.coach;
       if (coach_id) {
         const { data } = await supabase
           .from('coaches')
@@ -421,19 +543,17 @@ export function createFirefliesRoutes(supabase, openai) {
           .eq('id', coach_id)
           .single();
         coach = data;
-      } else {
-        coach = await findCoachByEmail(supabase, formattedTranscript.host_email) ||
-                await findCoachByEmail(supabase, formattedTranscript.organizer_email);
       }
 
       if (!coach) {
         return res.status(400).json({
           error: 'Coach not found',
-          hint: 'Provide coach_id or ensure coach email matches Fireflies host/organizer'
+          hint: 'Provide coach_id or ensure coach email matches Fireflies host/organizer',
+          unmatched_emails: matches.unmatched_emails
         });
       }
 
-      // Process transcript (same as webhook flow)
+      // Process transcript with all matched relationships
       const chunks = chunkText(formattedTranscript.content);
 
       const { data: dataItem, error: itemError } = await supabase
@@ -444,9 +564,12 @@ export function createFirefliesRoutes(supabase, openai) {
           metadata: {
             ...formattedTranscript.metadata,
             title: formattedTranscript.title,
-            slug: `fireflies-${meeting_id}`
+            slug: `fireflies-${meeting_id}`,
+            unmatched_emails: matches.unmatched_emails
           },
           coach_id: coach.id,
+          client_id: matches.client?.id || null,
+          client_organization_id: matches.organization_id || null,
           session_date: formattedTranscript.session_date
         })
         .select()
@@ -479,6 +602,9 @@ export function createFirefliesRoutes(supabase, openai) {
         status: 'imported',
         data_item_id: dataItem.id,
         coach: coach.name,
+        client: matches.client?.name || null,
+        client_id: matches.client?.id || null,
+        organization_id: matches.organization_id || null,
         chunks_processed: chunksProcessed
       });
 
@@ -509,13 +635,14 @@ export function createFirefliesRoutes(supabase, openai) {
   });
 
   /**
-   * Assign a pending transcript to a coach
+   * Assign a pending transcript to a coach (and optionally a client)
    * POST /api/integrations/fireflies/pending/:id/assign
+   * Body: { coach_id: required, client_id: optional }
    */
   router.post('/pending/:id/assign', express.json(), async (req, res) => {
     try {
       const { id } = req.params;
-      const { coach_id } = req.body;
+      const { coach_id, client_id } = req.body;
 
       if (!coach_id) {
         return res.status(400).json({ error: 'coach_id is required' });
@@ -543,6 +670,23 @@ export function createFirefliesRoutes(supabase, openai) {
         return res.status(404).json({ error: 'Coach not found' });
       }
 
+      // Get client if provided
+      let client = null;
+      let organizationId = null;
+      if (client_id) {
+        const { data: clientData, error: clientError } = await supabase
+          .from('clients')
+          .select('id, name, client_organization_id')
+          .eq('id', client_id)
+          .single();
+
+        if (clientError || !clientData) {
+          return res.status(404).json({ error: 'Client not found' });
+        }
+        client = clientData;
+        organizationId = client.client_organization_id;
+      }
+
       // Process the transcript
       const formattedTranscript = pending.transcript_data;
       const chunks = chunkText(formattedTranscript.content);
@@ -558,6 +702,8 @@ export function createFirefliesRoutes(supabase, openai) {
             slug: `fireflies-${pending.meeting_id}`
           },
           coach_id: coach.id,
+          client_id: client?.id || null,
+          client_organization_id: organizationId,
           session_date: formattedTranscript.session_date
         })
         .select()
@@ -586,13 +732,21 @@ export function createFirefliesRoutes(supabase, openai) {
       // Update pending status
       await supabase
         .from('fireflies_pending')
-        .update({ status: 'processed', processed_at: new Date().toISOString() })
+        .update({
+          status: 'processed',
+          processed_at: new Date().toISOString(),
+          assigned_coach_id: coach.id,
+          assigned_client_id: client?.id || null
+        })
         .eq('id', id);
 
       return res.json({
         status: 'assigned',
         data_item_id: dataItem.id,
         coach: coach.name,
+        client: client?.name || null,
+        client_id: client?.id || null,
+        organization_id: organizationId,
         chunks_processed: chunks.length
       });
 
@@ -623,5 +777,7 @@ export default {
   verifyWebhookSignature,
   fetchTranscript,
   formatTranscript,
-  findCoachByEmail
+  findCoachByEmail,
+  findClientByEmail,
+  matchParticipants
 };
