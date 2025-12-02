@@ -9,7 +9,7 @@
     "scope-enum": [
       2,
       "always",
-      ["api", "db", "embeddings", "search", "upload", "deploy", "test", "docs", "security", "custom-gpt", "workflow", "mcp"]
+      ["api", "db", "embeddings", "search", "upload", "deploy", "test", "docs", "security", "custom-gpt", "workflow", "mcp", "integrations"]
     ],
     "subject-case": [0],
     "subject-empty": [2, "never"],

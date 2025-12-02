@@ -25,6 +25,7 @@ import { createApiKeyRoutes } from './routes/api-keys.js';
 import { createAdminAuthRoutes, createAdminSessionMiddleware } from './routes/admin-auth.js';
 import { createV2ClientRoutes, createV2SearchRoutes } from './routes/v2/index.js';
 import { createMCPRoutes } from './mcp/index.js';
+import { createFirefliesRoutes } from './integrations/fireflies.js';
 
 // Load environment variables
 dotenv.config();
@@ -79,9 +80,10 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// JSON body parser (skip for MCP messages endpoint - it reads raw body)
+// JSON body parser (skip endpoints that need raw body for signature verification)
 app.use((req, res, next) => {
-  if (req.path === '/api/mcp/messages') {
+  // Skip JSON parsing for endpoints that need raw body
+  if (req.path === '/api/mcp/messages' || req.path === '/api/integrations/fireflies/webhook') {
     return next();
   }
   express.json({ limit: '10mb' })(req, res, next);
@@ -232,6 +234,10 @@ app.use('/api/v2/search', v2SearchRoutes);
 const mcpRoutes = createMCPRoutes(supabase, openai, authMiddleware);
 app.get('/api/mcp/sse', ...mcpRoutes.handleSSE);
 app.post('/api/mcp/messages', ...mcpRoutes.handleMessages);
+
+// Register Fireflies.ai integration routes (Phase 5)
+const firefliesRoutes = createFirefliesRoutes(supabase, openai, processorFactory);
+app.use('/api/integrations/fireflies', firefliesRoutes);
 
 /**
  * Submit Tester Feedback
