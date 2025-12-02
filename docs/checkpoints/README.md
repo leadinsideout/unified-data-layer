@@ -2,7 +2,7 @@
 
 **Purpose**: Track progress through implementation checkpoints
 
-**Current Phase**: Phase 4 Complete - AI Platform Integration (Checkpoint 13 Complete)
+**Current Phase**: Phase 5 In Progress - Automatic Transcript Pipeline (Checkpoint 14 Complete)
 
 ---
 
@@ -369,6 +369,34 @@ git checkout -b fix-from-checkpoint-1 v0.1.0-checkpoint-1
 
 ---
 
+## 📋 Phase 5: Automatic Transcript Pipeline
+
+### Checkpoint 14: Fireflies.ai Integration ✅
+**Status**: Complete
+**Tag**: `v0.14.0` (pending)
+**Completed**: 2025-12-02
+**Details**: [checkpoint-14-results.md](checkpoint-14-results.md)
+
+**What Was Built**:
+- Webhook receiver for Fireflies.ai transcript notifications
+- GraphQL client to fetch full transcripts from Fireflies API
+- Automatic coach matching by host/organizer email
+- Pending queue table for unmatched transcripts
+- Manual import and assignment endpoints
+- HMAC SHA-256 signature verification for webhooks
+
+**Results**:
+- ✅ 5 new API endpoints for Fireflies integration
+- ✅ Production deployed and tested
+- ✅ Webhook parsing validated
+- ✅ Ready for real Fireflies account testing
+
+**Phase 5 In Progress**: Checkpoint 14 complete. Testing with real Fireflies account remaining.
+
+*See: [../project/roadmap.md](../project/roadmap.md) for full phase details*
+
+---
+
 ## 🎯 Success Metrics
 
 ### Checkpoint 1 Success Criteria ✅
@@ -432,4 +460,4 @@ git checkout -b fix-from-checkpoint-1 v0.1.0-checkpoint-1
 
 ---
 
-**Last Updated**: 2025-11-25
+**Last Updated**: 2025-12-02
