@@ -924,6 +924,43 @@ GET  /api/v2/clients/{id}/timeline   # Chronological view
 - Add a new client and assign them to a coach without touching the database
 - Find and edit any data item without SQL knowledge
 
+### 6.5 Live Data Testing (Ryan Vaughn)
+
+**Goal**: Validate the system with real Inside-Out Leadership coach data before Dec 15 ship.
+
+**Scope**: Single coach (Ryan Vaughn) with his actual client data
+
+**Steps**:
+
+1. **User Setup** (1-2h)
+   - Create Ryan Vaughn as coach in system
+   - Create his real clients as users
+   - Generate API key for Ryan
+   - Set up Ryan's Custom GPT with his credentials
+
+2. **Data Import** (2-3h)
+   - Import Ryan's real coaching transcripts
+   - Import client assessments (DISC, MBTI, 360 if available)
+   - Run PII scrubbing pipeline on real data
+   - Verify data appears correctly in system
+
+3. **Demo Walkthrough** (2-3h)
+   - Live session with Ryan using his GPT
+   - Test real queries: "What themes have emerged with [client]?"
+   - Capture value moments and insights
+   - Document any UX issues
+
+4. **Final Polish** (1-2h)
+   - Quick fixes based on Ryan's feedback
+   - GPT instruction tweaks if needed
+   - Final verification
+
+**Success Criteria**:
+- Ryan can query his real client data through Custom GPT
+- Responses provide actionable coaching insights
+- No PII leakage in responses
+- System performs within acceptable latency (<3s)
+
 ---
 
 ## Phase 7-8: Custom Frontends
