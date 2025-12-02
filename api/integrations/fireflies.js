@@ -167,7 +167,7 @@ export async function findCoachByEmail(supabase, email) {
 
   const { data, error } = await supabase
     .from('coaches')
-    .select('id, name, email, company_id')
+    .select('id, name, email, coaching_company_id')
     .eq('email', email.toLowerCase())
     .single();
 
@@ -288,11 +288,12 @@ export function createFirefliesRoutes(supabase, openai, processorFactory) {
         .from('data_items')
         .insert({
           data_type: 'transcript',
-          slug: `fireflies-${meetingId}`,
-          title: formattedTranscript.title,
           raw_content: formattedTranscript.content,
-          metadata: formattedTranscript.metadata,
-          company_id: coach.company_id,
+          metadata: {
+            ...formattedTranscript.metadata,
+            title: formattedTranscript.title,
+            slug: `fireflies-${meetingId}`
+          },
           coach_id: coach.id,
           session_date: formattedTranscript.session_date
         })
@@ -382,7 +383,7 @@ export function createFirefliesRoutes(supabase, openai, processorFactory) {
       if (coach_id) {
         const { data } = await supabase
           .from('coaches')
-          .select('id, name, email, company_id')
+          .select('id, name, email, coaching_company_id')
           .eq('id', coach_id)
           .single();
         coach = data;
@@ -406,11 +407,12 @@ export function createFirefliesRoutes(supabase, openai, processorFactory) {
         .from('data_items')
         .insert({
           data_type: 'transcript',
-          slug: `fireflies-${meeting_id}`,
-          title: formattedTranscript.title,
           raw_content: formattedTranscript.content,
-          metadata: formattedTranscript.metadata,
-          company_id: coach.company_id,
+          metadata: {
+            ...formattedTranscript.metadata,
+            title: formattedTranscript.title,
+            slug: `fireflies-${meeting_id}`
+          },
           coach_id: coach.id,
           session_date: formattedTranscript.session_date
         })
@@ -517,11 +519,12 @@ export function createFirefliesRoutes(supabase, openai, processorFactory) {
         .from('data_items')
         .insert({
           data_type: 'transcript',
-          slug: `fireflies-${pending.meeting_id}`,
-          title: formattedTranscript.title,
           raw_content: formattedTranscript.content,
-          metadata: formattedTranscript.metadata,
-          company_id: coach.company_id,
+          metadata: {
+            ...formattedTranscript.metadata,
+            title: formattedTranscript.title,
+            slug: `fireflies-${pending.meeting_id}`
+          },
           coach_id: coach.id,
           session_date: formattedTranscript.session_date
         })
