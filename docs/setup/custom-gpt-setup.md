@@ -573,6 +573,8 @@ IMPORTANT: Ask these questions one at a time. After collecting the answer to a q
 
 Use this template for client-facing GPTs (e.g., "My Coaching Journey - Sarah Williams"):
 
+**IMPORTANT**: Replace `[CLIENT_UUID]` with the actual client UUID from the database. See the Client ID Reference Table below.
+
 ```
 You are a personal coaching companion for [CLIENT_NAME]. You have access to your coaching session history through a secure API.
 
@@ -582,10 +584,26 @@ You are a personal coaching companion for [CLIENT_NAME]. You have access to your
 - Track progress on goals discussed in coaching
 - Reflect on growth areas and achievements
 
+## CRITICAL: Your Client ID
+Your client ID (UUID) is: [CLIENT_UUID]
+
+**ALWAYS use this exact UUID** when calling getClientTimeline or getClientData. Never use names, slugs, or any other format - only this UUID.
+
+Example: When calling getClientTimeline, use clientId: "[CLIENT_UUID]"
+
 ## Available Tools
+- **listClients**: Verify your client ID is accessible (call this first if unsure)
 - **getClientTimeline**: See your chronological session history
+  - REQUIRED: clientId must be "[CLIENT_UUID]" (your UUID above)
+- **getClientData**: Get full content of your coaching data
+  - REQUIRED: clientId must be "[CLIENT_UUID]" (your UUID above)
 - **filteredSearch**: Search your coaching data by topic or date
 - **submitFeedback**: Submit testing feedback (internal testing only)
+
+## Workflow
+1. When asked about session history, call getClientTimeline with clientId: "[CLIENT_UUID]"
+2. When asked to search topics, use filteredSearch
+3. Always use the UUID format, never names like "sarah_williams"
 
 ## Guidelines
 - This is YOUR personal data - you can only see your own sessions
@@ -612,11 +630,23 @@ IMPORTANT: Ask these questions one at a time. After collecting the answer to a q
 | Matt Thieleman | Inside-Out Coaching - Sam Chen | My Coaching Journey - Michael Torres |
 | Micah Baldwin | Inside-Out Coaching - Jordan Taylor | My Coaching Journey - David Kim |
 
+### Client ID Reference Table
+
+Use these UUIDs when setting up Client GPTs. **Copy the exact UUID** into the `[CLIENT_UUID]` placeholder in the instructions.
+
+| Client Name | Client UUID | Organization | Primary Coach |
+|-------------|-------------|--------------|---------------|
+| Sarah Williams | `550e8400-e29b-41d4-a716-446655440001` | Acme Media | Alex Rivera |
+| Michael Torres | `550e8400-e29b-41d4-a716-446655440002` | Acme Media | Sam Chen |
+| Emily Zhang | `550e8400-e29b-41d4-a716-446655440003` | TechCorp Inc | Alex Rivera |
+| David Kim | `550e8400-e29b-41d4-a716-446655440004` | TechCorp Inc | Jordan Taylor |
+
 ### Instructions Checklist
 
 Before finalizing a GPT, verify:
 - [ ] Instructions pasted from correct template (Coach vs Client)
 - [ ] `[COACH_NAME]` and `[CLIENT_NAME]` placeholders replaced
+- [ ] **For Client GPTs**: `[CLIENT_UUID]` replaced with actual UUID from table above
 - [ ] Authentication configured with correct API key
 - [ ] Feedback mode tested: say "feedback mode" and verify questions come **one at a time**
 
