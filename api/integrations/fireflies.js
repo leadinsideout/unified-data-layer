@@ -19,6 +19,77 @@ import express from 'express';
 const FIREFLIES_API_URL = 'https://api.fireflies.ai/graphql';
 
 /**
+ * Send Slack notification for admin alerts
+ * @param {Object} options - Notification options
+ * @param {string} options.title - Notification title
+ * @param {string} options.message - Main message text
+ * @param {Object[]} options.fields - Optional fields for structured data
+ * @param {string} options.color - Attachment color (warning, danger, good)
+ * @returns {Promise<boolean>} - True if sent successfully
+ */
+async function sendSlackNotification({ title, message, fields = [], color = 'warning' }) {
+  // Use SLACK_ADMIN_WEBHOOK_URL if set, otherwise fall back to SLACK_WEBHOOK_URL
+  const webhookUrl = process.env.SLACK_ADMIN_WEBHOOK_URL || process.env.SLACK_WEBHOOK_URL;
+  if (!webhookUrl) {
+    console.log('[Fireflies] No Slack webhook URL configured, skipping notification');
+    return false;
+  }
+
+  try {
+    const payload = {
+      text: title,
+      attachments: [{
+        color: color === 'warning' ? '#FFA500' : color === 'danger' ? '#FF0000' : '#36A64F',
+        blocks: [
+          {
+            type: 'header',
+            text: {
+              type: 'plain_text',
+              text: title
+            }
+          },
+          {
+            type: 'section',
+            text: {
+              type: 'mrkdwn',
+              text: message
+            }
+          }
+        ]
+      }]
+    };
+
+    // Add fields if provided
+    if (fields.length > 0) {
+      payload.attachments[0].blocks.push({
+        type: 'section',
+        fields: fields.map(f => ({
+          type: 'mrkdwn',
+          text: `*${f.title}:*\n${f.value}`
+        }))
+      });
+    }
+
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      console.error('[Fireflies] Slack notification failed:', response.status);
+      return false;
+    }
+
+    console.log('[Fireflies] Slack notification sent successfully');
+    return true;
+  } catch (error) {
+    console.error('[Fireflies] Slack notification error:', error.message);
+    return false;
+  }
+}
+
+/**
  * Chunk text into smaller pieces for embedding
  * Matches base-processor.js chunking logic: 500 words with 50 word overlap
  * @param {string} text - Text to chunk
@@ -929,10 +1000,26 @@ export function createFirefliesRoutes(supabase, openai) {
             title: transcript.title,
             data_item_id: dataItem.id,
             coach: matches.coach.name,
+            client: matches.client?.name || null,
             chunks: chunks.length
           });
 
           console.log(`[Fireflies Sync] Synced: ${transcript.title}`);
+
+          // Send Slack notification if coach matched but no client
+          if (!matches.client && matches.unmatched_emails && matches.unmatched_emails.length > 0) {
+            await sendSlackNotification({
+              title: 'New Transcript - Client Not Found',
+              message: `A coaching transcript was synced but the client wasn't found in the database. Consider adding the client so future transcripts are properly linked.`,
+              fields: [
+                { title: 'Meeting Title', value: transcript.title },
+                { title: 'Coach', value: matches.coach.name },
+                { title: 'Unmatched Emails', value: matches.unmatched_emails.join(', ') },
+                { title: 'Session Date', value: new Date(fullTranscript.date).toLocaleDateString() }
+              ],
+              color: 'warning'
+            });
+          }
 
         } catch (error) {
           console.error(`[Fireflies Sync] Failed to sync ${transcript.id}:`, error);

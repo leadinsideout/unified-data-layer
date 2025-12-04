@@ -2,7 +2,7 @@
 
 **Purpose**: Track progress through implementation checkpoints
 
-**Current Phase**: Phase 5 In Progress - Automatic Transcript Pipeline (Checkpoint 14 Complete)
+**Current Phase**: Phase 5 COMPLETE - Automatic Transcript Pipeline (Checkpoint 15 Complete)
 
 ---
 
@@ -391,7 +391,28 @@ git checkout -b fix-from-checkpoint-1 v0.1.0-checkpoint-1
 - ✅ Webhook parsing validated
 - ✅ Ready for real Fireflies account testing
 
-**Phase 5 In Progress**: Checkpoint 14 complete. Testing with real Fireflies account remaining.
+---
+
+### Checkpoint 15: Reliable Sync & Admin Notifications ✅
+**Status**: Complete
+**Tag**: `v0.15.0-checkpoint-15`
+**Completed**: 2025-12-04
+**Details**: [checkpoint-15-results.md](checkpoint-15-results.md)
+
+**What Was Built**:
+- GitHub Actions polling workflow (every 10 minutes)
+- `fireflies_sync_state` table for deduplication
+- Idempotent `/sync` endpoint for safe re-runs
+- Slack notifications for missing client alerts
+- Enhanced `/health` endpoint with sync stats
+
+**Results**:
+- ✅ 3 transcripts synced automatically
+- ✅ 100% deduplication working (re-runs safe)
+- ✅ Missing client notifications tested
+- ✅ GitHub Actions unlimited (public repo)
+
+**Phase 5 COMPLETE**: Automatic transcript pipeline fully operational.
 
 *See: [../project/roadmap.md](../project/roadmap.md) for full phase details*
 

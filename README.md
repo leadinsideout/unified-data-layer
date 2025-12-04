@@ -6,7 +6,7 @@ Semantic search API for coaching data (transcripts, assessments, coaching models
 
 ## Status
 
-**Phase 4 Complete** ✅ | **Version**: v0.13.0
+**Phase 5 Complete** ✅ | **Version**: v0.15.0
 
 ### Phase 1: Transcript Foundation ✅ (Nov 1-11, 2025)
 - ✅ Express API server with semantic search
@@ -41,9 +41,21 @@ Semantic search API for coaching data (transcripts, assessments, coaching models
   - 3 coach personas with isolated client data
   - 100% data isolation verified
 
+### Phase 5: Automatic Transcript Pipeline ✅ (Dec 2-4, 2025)
+- ✅ **Checkpoint 14**: Fireflies.ai Integration
+  - Webhook receiver for transcript notifications
+  - GraphQL client for fetching transcripts
+  - Automatic coach/client matching by email
+  - Pending queue for unmatched transcripts
+- ✅ **Checkpoint 15**: Reliable Sync & Admin Notifications
+  - GitHub Actions polling every 10 minutes (replaces unreliable webhooks)
+  - Sync state tracking for deduplication
+  - Slack notifications for missing client alerts
+  - Enhanced health endpoint with sync stats
+
 **Production URL**: https://unified-data-layer.vercel.app
 
-**Next**: Phase 5 - Production monitoring, performance at scale
+**Next**: Phase 6 - Production optimization & Admin UI enhancement
 
 ---
 

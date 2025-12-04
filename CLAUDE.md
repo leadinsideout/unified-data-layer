@@ -37,9 +37,9 @@
 ## 🗺️ Project Status (Quick Reference)
 
 **Current Branch**: `main`
-**Current Version**: `v0.13.0` (Phase 4 COMPLETE - Checkpoint 13)
-**Latest Tags**: `v0.13.0` (release), `v0.13.0-checkpoint-13` (checkpoint)
-**Latest Documentation**: See `docs/checkpoints/checkpoint-13-results.md`
+**Current Version**: `v0.15.0` (Phase 5 COMPLETE - Checkpoint 15)
+**Latest Tags**: `v0.15.0` (release), `v0.15.0-checkpoint-15` (checkpoint)
+**Latest Documentation**: See `docs/checkpoints/checkpoint-15-results.md`
 
 **What's Working (Phase 1 Complete ✅)**:
 - ✅ Supabase database with pgvector
@@ -107,8 +107,23 @@
 
 **Phase 4 Duration**: 1 day | **Status**: Production Ready
 
-**What's Next (Phase 5 & 6)**:
-- 🟡 Phase 5: Fireflies.ai Integration (in progress this week)
+**What's Working (Phase 5 COMPLETE ✅)**:
+- ✅ **Checkpoint 14**: Fireflies.ai Integration
+  - Webhook receiver for transcript notifications
+  - GraphQL client for fetching transcripts
+  - Automatic coach/client matching by email
+  - Pending queue for unmatched transcripts
+  - Manual import endpoint for admins
+- ✅ **Checkpoint 15**: Reliable Sync & Notifications
+  - GitHub Actions polling every 10 minutes (webhooks unreliable)
+  - `fireflies_sync_state` table for deduplication
+  - Idempotent `/sync` endpoint for safe re-runs
+  - Slack notifications for missing client alerts
+  - Enhanced health endpoint with sync stats
+
+**Phase 5 Duration**: 2 days | **Status**: Production Ready
+
+**What's Next (Phase 6)**:
 - 🔴 Phase 6: Production Optimization + Admin UI Enhancement
 - 🔴 Phase 6: Live Data Testing with Ryan Vaughn (real IOL coach)
 - 🎯 Ship Date: December 15, 2025
