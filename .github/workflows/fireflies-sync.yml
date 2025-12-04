@@ -1,0 +1,56 @@
+name: Fireflies Transcript Sync
+
+on:
+  schedule:
+    # Run every 10 minutes
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+    # Allow manual trigger from GitHub Actions UI
+    inputs:
+      days_back:
+        description: 'Number of days to look back for transcripts'
+        required: false
+        default: '7'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Fireflies Sync
+        id: sync
+        run: |
+          DAYS_BACK="${{ github.event.inputs.days_back || '7' }}"
+
+          echo "Syncing Fireflies transcripts from last $DAYS_BACK days..."
+
+          response=$(curl -s -w "\n%{http_code}" -X POST \
+            "${{ secrets.API_URL }}/api/integrations/fireflies/sync" \
+            -H "Content-Type: application/json" \
+            -H "x-sync-secret: ${{ secrets.FIREFLIES_SYNC_SECRET }}" \
+            -d "{\"days_back\": $DAYS_BACK}")
+
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
+
+          echo "HTTP Status: $http_code"
+          echo "Response: $body"
+
+          # Parse response for summary
+          if command -v jq &> /dev/null; then
+            synced=$(echo "$body" | jq -r '.synced | length // 0')
+            skipped=$(echo "$body" | jq -r '.skipped | length // 0')
+            failed=$(echo "$body" | jq -r '.failed | length // 0')
+            echo "Summary: $synced synced, $skipped skipped, $failed failed"
+          fi
+
+          if [ "$http_code" != "200" ]; then
+            echo "::error::Sync failed with status $http_code"
+            exit 1
+          fi
+
+          echo "Sync completed successfully"
+
+      - name: Report failure
+        if: failure()
+        run: |
+          echo "::warning::Fireflies sync failed. Check the logs above for details."

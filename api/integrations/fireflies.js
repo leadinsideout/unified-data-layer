@@ -757,15 +757,256 @@ export function createFirefliesRoutes(supabase, openai) {
   });
 
   /**
+   * Sync endpoint for GitHub Actions polling
+   * POST /api/integrations/fireflies/sync
+   *
+   * Fetches recent transcripts from Fireflies and imports any that haven't been synced yet.
+   * Protected by x-sync-secret header.
+   */
+  router.post('/sync', express.json(), async (req, res) => {
+    const startTime = Date.now();
+    const FIREFLIES_SYNC_SECRET = process.env.FIREFLIES_SYNC_SECRET;
+
+    try {
+      // Verify sync secret
+      const syncSecret = req.headers['x-sync-secret'];
+      if (!FIREFLIES_SYNC_SECRET || syncSecret !== FIREFLIES_SYNC_SECRET) {
+        console.error('[Fireflies Sync] Invalid or missing sync secret');
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+
+      if (!FIREFLIES_API_KEY) {
+        return res.status(500).json({ error: 'Fireflies API key not configured' });
+      }
+
+      // Fetch recent transcripts from Fireflies (last 7 days by default)
+      const daysBack = req.body.days_back || 7;
+      console.log(`[Fireflies Sync] Fetching transcripts from last ${daysBack} days...`);
+
+      const listQuery = `
+        query RecentTranscripts($limit: Int) {
+          transcripts(limit: $limit) {
+            id
+            title
+            date
+            organizer_email
+          }
+        }
+      `;
+
+      const listResponse = await fetch(FIREFLIES_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${FIREFLIES_API_KEY}`
+        },
+        body: JSON.stringify({
+          query: listQuery,
+          variables: { limit: 50 }
+        })
+      });
+
+      if (!listResponse.ok) {
+        throw new Error(`Fireflies API error: ${listResponse.status}`);
+      }
+
+      const listData = await listResponse.json();
+      if (listData.errors) {
+        throw new Error(`Fireflies GraphQL error: ${JSON.stringify(listData.errors)}`);
+      }
+
+      const transcripts = listData.data.transcripts || [];
+      console.log(`[Fireflies Sync] Found ${transcripts.length} transcripts in Fireflies`);
+
+      // Filter to only transcripts within the date range
+      const cutoffDate = Date.now() - (daysBack * 24 * 60 * 60 * 1000);
+      const recentTranscripts = transcripts.filter(t => t.date >= cutoffDate);
+      console.log(`[Fireflies Sync] ${recentTranscripts.length} transcripts within last ${daysBack} days`);
+
+      // Check which ones are already synced
+      const meetingIds = recentTranscripts.map(t => t.id);
+      const { data: existingSyncs } = await supabase
+        .from('fireflies_sync_state')
+        .select('fireflies_meeting_id')
+        .in('fireflies_meeting_id', meetingIds);
+
+      const syncedIds = new Set((existingSyncs || []).map(s => s.fireflies_meeting_id));
+      const unsyncedTranscripts = recentTranscripts.filter(t => !syncedIds.has(t.id));
+
+      console.log(`[Fireflies Sync] ${unsyncedTranscripts.length} new transcripts to sync`);
+
+      // Process each unsynced transcript
+      const results = {
+        synced: [],
+        skipped: [],
+        failed: []
+      };
+
+      for (const transcript of unsyncedTranscripts) {
+        try {
+          // Fetch full transcript
+          const fullTranscript = await fetchTranscript(transcript.id, FIREFLIES_API_KEY);
+          if (!fullTranscript) {
+            results.skipped.push({ id: transcript.id, title: transcript.title, reason: 'Transcript not found' });
+            await supabase.from('fireflies_sync_state').insert({
+              fireflies_meeting_id: transcript.id,
+              status: 'skipped',
+              error_message: 'Transcript not found in Fireflies API'
+            });
+            continue;
+          }
+
+          // Format and match participants
+          const formattedTranscript = formatTranscript(fullTranscript);
+          const matches = await matchParticipants(
+            supabase,
+            formattedTranscript,
+            fullTranscript.meeting_attendees
+          );
+
+          // Skip if no coach found (will be handled by pending queue via webhook if it ever works)
+          if (!matches.coach) {
+            results.skipped.push({ id: transcript.id, title: transcript.title, reason: 'No coach matched' });
+            await supabase.from('fireflies_sync_state').insert({
+              fireflies_meeting_id: transcript.id,
+              status: 'skipped',
+              error_message: `No coach matched. Emails checked: ${matches.unmatched_emails.join(', ')}`
+            });
+            continue;
+          }
+
+          // Process transcript (same logic as webhook/import)
+          const chunks = chunkText(formattedTranscript.content);
+
+          const { data: dataItem, error: itemError } = await supabase
+            .from('data_items')
+            .insert({
+              data_type: 'transcript',
+              raw_content: formattedTranscript.content,
+              metadata: {
+                ...formattedTranscript.metadata,
+                title: formattedTranscript.title,
+                slug: `fireflies-${transcript.id}`,
+                synced_via: 'polling'
+              },
+              coach_id: matches.coach.id,
+              client_id: matches.client?.id || null,
+              client_organization_id: matches.organization_id || null,
+              session_date: formattedTranscript.session_date
+            })
+            .select()
+            .single();
+
+          if (itemError) {
+            throw new Error(`Failed to create data item: ${itemError.message}`);
+          }
+
+          // Generate embeddings
+          for (let i = 0; i < chunks.length; i++) {
+            const embeddingResponse = await openai.embeddings.create({
+              model: 'text-embedding-3-small',
+              input: chunks[i]
+            });
+
+            await supabase.from('data_chunks').insert({
+              data_item_id: dataItem.id,
+              chunk_index: i,
+              content: chunks[i],
+              embedding: embeddingResponse.data[0].embedding,
+              metadata: { source: 'fireflies', meeting_id: transcript.id, synced_via: 'polling' }
+            });
+          }
+
+          // Record successful sync
+          await supabase.from('fireflies_sync_state').insert({
+            fireflies_meeting_id: transcript.id,
+            data_item_id: dataItem.id,
+            status: 'synced'
+          });
+
+          results.synced.push({
+            id: transcript.id,
+            title: transcript.title,
+            data_item_id: dataItem.id,
+            coach: matches.coach.name,
+            chunks: chunks.length
+          });
+
+          console.log(`[Fireflies Sync] Synced: ${transcript.title}`);
+
+        } catch (error) {
+          console.error(`[Fireflies Sync] Failed to sync ${transcript.id}:`, error);
+          results.failed.push({ id: transcript.id, title: transcript.title, error: error.message });
+
+          await supabase.from('fireflies_sync_state').insert({
+            fireflies_meeting_id: transcript.id,
+            status: 'failed',
+            error_message: error.message
+          }).catch(() => {}); // Ignore if already exists
+        }
+      }
+
+      const elapsed = Date.now() - startTime;
+      console.log(`[Fireflies Sync] Complete in ${elapsed}ms: ${results.synced.length} synced, ${results.skipped.length} skipped, ${results.failed.length} failed`);
+
+      return res.json({
+        status: 'ok',
+        elapsed_ms: elapsed,
+        total_in_fireflies: recentTranscripts.length,
+        already_synced: syncedIds.size,
+        ...results
+      });
+
+    } catch (error) {
+      console.error('[Fireflies Sync] Error:', error);
+      return res.status(500).json({ error: error.message });
+    }
+  });
+
+  /**
    * Health check for Fireflies integration
    * GET /api/integrations/fireflies/health
    */
-  router.get('/health', (req, res) => {
+  router.get('/health', async (req, res) => {
+    const FIREFLIES_SYNC_SECRET = process.env.FIREFLIES_SYNC_SECRET;
+
+    // Get last sync info
+    let lastSync = null;
+    let syncedToday = 0;
+    try {
+      const { data: lastSyncData } = await supabase
+        .from('fireflies_sync_state')
+        .select('created_at')
+        .eq('status', 'synced')
+        .order('created_at', { ascending: false })
+        .limit(1);
+
+      if (lastSyncData && lastSyncData.length > 0) {
+        lastSync = lastSyncData[0].created_at;
+      }
+
+      const todayStart = new Date();
+      todayStart.setHours(0, 0, 0, 0);
+      const { count } = await supabase
+        .from('fireflies_sync_state')
+        .select('*', { count: 'exact', head: true })
+        .eq('status', 'synced')
+        .gte('created_at', todayStart.toISOString());
+
+      syncedToday = count || 0;
+    } catch (e) {
+      // Table might not exist yet
+    }
+
     res.json({
       status: 'ok',
       api_key_configured: !!FIREFLIES_API_KEY,
       webhook_secret_configured: !!FIREFLIES_WEBHOOK_SECRET,
-      endpoint: '/api/integrations/fireflies/webhook'
+      sync_secret_configured: !!FIREFLIES_SYNC_SECRET,
+      endpoint: '/api/integrations/fireflies/webhook',
+      sync_endpoint: '/api/integrations/fireflies/sync',
+      last_sync: lastSync,
+      synced_today: syncedToday
     });
   });
 
