@@ -558,6 +558,167 @@ export function createAdminRoutes(supabase, authMiddleware) {
     }
   });
 
+  /**
+   * POST /api/admin/coaches/:coachId/clients
+   * Link a client to a coach
+   * Body: { client_id: string }
+   */
+  router.post('/coaches/:coachId/clients', authMiddleware, async (req, res) => {
+    try {
+      const { auth } = req;
+      const { coachId } = req.params;
+      const { client_id } = req.body;
+
+      if (!client_id) {
+        return res.status(400).json({
+          error: 'Bad request',
+          message: 'client_id is required'
+        });
+      }
+
+      // Verify user is an admin
+      const { data: admin, error: adminError } = await supabase
+        .from('admins')
+        .select('coaching_company_id')
+        .eq('id', auth.userId)
+        .single();
+
+      if (adminError || !admin) {
+        return res.status(403).json({
+          error: 'Forbidden',
+          message: 'Admin access required'
+        });
+      }
+
+      // Verify coach belongs to the company
+      const { data: coach, error: coachError } = await supabase
+        .from('coaches')
+        .select('id, name')
+        .eq('id', coachId)
+        .eq('coaching_company_id', admin.coaching_company_id)
+        .single();
+
+      if (coachError || !coach) {
+        return res.status(404).json({
+          error: 'Not found',
+          message: 'Coach not found'
+        });
+      }
+
+      // Verify client exists
+      const { data: client, error: clientError } = await supabase
+        .from('clients')
+        .select('id, name')
+        .eq('id', client_id)
+        .single();
+
+      if (clientError || !client) {
+        return res.status(404).json({
+          error: 'Not found',
+          message: 'Client not found'
+        });
+      }
+
+      // Check if relationship already exists
+      const { data: existing } = await supabase
+        .from('coach_clients')
+        .select('id')
+        .eq('coach_id', coachId)
+        .eq('client_id', client_id)
+        .single();
+
+      if (existing) {
+        return res.status(409).json({
+          error: 'Conflict',
+          message: `${client.name} is already linked to ${coach.name}`
+        });
+      }
+
+      // Create the relationship
+      const { error: insertError } = await supabase
+        .from('coach_clients')
+        .insert({
+          coach_id: coachId,
+          client_id: client_id
+        });
+
+      if (insertError) throw insertError;
+
+      res.status(201).json({
+        message: `Successfully linked ${client.name} to ${coach.name}`,
+        coach: { id: coach.id, name: coach.name },
+        client: { id: client.id, name: client.name }
+      });
+
+    } catch (error) {
+      console.error('Error linking client to coach:', error);
+      res.status(500).json({
+        error: 'Internal server error',
+        message: error.message
+      });
+    }
+  });
+
+  /**
+   * DELETE /api/admin/coaches/:coachId/clients/:clientId
+   * Unlink a client from a coach
+   */
+  router.delete('/coaches/:coachId/clients/:clientId', authMiddleware, async (req, res) => {
+    try {
+      const { auth } = req;
+      const { coachId, clientId } = req.params;
+
+      // Verify user is an admin
+      const { data: admin, error: adminError } = await supabase
+        .from('admins')
+        .select('coaching_company_id')
+        .eq('id', auth.userId)
+        .single();
+
+      if (adminError || !admin) {
+        return res.status(403).json({
+          error: 'Forbidden',
+          message: 'Admin access required'
+        });
+      }
+
+      // Verify coach belongs to the company
+      const { data: coach, error: coachError } = await supabase
+        .from('coaches')
+        .select('id')
+        .eq('id', coachId)
+        .eq('coaching_company_id', admin.coaching_company_id)
+        .single();
+
+      if (coachError || !coach) {
+        return res.status(404).json({
+          error: 'Not found',
+          message: 'Coach not found'
+        });
+      }
+
+      // Delete the relationship
+      const { error: deleteError } = await supabase
+        .from('coach_clients')
+        .delete()
+        .eq('coach_id', coachId)
+        .eq('client_id', clientId);
+
+      if (deleteError) throw deleteError;
+
+      res.json({
+        message: 'Client unlinked from coach successfully'
+      });
+
+    } catch (error) {
+      console.error('Error unlinking client from coach:', error);
+      res.status(500).json({
+        error: 'Internal server error',
+        message: error.message
+      });
+    }
+  });
+
   // ============================================
   // DASHBOARD STATS
   // ============================================

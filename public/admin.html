@@ -746,7 +746,10 @@
         <div class="card">
           <div class="card-header">
             <h2>User Management</h2>
-            <button class="btn btn-primary btn-sm" id="addUserBtn">+ Add User</button>
+            <div class="actions">
+              <button class="btn btn-secondary btn-sm" id="linkClientBtn">Link Client to Coach</button>
+              <button class="btn btn-primary btn-sm" id="addUserBtn">+ Add User</button>
+            </div>
           </div>
           <div class="card-body">
             <div class="loading" id="usersLoading">Loading users...</div>
@@ -1053,6 +1056,36 @@
     </div>
   </div>
 
+  <!-- Link Client to Coach Modal -->
+  <div class="modal-overlay" id="linkClientModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Link Client to Coach</h3>
+        <button class="modal-close" data-close>&times;</button>
+      </div>
+      <form id="linkClientForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="linkCoach">Coach</label>
+            <select id="linkCoach" required>
+              <option value="">Select coach...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="linkClient">Client</label>
+            <select id="linkClient" required>
+              <option value="">Select client...</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close>Cancel</button>
+          <button type="submit" class="btn btn-primary">Link Client</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Toast Container -->
   <div class="toast-container" id="toastContainer"></div>
 
@@ -1104,6 +1137,13 @@
         document.getElementById('adminRoleGroup').style.display =
           e.target.value === 'admin' ? 'block' : 'none';
       });
+
+      // Link Client to Coach
+      document.getElementById('linkClientBtn').addEventListener('click', () => {
+        document.getElementById('linkClientModal').classList.add('active');
+        loadLinkClientDropdowns();
+      });
+      document.getElementById('linkClientForm').addEventListener('submit', handleLinkClient);
 
       // Create API Key
       document.getElementById('addKeyBtn').addEventListener('click', () => {
@@ -1331,6 +1371,75 @@
           showToast(err.message, 'error');
         }
       };
+    }
+
+    // Link Client to Coach
+    async function loadLinkClientDropdowns() {
+      const coachSelect = document.getElementById('linkCoach');
+      const clientSelect = document.getElementById('linkClient');
+
+      // Reset dropdowns
+      coachSelect.innerHTML = '<option value="">Loading coaches...</option>';
+      clientSelect.innerHTML = '<option value="">Select a coach first...</option>';
+
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/users`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to load users');
+
+        const data = await response.json();
+        const coaches = data.coaches || [];
+        const clients = data.clients || [];
+
+        coachSelect.innerHTML = '<option value="">Select coach...</option>' +
+          coaches.map(c => `<option value="${c.id}">${escapeHtml(c.name)} (${escapeHtml(c.email)})</option>`).join('');
+
+        clientSelect.innerHTML = '<option value="">Select client...</option>' +
+          clients.map(c => `<option value="${c.id}">${escapeHtml(c.name)} (${escapeHtml(c.email)})</option>`).join('');
+
+      } catch (err) {
+        coachSelect.innerHTML = '<option value="">Failed to load</option>';
+        clientSelect.innerHTML = '<option value="">Failed to load</option>';
+        showToast('Failed to load users', 'error');
+      }
+    }
+
+    async function handleLinkClient(e) {
+      e.preventDefault();
+      const coachId = document.getElementById('linkCoach').value;
+      const clientId = document.getElementById('linkClient').value;
+
+      if (!coachId || !clientId) {
+        showToast('Please select both a coach and a client', 'error');
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/coaches/${coachId}/clients`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ client_id: clientId })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || 'Failed to link client');
+        }
+
+        document.getElementById('linkClientModal').classList.remove('active');
+        document.getElementById('linkClientForm').reset();
+        showToast(data.message || 'Client linked successfully', 'success');
+        loadUsers(); // Refresh users list
+
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
     }
 
     // API Key Management
