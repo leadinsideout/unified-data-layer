@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/leadinsideout/unified-data-layer/compare/v0.17.0-checkpoint-17...v1.0.0) (2025-12-08)
+
 ## [0.13.0](https://github.com/leadinsideout/unified-data-layer/compare/v0.12.0...v0.13.0) (2025-11-25)
 
 **Phase 4 Complete: AI Platform Integration**
