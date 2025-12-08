@@ -665,7 +665,7 @@ export function createAdminRoutes(supabase, authMiddleware) {
         .select(`
           id,
           data_type,
-          title,
+          metadata,
           session_date,
           created_at,
           coach:coaches(id, name),
@@ -688,7 +688,7 @@ export function createAdminRoutes(supabase, authMiddleware) {
         items: (items || []).map(item => ({
           id: item.id,
           data_type: item.data_type,
-          title: item.title,
+          title: item.metadata?.title || item.metadata?.meeting_name || item.metadata?.doc_title || item.metadata?.assessment_type || `${item.data_type} - ${new Date(item.session_date || item.created_at).toLocaleDateString()}`,
           session_date: item.session_date,
           created_at: item.created_at,
           coach_name: item.coach?.name,
@@ -748,6 +748,8 @@ export function createAdminRoutes(supabase, authMiddleware) {
         });
       }
 
+      // Add computed title
+      item.title = item.metadata?.title || item.metadata?.meeting_name || item.metadata?.doc_title || item.metadata?.assessment_type || `${item.data_type} - ${new Date(item.session_date || item.created_at).toLocaleDateString()}`;
       res.json(item);
 
     } catch (error) {
