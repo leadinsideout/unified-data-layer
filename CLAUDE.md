@@ -2,14 +2,14 @@
 
 **Purpose**: This file helps AI assistants (like Claude) quickly understand and navigate this project.
 
-**Last Updated**: 2025-12-02
+**Last Updated**: 2025-12-08
 
 ---
 
 ## 🎯 Project Overview
 
 **Name**: Unified Data Layer
-**Current Phase**: Phase 4 COMPLETE - AI Platform Integration (Checkpoint 13 Complete)
+**Current Phase**: Phase 6 COMPLETE - Production Optimization (v1.0.0 Released)
 **Architecture**: API-first multi-type semantic search data layer
 
 **Key Principle**: Our API provides DATA (semantic search), AI platforms provide SYNTHESIS (GPT-4/Claude).
@@ -37,9 +37,9 @@
 ## 🗺️ Project Status (Quick Reference)
 
 **Current Branch**: `main`
-**Current Version**: `v0.15.0` (Phase 5 COMPLETE - Checkpoint 15)
-**Latest Tags**: `v0.15.0` (release), `v0.15.0-checkpoint-15` (checkpoint)
-**Latest Documentation**: See `docs/checkpoints/checkpoint-15-results.md`
+**Current Version**: `v1.0.0` (Phase 6 COMPLETE - Production Release)
+**Latest Tags**: `v1.0.0` (release), `v0.17.0-checkpoint-17` (checkpoint)
+**Latest Documentation**: See `docs/checkpoints/checkpoint-17-results.md`
 
 **What's Working (Phase 1 Complete ✅)**:
 - ✅ Supabase database with pgvector
@@ -123,10 +123,24 @@
 
 **Phase 5 Duration**: 2 days | **Status**: Production Ready
 
-**What's Next (Phase 6)**:
-- 🔴 Phase 6: Production Optimization + Admin UI Enhancement
-- 🔴 Phase 6: Live Data Testing with Ryan Vaughn (real IOL coach)
-- 🎯 Ship Date: December 15, 2025
+**What's Working (Phase 6 COMPLETE ✅)**:
+- ✅ **Checkpoint 16**: Internal Testing & Feedback
+  - 3 testers, 6 Custom GPTs, 13 feedback entries
+  - 6 issues identified and fixed (100%)
+  - GPT instruction improvements for privacy and confidence
+- ✅ **Checkpoint 17**: Production Optimization
+  - Infrastructure hardening (Helmet, rate limiting, Sentry)
+  - Full admin dashboard UI (2,591 lines)
+  - Usage analytics and cost tracking (`api_usage`, `cost_events` tables)
+  - Data upload and browser interfaces
+  - User and API key management
+
+**Phase 6 Duration**: 10 days | **Status**: v1.0.0 RELEASED
+
+**What's Next (Post-v1.0.0)**:
+- Live data testing with Ryan Vaughn (real IOL coach)
+- Automated weekly cost report emails
+- Phase 7-8: Custom frontends (if needed)
 
 **Blockers**:
 - None
@@ -426,10 +440,13 @@ Examples:
 - Checkpoint 7 complete (Phase 2 end) → `v0.7.0`
 
 ### Phase Complete Tags
-Format: `v0.X.0` where X is the last checkpoint of the phase
+Format: `v0.X.0` where X is the last checkpoint of the phase (or `v1.0.0` for production release)
 - Phase 1 complete: `v0.3.0` (Checkpoint 3)
 - Phase 2 complete: `v0.7.0` (Checkpoint 7)
-- Phase 3 complete: `v0.10.0` (estimated, Checkpoint 10)
+- Phase 3 complete: `v0.10.0` (Checkpoint 10)
+- Phase 4 complete: `v0.13.0` (Checkpoint 13)
+- Phase 5 complete: `v0.15.0` (Checkpoint 15)
+- Phase 6 complete: `v1.0.0` (Checkpoint 17) - **Production Release**
 
 ### Why This Convention?
 - ✅ Version numbers match checkpoint numbers (predictable)
@@ -945,7 +962,7 @@ Automatically check if CLAUDE.md needs updating after:
 - Setup guides: [docs/setup/](docs/setup/)
 
 **For AI Assistant**:
-- Current status: [docs/checkpoints/checkpoint-13-results.md](docs/checkpoints/checkpoint-13-results.md)
+- Current status: [docs/checkpoints/checkpoint-17-results.md](docs/checkpoints/checkpoint-17-results.md)
 - Checkpoint index: [docs/checkpoints/README.md](docs/checkpoints/README.md)
 - Implementation plan: [docs/project/roadmap.md](docs/project/roadmap.md)
 - Workflows: [docs/development/workflows.md](docs/development/workflows.md)
@@ -994,6 +1011,30 @@ Automatically check if CLAUDE.md needs updating after:
 ---
 
 ## 🔖 Version History
+
+- **v1.0.0 / v0.17.0-checkpoint-17** (2025-12-08): 🎉 **PRODUCTION RELEASE** - Phase 6 Complete ✅
+  - See: [docs/checkpoints/checkpoint-17-results.md](docs/checkpoints/checkpoint-17-results.md)
+  - Infrastructure hardening: Helmet, rate limiting, Sentry error tracking
+  - Full admin dashboard UI: 2,591 lines with data upload, browser, user management
+  - Usage analytics: `api_usage` and `cost_events` tables with daily summary views
+  - Internal testing: 3 testers, 6 GPTs, 13 feedback entries, all issues resolved
+  - **Phase 6 Complete**: Production optimization finished
+  - **Status**: v1.0.0 RELEASED - Production ready for real coaches
+
+- **v0.15.0 / v0.15.0-checkpoint-15** (2025-12-04): Phase 5 COMPLETE - Reliable Sync ✅
+  - See: [docs/checkpoints/checkpoint-15-results.md](docs/checkpoints/checkpoint-15-results.md)
+  - GitHub Actions polling every 10 minutes for Fireflies sync
+  - `fireflies_sync_state` table for deduplication
+  - Slack notifications for missing client alerts
+  - **Phase 5 Complete**: Automatic transcript pipeline operational
+  - Status: Production ready
+
+- **v0.14.0** (2025-12-02): Phase 5 - Fireflies.ai Integration ✅
+  - See: [docs/checkpoints/checkpoint-14-results.md](docs/checkpoints/checkpoint-14-results.md)
+  - Webhook receiver and GraphQL client for Fireflies API
+  - Automatic coach/client matching by email
+  - Pending queue for unmatched transcripts
+  - Status: Production ready
 
 - **v0.13.0 / v0.13.0-checkpoint-13** (2025-11-25): Phase 4 COMPLETE - Multi-Tenant Verification ✅
   - See: [docs/checkpoints/checkpoint-13-results.md](docs/checkpoints/checkpoint-13-results.md)
