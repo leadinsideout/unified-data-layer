@@ -69,6 +69,16 @@ export function createAdminRoutes(supabase, authMiddleware) {
 
       if (clientsError) throw clientsError;
 
+      // Strip nested coach_clients relationships and deduplicate by client ID
+      const seen = new Set();
+      const cleanClients = (clients || []).filter(client => {
+        if (seen.has(client.id)) return false;
+        seen.add(client.id);
+        return true;
+      }).map(({ id, email, name, created_at }) => ({
+        id, email, name, created_at
+      }));
+
       // Get all admins in the company
       const { data: admins, error: adminsError } = await supabase
         .from('admins')
@@ -79,9 +89,9 @@ export function createAdminRoutes(supabase, authMiddleware) {
 
       res.json({
         coaches: coaches || [],
-        clients: clients || [],
+        clients: cleanClients,
         admins: admins || [],
-        total: (coaches?.length || 0) + (clients?.length || 0) + (admins?.length || 0)
+        total: (coaches?.length || 0) + cleanClients.length + (admins?.length || 0)
       });
 
     } catch (error) {

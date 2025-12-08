@@ -285,7 +285,15 @@ export function createV2ClientRoutes(supabase, authMiddleware) {
             .limit(resultLimit);
 
           if (!error) {
-            clients = data || [];
+            // Strip nested coach_clients relationships and deduplicate by client ID
+            const seen = new Set();
+            clients = (data || []).filter(client => {
+              if (seen.has(client.id)) return false;
+              seen.add(client.id);
+              return true;
+            }).map(({ id, name, email, created_at }) => ({
+              id, name, email, created_at
+            }));
           }
         }
       } else if (auth.coachId) {
@@ -300,7 +308,10 @@ export function createV2ClientRoutes(supabase, authMiddleware) {
           .limit(resultLimit);
 
         if (!error) {
-          clients = data || [];
+          // Strip nested coach_clients relationships from response
+          clients = (data || []).map(({ id, name, email, created_at }) => ({
+            id, name, email, created_at
+          }));
         }
       } else if (auth.clientId) {
         // Client: get only themselves

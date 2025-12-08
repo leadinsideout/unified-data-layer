@@ -262,15 +262,17 @@ async function handleSearchData(supabase, openai, args) {
     });
   }
 
-  // Format response
+  // Format response with confidence labels
   const resultText = chunks && chunks.length > 0
-    ? `Found ${chunks.length} results:\n\n${chunks.map((c, i) =>
-        `[${i + 1}] (${c.data_type}, similarity: ${(c.similarity * 100).toFixed(1)}%)\n` +
-        (c.title ? `Title: ${c.title}\n` : '') +
-        (c.session_date ? `Date: ${c.session_date}\n` : '') +
-        `Content: ${c.content.substring(0, 500)}${c.content.length > 500 ? '...' : ''}`
-      ).join('\n\n')}`
-    : 'No results found matching your query.';
+    ? `Found ${chunks.length} results:\n\n${chunks.map((c, i) => {
+        const confidence = c.similarity > 0.6 ? 'HIGH' : c.similarity > 0.4 ? 'MEDIUM' : 'LOW';
+        return `[${i + 1}] ${c.data_type.toUpperCase()} | Confidence: ${confidence} (${(c.similarity * 100).toFixed(1)}%)` +
+          (c.similarity < 0.4 ? ' [LOW CONFIDENCE - USE WITH CAUTION]' : '') + '\n' +
+          (c.title ? `Title: ${c.title}\n` : '') +
+          (c.session_date ? `Date: ${c.session_date}\n` : '') +
+          `Content: ${c.content.substring(0, 500)}${c.content.length > 500 ? '...' : ''}`;
+      }).join('\n\n---\n\n')}`
+    : 'No results found. I don\'t have data matching this query. Try different search terms or check if this topic has been discussed in sessions.';
 
   return {
     content: [{ type: 'text', text: resultText }]

@@ -963,27 +963,56 @@ app.post('/api/search', optionalAuthMiddleware, async (req, res) => {
       const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
       if (!uuidRegex.test(organization_id)) {
         // Not a UUID - treat as company name and look up the ID
-        // Normalize the search term: remove hyphens, collapse spaces
-        const normalizedSearch = organization_id.replace(/-/g, '').replace(/\s+/g, ' ').trim();
+        // Normalize the search term more aggressively
+        const normalizedSearch = organization_id
+          .replace(/[-_]/g, ' ')                              // Replace hyphens/underscores with spaces
+          .replace(/\s+/g, ' ')                               // Collapse multiple spaces
+          .replace(/inc\.?|llc\.?|corp\.?|company/gi, '')     // Remove common suffixes
+          .trim()
+          .toLowerCase();
 
-        // Try client_organizations first
-        const { data: orgs, error: orgError } = await supabase
-          .from('client_organizations')
-          .select('id, name')
-          .ilike('name', `%${normalizedSearch}%`)
-          .limit(1);
+        // Try multiple search strategies for flexibility
+        const searchStrategies = [
+          normalizedSearch,                                   // Full normalized: "acme media"
+          normalizedSearch.split(' ')[0],                     // First word only: "acme"
+          normalizedSearch.replace(/\s/g, ''),                // No spaces: "acmemedia"
+        ].filter(s => s.length > 0);
 
-        if (orgError) {
-          console.error('Organization lookup error:', orgError);
-          return res.status(400).json({
-            error: 'Invalid organization',
-            message: `Could not find organization: "${organization_id}"`
-          });
+        let foundOrg = null;
+        let allMatches = [];
+
+        // Try client_organizations with each strategy
+        for (const searchTerm of searchStrategies) {
+          const { data: orgs, error: orgError } = await supabase
+            .from('client_organizations')
+            .select('id, name')
+            .ilike('name', `%${searchTerm}%`)
+            .limit(5);
+
+          if (orgError) {
+            console.error('Organization lookup error:', orgError);
+            continue;
+          }
+
+          if (orgs && orgs.length === 1) {
+            // Exact single match found
+            foundOrg = orgs[0];
+            break;
+          } else if (orgs && orgs.length > 1) {
+            // Multiple matches - collect for disambiguation
+            allMatches = [...new Map([...allMatches, ...orgs].map(o => [o.id, o])).values()];
+          }
         }
 
-        if (orgs && orgs.length > 0) {
-          resolved_organization_id = orgs[0].id;
-          console.log(`Resolved organization "${organization_id}" to ID: ${resolved_organization_id}`);
+        if (foundOrg) {
+          resolved_organization_id = foundOrg.id;
+          console.log(`Resolved organization "${organization_id}" to ID: ${resolved_organization_id} (${foundOrg.name})`);
+        } else if (allMatches.length > 1) {
+          // Multiple matches found - return helpful disambiguation error
+          return res.status(400).json({
+            error: 'Ambiguous organization',
+            message: `Multiple organizations match "${organization_id}". Did you mean: ${allMatches.map(o => o.name).join(', ')}?`
+          });
         } else {
           // If not found in client_organizations, try coaching_companies
           const { data: companies, error: compError } = await supabase
