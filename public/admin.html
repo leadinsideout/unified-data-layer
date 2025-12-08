@@ -954,6 +954,19 @@
               <option value="support">Support</option>
             </select>
           </div>
+          <div class="form-group" id="clientOrgGroup" style="display: none;">
+            <label for="clientOrg">Organization *</label>
+            <select id="clientOrg">
+              <option value="">Select organization...</option>
+            </select>
+            <div style="margin-top: 8px;">
+              <small style="color: var(--gray);">Or create new:</small>
+              <div style="display: flex; gap: 8px; margin-top: 4px;">
+                <input type="text" id="newOrgName" placeholder="New org name" style="flex: 1;">
+                <button type="button" class="btn btn-sm" id="createOrgBtn">+ Add</button>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-close>Cancel</button>
@@ -1133,9 +1146,46 @@
         document.getElementById('addUserModal').classList.add('active');
       });
       document.getElementById('addUserForm').addEventListener('submit', handleAddUser);
-      document.getElementById('userType').addEventListener('change', (e) => {
+      document.getElementById('userType').addEventListener('change', async (e) => {
         document.getElementById('adminRoleGroup').style.display =
           e.target.value === 'admin' ? 'block' : 'none';
+        document.getElementById('clientOrgGroup').style.display =
+          e.target.value === 'client' ? 'block' : 'none';
+
+        // Load organizations if client selected
+        if (e.target.value === 'client') {
+          await loadOrganizations();
+        }
+      });
+
+      // Create Organization inline
+      document.getElementById('createOrgBtn').addEventListener('click', async () => {
+        const name = document.getElementById('newOrgName').value.trim();
+        if (!name) {
+          showToast('Please enter organization name', 'error');
+          return;
+        }
+        try {
+          const response = await fetch(`${API_BASE}/api/admin/organizations`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${authToken}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name })
+          });
+          if (!response.ok) {
+            const data = await response.json();
+            throw new Error(data.message || 'Failed to create organization');
+          }
+          const data = await response.json();
+          showToast('Organization created', 'success');
+          document.getElementById('newOrgName').value = '';
+          await loadOrganizations();
+          document.getElementById('clientOrg').value = data.organization.id;
+        } catch (err) {
+          showToast(err.message, 'error');
+        }
       });
 
       // Link Client to Coach
@@ -1314,16 +1364,45 @@
       }
     }
 
+    async function loadOrganizations() {
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/organizations`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        if (!response.ok) throw new Error('Failed to load organizations');
+        const data = await response.json();
+
+        const select = document.getElementById('clientOrg');
+        select.innerHTML = '<option value="">Select organization...</option>';
+        (data.organizations || []).forEach(org => {
+          const option = document.createElement('option');
+          option.value = org.id;
+          option.textContent = org.name + (org.industry ? ` (${org.industry})` : '');
+          select.appendChild(option);
+        });
+      } catch (err) {
+        console.error('Error loading organizations:', err);
+      }
+    }
+
     async function handleAddUser(e) {
       e.preventDefault();
       const type = document.getElementById('userType').value;
       const name = document.getElementById('userName').value;
       const email = document.getElementById('userEmail').value;
       const role = document.getElementById('adminRole').value;
+      const organization_id = document.getElementById('clientOrg').value;
 
       const body = { type, name, email };
       if (type === 'admin') {
         body.role = role;
+      }
+      if (type === 'client') {
+        if (!organization_id) {
+          showToast('Please select an organization for the client', 'error');
+          return;
+        }
+        body.organization_id = organization_id;
       }
 
       try {
@@ -1343,6 +1422,8 @@
 
         document.getElementById('addUserModal').classList.remove('active');
         document.getElementById('addUserForm').reset();
+        document.getElementById('clientOrgGroup').style.display = 'none';
+        document.getElementById('adminRoleGroup').style.display = 'none';
         showToast('User created successfully', 'success');
         loadUsers();
       } catch (err) {

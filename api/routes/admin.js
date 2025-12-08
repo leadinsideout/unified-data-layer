@@ -18,6 +18,77 @@ const router = express.Router();
 export function createAdminRoutes(supabase, authMiddleware) {
 
   // ============================================
+  // CLIENT ORGANIZATION ENDPOINTS
+  // ============================================
+
+  /**
+   * GET /api/admin/organizations
+   * List all client organizations (for client creation dropdown)
+   */
+  router.get('/organizations', authMiddleware, async (req, res) => {
+    try {
+      const { data: orgs, error } = await supabase
+        .from('client_organizations')
+        .select('id, name, industry')
+        .order('name');
+
+      if (error) throw error;
+
+      res.json({
+        organizations: orgs || [],
+        total: orgs?.length || 0
+      });
+    } catch (error) {
+      console.error('Error listing organizations:', error);
+      res.status(500).json({
+        error: 'Internal server error',
+        message: error.message
+      });
+    }
+  });
+
+  /**
+   * POST /api/admin/organizations
+   * Create a new client organization
+   */
+  router.post('/organizations', authMiddleware, async (req, res) => {
+    try {
+      const { name, industry } = req.body;
+
+      if (!name) {
+        return res.status(400).json({
+          error: 'Bad request',
+          message: 'Organization name is required'
+        });
+      }
+
+      const { data: org, error } = await supabase
+        .from('client_organizations')
+        .insert({ name, industry: industry || null })
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      res.status(201).json({
+        organization: org
+      });
+    } catch (error) {
+      console.error('Error creating organization:', error);
+      if (error.code === '23505') {
+        return res.status(409).json({
+          error: 'Conflict',
+          message: 'Organization with this name already exists'
+        });
+      }
+      res.status(500).json({
+        error: 'Internal server error',
+        message: error.message
+      });
+    }
+  });
+
+  // ============================================
   // USER MANAGEMENT ENDPOINTS
   // ============================================
 
@@ -204,7 +275,7 @@ export function createAdminRoutes(supabase, authMiddleware) {
   router.post('/users', authMiddleware, async (req, res) => {
     try {
       const { auth } = req;
-      const { type, email, name, role, metadata } = req.body;
+      const { type, email, name, role, metadata, organization_id } = req.body;
 
       // Validate required fields
       if (!type || !email || !name) {
@@ -219,6 +290,14 @@ export function createAdminRoutes(supabase, authMiddleware) {
         return res.status(400).json({
           error: 'Bad request',
           message: 'type must be coach, client, or admin'
+        });
+      }
+
+      // Clients require organization_id
+      if (type === 'client' && !organization_id) {
+        return res.status(400).json({
+          error: 'Bad request',
+          message: 'organization_id is required for clients'
         });
       }
 
@@ -267,6 +346,7 @@ export function createAdminRoutes(supabase, authMiddleware) {
           .insert({
             email,
             name,
+            client_organization_id: organization_id,
             metadata: metadata || {}
           })
           .select()
