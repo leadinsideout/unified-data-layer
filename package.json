@@ -26,11 +26,14 @@
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.22.0",
+    "@sentry/node": "^10.29.0",
     "@supabase/supabase-js": "^2.75.0",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
     "multer": "^2.0.2",
     "openai": "^6.3.0",
     "pdf-parse": "^1.1.1"

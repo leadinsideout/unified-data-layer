@@ -11,6 +11,9 @@
 
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import * as Sentry from '@sentry/node';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -29,6 +32,16 @@ import { createFirefliesRoutes } from './integrations/fireflies.js';
 
 // Load environment variables
 dotenv.config();
+
+// Initialize Sentry for error tracking (if configured)
+if (process.env.SENTRY_DSN) {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    environment: process.env.NODE_ENV || 'development',
+    tracesSampleRate: 0.1, // 10% of transactions for performance monitoring
+  });
+  console.log('✅ Sentry error tracking initialized');
+}
 
 // ES Module __dirname equivalent
 const __filename = fileURLToPath(import.meta.url);
@@ -73,11 +86,54 @@ const upload = multer({
 // MIDDLEWARE
 // ============================================
 
-// CORS configuration
+// Security headers with helmet
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"], // For admin.html inline scripts
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:"],
+      connectSrc: ["'self'", "https://api.openai.com", "https://*.supabase.co"],
+    }
+  },
+  crossOriginEmbedderPolicy: false, // Allow Custom GPT to call API
+  crossOriginResourcePolicy: { policy: "cross-origin" }, // Allow cross-origin requests
+}));
+
+// Rate limiting - general API
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // 100 requests per window per IP
+  message: { error: 'Too many requests', message: 'Please try again later' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Rate limiting - stricter for auth endpoints
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // 10 login attempts per 15 min per IP
+  message: { error: 'Too many login attempts', message: 'Please try again later' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Apply rate limiting to API routes
+app.use('/api/', apiLimiter);
+app.use('/api/admin/auth', authLimiter);
+
+// CORS configuration - hardened for production
+const allowedOrigins = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(',').map(o => o.trim())
+  : null;
+
 app.use(cors({
-  origin: '*', // Allow all origins for development (restrict in production)
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  origin: process.env.NODE_ENV === 'production' && allowedOrigins
+    ? allowedOrigins
+    : '*', // Allow all in development or if CORS_ORIGINS not set
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key', 'x-sync-secret']
 }));
 
 // JSON body parser (skip endpoints that need raw body for signature verification)
@@ -1901,9 +1957,26 @@ app.use((req, res) => {
   });
 });
 
+// Sentry error handler (must be before other error handlers)
+if (process.env.SENTRY_DSN) {
+  app.use(Sentry.Handlers.errorHandler());
+}
+
 // Global error handler
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
+
+  // Report to Sentry if configured
+  if (process.env.SENTRY_DSN) {
+    Sentry.captureException(err, {
+      extra: {
+        path: req.path,
+        method: req.method,
+        query: req.query,
+      }
+    });
+  }
+
   res.status(500).json({
     error: 'Internal server error',
     message: process.env.NODE_ENV === 'development' ? err.message : 'An error occurred'
