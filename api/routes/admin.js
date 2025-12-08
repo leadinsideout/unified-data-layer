@@ -1052,5 +1052,340 @@ export function createAdminRoutes(supabase, authMiddleware) {
     }
   });
 
+  // ============================================
+  // ANALYTICS ENDPOINTS
+  // ============================================
+
+  /**
+   * GET /api/admin/analytics
+   * Get API usage analytics
+   * Query params: days (default 7), endpoint, method
+   */
+  router.get('/analytics', authMiddleware, async (req, res) => {
+    try {
+      const { auth } = req;
+      const { days = 7, endpoint, method } = req.query;
+
+      // Verify user is an admin
+      const { data: admin, error: adminError } = await supabase
+        .from('admins')
+        .select('coaching_company_id')
+        .eq('id', auth.userId)
+        .single();
+
+      if (adminError || !admin) {
+        return res.status(403).json({
+          error: 'Forbidden',
+          message: 'Admin access required'
+        });
+      }
+
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - parseInt(days));
+
+      // Build query
+      let query = supabase
+        .from('api_usage')
+        .select('*')
+        .gte('created_at', startDate.toISOString())
+        .order('created_at', { ascending: false });
+
+      if (endpoint) {
+        query = query.ilike('endpoint', `%${endpoint}%`);
+      }
+      if (method) {
+        query = query.eq('method', method.toUpperCase());
+      }
+
+      const { data: usage, error: usageError } = await query.limit(1000);
+
+      if (usageError) throw usageError;
+
+      // Calculate summary stats
+      const totalRequests = usage.length;
+      const avgResponseTime = usage.length > 0
+        ? Math.round(usage.reduce((sum, u) => sum + (u.response_time_ms || 0), 0) / usage.length)
+        : 0;
+      const successRate = usage.length > 0
+        ? Math.round((usage.filter(u => u.status_code < 400).length / usage.length) * 100)
+        : 100;
+
+      // Group by endpoint
+      const byEndpoint = {};
+      usage.forEach(u => {
+        const key = `${u.method} ${u.endpoint}`;
+        if (!byEndpoint[key]) {
+          byEndpoint[key] = { count: 0, totalTime: 0, errors: 0 };
+        }
+        byEndpoint[key].count++;
+        byEndpoint[key].totalTime += u.response_time_ms || 0;
+        if (u.status_code >= 400) byEndpoint[key].errors++;
+      });
+
+      const endpointStats = Object.entries(byEndpoint)
+        .map(([endpoint, stats]) => ({
+          endpoint,
+          requests: stats.count,
+          avgResponseTime: Math.round(stats.totalTime / stats.count),
+          errorRate: Math.round((stats.errors / stats.count) * 100)
+        }))
+        .sort((a, b) => b.requests - a.requests)
+        .slice(0, 20);
+
+      // Group by day
+      const byDay = {};
+      usage.forEach(u => {
+        const day = u.created_at.split('T')[0];
+        if (!byDay[day]) {
+          byDay[day] = { requests: 0, errors: 0 };
+        }
+        byDay[day].requests++;
+        if (u.status_code >= 400) byDay[day].errors++;
+      });
+
+      const dailyStats = Object.entries(byDay)
+        .map(([date, stats]) => ({ date, ...stats }))
+        .sort((a, b) => a.date.localeCompare(b.date));
+
+      res.json({
+        summary: {
+          totalRequests,
+          avgResponseTime,
+          successRate,
+          period: `${days} days`
+        },
+        endpointStats,
+        dailyStats,
+        recentRequests: usage.slice(0, 50).map(u => ({
+          endpoint: u.endpoint,
+          method: u.method,
+          status: u.status_code,
+          responseTime: u.response_time_ms,
+          timestamp: u.created_at
+        }))
+      });
+
+    } catch (error) {
+      console.error('Error fetching analytics:', error);
+      res.status(500).json({
+        error: 'Internal server error',
+        message: error.message
+      });
+    }
+  });
+
+  /**
+   * GET /api/admin/analytics/costs
+   * Get cost tracking data
+   * Query params: days (default 30)
+   */
+  router.get('/analytics/costs', authMiddleware, async (req, res) => {
+    try {
+      const { auth } = req;
+      const { days = 30 } = req.query;
+
+      // Verify user is an admin
+      const { data: admin, error: adminError } = await supabase
+        .from('admins')
+        .select('coaching_company_id')
+        .eq('id', auth.userId)
+        .single();
+
+      if (adminError || !admin) {
+        return res.status(403).json({
+          error: 'Forbidden',
+          message: 'Admin access required'
+        });
+      }
+
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - parseInt(days));
+
+      const { data: costs, error: costsError } = await supabase
+        .from('cost_events')
+        .select('*')
+        .gte('created_at', startDate.toISOString())
+        .order('created_at', { ascending: false });
+
+      if (costsError) throw costsError;
+
+      // Calculate totals by service
+      const byService = {};
+      costs.forEach(c => {
+        if (!byService[c.service]) {
+          byService[c.service] = { totalCost: 0, count: 0, operations: {} };
+        }
+        byService[c.service].totalCost += parseFloat(c.cost_usd) || 0;
+        byService[c.service].count++;
+
+        if (!byService[c.service].operations[c.operation]) {
+          byService[c.service].operations[c.operation] = { cost: 0, count: 0 };
+        }
+        byService[c.service].operations[c.operation].cost += parseFloat(c.cost_usd) || 0;
+        byService[c.service].operations[c.operation].count++;
+      });
+
+      const serviceStats = Object.entries(byService)
+        .map(([service, stats]) => ({
+          service,
+          totalCost: Math.round(stats.totalCost * 10000) / 10000,
+          operationCount: stats.count,
+          operations: Object.entries(stats.operations).map(([op, data]) => ({
+            operation: op,
+            cost: Math.round(data.cost * 10000) / 10000,
+            count: data.count
+          }))
+        }))
+        .sort((a, b) => b.totalCost - a.totalCost);
+
+      // Daily costs
+      const byDay = {};
+      costs.forEach(c => {
+        const day = c.created_at.split('T')[0];
+        if (!byDay[day]) {
+          byDay[day] = 0;
+        }
+        byDay[day] += parseFloat(c.cost_usd) || 0;
+      });
+
+      const dailyCosts = Object.entries(byDay)
+        .map(([date, cost]) => ({ date, cost: Math.round(cost * 10000) / 10000 }))
+        .sort((a, b) => a.date.localeCompare(b.date));
+
+      const totalCost = costs.reduce((sum, c) => sum + (parseFloat(c.cost_usd) || 0), 0);
+
+      res.json({
+        summary: {
+          totalCost: Math.round(totalCost * 10000) / 10000,
+          period: `${days} days`,
+          eventCount: costs.length
+        },
+        serviceStats,
+        dailyCosts,
+        recentEvents: costs.slice(0, 50).map(c => ({
+          service: c.service,
+          operation: c.operation,
+          cost: c.cost_usd,
+          tokens: c.tokens_used,
+          timestamp: c.created_at
+        }))
+      });
+
+    } catch (error) {
+      console.error('Error fetching cost data:', error);
+      res.status(500).json({
+        error: 'Internal server error',
+        message: error.message
+      });
+    }
+  });
+
+  /**
+   * GET /api/admin/analytics/performance
+   * Get performance metrics (response times by percentile)
+   * Query params: days (default 7)
+   */
+  router.get('/analytics/performance', authMiddleware, async (req, res) => {
+    try {
+      const { auth } = req;
+      const { days = 7 } = req.query;
+
+      // Verify user is an admin
+      const { data: admin, error: adminError } = await supabase
+        .from('admins')
+        .select('coaching_company_id')
+        .eq('id', auth.userId)
+        .single();
+
+      if (adminError || !admin) {
+        return res.status(403).json({
+          error: 'Forbidden',
+          message: 'Admin access required'
+        });
+      }
+
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - parseInt(days));
+
+      const { data: usage, error: usageError } = await supabase
+        .from('api_usage')
+        .select('endpoint, method, response_time_ms, created_at')
+        .gte('created_at', startDate.toISOString())
+        .order('created_at', { ascending: true });
+
+      if (usageError) throw usageError;
+
+      if (usage.length === 0) {
+        return res.json({
+          summary: { p50: 0, p95: 0, p99: 0, max: 0 },
+          slowEndpoints: [],
+          hourlyLatency: []
+        });
+      }
+
+      // Calculate percentiles
+      const times = usage.map(u => u.response_time_ms).sort((a, b) => a - b);
+      const p50 = times[Math.floor(times.length * 0.5)];
+      const p95 = times[Math.floor(times.length * 0.95)];
+      const p99 = times[Math.floor(times.length * 0.99)];
+      const max = times[times.length - 1];
+
+      // Slowest endpoints
+      const endpointTimes = {};
+      usage.forEach(u => {
+        const key = `${u.method} ${u.endpoint}`;
+        if (!endpointTimes[key]) {
+          endpointTimes[key] = [];
+        }
+        endpointTimes[key].push(u.response_time_ms);
+      });
+
+      const slowEndpoints = Object.entries(endpointTimes)
+        .map(([endpoint, times]) => {
+          const sorted = times.sort((a, b) => a - b);
+          return {
+            endpoint,
+            avgTime: Math.round(times.reduce((a, b) => a + b, 0) / times.length),
+            p95Time: sorted[Math.floor(sorted.length * 0.95)],
+            count: times.length
+          };
+        })
+        .sort((a, b) => b.p95Time - a.p95Time)
+        .slice(0, 10);
+
+      // Hourly latency trend
+      const byHour = {};
+      usage.forEach(u => {
+        const hour = u.created_at.substring(0, 13) + ':00';
+        if (!byHour[hour]) {
+          byHour[hour] = [];
+        }
+        byHour[hour].push(u.response_time_ms);
+      });
+
+      const hourlyLatency = Object.entries(byHour)
+        .map(([hour, times]) => ({
+          hour,
+          avgTime: Math.round(times.reduce((a, b) => a + b, 0) / times.length),
+          count: times.length
+        }))
+        .sort((a, b) => a.hour.localeCompare(b.hour))
+        .slice(-168); // Last 7 days of hours
+
+      res.json({
+        summary: { p50, p95, p99, max },
+        slowEndpoints,
+        hourlyLatency
+      });
+
+    } catch (error) {
+      console.error('Error fetching performance data:', error);
+      res.status(500).json({
+        error: 'Internal server error',
+        message: error.message
+      });
+    }
+  });
+
   return router;
 }

@@ -669,6 +669,7 @@
         <button class="tab" data-tab="api-keys">API Keys</button>
         <button class="tab" data-tab="upload">Data Upload</button>
         <button class="tab" data-tab="browser">Data Browser</button>
+        <button class="tab" data-tab="analytics">Analytics</button>
       </div>
 
       <!-- Dashboard Tab -->
@@ -915,6 +916,169 @@
               No data found matching your filters.
             </div>
             <div class="pagination" id="dataPagination"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analytics Tab -->
+      <div class="tab-content" id="analytics-tab">
+        <!-- Usage Analytics Section -->
+        <div class="card" style="margin-bottom: 20px;">
+          <div class="card-header">
+            <h2>API Usage</h2>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <select id="analyticsDays" style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px;">
+                <option value="7">Last 7 days</option>
+                <option value="14">Last 14 days</option>
+                <option value="30" selected>Last 30 days</option>
+                <option value="90">Last 90 days</option>
+              </select>
+              <button class="btn btn-secondary btn-sm" id="refreshAnalyticsBtn">Refresh</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="loading" id="analyticsLoading">Loading analytics...</div>
+
+            <!-- Summary Stats -->
+            <div class="stats-grid" id="analyticsStats" style="display: none;">
+              <div class="stat-card">
+                <h3>Total Requests</h3>
+                <div class="value" id="analyticsRequests">-</div>
+                <div class="sub-text" id="analyticsPeriod">-</div>
+              </div>
+              <div class="stat-card">
+                <h3>Avg Response Time</h3>
+                <div class="value" id="analyticsAvgTime">-</div>
+                <div class="sub-text">milliseconds</div>
+              </div>
+              <div class="stat-card">
+                <h3>Success Rate</h3>
+                <div class="value" id="analyticsSuccessRate">-</div>
+                <div class="sub-text">200-399 responses</div>
+              </div>
+              <div class="stat-card">
+                <h3>P95 Latency</h3>
+                <div class="value" id="analyticsP95">-</div>
+                <div class="sub-text">95th percentile</div>
+              </div>
+            </div>
+
+            <!-- Top Endpoints Table -->
+            <h3 style="margin: 24px 0 12px;">Top Endpoints</h3>
+            <table id="endpointsTable" style="display: none;">
+              <thead>
+                <tr>
+                  <th>Endpoint</th>
+                  <th>Requests</th>
+                  <th>Avg Time (ms)</th>
+                  <th>Error Rate</th>
+                </tr>
+              </thead>
+              <tbody id="endpointsTableBody"></tbody>
+            </table>
+            <div class="empty-state" id="endpointsEmpty" style="display: none;">
+              No API usage data yet. Data will appear after API calls are made.
+            </div>
+          </div>
+        </div>
+
+        <!-- Cost Tracking Section -->
+        <div class="card" style="margin-bottom: 20px;">
+          <div class="card-header">
+            <h2>Cost Tracking</h2>
+          </div>
+          <div class="card-body">
+            <div class="loading" id="costsLoading">Loading cost data...</div>
+
+            <!-- Cost Summary Stats -->
+            <div class="stats-grid" id="costsStats" style="display: none;">
+              <div class="stat-card">
+                <h3>Total Cost</h3>
+                <div class="value" id="costTotal">$0.00</div>
+                <div class="sub-text" id="costPeriod">-</div>
+              </div>
+              <div class="stat-card">
+                <h3>OpenAI Embeddings</h3>
+                <div class="value" id="costEmbeddings">$0.00</div>
+                <div class="sub-text" id="costEmbeddingsCount">0 operations</div>
+              </div>
+              <div class="stat-card">
+                <h3>Supabase</h3>
+                <div class="value" id="costSupabase">$0.00</div>
+                <div class="sub-text" id="costSupabaseCount">0 operations</div>
+              </div>
+              <div class="stat-card">
+                <h3>Avg Daily Cost</h3>
+                <div class="value" id="costDaily">$0.00</div>
+                <div class="sub-text">Projected monthly: <span id="costMonthly">$0.00</span></div>
+              </div>
+            </div>
+
+            <!-- Daily Cost Table -->
+            <h3 style="margin: 24px 0 12px;">Daily Costs (Last 7 Days)</h3>
+            <table id="dailyCostsTable" style="display: none;">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Cost</th>
+                </tr>
+              </thead>
+              <tbody id="dailyCostsBody"></tbody>
+            </table>
+            <div class="empty-state" id="costsEmpty" style="display: none;">
+              No cost data yet. Costs will be tracked as embeddings are generated.
+            </div>
+          </div>
+        </div>
+
+        <!-- Performance Section -->
+        <div class="card">
+          <div class="card-header">
+            <h2>Performance Metrics</h2>
+          </div>
+          <div class="card-body">
+            <div class="loading" id="perfLoading">Loading performance data...</div>
+
+            <!-- Performance Summary -->
+            <div class="stats-grid" id="perfStats" style="display: none;">
+              <div class="stat-card">
+                <h3>P50 Latency</h3>
+                <div class="value" id="perfP50">-</div>
+                <div class="sub-text">Median response time</div>
+              </div>
+              <div class="stat-card">
+                <h3>P95 Latency</h3>
+                <div class="value" id="perfP95">-</div>
+                <div class="sub-text">95th percentile</div>
+              </div>
+              <div class="stat-card">
+                <h3>P99 Latency</h3>
+                <div class="value" id="perfP99">-</div>
+                <div class="sub-text">99th percentile</div>
+              </div>
+              <div class="stat-card">
+                <h3>Max Latency</h3>
+                <div class="value" id="perfMax">-</div>
+                <div class="sub-text">Slowest request</div>
+              </div>
+            </div>
+
+            <!-- Slow Endpoints Table -->
+            <h3 style="margin: 24px 0 12px;">Slowest Endpoints</h3>
+            <table id="slowEndpointsTable" style="display: none;">
+              <thead>
+                <tr>
+                  <th>Endpoint</th>
+                  <th>P95 Time (ms)</th>
+                  <th>Avg Time (ms)</th>
+                  <th>Requests</th>
+                </tr>
+              </thead>
+              <tbody id="slowEndpointsBody"></tbody>
+            </table>
+            <div class="empty-state" id="perfEmpty" style="display: none;">
+              No performance data yet. Metrics will appear as API calls are made.
+            </div>
           </div>
         </div>
       </div>
@@ -1308,6 +1472,8 @@
         loadUploadForm();
       } else if (tabName === 'browser') {
         loadDataBrowser();
+      } else if (tabName === 'analytics') {
+        loadAnalytics();
       }
     }
 
@@ -2223,6 +2389,203 @@
         }
       };
     }
+
+    // ============================================
+    // ANALYTICS FUNCTIONS
+    // ============================================
+
+    async function loadAnalytics() {
+      const days = document.getElementById('analyticsDays').value;
+
+      document.getElementById('analyticsLoading').style.display = 'block';
+      document.getElementById('analyticsStats').style.display = 'none';
+      document.getElementById('endpointsTable').style.display = 'none';
+      document.getElementById('endpointsEmpty').style.display = 'none';
+
+      try {
+        // Load usage analytics
+        const usageResponse = await fetch(`${API_BASE}/api/admin/analytics?days=${days}`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!usageResponse.ok) throw new Error('Failed to load analytics');
+
+        const usage = await usageResponse.json();
+
+        // Update summary stats
+        document.getElementById('analyticsRequests').textContent = usage.summary.totalRequests.toLocaleString();
+        document.getElementById('analyticsPeriod').textContent = usage.summary.period;
+        document.getElementById('analyticsAvgTime').textContent = `${usage.summary.avgResponseTime}ms`;
+        document.getElementById('analyticsSuccessRate').textContent = `${usage.summary.successRate}%`;
+
+        // Load performance data for P95
+        const perfResponse = await fetch(`${API_BASE}/api/admin/analytics/performance?days=${days}`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (perfResponse.ok) {
+          const perf = await perfResponse.json();
+          document.getElementById('analyticsP95').textContent = `${perf.summary.p95}ms`;
+        }
+
+        // Update endpoints table
+        const tbody = document.getElementById('endpointsTableBody');
+        tbody.innerHTML = '';
+
+        if (usage.endpointStats && usage.endpointStats.length > 0) {
+          usage.endpointStats.forEach(ep => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td><code>${ep.endpoint}</code></td>
+              <td>${ep.requests.toLocaleString()}</td>
+              <td>${ep.avgResponseTime}</td>
+              <td>${ep.errorRate}%</td>
+            `;
+            tbody.appendChild(tr);
+          });
+          document.getElementById('endpointsTable').style.display = 'table';
+        } else {
+          document.getElementById('endpointsEmpty').style.display = 'block';
+        }
+
+        document.getElementById('analyticsLoading').style.display = 'none';
+        document.getElementById('analyticsStats').style.display = 'grid';
+
+      } catch (err) {
+        document.getElementById('analyticsLoading').style.display = 'none';
+        document.getElementById('endpointsEmpty').style.display = 'block';
+        document.getElementById('analyticsStats').style.display = 'grid';
+        console.error('Analytics load error:', err);
+      }
+
+      // Load costs
+      loadCosts(days);
+
+      // Load performance
+      loadPerformance(days);
+    }
+
+    async function loadCosts(days) {
+      document.getElementById('costsLoading').style.display = 'block';
+      document.getElementById('costsStats').style.display = 'none';
+      document.getElementById('dailyCostsTable').style.display = 'none';
+      document.getElementById('costsEmpty').style.display = 'none';
+
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/analytics/costs?days=${days}`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to load costs');
+
+        const costs = await response.json();
+
+        // Update summary stats
+        document.getElementById('costTotal').textContent = `$${costs.summary.totalCost.toFixed(4)}`;
+        document.getElementById('costPeriod').textContent = costs.summary.period;
+
+        // Find OpenAI and Supabase costs
+        const openaiStats = costs.serviceStats.find(s => s.service === 'openai') || { totalCost: 0, operationCount: 0 };
+        const supabaseStats = costs.serviceStats.find(s => s.service === 'supabase') || { totalCost: 0, operationCount: 0 };
+
+        document.getElementById('costEmbeddings').textContent = `$${openaiStats.totalCost.toFixed(4)}`;
+        document.getElementById('costEmbeddingsCount').textContent = `${openaiStats.operationCount} operations`;
+        document.getElementById('costSupabase').textContent = `$${supabaseStats.totalCost.toFixed(4)}`;
+        document.getElementById('costSupabaseCount').textContent = `${supabaseStats.operationCount} operations`;
+
+        // Calculate daily average
+        const dailyAvg = costs.dailyCosts.length > 0
+          ? costs.dailyCosts.reduce((sum, d) => sum + d.cost, 0) / costs.dailyCosts.length
+          : 0;
+        document.getElementById('costDaily').textContent = `$${dailyAvg.toFixed(4)}`;
+        document.getElementById('costMonthly').textContent = `$${(dailyAvg * 30).toFixed(2)}`;
+
+        // Update daily costs table
+        const tbody = document.getElementById('dailyCostsBody');
+        tbody.innerHTML = '';
+
+        const recentDays = costs.dailyCosts.slice(-7);
+
+        if (recentDays.length > 0) {
+          recentDays.forEach(day => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td>${day.date}</td>
+              <td>$${day.cost.toFixed(4)}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+          document.getElementById('dailyCostsTable').style.display = 'table';
+        } else {
+          document.getElementById('costsEmpty').style.display = 'block';
+        }
+
+        document.getElementById('costsLoading').style.display = 'none';
+        document.getElementById('costsStats').style.display = 'grid';
+
+      } catch (err) {
+        document.getElementById('costsLoading').style.display = 'none';
+        document.getElementById('costsEmpty').style.display = 'block';
+        document.getElementById('costsStats').style.display = 'grid';
+        console.error('Costs load error:', err);
+      }
+    }
+
+    async function loadPerformance(days) {
+      document.getElementById('perfLoading').style.display = 'block';
+      document.getElementById('perfStats').style.display = 'none';
+      document.getElementById('slowEndpointsTable').style.display = 'none';
+      document.getElementById('perfEmpty').style.display = 'none';
+
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/analytics/performance?days=${days}`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to load performance data');
+
+        const perf = await response.json();
+
+        // Update summary stats
+        document.getElementById('perfP50').textContent = `${perf.summary.p50}ms`;
+        document.getElementById('perfP95').textContent = `${perf.summary.p95}ms`;
+        document.getElementById('perfP99').textContent = `${perf.summary.p99}ms`;
+        document.getElementById('perfMax').textContent = `${perf.summary.max}ms`;
+
+        // Update slow endpoints table
+        const tbody = document.getElementById('slowEndpointsBody');
+        tbody.innerHTML = '';
+
+        if (perf.slowEndpoints && perf.slowEndpoints.length > 0) {
+          perf.slowEndpoints.forEach(ep => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td><code>${ep.endpoint}</code></td>
+              <td>${ep.p95Time}</td>
+              <td>${ep.avgTime}</td>
+              <td>${ep.count.toLocaleString()}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+          document.getElementById('slowEndpointsTable').style.display = 'table';
+        } else {
+          document.getElementById('perfEmpty').style.display = 'block';
+        }
+
+        document.getElementById('perfLoading').style.display = 'none';
+        document.getElementById('perfStats').style.display = 'grid';
+
+      } catch (err) {
+        document.getElementById('perfLoading').style.display = 'none';
+        document.getElementById('perfEmpty').style.display = 'block';
+        document.getElementById('perfStats').style.display = 'grid';
+        console.error('Performance load error:', err);
+      }
+    }
+
+    // Analytics event listeners
+    document.getElementById('refreshAnalyticsBtn')?.addEventListener('click', loadAnalytics);
+    document.getElementById('analyticsDays')?.addEventListener('change', loadAnalytics);
   </script>
 </body>
 </html>

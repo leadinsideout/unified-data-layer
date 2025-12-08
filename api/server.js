@@ -29,6 +29,7 @@ import { createAdminAuthRoutes, createAdminSessionMiddleware } from './routes/ad
 import { createV2ClientRoutes, createV2SearchRoutes } from './routes/v2/index.js';
 import { createMCPRoutes } from './mcp/index.js';
 import { createFirefliesRoutes } from './integrations/fireflies.js';
+import { createAnalyticsMiddleware, logCostEvent, calculateEmbeddingCost } from './middleware/analytics.js';
 
 // Load environment variables
 dotenv.config();
@@ -186,6 +187,10 @@ function debugLog(req, step, data = {}) {
     }));
   }
 }
+
+// Analytics middleware - logs API usage to database
+const analyticsMiddleware = createAnalyticsMiddleware(supabase);
+app.use(analyticsMiddleware);
 
 // Authentication middleware (created but not applied globally)
 // We'll apply it selectively to protected endpoints
