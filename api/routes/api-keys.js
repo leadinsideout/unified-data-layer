@@ -53,6 +53,7 @@ export function createApiKeyRoutes(supabase, authMiddleware) {
           id,
           name,
           key_hash,
+          key_prefix,
           is_revoked,
           last_used_at,
           created_at,
@@ -86,6 +87,7 @@ export function createApiKeyRoutes(supabase, authMiddleware) {
       const formattedKeys = companyKeys.map(key => ({
         id: key.id,
         name: key.name,
+        key_prefix: key.key_prefix || 'sk_',
         is_revoked: key.is_revoked,
         last_used_at: key.last_used_at,
         created_at: key.created_at,

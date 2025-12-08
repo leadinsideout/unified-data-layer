@@ -1352,7 +1352,7 @@
         if (!response.ok) throw new Error('Failed to load API keys');
 
         const data = await response.json();
-        const keys = data.apiKeys || [];
+        const keys = data.api_keys || [];
 
         loading.style.display = 'none';
 
@@ -1390,6 +1390,13 @@
     }
 
     function getOwnerDisplay(key) {
+      // API returns owner object with type, id, name, email
+      if (key.owner) {
+        const badgeClass = `badge-${key.owner.type}`;
+        const ownerName = key.owner.name || 'Unknown';
+        return `<span class="badge ${badgeClass}">${key.owner.type}</span> ${escapeHtml(ownerName)}`;
+      }
+      // Fallback for old format with direct IDs
       if (key.coach_id) {
         const coach = currentUsers.find(u => u.id === key.coach_id);
         return `<span class="badge badge-coach">Coach</span> ${coach ? escapeHtml(coach.name) : 'Unknown'}`;
