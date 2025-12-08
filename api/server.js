@@ -16,6 +16,7 @@ import rateLimit from 'express-rate-limit';
 import * as Sentry from '@sentry/node';
 import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { createClient } from '@supabase/supabase-js';
 import OpenAI from 'openai';
@@ -148,6 +149,16 @@ app.use((req, res, next) => {
 
 // Serve static files from public directory
 app.use(express.static(path.join(__dirname, '..', 'public')));
+
+// Explicit route for admin dashboard (needed for Vercel serverless)
+app.get('/admin', (req, res) => {
+  const adminPath = path.join(__dirname, '..', 'public', 'admin.html');
+  if (fs.existsSync(adminPath)) {
+    res.sendFile(adminPath);
+  } else {
+    res.status(404).json({ error: 'Admin dashboard not found' });
+  }
+});
 
 // Request logging middleware with debug support
 app.use((req, res, next) => {
