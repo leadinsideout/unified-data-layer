@@ -421,6 +421,214 @@
     .copy-btn {
       margin-top: 8px;
     }
+
+    /* Drop Zone */
+    .drop-zone {
+      border: 2px dashed #d1d5db;
+      border-radius: 8px;
+      padding: 40px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #fafafa;
+    }
+
+    .drop-zone:hover, .drop-zone.drag-over {
+      border-color: #2563eb;
+      background: #eff6ff;
+    }
+
+    .drop-zone.has-file {
+      border-color: #16a34a;
+      background: #f0fdf4;
+    }
+
+    .drop-zone-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .drop-zone-text {
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .drop-zone-hint {
+      font-size: 12px;
+      color: #999;
+    }
+
+    .file-info {
+      margin-top: 12px;
+      padding: 12px;
+      background: white;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .file-info.show {
+      display: block;
+    }
+
+    /* Upload Form */
+    .upload-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .upload-form .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    /* Progress Bar */
+    .progress-bar {
+      height: 4px;
+      background: #e5e7eb;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 8px;
+      display: none;
+    }
+
+    .progress-bar.show {
+      display: block;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: #2563eb;
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .stat-card h3 {
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .stat-card .value {
+      font-size: 32px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .stat-card .sub-text {
+      font-size: 12px;
+      color: #999;
+      margin-top: 4px;
+    }
+
+    /* Filter Bar */
+    .filter-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+
+    .filter-bar .form-group {
+      margin-bottom: 0;
+      min-width: 150px;
+    }
+
+    .filter-bar .form-group label {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #666;
+    }
+
+    /* Data Type Badges */
+    .badge-transcript {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .badge-assessment {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
+    .badge-coaching_model {
+      background: #fef3c7;
+      color: #d97706;
+    }
+
+    .badge-company_doc {
+      background: #f3e8ff;
+      color: #9333ea;
+    }
+
+    /* Preview Modal */
+    .preview-content {
+      max-height: 400px;
+      overflow-y: auto;
+      background: #f9fafb;
+      padding: 16px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 13px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .pagination button {
+      padding: 8px 12px;
+      border: 1px solid #e5e7eb;
+      background: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .pagination button:hover {
+      background: #f3f4f6;
+    }
+
+    .pagination button.active {
+      background: #2563eb;
+      color: white;
+      border-color: #2563eb;
+    }
+
+    .pagination button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Truncate text */
+    .truncate {
+      max-width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   </style>
 </head>
 <body>
@@ -456,12 +664,85 @@
 
     <div class="container">
       <div class="tabs">
-        <button class="tab active" data-tab="users">Users</button>
+        <button class="tab active" data-tab="dashboard">Dashboard</button>
+        <button class="tab" data-tab="users">Users</button>
         <button class="tab" data-tab="api-keys">API Keys</button>
+        <button class="tab" data-tab="upload">Data Upload</button>
+        <button class="tab" data-tab="browser">Data Browser</button>
+      </div>
+
+      <!-- Dashboard Tab -->
+      <div class="tab-content active" id="dashboard-tab">
+        <div class="stats-grid" id="statsGrid">
+          <div class="stat-card">
+            <h3>Total Data Items</h3>
+            <div class="value" id="statTotal">-</div>
+            <div class="sub-text">Across all types</div>
+          </div>
+          <div class="stat-card">
+            <h3>Transcripts</h3>
+            <div class="value" id="statTranscripts">-</div>
+            <div class="sub-text">Coaching sessions</div>
+          </div>
+          <div class="stat-card">
+            <h3>Assessments</h3>
+            <div class="value" id="statAssessments">-</div>
+            <div class="sub-text">DISC, MBTI, etc.</div>
+          </div>
+          <div class="stat-card">
+            <h3>Coaching Models</h3>
+            <div class="value" id="statCoachingModels">-</div>
+            <div class="sub-text">Proprietary frameworks</div>
+          </div>
+          <div class="stat-card">
+            <h3>Company Docs</h3>
+            <div class="value" id="statCompanyDocs">-</div>
+            <div class="sub-text">Organizational context</div>
+          </div>
+          <div class="stat-card">
+            <h3>Active Coaches</h3>
+            <div class="value" id="statCoaches">-</div>
+            <div class="sub-text">With data in system</div>
+          </div>
+          <div class="stat-card">
+            <h3>Active Clients</h3>
+            <div class="value" id="statClients">-</div>
+            <div class="sub-text">With data in system</div>
+          </div>
+          <div class="stat-card">
+            <h3>Last Fireflies Sync</h3>
+            <div class="value" id="statLastSync" style="font-size: 16px;">-</div>
+            <div class="sub-text" id="statSyncCount">-</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2>Recent Uploads (Last 7 Days)</h2>
+          </div>
+          <div class="card-body">
+            <div class="loading" id="recentLoading">Loading recent uploads...</div>
+            <table id="recentTable" style="display: none;">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Title</th>
+                  <th>Coach</th>
+                  <th>Client</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="recentTableBody"></tbody>
+            </table>
+            <div class="empty-state" id="recentEmpty" style="display: none;">
+              No recent uploads found.
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Users Tab -->
-      <div class="tab-content active" id="users-tab">
+      <div class="tab-content" id="users-tab">
         <div class="card">
           <div class="card-header">
             <h2>User Management</h2>
@@ -513,6 +794,124 @@
             <div class="empty-state" id="keysEmpty" style="display: none;">
               No API keys found. Click "Create Key" to create one.
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upload Tab -->
+      <div class="tab-content" id="upload-tab">
+        <div class="card">
+          <div class="card-header">
+            <h2>Upload Data</h2>
+          </div>
+          <div class="card-body">
+            <div class="drop-zone" id="dropZone">
+              <div class="drop-zone-icon">📁</div>
+              <div class="drop-zone-text">Drag & drop a file here, or click to browse</div>
+              <div class="drop-zone-hint">Supports: .txt, .json, .pdf (Max 10MB)</div>
+              <input type="file" id="fileInput" style="display: none;" accept=".txt,.json,.pdf">
+            </div>
+            <div class="file-info" id="fileInfo">
+              <strong>Selected:</strong> <span id="fileName"></span> (<span id="fileSize"></span>)
+              <button class="btn btn-secondary btn-sm" id="clearFileBtn" style="margin-left: 12px;">Clear</button>
+            </div>
+
+            <form id="uploadForm" class="upload-form">
+              <div class="form-group">
+                <label for="uploadType">Data Type</label>
+                <select id="uploadType" required>
+                  <option value="">Select type...</option>
+                  <option value="transcript">Transcript</option>
+                  <option value="assessment">Assessment</option>
+                  <option value="coaching_model">Coaching Model</option>
+                  <option value="company_doc">Company Document</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="uploadCoach">Coach</label>
+                <select id="uploadCoach" required>
+                  <option value="">Loading coaches...</option>
+                </select>
+              </div>
+              <div class="form-group" id="uploadClientGroup">
+                <label for="uploadClient">Client (for transcripts/assessments)</label>
+                <select id="uploadClient">
+                  <option value="">Select coach first...</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="uploadDate">Session Date (optional)</label>
+                <input type="date" id="uploadDate">
+              </div>
+              <div class="form-group full-width">
+                <label for="uploadTitle">Title (optional)</label>
+                <input type="text" id="uploadTitle" placeholder="Auto-generated if blank">
+              </div>
+              <div class="form-group full-width">
+                <button type="submit" class="btn btn-primary" id="uploadBtn" disabled>Upload & Process</button>
+                <div class="progress-bar" id="uploadProgress">
+                  <div class="progress-bar-fill" id="uploadProgressFill"></div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Browser Tab -->
+      <div class="tab-content" id="browser-tab">
+        <div class="card">
+          <div class="card-header">
+            <h2>Data Browser</h2>
+            <button class="btn btn-secondary btn-sm" id="refreshDataBtn">Refresh</button>
+          </div>
+          <div class="card-body">
+            <div class="filter-bar">
+              <div class="form-group">
+                <label for="filterType">Type</label>
+                <select id="filterType">
+                  <option value="">All Types</option>
+                  <option value="transcript">Transcript</option>
+                  <option value="assessment">Assessment</option>
+                  <option value="coaching_model">Coaching Model</option>
+                  <option value="company_doc">Company Doc</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="filterCoach">Coach</label>
+                <select id="filterCoach">
+                  <option value="">All Coaches</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="filterClient">Client</label>
+                <select id="filterClient">
+                  <option value="">All Clients</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <button class="btn btn-primary btn-sm" id="applyFiltersBtn">Apply Filters</button>
+              </div>
+            </div>
+
+            <div class="loading" id="dataLoading">Loading data...</div>
+            <table id="dataTable" style="display: none;">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Title</th>
+                  <th>Coach</th>
+                  <th>Client</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="dataTableBody"></tbody>
+            </table>
+            <div class="empty-state" id="dataEmpty" style="display: none;">
+              No data found matching your filters.
+            </div>
+            <div class="pagination" id="dataPagination"></div>
           </div>
         </div>
       </div>
@@ -629,6 +1028,27 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-close>Cancel</button>
         <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Data Preview Modal -->
+  <div class="modal-overlay" id="previewModal">
+    <div class="modal" style="max-width: 700px;">
+      <div class="modal-header">
+        <h3 id="previewTitle">Data Preview</h3>
+        <button class="modal-close" data-close>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom: 12px;">
+          <span class="badge" id="previewType"></span>
+          <span style="color: #666; font-size: 12px; margin-left: 8px;" id="previewMeta"></span>
+        </div>
+        <div class="preview-content" id="previewContent">Loading...</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger btn-sm" id="previewDeleteBtn">Delete</button>
+        <button type="button" class="btn btn-primary" data-close>Close</button>
       </div>
     </div>
   </div>
@@ -760,7 +1180,8 @@
           const data = await response.json();
           document.getElementById('adminName').textContent = data.admin.name;
           showDashboard();
-          loadUsers();
+          loadDashboardStats();
+          loadUsers(); // Pre-load users for other tabs
         } else {
           handleLogout();
         }
@@ -787,10 +1208,16 @@
       document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
       document.getElementById(`${tabName}-tab`).classList.add('active');
 
-      if (tabName === 'users') {
+      if (tabName === 'dashboard') {
+        loadDashboardStats();
+      } else if (tabName === 'users') {
         loadUsers();
       } else if (tabName === 'api-keys') {
         loadApiKeys();
+      } else if (tabName === 'upload') {
+        loadUploadForm();
+      } else if (tabName === 'browser') {
+        loadDataBrowser();
       }
     }
 
@@ -1143,6 +1570,461 @@
       setTimeout(() => {
         toast.remove();
       }, 3000);
+    }
+
+    // ============================================
+    // DASHBOARD STATS
+    // ============================================
+
+    async function loadDashboardStats() {
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/stats`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to load stats');
+
+        const stats = await response.json();
+
+        document.getElementById('statTotal').textContent = stats.total || 0;
+        document.getElementById('statTranscripts').textContent = stats.byType?.transcript || 0;
+        document.getElementById('statAssessments').textContent = stats.byType?.assessment || 0;
+        document.getElementById('statCoachingModels').textContent = stats.byType?.coaching_model || 0;
+        document.getElementById('statCompanyDocs').textContent = stats.byType?.company_doc || 0;
+        document.getElementById('statCoaches').textContent = stats.coaches || 0;
+        document.getElementById('statClients').textContent = stats.clients || 0;
+
+        if (stats.lastSync) {
+          document.getElementById('statLastSync').textContent = formatDate(stats.lastSync);
+          document.getElementById('statSyncCount').textContent = `${stats.syncedToday || 0} synced today`;
+        } else {
+          document.getElementById('statLastSync').textContent = 'Never';
+          document.getElementById('statSyncCount').textContent = '';
+        }
+
+        // Load recent uploads
+        loadRecentUploads();
+      } catch (err) {
+        console.error('Failed to load dashboard stats:', err);
+      }
+    }
+
+    async function loadRecentUploads() {
+      const loading = document.getElementById('recentLoading');
+      const table = document.getElementById('recentTable');
+      const empty = document.getElementById('recentEmpty');
+      const tbody = document.getElementById('recentTableBody');
+
+      loading.style.display = 'block';
+      table.style.display = 'none';
+      empty.style.display = 'none';
+
+      try {
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+        const response = await fetch(`${API_BASE}/api/admin/data?limit=10`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to load recent uploads');
+
+        const data = await response.json();
+        const items = data.items || [];
+
+        loading.style.display = 'none';
+
+        if (items.length === 0) {
+          empty.style.display = 'block';
+          return;
+        }
+
+        tbody.innerHTML = items.map(item => `
+          <tr>
+            <td><span class="badge badge-${item.data_type}">${item.data_type}</span></td>
+            <td class="truncate">${escapeHtml(item.title || 'Untitled')}</td>
+            <td>${escapeHtml(item.coach_name || '-')}</td>
+            <td>${escapeHtml(item.client_name || '-')}</td>
+            <td>${formatDate(item.created_at)}</td>
+          </tr>
+        `).join('');
+
+        table.style.display = 'table';
+      } catch (err) {
+        loading.style.display = 'none';
+        console.error('Failed to load recent uploads:', err);
+      }
+    }
+
+    // ============================================
+    // FILE UPLOAD
+    // ============================================
+
+    let selectedFile = null;
+
+    function loadUploadForm() {
+      loadCoachesForUpload();
+      setupFileUpload();
+    }
+
+    function setupFileUpload() {
+      const dropZone = document.getElementById('dropZone');
+      const fileInput = document.getElementById('fileInput');
+      const fileInfo = document.getElementById('fileInfo');
+      const clearBtn = document.getElementById('clearFileBtn');
+      const uploadBtn = document.getElementById('uploadBtn');
+      const uploadForm = document.getElementById('uploadForm');
+
+      // Click to browse
+      dropZone.addEventListener('click', () => fileInput.click());
+
+      // File selected
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          handleFileSelect(e.target.files[0]);
+        }
+      });
+
+      // Drag and drop
+      dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('drag-over');
+      });
+
+      dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('drag-over');
+      });
+
+      dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('drag-over');
+        if (e.dataTransfer.files.length > 0) {
+          handleFileSelect(e.dataTransfer.files[0]);
+        }
+      });
+
+      // Clear file
+      clearBtn.addEventListener('click', () => {
+        selectedFile = null;
+        fileInput.value = '';
+        fileInfo.classList.remove('show');
+        dropZone.classList.remove('has-file');
+        uploadBtn.disabled = true;
+      });
+
+      // Upload form
+      uploadForm.addEventListener('submit', handleUpload);
+
+      // Coach change - load clients
+      document.getElementById('uploadCoach').addEventListener('change', loadClientsForUpload);
+
+      // Type change - show/hide client field
+      document.getElementById('uploadType').addEventListener('change', (e) => {
+        const clientGroup = document.getElementById('uploadClientGroup');
+        clientGroup.style.display = ['transcript', 'assessment'].includes(e.target.value) ? 'block' : 'none';
+      });
+    }
+
+    function handleFileSelect(file) {
+      selectedFile = file;
+      document.getElementById('fileName').textContent = file.name;
+      document.getElementById('fileSize').textContent = formatFileSize(file.size);
+      document.getElementById('fileInfo').classList.add('show');
+      document.getElementById('dropZone').classList.add('has-file');
+      document.getElementById('uploadBtn').disabled = false;
+    }
+
+    function formatFileSize(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+
+    async function loadCoachesForUpload() {
+      const coachSelect = document.getElementById('uploadCoach');
+      const filterCoach = document.getElementById('filterCoach');
+
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/users`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to load coaches');
+
+        const data = await response.json();
+        const coaches = data.coaches || [];
+
+        coachSelect.innerHTML = '<option value="">Select coach...</option>' +
+          coaches.map(c => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
+
+        // Also populate filter dropdown
+        filterCoach.innerHTML = '<option value="">All Coaches</option>' +
+          coaches.map(c => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
+
+      } catch (err) {
+        coachSelect.innerHTML = '<option value="">Failed to load</option>';
+      }
+    }
+
+    async function loadClientsForUpload() {
+      const coachId = document.getElementById('uploadCoach').value;
+      const clientSelect = document.getElementById('uploadClient');
+      const filterClient = document.getElementById('filterClient');
+
+      if (!coachId) {
+        clientSelect.innerHTML = '<option value="">Select coach first...</option>';
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/coaches/${coachId}/clients`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to load clients');
+
+        const data = await response.json();
+        const clients = data.clients || [];
+
+        clientSelect.innerHTML = '<option value="">Select client (optional)...</option>' +
+          clients.map(c => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
+
+        // Also populate filter dropdown
+        filterClient.innerHTML = '<option value="">All Clients</option>' +
+          clients.map(c => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
+
+      } catch (err) {
+        clientSelect.innerHTML = '<option value="">Failed to load</option>';
+      }
+    }
+
+    async function handleUpload(e) {
+      e.preventDefault();
+
+      if (!selectedFile) {
+        showToast('Please select a file', 'error');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+      formData.append('data_type', document.getElementById('uploadType').value);
+      formData.append('coach_id', document.getElementById('uploadCoach').value);
+
+      const clientId = document.getElementById('uploadClient').value;
+      if (clientId) formData.append('client_id', clientId);
+
+      const sessionDate = document.getElementById('uploadDate').value;
+      if (sessionDate) formData.append('session_date', sessionDate);
+
+      const title = document.getElementById('uploadTitle').value;
+      if (title) formData.append('title', title);
+
+      const progressBar = document.getElementById('uploadProgress');
+      const progressFill = document.getElementById('uploadProgressFill');
+      const uploadBtn = document.getElementById('uploadBtn');
+
+      progressBar.classList.add('show');
+      progressFill.style.width = '10%';
+      uploadBtn.disabled = true;
+
+      try {
+        progressFill.style.width = '30%';
+
+        const response = await fetch(`${API_BASE}/api/admin/data/upload`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${authToken}` },
+          body: formData
+        });
+
+        progressFill.style.width = '90%';
+
+        if (!response.ok) {
+          const data = await response.json();
+          throw new Error(data.message || 'Upload failed');
+        }
+
+        progressFill.style.width = '100%';
+
+        setTimeout(() => {
+          progressBar.classList.remove('show');
+          progressFill.style.width = '0%';
+        }, 500);
+
+        // Reset form
+        selectedFile = null;
+        document.getElementById('fileInput').value = '';
+        document.getElementById('fileInfo').classList.remove('show');
+        document.getElementById('dropZone').classList.remove('has-file');
+        document.getElementById('uploadForm').reset();
+
+        showToast('File uploaded and processed successfully', 'success');
+
+      } catch (err) {
+        progressBar.classList.remove('show');
+        progressFill.style.width = '0%';
+        showToast(err.message, 'error');
+      } finally {
+        uploadBtn.disabled = false;
+      }
+    }
+
+    // ============================================
+    // DATA BROWSER
+    // ============================================
+
+    let browserPage = 1;
+    const browserLimit = 20;
+
+    function loadDataBrowser() {
+      loadCoachesForUpload(); // Reuse function for filter dropdowns
+      document.getElementById('applyFiltersBtn').addEventListener('click', () => {
+        browserPage = 1;
+        loadDataItems();
+      });
+      document.getElementById('refreshDataBtn').addEventListener('click', loadDataItems);
+      loadDataItems();
+    }
+
+    async function loadDataItems() {
+      const loading = document.getElementById('dataLoading');
+      const table = document.getElementById('dataTable');
+      const empty = document.getElementById('dataEmpty');
+      const tbody = document.getElementById('dataTableBody');
+      const pagination = document.getElementById('dataPagination');
+
+      loading.style.display = 'block';
+      table.style.display = 'none';
+      empty.style.display = 'none';
+
+      try {
+        const params = new URLSearchParams();
+        params.append('limit', browserLimit);
+        params.append('offset', (browserPage - 1) * browserLimit);
+
+        const filterType = document.getElementById('filterType').value;
+        const filterCoach = document.getElementById('filterCoach').value;
+        const filterClient = document.getElementById('filterClient').value;
+
+        if (filterType) params.append('type', filterType);
+        if (filterCoach) params.append('coach_id', filterCoach);
+        if (filterClient) params.append('client_id', filterClient);
+
+        const response = await fetch(`${API_BASE}/api/admin/data?${params}`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to load data');
+
+        const data = await response.json();
+        const items = data.items || [];
+        const total = data.total || 0;
+
+        loading.style.display = 'none';
+
+        if (items.length === 0) {
+          empty.style.display = 'block';
+          pagination.innerHTML = '';
+          return;
+        }
+
+        tbody.innerHTML = items.map(item => `
+          <tr>
+            <td><span class="badge badge-${item.data_type}">${item.data_type}</span></td>
+            <td class="truncate">${escapeHtml(item.title || 'Untitled')}</td>
+            <td>${escapeHtml(item.coach_name || '-')}</td>
+            <td>${escapeHtml(item.client_name || '-')}</td>
+            <td>${formatDate(item.session_date || item.created_at)}</td>
+            <td class="actions">
+              <button class="btn btn-secondary btn-sm" onclick="previewData('${item.id}')">View</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteData('${item.id}', '${escapeHtml(item.title || 'this item')}')">Delete</button>
+            </td>
+          </tr>
+        `).join('');
+
+        table.style.display = 'table';
+
+        // Pagination
+        const totalPages = Math.ceil(total / browserLimit);
+        if (totalPages > 1) {
+          pagination.innerHTML = `
+            <button ${browserPage === 1 ? 'disabled' : ''} onclick="changePage(${browserPage - 1})">Prev</button>
+            <span style="padding: 8px;">Page ${browserPage} of ${totalPages}</span>
+            <button ${browserPage === totalPages ? 'disabled' : ''} onclick="changePage(${browserPage + 1})">Next</button>
+          `;
+        } else {
+          pagination.innerHTML = '';
+        }
+
+      } catch (err) {
+        loading.style.display = 'none';
+        showToast('Failed to load data: ' + err.message, 'error');
+      }
+    }
+
+    function changePage(page) {
+      browserPage = page;
+      loadDataItems();
+    }
+
+    async function previewData(id) {
+      const modal = document.getElementById('previewModal');
+      const title = document.getElementById('previewTitle');
+      const type = document.getElementById('previewType');
+      const meta = document.getElementById('previewMeta');
+      const content = document.getElementById('previewContent');
+      const deleteBtn = document.getElementById('previewDeleteBtn');
+
+      modal.classList.add('active');
+      content.textContent = 'Loading...';
+
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/data/${id}`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to load data');
+
+        const item = await response.json();
+
+        title.textContent = item.title || 'Untitled';
+        type.textContent = item.data_type;
+        type.className = `badge badge-${item.data_type}`;
+        meta.textContent = `Created: ${formatDate(item.created_at)}`;
+        content.textContent = item.raw_content || 'No content available';
+
+        deleteBtn.onclick = () => {
+          modal.classList.remove('active');
+          deleteData(id, item.title || 'this item');
+        };
+
+      } catch (err) {
+        content.textContent = 'Error loading content: ' + err.message;
+      }
+    }
+
+    async function deleteData(id, title) {
+      document.getElementById('deleteMessage').textContent =
+        `Are you sure you want to delete "${title}"? This will also delete all associated chunks.`;
+      document.getElementById('deleteModal').classList.add('active');
+
+      document.getElementById('confirmDeleteBtn').onclick = async () => {
+        try {
+          const response = await fetch(`${API_BASE}/api/admin/data/${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${authToken}` }
+          });
+
+          if (!response.ok) throw new Error('Failed to delete');
+
+          document.getElementById('deleteModal').classList.remove('active');
+          showToast('Data deleted successfully', 'success');
+          loadDataItems();
+          loadDashboardStats();
+        } catch (err) {
+          showToast(err.message, 'error');
+        }
+      };
     }
   </script>
 </body>

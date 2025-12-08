@@ -276,6 +276,102 @@ const adminSessionMiddleware = createAdminSessionMiddleware(supabase);
 const adminRoutes = createAdminRoutes(supabase, adminSessionMiddleware);
 app.use('/api/admin', adminRoutes);
 
+// Admin data upload endpoint (needs multer from server.js)
+app.post('/api/admin/data/upload', adminSessionMiddleware, upload.single('file'), async (req, res) => {
+  try {
+    const { auth } = req;
+
+    // Verify user is an admin
+    const { data: admin, error: adminError } = await supabase
+      .from('admins')
+      .select('coaching_company_id')
+      .eq('id', auth.userId)
+      .single();
+
+    if (adminError || !admin) {
+      return res.status(403).json({
+        error: 'Forbidden',
+        message: 'Admin access required'
+      });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({
+        error: 'Bad request',
+        message: 'No file provided'
+      });
+    }
+
+    const { data_type, coach_id, client_id, session_date, title } = req.body;
+
+    if (!data_type || !coach_id) {
+      return res.status(400).json({
+        error: 'Bad request',
+        message: 'data_type and coach_id are required'
+      });
+    }
+
+    // Verify coach belongs to company
+    const { data: coach, error: coachError } = await supabase
+      .from('coaches')
+      .select('id')
+      .eq('id', coach_id)
+      .eq('coaching_company_id', admin.coaching_company_id)
+      .single();
+
+    if (coachError || !coach) {
+      return res.status(400).json({
+        error: 'Bad request',
+        message: 'Invalid coach_id'
+      });
+    }
+
+    // Get file content
+    let content = req.file.buffer.toString('utf-8');
+
+    // Handle PDF files
+    if (req.file.mimetype === 'application/pdf') {
+      const pdfData = await pdfParse(req.file.buffer);
+      content = pdfData.text;
+    }
+
+    // Handle JSON files - extract text content
+    if (req.file.mimetype === 'application/json' || req.file.originalname.endsWith('.json')) {
+      try {
+        const jsonData = JSON.parse(content);
+        content = JSON.stringify(jsonData, null, 2);
+      } catch (e) {
+        // Keep as-is if not valid JSON
+      }
+    }
+
+    // Get processor and process the data
+    const processor = processorFactory.getProcessor(data_type);
+    const result = await processor.processAndStore({
+      rawContent: content,
+      dataType: data_type,
+      coachId: coach_id,
+      clientId: client_id || null,
+      sessionDate: session_date || null,
+      title: title || req.file.originalname,
+      supabase
+    });
+
+    res.status(201).json({
+      message: 'File uploaded and processed successfully',
+      dataItemId: result.dataItemId,
+      chunksCreated: result.chunksCreated
+    });
+
+  } catch (error) {
+    console.error('Error uploading data:', error);
+    res.status(500).json({
+      error: 'Internal server error',
+      message: error.message
+    });
+  }
+});
+
 // Register API key routes (session OR API key auth)
 const apiKeyRoutes = createApiKeyRoutes(supabase, adminSessionMiddleware);
 app.use('/api/admin/api-keys', apiKeyRoutes);

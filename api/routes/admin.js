@@ -495,5 +495,319 @@ export function createAdminRoutes(supabase, authMiddleware) {
     }
   });
 
+  // ============================================
+  // COACH CLIENTS
+  // ============================================
+
+  /**
+   * GET /api/admin/coaches/:coachId/clients
+   * Get clients assigned to a specific coach
+   */
+  router.get('/coaches/:coachId/clients', authMiddleware, async (req, res) => {
+    try {
+      const { auth } = req;
+      const { coachId } = req.params;
+
+      // Verify user is an admin
+      const { data: admin, error: adminError } = await supabase
+        .from('admins')
+        .select('coaching_company_id')
+        .eq('id', auth.userId)
+        .single();
+
+      if (adminError || !admin) {
+        return res.status(403).json({
+          error: 'Forbidden',
+          message: 'Admin access required'
+        });
+      }
+
+      // Verify coach belongs to the company
+      const { data: coach, error: coachError } = await supabase
+        .from('coaches')
+        .select('id')
+        .eq('id', coachId)
+        .eq('coaching_company_id', admin.coaching_company_id)
+        .single();
+
+      if (coachError || !coach) {
+        return res.status(404).json({
+          error: 'Not found',
+          message: 'Coach not found'
+        });
+      }
+
+      // Get clients for this coach
+      const { data: clients, error: clientsError } = await supabase
+        .from('coach_clients')
+        .select('client:clients(id, name, email, created_at)')
+        .eq('coach_id', coachId);
+
+      if (clientsError) throw clientsError;
+
+      res.json({
+        clients: (clients || []).map(c => c.client).filter(Boolean)
+      });
+
+    } catch (error) {
+      console.error('Error getting coach clients:', error);
+      res.status(500).json({
+        error: 'Internal server error',
+        message: error.message
+      });
+    }
+  });
+
+  // ============================================
+  // DASHBOARD STATS
+  // ============================================
+
+  /**
+   * GET /api/admin/stats
+   * Get dashboard statistics
+   */
+  router.get('/stats', authMiddleware, async (req, res) => {
+    try {
+      const { auth } = req;
+
+      // Verify user is an admin
+      const { data: admin, error: adminError } = await supabase
+        .from('admins')
+        .select('coaching_company_id')
+        .eq('id', auth.userId)
+        .single();
+
+      if (adminError || !admin) {
+        return res.status(403).json({
+          error: 'Forbidden',
+          message: 'Admin access required'
+        });
+      }
+
+      // Get counts by type
+      const { data: items, error: itemsError } = await supabase
+        .from('data_items')
+        .select('data_type, coach_id, client_id');
+
+      if (itemsError) throw itemsError;
+
+      const byType = {};
+      const coachIds = new Set();
+      const clientIds = new Set();
+
+      (items || []).forEach(item => {
+        byType[item.data_type] = (byType[item.data_type] || 0) + 1;
+        if (item.coach_id) coachIds.add(item.coach_id);
+        if (item.client_id) clientIds.add(item.client_id);
+      });
+
+      // Get Fireflies sync info
+      const { data: syncState, error: syncError } = await supabase
+        .from('fireflies_sync_state')
+        .select('created_at')
+        .order('created_at', { ascending: false })
+        .limit(1);
+
+      const today = new Date().toISOString().split('T')[0];
+      const { count: syncedToday } = await supabase
+        .from('fireflies_sync_state')
+        .select('id', { count: 'exact', head: true })
+        .gte('created_at', today);
+
+      res.json({
+        total: items?.length || 0,
+        byType,
+        coaches: coachIds.size,
+        clients: clientIds.size,
+        lastSync: syncState?.[0]?.created_at || null,
+        syncedToday: syncedToday || 0
+      });
+
+    } catch (error) {
+      console.error('Error getting stats:', error);
+      res.status(500).json({
+        error: 'Internal server error',
+        message: error.message
+      });
+    }
+  });
+
+  // ============================================
+  // DATA MANAGEMENT
+  // ============================================
+
+  /**
+   * GET /api/admin/data
+   * List data items with optional filters
+   */
+  router.get('/data', authMiddleware, async (req, res) => {
+    try {
+      const { auth } = req;
+      const { type, coach_id, client_id, limit = 50, offset = 0 } = req.query;
+
+      // Verify user is an admin
+      const { data: admin, error: adminError } = await supabase
+        .from('admins')
+        .select('coaching_company_id')
+        .eq('id', auth.userId)
+        .single();
+
+      if (adminError || !admin) {
+        return res.status(403).json({
+          error: 'Forbidden',
+          message: 'Admin access required'
+        });
+      }
+
+      // Build query
+      let query = supabase
+        .from('data_items')
+        .select(`
+          id,
+          data_type,
+          title,
+          session_date,
+          created_at,
+          coach:coaches(id, name),
+          client:clients(id, name)
+        `, { count: 'exact' });
+
+      if (type) query = query.eq('data_type', type);
+      if (coach_id) query = query.eq('coach_id', coach_id);
+      if (client_id) query = query.eq('client_id', client_id);
+
+      query = query
+        .order('created_at', { ascending: false })
+        .range(parseInt(offset), parseInt(offset) + parseInt(limit) - 1);
+
+      const { data: items, error: itemsError, count } = await query;
+
+      if (itemsError) throw itemsError;
+
+      res.json({
+        items: (items || []).map(item => ({
+          id: item.id,
+          data_type: item.data_type,
+          title: item.title,
+          session_date: item.session_date,
+          created_at: item.created_at,
+          coach_name: item.coach?.name,
+          client_name: item.client?.name
+        })),
+        total: count || 0,
+        limit: parseInt(limit),
+        offset: parseInt(offset)
+      });
+
+    } catch (error) {
+      console.error('Error listing data:', error);
+      res.status(500).json({
+        error: 'Internal server error',
+        message: error.message
+      });
+    }
+  });
+
+  /**
+   * GET /api/admin/data/:id
+   * Get a single data item with content
+   */
+  router.get('/data/:id', authMiddleware, async (req, res) => {
+    try {
+      const { auth } = req;
+      const { id } = req.params;
+
+      // Verify user is an admin
+      const { data: admin, error: adminError } = await supabase
+        .from('admins')
+        .select('coaching_company_id')
+        .eq('id', auth.userId)
+        .single();
+
+      if (adminError || !admin) {
+        return res.status(403).json({
+          error: 'Forbidden',
+          message: 'Admin access required'
+        });
+      }
+
+      const { data: item, error: itemError } = await supabase
+        .from('data_items')
+        .select(`
+          *,
+          coach:coaches(id, name),
+          client:clients(id, name)
+        `)
+        .eq('id', id)
+        .single();
+
+      if (itemError || !item) {
+        return res.status(404).json({
+          error: 'Not found',
+          message: 'Data item not found'
+        });
+      }
+
+      res.json(item);
+
+    } catch (error) {
+      console.error('Error getting data item:', error);
+      res.status(500).json({
+        error: 'Internal server error',
+        message: error.message
+      });
+    }
+  });
+
+  /**
+   * DELETE /api/admin/data/:id
+   * Delete a data item and its chunks
+   */
+  router.delete('/data/:id', authMiddleware, async (req, res) => {
+    try {
+      const { auth } = req;
+      const { id } = req.params;
+
+      // Verify user is an admin
+      const { data: admin, error: adminError } = await supabase
+        .from('admins')
+        .select('coaching_company_id')
+        .eq('id', auth.userId)
+        .single();
+
+      if (adminError || !admin) {
+        return res.status(403).json({
+          error: 'Forbidden',
+          message: 'Admin access required'
+        });
+      }
+
+      // Delete chunks first (cascading should handle this, but being explicit)
+      await supabase
+        .from('data_chunks')
+        .delete()
+        .eq('data_item_id', id);
+
+      // Delete the data item
+      const { error: deleteError } = await supabase
+        .from('data_items')
+        .delete()
+        .eq('id', id);
+
+      if (deleteError) throw deleteError;
+
+      res.json({
+        message: 'Data item deleted successfully'
+      });
+
+    } catch (error) {
+      console.error('Error deleting data item:', error);
+      res.status(500).json({
+        error: 'Internal server error',
+        message: error.message
+      });
+    }
+  });
+
   return router;
 }
