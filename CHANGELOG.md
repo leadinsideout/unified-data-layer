@@ -2,7 +2,59 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [1.0.0](https://github.com/leadinsideout/unified-data-layer/compare/v0.17.0-checkpoint-17...v1.0.0) (2025-12-08)
+## [1.0.0](https://github.com/leadinsideout/unified-data-layer/compare/v0.15.0...v1.0.0) (2025-12-08)
+
+### 🎉 Production Release - Phase 6 Complete
+
+This is the first production release of the Unified Data Layer, marking the completion of 6 phases and 17 checkpoints. The platform is now ready for use by real coaches.
+
+### Highlights
+
+- **Multi-type semantic search** across transcripts, assessments, coaching models, and company docs
+- **Multi-tenant isolation** with 42 RLS policies ensuring coaches only see their own client data
+- **Automatic transcript ingestion** via Fireflies.ai integration (polling every 10 minutes)
+- **MCP server** for Claude Desktop/Projects integration
+- **Custom GPT** integration validated and documented
+- **Admin dashboard** for non-technical administrators
+
+### Features (Phase 5 & 6)
+
+* **integrations:** Fireflies.ai webhook receiver and GraphQL client ([c7335fe](https://github.com/leadinsideout/unified-data-layer/commit/c7335fe))
+* **integrations:** automatic coach/client matching by email from Fireflies attendees ([6813131](https://github.com/leadinsideout/unified-data-layer/commit/6813131))
+* **integrations:** GitHub Actions polling for reliable Fireflies sync ([a30b2a9](https://github.com/leadinsideout/unified-data-layer/commit/a30b2a9))
+* **integrations:** Slack notifications for missing client alerts ([fb968b6](https://github.com/leadinsideout/unified-data-layer/commit/fb968b6))
+* **security:** add Helmet security headers and rate limiting ([218521f](https://github.com/leadinsideout/unified-data-layer/commit/218521f))
+* **security:** integrate Sentry error tracking ([218521f](https://github.com/leadinsideout/unified-data-layer/commit/218521f))
+* **admin:** dashboard stats, data upload, and data browser UI ([932a619](https://github.com/leadinsideout/unified-data-layer/commit/932a619))
+* **admin:** link client to coach feature ([9b375c4](https://github.com/leadinsideout/unified-data-layer/commit/9b375c4))
+* **admin:** organization selection for client creation ([ff88de5](https://github.com/leadinsideout/unified-data-layer/commit/ff88de5))
+* **api:** analytics dashboard with usage and cost tracking ([85b096e](https://github.com/leadinsideout/unified-data-layer/commit/85b096e))
+
+### Bug Fixes
+
+* **api:** add explicit /admin route for Vercel serverless ([55d76ed](https://github.com/leadinsideout/unified-data-layer/commit/55d76ed))
+* **admin:** API Keys tab not displaying keys ([19b676e](https://github.com/leadinsideout/unified-data-layer/commit/19b676e))
+* **admin:** use metadata fields for title instead of missing column ([a0a2028](https://github.com/leadinsideout/unified-data-layer/commit/a0a2028))
+* address tester feedback - client count, privacy, search flexibility ([93688a3](https://github.com/leadinsideout/unified-data-layer/commit/93688a3))
+
+### Internal Testing
+
+* 3 testers, 6 Custom GPTs, 13 feedback entries
+* 6 issues identified and resolved (100%)
+* GPT instruction improvements for privacy and confidence
+
+### Database
+
+* New tables: `api_usage`, `cost_events` for analytics
+* New views: `api_usage_daily`, `cost_daily` for reporting
+* New table: `fireflies_sync_state` for deduplication
+* New table: `fireflies_pending` for unmatched transcripts
+
+### Documentation
+
+* Checkpoint 14-17 results documentation
+* Updated GPT instructions with privacy boundaries
+* Admin dashboard usage guide
 
 ## [0.13.0](https://github.com/leadinsideout/unified-data-layer/compare/v0.12.0...v0.13.0) (2025-11-25)
 
