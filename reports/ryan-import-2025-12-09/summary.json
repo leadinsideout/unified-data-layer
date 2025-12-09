@@ -1,0 +1,46 @@
+{
+  "generated": "2025-12-09T12:15:00.000Z",
+  "updated": "2025-12-09T19:30:00.000Z",
+  "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+  "coachName": "Ryan Vaughn",
+  "coachEmail": "ryan@leadinsideout.io",
+  "apiKey": "[REDACTED - see admin for key]",
+  "batchTag": "ryan-vaughn-2025-12",
+  "counts": {
+    "transcripts": {
+      "total": 358,
+      "matched": 151,
+      "unmatched": 207,
+      "360_interviews": 5
+    },
+    "assessments": 37,
+    "coaching_models": 5,
+    "clients": 37
+  },
+  "unmatchedBreakdown": {
+    "staff": 16,
+    "intern": 11,
+    "collaborator": 2,
+    "nonCoachingCalls": 40,
+    "likelyClients": 16,
+    "unknownSingleSession": 51,
+    "stillUnparseable": 71
+  },
+  "notes": {
+    "clientImportIssues": "12 clients failed to import due to email uniqueness constraint (likely duplicate/null emails)",
+    "unmatchedAnalysis": "207 unmatched after 2 re-matching rounds: 16 staff (Jem), 11 intern (Nick), 2 collaborator (Santi), 40 non-coaching, 16 likely clients not in DB, 51 unknown singles, 71 unparseable",
+    "360Interviews": "5 360 reviews tagged - need EA to map to parent client",
+    "reMatchingRuns": "Round 1: +27 matches (Ryan-first patterns). Round 2: +3 matches (hyphenated names, ampersand variants)"
+  },
+  "verificationNeeded": {
+    "highPriority": ["Tom (13 sessions)", "Copy of Pete (3 sessions)", "James (3 sessions)"],
+    "mediumPriority": ["Amanda Lewan", "Fritz Lensch", "Katie Birge", "Mina Lee", "Sasza Lohrey", "William Dickinson"],
+    "file": "names-for-verification.csv"
+  },
+  "nextSteps": [
+    "Send names-for-verification.csv to Ryan for client confirmation",
+    "Send 360-reviews-for-ea.csv to Jem for 360 client mapping",
+    "Create client records for confirmed names (especially Tom with 13 sessions)",
+    "Test Custom GPT with Ryan's API key"
+  ]
+}
