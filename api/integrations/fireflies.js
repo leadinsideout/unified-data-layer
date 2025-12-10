@@ -105,9 +105,10 @@ async function sendSlackNotification({ title, message, fields = [], color = 'war
  * @returns {Promise<boolean>} - True if sent successfully
  */
 async function sendTranscriptSavedNotification({ title, coach, client, sessionType, chunks, syncMethod, sessionDate }) {
-  const webhookUrl = process.env.SLACK_TRANSCRIPT_WEBHOOK_URL;
+  // Use dedicated transcript webhook, or fall back to general webhook
+  const webhookUrl = process.env.SLACK_TRANSCRIPT_WEBHOOK_URL || process.env.SLACK_WEBHOOK_URL;
   if (!webhookUrl) {
-    console.log('[Fireflies] No SLACK_TRANSCRIPT_WEBHOOK_URL configured, skipping transcript notification');
+    console.log('[Fireflies] No Slack webhook URL configured, skipping transcript notification');
     return false;
   }
 
