@@ -25,11 +25,14 @@ const FIREFLIES_API_URL = 'https://api.fireflies.ai/graphql';
  * @param {string} options.message - Main message text
  * @param {Object[]} options.fields - Optional fields for structured data
  * @param {string} options.color - Attachment color (warning, danger, good)
+ * @param {string} options.channel - Which webhook to use: 'admin' or 'transcript'
  * @returns {Promise<boolean>} - True if sent successfully
  */
-async function sendSlackNotification({ title, message, fields = [], color = 'warning' }) {
-  // Use SLACK_ADMIN_WEBHOOK_URL if set, otherwise fall back to SLACK_WEBHOOK_URL
-  const webhookUrl = process.env.SLACK_ADMIN_WEBHOOK_URL || process.env.SLACK_WEBHOOK_URL;
+async function sendSlackNotification({ title, message, fields = [], color = 'warning', channel = 'admin' }) {
+  // Select webhook URL based on channel
+  const webhookUrl = channel === 'transcript'
+    ? process.env.SLACK_TRANSCRIPT_WEBHOOK_URL
+    : (process.env.SLACK_ADMIN_WEBHOOK_URL || process.env.SLACK_WEBHOOK_URL);
   if (!webhookUrl) {
     console.log('[Fireflies] No Slack webhook URL configured, skipping notification');
     return false;
@@ -85,6 +88,105 @@ async function sendSlackNotification({ title, message, fields = [], color = 'war
     return true;
   } catch (error) {
     console.error('[Fireflies] Slack notification error:', error.message);
+    return false;
+  }
+}
+
+/**
+ * Send notification when a transcript is saved to the database
+ * @param {Object} options - Notification options
+ * @param {string} options.title - Transcript title
+ * @param {string} options.coach - Coach name
+ * @param {string} options.client - Client name (or null)
+ * @param {string} options.sessionType - Session type tag
+ * @param {number} options.chunks - Number of chunks created
+ * @param {string} options.syncMethod - How it was synced (webhook, polling, import)
+ * @param {string} options.sessionDate - Session date
+ * @returns {Promise<boolean>} - True if sent successfully
+ */
+async function sendTranscriptSavedNotification({ title, coach, client, sessionType, chunks, syncMethod, sessionDate }) {
+  const webhookUrl = process.env.SLACK_TRANSCRIPT_WEBHOOK_URL;
+  if (!webhookUrl) {
+    console.log('[Fireflies] No SLACK_TRANSCRIPT_WEBHOOK_URL configured, skipping transcript notification');
+    return false;
+  }
+
+  try {
+    // Determine emoji based on session type
+    const typeEmojis = {
+      client_coaching: '🎯',
+      internal_meeting: '🏢',
+      staff_1on1: '👥',
+      training: '📚',
+      sales_call: '💼',
+      personal_development: '🌱',
+      '360_interview': '🔄',
+      networking: '🤝',
+      unmatched_client: '❓',
+      untagged: '📝'
+    };
+    const emoji = typeEmojis[sessionType] || '📝';
+
+    // Build the message
+    const clientInfo = client ? `*Client:* ${client}` : '_No client linked_';
+    const dateInfo = sessionDate ? new Date(sessionDate).toLocaleDateString() : 'Unknown';
+
+    const payload = {
+      text: `${emoji} New Transcript Saved`,
+      blocks: [
+        {
+          type: 'header',
+          text: {
+            type: 'plain_text',
+            text: `${emoji} New Transcript Saved`,
+            emoji: true
+          }
+        },
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: `*${title}*`
+          }
+        },
+        {
+          type: 'section',
+          fields: [
+            { type: 'mrkdwn', text: `*Coach:*\n${coach}` },
+            { type: 'mrkdwn', text: clientInfo },
+            { type: 'mrkdwn', text: `*Type:*\n${sessionType}` },
+            { type: 'mrkdwn', text: `*Date:*\n${dateInfo}` },
+            { type: 'mrkdwn', text: `*Chunks:*\n${chunks}` },
+            { type: 'mrkdwn', text: `*Via:*\n${syncMethod}` }
+          ]
+        },
+        {
+          type: 'context',
+          elements: [
+            {
+              type: 'mrkdwn',
+              text: `Synced at ${new Date().toLocaleString()}`
+            }
+          ]
+        }
+      ]
+    };
+
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      console.error('[Fireflies] Transcript notification failed:', response.status);
+      return false;
+    }
+
+    console.log('[Fireflies] Transcript saved notification sent');
+    return true;
+  } catch (error) {
+    console.error('[Fireflies] Transcript notification error:', error.message);
     return false;
   }
 }
@@ -695,6 +797,17 @@ export function createFirefliesRoutes(supabase, openai) {
       const elapsed = Date.now() - startTime;
       console.log(`[Fireflies] Processed ${chunksProcessed}/${chunks.length} chunks in ${elapsed}ms`);
 
+      // Send notification about saved transcript
+      await sendTranscriptSavedNotification({
+        title: formattedTranscript.title,
+        coach: matches.coach.name,
+        client: matches.client?.name || null,
+        sessionType,
+        chunks: chunksProcessed,
+        syncMethod: 'webhook',
+        sessionDate: formattedTranscript.session_date
+      });
+
       return res.json({
         status: 'processed',
         data_item_id: dataItem.id,
@@ -813,6 +926,17 @@ export function createFirefliesRoutes(supabase, openai) {
         });
         chunksProcessed++;
       }
+
+      // Send notification about saved transcript
+      await sendTranscriptSavedNotification({
+        title: formattedTranscript.title,
+        coach: coach.name,
+        client: matches.client?.name || null,
+        sessionType,
+        chunks: chunksProcessed,
+        syncMethod: 'import',
+        sessionDate: formattedTranscript.session_date
+      });
 
       return res.json({
         status: 'imported',
@@ -961,6 +1085,17 @@ export function createFirefliesRoutes(supabase, openai) {
           assigned_client_id: client?.id || null
         })
         .eq('id', id);
+
+      // Send notification about saved transcript
+      await sendTranscriptSavedNotification({
+        title: formattedTranscript.title,
+        coach: coach.name,
+        client: client?.name || null,
+        sessionType,
+        chunks: chunks.length,
+        syncMethod: 'pending_assignment',
+        sessionDate: formattedTranscript.session_date
+      });
 
       return res.json({
         status: 'assigned',
@@ -1161,6 +1296,17 @@ export function createFirefliesRoutes(supabase, openai) {
           });
 
           console.log(`[Fireflies Sync] Synced: ${transcript.title}`);
+
+          // Send notification about saved transcript
+          await sendTranscriptSavedNotification({
+            title: formattedTranscript.title,
+            coach: matches.coach.name,
+            client: matches.client?.name || null,
+            sessionType,
+            chunks: chunks.length,
+            syncMethod: 'polling',
+            sessionDate: formattedTranscript.session_date
+          });
 
           // Send Slack notification if coach matched but no client
           if (!matches.client && matches.unmatched_emails && matches.unmatched_emails.length > 0) {
