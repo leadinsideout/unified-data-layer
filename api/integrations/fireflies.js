@@ -1084,10 +1084,10 @@ export function createFirefliesRoutes(supabase, openai) {
 
       const userData = await userResponse.json();
 
-      // List recent transcripts
+      // List recent transcripts (max 50 per Fireflies API limit)
       const listQuery = `
         query {
-          transcripts(limit: 100) {
+          transcripts(limit: 50) {
             id
             title
             date
