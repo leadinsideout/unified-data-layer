@@ -1051,6 +1051,142 @@ export function createFirefliesRoutes(supabase, openai) {
   });
 
   /**
+   * Debug endpoint - List all emails from recent Fireflies transcripts
+   * GET /api/integrations/fireflies/debug
+   * Protected by sync secret header
+   */
+  router.get('/debug', async (req, res) => {
+    const FIREFLIES_SYNC_SECRET = process.env.FIREFLIES_SYNC_SECRET;
+
+    // Verify sync secret
+    const syncSecret = req.headers['x-sync-secret'];
+    if (!FIREFLIES_SYNC_SECRET || syncSecret !== FIREFLIES_SYNC_SECRET) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    if (!FIREFLIES_API_KEY) {
+      return res.status(500).json({ error: 'Fireflies API key not configured' });
+    }
+
+    try {
+      // First get user info
+      const userQuery = `
+        query {
+          user {
+            user_id
+            email
+            name
+            is_admin
+          }
+        }
+      `;
+
+      const userResponse = await fetch(FIREFLIES_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${FIREFLIES_API_KEY}`
+        },
+        body: JSON.stringify({ query: userQuery })
+      });
+
+      const userData = await userResponse.json();
+
+      // List recent transcripts
+      const listQuery = `
+        query {
+          transcripts(limit: 100) {
+            id
+            title
+            date
+            dateString
+            host_email
+            organizer_email
+            meeting_attendees {
+              email
+              name
+              displayName
+            }
+          }
+        }
+      `;
+
+      const listResponse = await fetch(FIREFLIES_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${FIREFLIES_API_KEY}`
+        },
+        body: JSON.stringify({ query: listQuery })
+      });
+
+      const listData = await listResponse.json();
+
+      if (listData.errors) {
+        return res.status(500).json({ error: 'Fireflies API error', details: listData.errors });
+      }
+
+      const transcripts = listData.data?.transcripts || [];
+
+      // Collect all unique emails and their counts
+      const emailCounts = {};
+      const ryanEmail = 'ryan@leadinsideout.io';
+      const ryanTranscripts = [];
+
+      for (const t of transcripts) {
+        const emails = new Set();
+        if (t.host_email) emails.add(t.host_email.toLowerCase());
+        if (t.organizer_email) emails.add(t.organizer_email.toLowerCase());
+        if (t.meeting_attendees) {
+          for (const a of t.meeting_attendees) {
+            if (a.email) emails.add(a.email.toLowerCase());
+          }
+        }
+
+        for (const email of emails) {
+          emailCounts[email] = (emailCounts[email] || 0) + 1;
+          if (email === ryanEmail) {
+            ryanTranscripts.push({
+              id: t.id,
+              title: t.title,
+              date: t.dateString,
+              host_email: t.host_email,
+              organizer_email: t.organizer_email
+            });
+          }
+        }
+      }
+
+      // Sort emails by count
+      const sortedEmails = Object.entries(emailCounts)
+        .sort((a, b) => b[1] - a[1]);
+
+      // Get registered coaches for comparison
+      const { data: coaches } = await supabase
+        .from('coaches')
+        .select('id, name, email');
+
+      return res.json({
+        api_user: userData.data?.user || null,
+        total_transcripts: transcripts.length,
+        unique_emails: sortedEmails.length,
+        email_breakdown: sortedEmails.slice(0, 30), // Top 30
+        leadinsideout_emails: sortedEmails.filter(([e]) => e.includes('leadinsideout')),
+        ryan_transcripts: ryanTranscripts,
+        ryan_found: ryanTranscripts.length > 0,
+        registered_coaches: coaches,
+        diagnosis: ryanTranscripts.length === 0
+          ? 'Ryan email NOT found in any Fireflies transcripts. Check if Ryan uses different email or different Fireflies workspace.'
+          : `Found ${ryanTranscripts.length} transcripts with Ryan's email`
+      });
+
+    } catch (error) {
+      console.error('[Fireflies Debug] Error:', error);
+      return res.status(500).json({ error: error.message });
+    }
+  });
+
+  /**
    * Health check for Fireflies integration
    * GET /api/integrations/fireflies/health
    */
