@@ -310,6 +310,12 @@ export async function findClientByEmail(supabase, email) {
 /**
  * Match participants from Fireflies meeting to our database entities
  * Identifies coach, client, and organization from attendee list
+ *
+ * PRIORITY ORDER for coach matching:
+ * 1. Organizer email (meeting owner is most likely the coach)
+ * 2. Host email (if different from organizer)
+ * 3. Other attendees
+ *
  * @param {Object} supabase - Supabase client
  * @param {Object} transcript - Formatted transcript with host_email, organizer_email
  * @param {Array} attendees - Array of {email, name, displayName} from Fireflies
@@ -323,23 +329,45 @@ export async function matchParticipants(supabase, transcript, attendees) {
     unmatched_emails: []
   };
 
-  // Collect all unique emails from the meeting
-  const emailsToCheck = new Set();
+  // Build ordered list of emails to check - organizer first, then host, then attendees
+  // Use array to preserve priority order (Set iteration order is not guaranteed)
+  const emailsToCheck = [];
+  const seenEmails = new Set();
 
-  if (transcript.host_email) emailsToCheck.add(transcript.host_email.toLowerCase());
-  if (transcript.organizer_email) emailsToCheck.add(transcript.organizer_email.toLowerCase());
+  // Priority 1: Organizer (meeting creator - most likely to be the coach)
+  if (transcript.organizer_email) {
+    const email = transcript.organizer_email.toLowerCase();
+    if (!seenEmails.has(email)) {
+      emailsToCheck.push(email);
+      seenEmails.add(email);
+    }
+  }
 
+  // Priority 2: Host (if different from organizer)
+  if (transcript.host_email) {
+    const email = transcript.host_email.toLowerCase();
+    if (!seenEmails.has(email)) {
+      emailsToCheck.push(email);
+      seenEmails.add(email);
+    }
+  }
+
+  // Priority 3: Other attendees
   if (attendees && Array.isArray(attendees)) {
     for (const attendee of attendees) {
       if (attendee.email) {
-        emailsToCheck.add(attendee.email.toLowerCase());
+        const email = attendee.email.toLowerCase();
+        if (!seenEmails.has(email)) {
+          emailsToCheck.push(email);
+          seenEmails.add(email);
+        }
       }
     }
   }
 
-  // Check each email against coaches and clients
+  // Check each email in priority order - organizer first
   for (const email of emailsToCheck) {
-    // First try to match as coach (host/organizer most likely to be coach)
+    // First try to match as coach (organizer most likely to be coach)
     if (!result.coach) {
       const coach = await findCoachByEmail(supabase, email);
       if (coach) {
@@ -1053,9 +1081,17 @@ export function createFirefliesRoutes(supabase, openai) {
   /**
    * Debug endpoint - List all emails from recent Fireflies transcripts
    * GET /api/integrations/fireflies/debug
-   * TEMPORARILY UNAUTHENTICATED for debugging Ryan sync issue - REMOVE AFTER FIX
+   * Protected by sync secret header
    */
   router.get('/debug', async (req, res) => {
+    const FIREFLIES_SYNC_SECRET = process.env.FIREFLIES_SYNC_SECRET;
+
+    // Verify sync secret
+    const syncSecret = req.headers['x-sync-secret'];
+    if (!FIREFLIES_SYNC_SECRET || syncSecret !== FIREFLIES_SYNC_SECRET) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
     if (!FIREFLIES_API_KEY) {
       return res.status(500).json({ error: 'Fireflies API key not configured' });
     }
