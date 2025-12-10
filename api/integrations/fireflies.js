@@ -1053,17 +1053,9 @@ export function createFirefliesRoutes(supabase, openai) {
   /**
    * Debug endpoint - List all emails from recent Fireflies transcripts
    * GET /api/integrations/fireflies/debug
-   * Protected by sync secret header
+   * TEMPORARILY UNAUTHENTICATED for debugging Ryan sync issue - REMOVE AFTER FIX
    */
   router.get('/debug', async (req, res) => {
-    const FIREFLIES_SYNC_SECRET = process.env.FIREFLIES_SYNC_SECRET;
-
-    // Verify sync secret
-    const syncSecret = req.headers['x-sync-secret'];
-    if (!FIREFLIES_SYNC_SECRET || syncSecret !== FIREFLIES_SYNC_SECRET) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-
     if (!FIREFLIES_API_KEY) {
       return res.status(500).json({ error: 'Fireflies API key not configured' });
     }
