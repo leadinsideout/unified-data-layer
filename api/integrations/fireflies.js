@@ -90,6 +90,114 @@ async function sendSlackNotification({ title, message, fields = [], color = 'war
 }
 
 /**
+ * Detect session type based on meeting title patterns
+ * Used to automatically categorize incoming transcripts
+ *
+ * @param {string} title - Meeting title from Fireflies
+ * @param {boolean} hasClientMatch - Whether a client was matched
+ * @returns {string} - Session type identifier
+ */
+export function detectSessionType(title, hasClientMatch = false) {
+  if (!title) {
+    return hasClientMatch ? 'client_coaching' : 'untagged';
+  }
+
+  const t = title.toLowerCase();
+
+  // Internal meetings - IO company meetings, strategy, alignment
+  if (t.includes('io co-creation') || t.includes('io-co-creation') ||
+      t.includes('io ai meeting') || t.includes('io ai ') ||
+      t.includes('io vision') || t.includes('new fs thing') ||
+      t.includes('hampton') && t.includes('moderator') ||
+      t.includes('e7 ') || t.includes('e7-') ||
+      t.includes('coach ai') || t.includes('coachgpt') ||
+      t.includes('retro call') || t.includes('retro meeting') || t.includes('retro for') ||
+      t.includes('strategic framework') || t.includes('align on') ||
+      t.includes('touch base') || t.includes('discuss bamboo') ||
+      t.includes('structure on embedding') || t.includes('operating system') ||
+      t.includes('service delivery') || t.includes('proposal review') ||
+      t.includes('copiloting') || t.includes('collab chat')) {
+    return 'internal_meeting';
+  }
+
+  // Staff 1:1s
+  if (t.includes('jem') || t.includes('ryan - jem') || t.includes('jem -') ||
+      t.includes('harry - ryan') || t.includes('harry-ryan') ||
+      t.includes('derek-ryan') || t.includes('derek - ryan') ||
+      t.includes('scott - ryan') || t.includes('scott-ryan') ||
+      t.includes('santi and ryan') || t.includes('ryan - santi') ||
+      t.includes('pranab')) {
+    return 'staff_1on1';
+  }
+
+  // Training sessions
+  if (t.includes('hakomi') || t.includes('facilitator') || t.includes('pef ') ||
+      t.includes('training') || t.includes('office hours')) {
+    return 'training';
+  }
+
+  // Sales/fit calls
+  if (t.includes('fit call') || t.includes('fit-call') ||
+      t.includes('i-o fit') || t.includes('io fit') ||
+      t.includes('coach matching')) {
+    return 'sales_call';
+  }
+
+  // Personal development
+  if (t.includes('amita') || t.includes('ifs ')) {
+    return 'personal_development';
+  }
+
+  // 360 interviews
+  if (t.includes('360') && (t.includes('interview') || t.includes('review'))) {
+    return '360_interview';
+  }
+
+  // Other coach sessions (sessions for other coaches' clients)
+  if (t.includes('andrea-jason') || t.includes('andrea - jason')) {
+    return 'other_coach_session';
+  }
+
+  // Client coaching - if we matched a client, it's coaching
+  if (hasClientMatch) {
+    return 'client_coaching';
+  }
+
+  // Check for "Copy of" pattern first - these are always unmatched client copies
+  if (t.startsWith('copy of')) {
+    return 'unmatched_client';
+  }
+
+  // Check for common coaching session patterns that indicate client sessions
+  // even if no client match (for future linking)
+  if (t.includes('biweekly') || t.includes('bi-weekly') ||
+      t.includes('coaching session') || t.includes('session-transcript')) {
+    // Look for name patterns that suggest it's a client session
+    // Format: "Name - Coach biweekly" or "Name and Coach"
+    const namePatterns = [
+      /^([a-z]+)\s*[-&]\s*ryan/i,           // "Tom - Ryan", "Nick & Ryan"
+      /^([a-z]+\s+[a-z]+)\s*[-&]\s*ryan/i,  // "First Last - Ryan"
+      /ryan\s*[-&]\s*([a-z]+)/i             // "Ryan - Tom"
+    ];
+
+    for (const pattern of namePatterns) {
+      if (pattern.test(title)) {
+        return 'unmatched_client';
+      }
+    }
+  }
+
+  // Networking/external calls - named individuals without "session" context
+  if (t.match(/ryan\s*(vaughn)?\s*(and|&|_)\s*[a-z]+/i) ||
+      t.match(/[a-z]+\s*(and|&|_)\s*ryan\s*vaughn/i)) {
+    return 'networking';
+  }
+
+  // Default - untagged for manual review
+  return 'untagged';
+}
+
+/**
  * Chunk text into smaller pieces for embedding
  * Matches base-processor.js chunking logic: 500 words with 50 word overlap
  * @param {string} text - Text to chunk
@@ -523,6 +631,10 @@ export function createFirefliesRoutes(supabase, openai) {
         console.log(`[Fireflies] Matched organization: ${matches.organization_id}`);
       }
 
+      // Detect session type based on title and client match
+      const sessionType = detectSessionType(formattedTranscript.title, !!matches.client);
+      console.log(`[Fireflies] Detected session type: ${sessionType}`);
+
       const chunks = chunkText(formattedTranscript.content);
 
       // Create data item with all relationship fields populated
@@ -535,6 +647,7 @@ export function createFirefliesRoutes(supabase, openai) {
             ...formattedTranscript.metadata,
             title: formattedTranscript.title,
             slug: `fireflies-${meetingId}`,
+            session_type: sessionType,
             unmatched_emails: matches.unmatched_emails
           },
           coach_id: matches.coach.id,
@@ -652,6 +765,9 @@ export function createFirefliesRoutes(supabase, openai) {
         });
       }
 
+      // Detect session type based on title and client match
+      const sessionType = detectSessionType(formattedTranscript.title, !!matches.client);
+
       // Process transcript with all matched relationships
       const chunks = chunkText(formattedTranscript.content);
 
@@ -664,6 +780,7 @@ export function createFirefliesRoutes(supabase, openai) {
             ...formattedTranscript.metadata,
             title: formattedTranscript.title,
             slug: `fireflies-${meeting_id}`,
+            session_type: sessionType,
             unmatched_emails: matches.unmatched_emails
           },
           coach_id: coach.id,
@@ -704,6 +821,7 @@ export function createFirefliesRoutes(supabase, openai) {
         client: matches.client?.name || null,
         client_id: matches.client?.id || null,
         organization_id: matches.organization_id || null,
+        session_type: sessionType,
         chunks_processed: chunksProcessed
       });
 
@@ -788,6 +906,10 @@ export function createFirefliesRoutes(supabase, openai) {
 
       // Process the transcript
       const formattedTranscript = pending.transcript_data;
+
+      // Detect session type based on title and client match
+      const sessionType = detectSessionType(formattedTranscript.title, !!client);
+
       const chunks = chunkText(formattedTranscript.content);
 
       const { data: dataItem, error: itemError } = await supabase
@@ -798,7 +920,8 @@ export function createFirefliesRoutes(supabase, openai) {
           metadata: {
             ...formattedTranscript.metadata,
             title: formattedTranscript.title,
-            slug: `fireflies-${pending.meeting_id}`
+            slug: `fireflies-${pending.meeting_id}`,
+            session_type: sessionType
           },
           coach_id: coach.id,
           client_id: client?.id || null,
@@ -974,6 +1097,9 @@ export function createFirefliesRoutes(supabase, openai) {
             continue;
           }
 
+          // Detect session type based on title and client match
+          const sessionType = detectSessionType(formattedTranscript.title, !!matches.client);
+
           // Process transcript (same logic as webhook/import)
           const chunks = chunkText(formattedTranscript.content);
 
@@ -986,6 +1112,7 @@ export function createFirefliesRoutes(supabase, openai) {
                 ...formattedTranscript.metadata,
                 title: formattedTranscript.title,
                 slug: `fireflies-${transcript.id}`,
+                session_type: sessionType,
                 synced_via: 'polling'
               },
               coach_id: matches.coach.id,
@@ -1029,6 +1156,7 @@ export function createFirefliesRoutes(supabase, openai) {
             data_item_id: dataItem.id,
             coach: matches.coach.name,
             client: matches.client?.name || null,
+            session_type: sessionType,
             chunks: chunks.length
           });
 
@@ -1271,5 +1399,6 @@ export default {
   formatTranscript,
   findCoachByEmail,
   findClientByEmail,
-  matchParticipants
+  matchParticipants,
+  detectSessionType
 };
