@@ -19,6 +19,71 @@ import express from 'express';
 const FIREFLIES_API_URL = 'https://api.fireflies.ai/graphql';
 
 /**
+ * Parse Fireflies API keys from environment
+ * Supports both standard key and admin key configurations
+ *
+ * Environment variables:
+ * - FIREFLIES_API_KEY: Standard API key (team-visible transcripts only)
+ * - FIREFLIES_ADMIN_API_KEY: Super Admin API key (accesses ALL transcripts including private)
+ *   Format: {"coach_id":"api_key"} - Maps the admin key to a specific coach for attribution
+ *   Example: {"9185bd98-a828-414f-b335-c607b4ac3d11":"3c08617c-xxxx-yyyy-zzzz-xxxxxxxxxxxx"}
+ *
+ * @returns {Object} Configuration object with:
+ *   - defaultKey: string|null - The standard API key (from FIREFLIES_API_KEY)
+ *   - adminKey: {key, coachId}|null - The admin key with associated coach
+ *   - allKeys: Array<{key, coachId, label}> - All configured keys for iteration
+ */
+export function getFirefliesApiKeys() {
+  const defaultKey = process.env.FIREFLIES_API_KEY || null;
+  const allKeys = [];
+  let adminKey = null;
+
+  // Parse FIREFLIES_ADMIN_API_KEY JSON if present
+  // Format: {"coach_id":"api_key"} - single admin key mapped to a coach for attribution
+  const adminKeyJson = process.env.FIREFLIES_ADMIN_API_KEY;
+  if (adminKeyJson) {
+    try {
+      const parsed = JSON.parse(adminKeyJson);
+      const entries = Object.entries(parsed);
+      if (entries.length > 0) {
+        const [coachId, apiKey] = entries[0];
+        if (coachId && apiKey) {
+          adminKey = { key: apiKey, coachId };
+          allKeys.push({
+            key: apiKey,
+            coachId,
+            label: 'admin'
+          });
+          console.log(`[Fireflies] Loaded admin API key (attributed to coach ${coachId.substring(0, 8)}...)`);
+        }
+      }
+    } catch (e) {
+      console.error('[Fireflies] Failed to parse FIREFLIES_ADMIN_API_KEY JSON:', e.message);
+    }
+  }
+
+  // Add default key if configured and different from admin key
+  if (defaultKey) {
+    const defaultAlreadyIncluded = allKeys.some(k => k.key === defaultKey);
+    if (!defaultAlreadyIncluded) {
+      allKeys.unshift({
+        key: defaultKey,
+        coachId: null,
+        label: 'default'
+      });
+    }
+  }
+
+  return {
+    defaultKey,
+    adminKey,
+    allKeys,
+    hasAnyKey: allKeys.length > 0,
+    hasAdminKey: !!adminKey
+  };
+}
+
+/**
  * Send Slack notification for admin alerts
  * @param {Object} options - Notification options
  * @param {string} options.title - Notification title
@@ -519,6 +584,28 @@ export async function findClientByEmail(supabase, email) {
 }
 
 /**
+ * Find coach by ID
+ * @param {Object} supabase - Supabase client
+ * @param {string} coachId - Coach UUID
+ * @returns {Object|null} - Coach record or null
+ */
+export async function findCoachById(supabase, coachId) {
+  if (!coachId) return null;
+
+  const { data, error } = await supabase
+    .from('coaches')
+    .select('id, name, email, coaching_company_id')
+    .eq('id', coachId)
+    .single();
+
+  if (error || !data) {
+    return null;
+  }
+
+  return data;
+}
+
+/**
  * Match participants from Fireflies meeting to our database entities
  * Identifies coach, client, and organization from attendee list
  *
@@ -526,18 +613,23 @@ export async function findClientByEmail(supabase, email) {
  * 1. Organizer email (meeting owner is most likely the coach)
  * 2. Host email (if different from organizer)
  * 3. Other attendees
+ * 4. Fallback coach ID (if provided, used when email matching fails)
  *
  * @param {Object} supabase - Supabase client
  * @param {Object} transcript - Formatted transcript with host_email, organizer_email
  * @param {Array} attendees - Array of {email, name, displayName} from Fireflies
- * @returns {Object} - { coach, client, organization_id, unmatched_emails }
+ * @param {Object} options - Optional settings
+ * @param {string} options.fallbackCoachId - Coach ID to use if no email match (e.g., API key owner)
+ * @returns {Object} - { coach, client, organization_id, unmatched_emails, matched_via }
  */
-export async function matchParticipants(supabase, transcript, attendees) {
+export async function matchParticipants(supabase, transcript, attendees, options = {}) {
+  const { fallbackCoachId } = options;
   const result = {
     coach: null,
     client: null,
     organization_id: null,
-    unmatched_emails: []
+    unmatched_emails: [],
+    matched_via: null  // 'email', 'primary_coach', or 'api_key_owner'
   };
 
   // Build ordered list of emails to check - organizer first, then host, then attendees
@@ -583,6 +675,7 @@ export async function matchParticipants(supabase, transcript, attendees) {
       const coach = await findCoachByEmail(supabase, email);
       if (coach) {
         result.coach = coach;
+        result.matched_via = 'email';
         continue;
       }
     }
@@ -611,6 +704,18 @@ export async function matchParticipants(supabase, transcript, attendees) {
 
     if (primaryCoach) {
       result.coach = primaryCoach;
+      result.matched_via = 'primary_coach';
+    }
+  }
+
+  // Fallback to API key owner if provided and still no coach match
+  // This handles "Only Me" transcripts where the coach's email isn't in attendee list
+  if (!result.coach && fallbackCoachId) {
+    const fallbackCoach = await findCoachById(supabase, fallbackCoachId);
+    if (fallbackCoach) {
+      result.coach = fallbackCoach;
+      result.matched_via = 'api_key_owner';
+      console.log(`[Fireflies] Coach matched via API key owner fallback: ${fallbackCoach.name}`);
     }
   }
 
@@ -832,32 +937,62 @@ export function createFirefliesRoutes(supabase, openai) {
   /**
    * Manual import endpoint - for testing or re-processing
    * POST /api/integrations/fireflies/import
+   *
+   * Body params:
+   * - meeting_id: Required - Fireflies meeting ID
+   * - coach_id: Optional - Override coach assignment
+   * - api_key_label: Optional - Which API key to use (e.g., 'default', 'coach-9185bd98')
    */
   router.post('/import', express.json(), async (req, res) => {
     try {
-      const { meeting_id, coach_id } = req.body;
+      const { meeting_id, coach_id, api_key_label } = req.body;
 
       if (!meeting_id) {
         return res.status(400).json({ error: 'meeting_id is required' });
       }
 
-      if (!FIREFLIES_API_KEY) {
-        return res.status(500).json({ error: 'Fireflies API key not configured' });
+      // Get API key configuration
+      const apiKeyConfig = getFirefliesApiKeys();
+      if (!apiKeyConfig.hasAnyKey) {
+        return res.status(500).json({ error: 'No Fireflies API keys configured' });
       }
 
-      // Fetch transcript
-      const transcript = await fetchTranscript(meeting_id, FIREFLIES_API_KEY);
+      // Select which API key to use
+      let selectedKey = apiKeyConfig.allKeys[0]; // Default to first key
+      let fallbackCoachId = null;
+
+      if (api_key_label) {
+        const foundKey = apiKeyConfig.allKeys.find(k => k.label === api_key_label);
+        if (!foundKey) {
+          return res.status(400).json({
+            error: `API key '${api_key_label}' not found`,
+            available_keys: apiKeyConfig.allKeys.map(k => k.label)
+          });
+        }
+        selectedKey = foundKey;
+      }
+
+      // If using a coach-specific key, set up fallback coach matching
+      if (selectedKey.coachId) {
+        fallbackCoachId = selectedKey.coachId;
+      }
+
+      console.log(`[Fireflies Import] Using API key: ${selectedKey.label}`);
+
+      // Fetch transcript using selected API key
+      const transcript = await fetchTranscript(meeting_id, selectedKey.key);
       if (!transcript) {
         return res.status(404).json({ error: 'Transcript not found' });
       }
 
       const formattedTranscript = formatTranscript(transcript);
 
-      // Match all participants from the meeting
+      // Match all participants from the meeting (with optional coach fallback)
       const matches = await matchParticipants(
         supabase,
         formattedTranscript,
-        transcript.meeting_attendees
+        transcript.meeting_attendees,
+        { fallbackCoachId }
       );
 
       // If coach_id is explicitly provided, use that instead of auto-match
@@ -885,6 +1020,9 @@ export function createFirefliesRoutes(supabase, openai) {
       // Process transcript with all matched relationships
       const chunks = chunkText(formattedTranscript.content);
 
+      // Determine matched_via - if coach_id was explicitly provided, note that
+      const matchedVia = coach_id ? 'explicit_override' : (matches.matched_via || 'unknown');
+
       const { data: dataItem, error: itemError } = await supabase
         .from('data_items')
         .insert({
@@ -895,6 +1033,9 @@ export function createFirefliesRoutes(supabase, openai) {
             title: formattedTranscript.title,
             slug: `fireflies-${meeting_id}`,
             session_type: sessionType,
+            synced_via: 'manual_import',
+            api_key_label: selectedKey.label,
+            matched_via: matchedVia,
             unmatched_emails: matches.unmatched_emails
           },
           coach_id: coach.id,
@@ -923,7 +1064,7 @@ export function createFirefliesRoutes(supabase, openai) {
           chunk_index: i,
           content: chunk,
           embedding: embeddingResponse.data[0].embedding,
-          metadata: { source: 'fireflies', meeting_id }
+          metadata: { source: 'fireflies', meeting_id, api_key_label: selectedKey.label }
         });
         chunksProcessed++;
       }
@@ -935,7 +1076,7 @@ export function createFirefliesRoutes(supabase, openai) {
         client: matches.client?.name || null,
         sessionType,
         chunks: chunksProcessed,
-        syncMethod: 'import',
+        syncMethod: 'manual_import',
         sessionDate: formattedTranscript.session_date
       });
 
@@ -947,7 +1088,9 @@ export function createFirefliesRoutes(supabase, openai) {
         client_id: matches.client?.id || null,
         organization_id: matches.organization_id || null,
         session_type: sessionType,
-        chunks_processed: chunksProcessed
+        chunks_processed: chunksProcessed,
+        api_key_used: selectedKey.label,
+        matched_via: matchedVia
       });
 
     } catch (error) {
@@ -1115,10 +1258,239 @@ export function createFirefliesRoutes(supabase, openai) {
   });
 
   /**
+   * Helper function to sync transcripts using a specific API key
+   * Extracted for multi-key support
+   *
+   * @param {Object} options - Sync options
+   * @param {string} options.apiKey - Fireflies API key to use
+   * @param {string|null} options.coachId - Coach ID associated with this key (for fallback matching)
+   * @param {string} options.keyLabel - Label for logging (e.g., 'default', 'coach-9185bd98')
+   * @param {number} options.daysBack - Days to look back for transcripts
+   * @param {Set} options.seenMeetingIds - Set of meeting IDs already processed (for deduplication)
+   * @returns {Object} - Results { synced, skipped, failed, transcriptsFound, keyLabel }
+   */
+  async function syncWithApiKey({ apiKey, coachId, keyLabel, daysBack, seenMeetingIds }) {
+    const results = {
+      synced: [],
+      skipped: [],
+      failed: [],
+      transcriptsFound: 0,
+      keyLabel
+    };
+
+    console.log(`[Fireflies Sync] Processing key: ${keyLabel}`);
+
+    const listQuery = `
+      query RecentTranscripts($limit: Int) {
+        transcripts(limit: $limit) {
+          id
+          title
+          date
+          organizer_email
+        }
+      }
+    `;
+
+    const listResponse = await fetch(FIREFLIES_API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        query: listQuery,
+        variables: { limit: 50 }
+      })
+    });
+
+    if (!listResponse.ok) {
+      throw new Error(`Fireflies API error: ${listResponse.status}`);
+    }
+
+    const listData = await listResponse.json();
+    if (listData.errors) {
+      throw new Error(`Fireflies GraphQL error: ${JSON.stringify(listData.errors)}`);
+    }
+
+    const transcripts = listData.data.transcripts || [];
+    results.transcriptsFound = transcripts.length;
+    console.log(`[Fireflies Sync] [${keyLabel}] Found ${transcripts.length} transcripts`);
+
+    // Filter to only transcripts within the date range
+    const cutoffDate = Date.now() - (daysBack * 24 * 60 * 60 * 1000);
+    const recentTranscripts = transcripts.filter(t => t.date >= cutoffDate);
+
+    // Check which ones are already synced OR already seen from another key
+    const meetingIds = recentTranscripts.map(t => t.id);
+    const { data: existingSyncs } = await supabase
+      .from('fireflies_sync_state')
+      .select('fireflies_meeting_id')
+      .in('fireflies_meeting_id', meetingIds);
+
+    const syncedIds = new Set((existingSyncs || []).map(s => s.fireflies_meeting_id));
+
+    // Filter out already-synced and already-seen-this-run transcripts
+    const unsyncedTranscripts = recentTranscripts.filter(t => {
+      if (syncedIds.has(t.id)) return false;
+      if (seenMeetingIds.has(t.id)) return false;
+      return true;
+    });
+
+    console.log(`[Fireflies Sync] [${keyLabel}] ${unsyncedTranscripts.length} new transcripts to sync`);
+
+    for (const transcript of unsyncedTranscripts) {
+      // Mark as seen to prevent duplicate processing by other keys
+      seenMeetingIds.add(transcript.id);
+
+      try {
+        // Fetch full transcript using this specific API key
+        const fullTranscript = await fetchTranscript(transcript.id, apiKey);
+        if (!fullTranscript) {
+          results.skipped.push({ id: transcript.id, title: transcript.title, reason: 'Transcript not found', key: keyLabel });
+          await supabase.from('fireflies_sync_state').insert({
+            fireflies_meeting_id: transcript.id,
+            status: 'skipped',
+            error_message: 'Transcript not found in Fireflies API'
+          });
+          continue;
+        }
+
+        // Format and match participants (with coach fallback for private transcripts)
+        const formattedTranscript = formatTranscript(fullTranscript);
+        const matches = await matchParticipants(
+          supabase,
+          formattedTranscript,
+          fullTranscript.meeting_attendees,
+          { fallbackCoachId: coachId }  // Use API key owner as fallback
+        );
+
+        // Skip if no coach found
+        if (!matches.coach) {
+          results.skipped.push({ id: transcript.id, title: transcript.title, reason: 'No coach matched', key: keyLabel });
+          await supabase.from('fireflies_sync_state').insert({
+            fireflies_meeting_id: transcript.id,
+            status: 'skipped',
+            error_message: `No coach matched. Emails checked: ${matches.unmatched_emails.join(', ')}`
+          });
+          continue;
+        }
+
+        // Detect session type based on title and client match
+        const sessionType = detectSessionType(formattedTranscript.title, !!matches.client);
+
+        // Process transcript
+        const chunks = chunkText(formattedTranscript.content);
+
+        const { data: dataItem, error: itemError } = await supabase
+          .from('data_items')
+          .insert({
+            data_type: 'transcript',
+            raw_content: formattedTranscript.content,
+            metadata: {
+              ...formattedTranscript.metadata,
+              title: formattedTranscript.title,
+              slug: `fireflies-${transcript.id}`,
+              session_type: sessionType,
+              synced_via: 'polling',
+              api_key_label: keyLabel,
+              matched_via: matches.matched_via
+            },
+            coach_id: matches.coach.id,
+            client_id: matches.client?.id || null,
+            client_organization_id: matches.organization_id || null,
+            session_date: formattedTranscript.session_date
+          })
+          .select()
+          .single();
+
+        if (itemError) {
+          throw new Error(`Failed to create data item: ${itemError.message}`);
+        }
+
+        // Generate embeddings
+        for (let i = 0; i < chunks.length; i++) {
+          const embeddingResponse = await openai.embeddings.create({
+            model: 'text-embedding-3-small',
+            input: chunks[i]
+          });
+
+          await supabase.from('data_chunks').insert({
+            data_item_id: dataItem.id,
+            chunk_index: i,
+            content: chunks[i],
+            embedding: embeddingResponse.data[0].embedding,
+            metadata: { source: 'fireflies', meeting_id: transcript.id, synced_via: 'polling', api_key_label: keyLabel }
+          });
+        }
+
+        // Record successful sync
+        await supabase.from('fireflies_sync_state').insert({
+          fireflies_meeting_id: transcript.id,
+          data_item_id: dataItem.id,
+          status: 'synced'
+        });
+
+        results.synced.push({
+          id: transcript.id,
+          title: transcript.title,
+          data_item_id: dataItem.id,
+          coach: matches.coach.name,
+          client: matches.client?.name || null,
+          session_type: sessionType,
+          chunks: chunks.length,
+          key: keyLabel,
+          matched_via: matches.matched_via
+        });
+
+        console.log(`[Fireflies Sync] [${keyLabel}] Synced: ${transcript.title} (matched via ${matches.matched_via})`);
+
+        // Send notification about saved transcript
+        await sendTranscriptSavedNotification({
+          title: formattedTranscript.title,
+          coach: matches.coach.name,
+          client: matches.client?.name || null,
+          sessionType,
+          chunks: chunks.length,
+          syncMethod: 'polling',
+          sessionDate: formattedTranscript.session_date
+        });
+
+        // Send Slack notification if coach matched but no client
+        if (!matches.client && matches.unmatched_emails && matches.unmatched_emails.length > 0) {
+          await sendSlackNotification({
+            title: 'New Transcript - Client Not Found',
+            message: `A coaching transcript was synced but the client wasn't found in the database. Consider adding the client so future transcripts are properly linked.`,
+            fields: [
+              { title: 'Meeting Title', value: transcript.title },
+              { title: 'Coach', value: matches.coach.name },
+              { title: 'Unmatched Emails', value: matches.unmatched_emails.join(', ') },
+              { title: 'Session Date', value: new Date(fullTranscript.date).toLocaleDateString() }
+            ],
+            color: 'warning'
+          });
+        }
+
+      } catch (error) {
+        console.error(`[Fireflies Sync] [${keyLabel}] Failed to sync ${transcript.id}:`, error);
+        results.failed.push({ id: transcript.id, title: transcript.title, error: error.message, key: keyLabel });
+
+        await supabase.from('fireflies_sync_state').insert({
+          fireflies_meeting_id: transcript.id,
+          status: 'failed',
+          error_message: error.message
+        }).catch(() => {}); // Ignore if already exists
+      }
+    }
+
+    return results;
+  }
+
+  /**
    * Sync endpoint for GitHub Actions polling
    * POST /api/integrations/fireflies/sync
    *
    * Fetches recent transcripts from Fireflies and imports any that haven't been synced yet.
+   * Supports multiple API keys for accessing private transcripts.
    * Protected by x-sync-secret header.
    */
   router.post('/sync', express.json(), async (req, res) => {
@@ -1133,218 +1505,77 @@ export function createFirefliesRoutes(supabase, openai) {
         return res.status(401).json({ error: 'Unauthorized' });
       }
 
-      if (!FIREFLIES_API_KEY) {
-        return res.status(500).json({ error: 'Fireflies API key not configured' });
+      // Get all configured API keys
+      const apiKeyConfig = getFirefliesApiKeys();
+      if (!apiKeyConfig.hasAnyKey) {
+        return res.status(500).json({ error: 'No Fireflies API keys configured' });
       }
 
-      // Fetch recent transcripts from Fireflies (last 7 days by default)
       const daysBack = req.body.days_back || 7;
-      console.log(`[Fireflies Sync] Fetching transcripts from last ${daysBack} days...`);
+      console.log(`[Fireflies Sync] Starting multi-key sync for last ${daysBack} days with ${apiKeyConfig.allKeys.length} key(s)`);
 
-      const listQuery = `
-        query RecentTranscripts($limit: Int) {
-          transcripts(limit: $limit) {
-            id
-            title
-            date
-            organizer_email
-          }
-        }
-      `;
+      // Track seen meeting IDs across all keys for deduplication
+      const seenMeetingIds = new Set();
 
-      const listResponse = await fetch(FIREFLIES_API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${FIREFLIES_API_KEY}`
-        },
-        body: JSON.stringify({
-          query: listQuery,
-          variables: { limit: 50 }
-        })
-      });
-
-      if (!listResponse.ok) {
-        throw new Error(`Fireflies API error: ${listResponse.status}`);
-      }
-
-      const listData = await listResponse.json();
-      if (listData.errors) {
-        throw new Error(`Fireflies GraphQL error: ${JSON.stringify(listData.errors)}`);
-      }
-
-      const transcripts = listData.data.transcripts || [];
-      console.log(`[Fireflies Sync] Found ${transcripts.length} transcripts in Fireflies`);
-
-      // Filter to only transcripts within the date range
-      const cutoffDate = Date.now() - (daysBack * 24 * 60 * 60 * 1000);
-      const recentTranscripts = transcripts.filter(t => t.date >= cutoffDate);
-      console.log(`[Fireflies Sync] ${recentTranscripts.length} transcripts within last ${daysBack} days`);
-
-      // Check which ones are already synced
-      const meetingIds = recentTranscripts.map(t => t.id);
-      const { data: existingSyncs } = await supabase
-        .from('fireflies_sync_state')
-        .select('fireflies_meeting_id')
-        .in('fireflies_meeting_id', meetingIds);
-
-      const syncedIds = new Set((existingSyncs || []).map(s => s.fireflies_meeting_id));
-      const unsyncedTranscripts = recentTranscripts.filter(t => !syncedIds.has(t.id));
-
-      console.log(`[Fireflies Sync] ${unsyncedTranscripts.length} new transcripts to sync`);
-
-      // Process each unsynced transcript
-      const results = {
+      // Aggregate results from all keys
+      const aggregatedResults = {
         synced: [],
         skipped: [],
-        failed: []
+        failed: [],
+        per_key: []
       };
 
-      for (const transcript of unsyncedTranscripts) {
+      // Process each API key sequentially (with delay to respect rate limits)
+      for (let i = 0; i < apiKeyConfig.allKeys.length; i++) {
+        const keyConfig = apiKeyConfig.allKeys[i];
+
+        if (i > 0) {
+          // 1-second delay between keys to respect rate limits
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+
         try {
-          // Fetch full transcript
-          const fullTranscript = await fetchTranscript(transcript.id, FIREFLIES_API_KEY);
-          if (!fullTranscript) {
-            results.skipped.push({ id: transcript.id, title: transcript.title, reason: 'Transcript not found' });
-            await supabase.from('fireflies_sync_state').insert({
-              fireflies_meeting_id: transcript.id,
-              status: 'skipped',
-              error_message: 'Transcript not found in Fireflies API'
-            });
-            continue;
-          }
-
-          // Format and match participants
-          const formattedTranscript = formatTranscript(fullTranscript);
-          const matches = await matchParticipants(
-            supabase,
-            formattedTranscript,
-            fullTranscript.meeting_attendees
-          );
-
-          // Skip if no coach found (will be handled by pending queue via webhook if it ever works)
-          if (!matches.coach) {
-            results.skipped.push({ id: transcript.id, title: transcript.title, reason: 'No coach matched' });
-            await supabase.from('fireflies_sync_state').insert({
-              fireflies_meeting_id: transcript.id,
-              status: 'skipped',
-              error_message: `No coach matched. Emails checked: ${matches.unmatched_emails.join(', ')}`
-            });
-            continue;
-          }
-
-          // Detect session type based on title and client match
-          const sessionType = detectSessionType(formattedTranscript.title, !!matches.client);
-
-          // Process transcript (same logic as webhook/import)
-          const chunks = chunkText(formattedTranscript.content);
-
-          const { data: dataItem, error: itemError } = await supabase
-            .from('data_items')
-            .insert({
-              data_type: 'transcript',
-              raw_content: formattedTranscript.content,
-              metadata: {
-                ...formattedTranscript.metadata,
-                title: formattedTranscript.title,
-                slug: `fireflies-${transcript.id}`,
-                session_type: sessionType,
-                synced_via: 'polling'
-              },
-              coach_id: matches.coach.id,
-              client_id: matches.client?.id || null,
-              client_organization_id: matches.organization_id || null,
-              session_date: formattedTranscript.session_date
-            })
-            .select()
-            .single();
-
-          if (itemError) {
-            throw new Error(`Failed to create data item: ${itemError.message}`);
-          }
-
-          // Generate embeddings
-          for (let i = 0; i < chunks.length; i++) {
-            const embeddingResponse = await openai.embeddings.create({
-              model: 'text-embedding-3-small',
-              input: chunks[i]
-            });
-
-            await supabase.from('data_chunks').insert({
-              data_item_id: dataItem.id,
-              chunk_index: i,
-              content: chunks[i],
-              embedding: embeddingResponse.data[0].embedding,
-              metadata: { source: 'fireflies', meeting_id: transcript.id, synced_via: 'polling' }
-            });
-          }
-
-          // Record successful sync
-          await supabase.from('fireflies_sync_state').insert({
-            fireflies_meeting_id: transcript.id,
-            data_item_id: dataItem.id,
-            status: 'synced'
+          const keyResults = await syncWithApiKey({
+            apiKey: keyConfig.key,
+            coachId: keyConfig.coachId,
+            keyLabel: keyConfig.label,
+            daysBack,
+            seenMeetingIds
           });
 
-          results.synced.push({
-            id: transcript.id,
-            title: transcript.title,
-            data_item_id: dataItem.id,
-            coach: matches.coach.name,
-            client: matches.client?.name || null,
-            session_type: sessionType,
-            chunks: chunks.length
+          aggregatedResults.synced.push(...keyResults.synced);
+          aggregatedResults.skipped.push(...keyResults.skipped);
+          aggregatedResults.failed.push(...keyResults.failed);
+          aggregatedResults.per_key.push({
+            key: keyConfig.label,
+            transcripts_found: keyResults.transcriptsFound,
+            synced: keyResults.synced.length,
+            skipped: keyResults.skipped.length,
+            failed: keyResults.failed.length
           });
 
-          console.log(`[Fireflies Sync] Synced: ${transcript.title}`);
-
-          // Send notification about saved transcript
-          await sendTranscriptSavedNotification({
-            title: formattedTranscript.title,
-            coach: matches.coach.name,
-            client: matches.client?.name || null,
-            sessionType,
-            chunks: chunks.length,
-            syncMethod: 'polling',
-            sessionDate: formattedTranscript.session_date
+        } catch (keyError) {
+          console.error(`[Fireflies Sync] Key ${keyConfig.label} failed:`, keyError);
+          aggregatedResults.per_key.push({
+            key: keyConfig.label,
+            error: keyError.message
           });
-
-          // Send Slack notification if coach matched but no client
-          if (!matches.client && matches.unmatched_emails && matches.unmatched_emails.length > 0) {
-            await sendSlackNotification({
-              title: 'New Transcript - Client Not Found',
-              message: `A coaching transcript was synced but the client wasn't found in the database. Consider adding the client so future transcripts are properly linked.`,
-              fields: [
-                { title: 'Meeting Title', value: transcript.title },
-                { title: 'Coach', value: matches.coach.name },
-                { title: 'Unmatched Emails', value: matches.unmatched_emails.join(', ') },
-                { title: 'Session Date', value: new Date(fullTranscript.date).toLocaleDateString() }
-              ],
-              color: 'warning'
-            });
-          }
-
-        } catch (error) {
-          console.error(`[Fireflies Sync] Failed to sync ${transcript.id}:`, error);
-          results.failed.push({ id: transcript.id, title: transcript.title, error: error.message });
-
-          await supabase.from('fireflies_sync_state').insert({
-            fireflies_meeting_id: transcript.id,
-            status: 'failed',
-            error_message: error.message
-          }).catch(() => {}); // Ignore if already exists
+          // Continue to next key - don't let one key failure stop others
         }
       }
 
       const elapsed = Date.now() - startTime;
-      console.log(`[Fireflies Sync] Complete in ${elapsed}ms: ${results.synced.length} synced, ${results.skipped.length} skipped, ${results.failed.length} failed`);
+      console.log(`[Fireflies Sync] Complete in ${elapsed}ms: ${aggregatedResults.synced.length} synced, ${aggregatedResults.skipped.length} skipped, ${aggregatedResults.failed.length} failed`);
 
       return res.json({
         status: 'ok',
         elapsed_ms: elapsed,
-        total_in_fireflies: recentTranscripts.length,
-        already_synced: syncedIds.size,
-        ...results
+        keys_processed: apiKeyConfig.allKeys.length,
+        total_unique_meetings: seenMeetingIds.size,
+        synced: aggregatedResults.synced,
+        skipped: aggregatedResults.skipped,
+        failed: aggregatedResults.failed,
+        per_key: aggregatedResults.per_key
       });
 
     } catch (error) {
@@ -1356,6 +1587,8 @@ export function createFirefliesRoutes(supabase, openai) {
   /**
    * Debug endpoint - List all emails from recent Fireflies transcripts
    * GET /api/integrations/fireflies/debug
+   * Query params:
+   * - key: Optional API key label to use (e.g., 'default', 'coach-9185bd98')
    * Protected by sync secret header
    */
   router.get('/debug', async (req, res) => {
@@ -1367,8 +1600,25 @@ export function createFirefliesRoutes(supabase, openai) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    if (!FIREFLIES_API_KEY) {
-      return res.status(500).json({ error: 'Fireflies API key not configured' });
+    // Get API key configuration
+    const apiKeyConfig = getFirefliesApiKeys();
+    if (!apiKeyConfig.hasAnyKey) {
+      return res.status(500).json({ error: 'No Fireflies API keys configured' });
+    }
+
+    // Select which API key to use
+    const keyLabel = req.query.key;
+    let selectedKey = apiKeyConfig.allKeys[0]; // Default to first key
+
+    if (keyLabel) {
+      const foundKey = apiKeyConfig.allKeys.find(k => k.label === keyLabel);
+      if (!foundKey) {
+        return res.status(400).json({
+          error: `API key '${keyLabel}' not found`,
+          available_keys: apiKeyConfig.allKeys.map(k => k.label)
+        });
+      }
+      selectedKey = foundKey;
     }
 
     try {
@@ -1388,7 +1638,7 @@ export function createFirefliesRoutes(supabase, openai) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${FIREFLIES_API_KEY}`
+          'Authorization': `Bearer ${selectedKey.key}`
         },
         body: JSON.stringify({ query: userQuery })
       });
@@ -1418,7 +1668,7 @@ export function createFirefliesRoutes(supabase, openai) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${FIREFLIES_API_KEY}`
+          'Authorization': `Bearer ${selectedKey.key}`
         },
         body: JSON.stringify({ query: listQuery })
       });
@@ -1426,7 +1676,7 @@ export function createFirefliesRoutes(supabase, openai) {
       const listData = await listResponse.json();
 
       if (listData.errors) {
-        return res.status(500).json({ error: 'Fireflies API error', details: listData.errors });
+        return res.status(500).json({ error: 'Fireflies API error', details: listData.errors, api_key_used: selectedKey.label });
       }
 
       const transcripts = listData.data?.transcripts || [];
@@ -1470,6 +1720,9 @@ export function createFirefliesRoutes(supabase, openai) {
         .select('id, name, email');
 
       return res.json({
+        api_key_used: selectedKey.label,
+        api_key_coach_id: selectedKey.coachId,
+        available_keys: apiKeyConfig.allKeys.map(k => k.label),
         api_user: userData.data?.user || null,
         total_transcripts: transcripts.length,
         unique_emails: sortedEmails.length,
@@ -1495,6 +1748,7 @@ export function createFirefliesRoutes(supabase, openai) {
    */
   router.get('/health', async (req, res) => {
     const FIREFLIES_SYNC_SECRET = process.env.FIREFLIES_SYNC_SECRET;
+    const apiKeyConfig = getFirefliesApiKeys();
 
     // Get last sync info
     let lastSync = null;
@@ -1524,9 +1778,21 @@ export function createFirefliesRoutes(supabase, openai) {
       // Table might not exist yet
     }
 
+    // Build API keys status (without exposing actual keys)
+    const apiKeysStatus = {
+      default_configured: !!apiKeyConfig.defaultKey,
+      admin_key_configured: apiKeyConfig.hasAdminKey,
+      total_keys: apiKeyConfig.allKeys.length,
+      keys: apiKeyConfig.allKeys.map(k => ({
+        label: k.label,
+        coach_id: k.coachId,
+        key_prefix: k.key.substring(0, 8) + '...'
+      }))
+    };
+
     res.json({
       status: 'ok',
-      api_key_configured: !!FIREFLIES_API_KEY,
+      api_keys: apiKeysStatus,
       webhook_secret_configured: !!FIREFLIES_WEBHOOK_SECRET,
       sync_secret_configured: !!FIREFLIES_SYNC_SECRET,
       endpoint: '/api/integrations/fireflies/webhook',
@@ -1545,7 +1811,9 @@ export default {
   fetchTranscript,
   formatTranscript,
   findCoachByEmail,
+  findCoachById,
   findClientByEmail,
   matchParticipants,
-  detectSessionType
+  detectSessionType,
+  getFirefliesApiKeys
 };
