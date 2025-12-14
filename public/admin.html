@@ -670,6 +670,7 @@
         <button class="tab" data-tab="upload">Data Upload</button>
         <button class="tab" data-tab="browser">Data Browser</button>
         <button class="tab" data-tab="analytics">Analytics</button>
+        <button class="tab" data-tab="reports">Reports</button>
       </div>
 
       <!-- Dashboard Tab -->
@@ -1078,6 +1079,102 @@
             </table>
             <div class="empty-state" id="perfEmpty" style="display: none;">
               No performance data yet. Metrics will appear as API calls are made.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reports Tab -->
+      <div class="tab-content" id="reports-tab">
+        <!-- Missing Clients Report -->
+        <div class="card" style="margin-bottom: 20px;">
+          <div class="card-header">
+            <h2>Missing Client Report</h2>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <select id="reportPeriod" style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px;">
+                <option value="week" selected>Last 7 days</option>
+                <option value="month">Last 30 days</option>
+              </select>
+              <button class="btn btn-secondary btn-sm" id="refreshReportBtn">Generate</button>
+              <button class="btn btn-primary btn-sm" id="sendReportBtn">Send Email</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="loading" id="reportLoading">Loading report...</div>
+
+            <!-- Report Summary Stats -->
+            <div class="stats-grid" id="reportStats" style="display: none;">
+              <div class="stat-card">
+                <h3>Transcripts Synced</h3>
+                <div class="value" id="reportTotalSynced">-</div>
+                <div class="sub-text" id="reportPeriodText">-</div>
+              </div>
+              <div class="stat-card" style="background: #fef2f2;">
+                <h3>Missing Client</h3>
+                <div class="value" id="reportMissingClient" style="color: #dc2626;">-</div>
+                <div class="sub-text">Need assignment</div>
+              </div>
+              <div class="stat-card" style="background: #fffbeb;">
+                <h3>Unmatched Emails</h3>
+                <div class="value" id="reportUnmatchedEmails" style="color: #d97706;">-</div>
+                <div class="sub-text">Unique addresses</div>
+              </div>
+              <div class="stat-card">
+                <h3>Coaches Affected</h3>
+                <div class="value" id="reportCoachesAffected">-</div>
+                <div class="sub-text">With missing clients</div>
+              </div>
+            </div>
+
+            <!-- By Coach Breakdown -->
+            <h3 style="margin: 24px 0 12px;" id="coachBreakdownTitle" style="display: none;">Missing Clients by Coach</h3>
+            <div id="coachBreakdownContainer" style="display: none;"></div>
+
+            <!-- Pending Queue Section -->
+            <h3 style="margin: 24px 0 12px;" id="pendingQueueTitle" style="display: none;">Pending Coach Assignment</h3>
+            <table id="pendingQueueTable" style="display: none;">
+              <thead>
+                <tr>
+                  <th>Meeting Title</th>
+                  <th>Host Email</th>
+                  <th>Unmatched Emails</th>
+                  <th>Created</th>
+                </tr>
+              </thead>
+              <tbody id="pendingQueueBody"></tbody>
+            </table>
+
+            <div class="empty-state" id="reportEmpty" style="display: none;">
+              <p style="font-size: 48px; margin-bottom: 16px;">&#10003;</p>
+              <h3 style="color: #16a34a;">All Clear!</h3>
+              <p>No missing client assignments this period.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Report History -->
+        <div class="card">
+          <div class="card-header">
+            <h2>Report History</h2>
+            <button class="btn btn-secondary btn-sm" id="refreshHistoryBtn">Refresh</button>
+          </div>
+          <div class="card-body">
+            <div class="loading" id="historyLoading">Loading history...</div>
+            <table id="historyTable" style="display: none;">
+              <thead>
+                <tr>
+                  <th>Report Date</th>
+                  <th>Period</th>
+                  <th>Missing Clients</th>
+                  <th>Unmatched Emails</th>
+                  <th>Status</th>
+                  <th>Sent To</th>
+                </tr>
+              </thead>
+              <tbody id="historyTableBody"></tbody>
+            </table>
+            <div class="empty-state" id="historyEmpty" style="display: none;">
+              No reports have been sent yet.
             </div>
           </div>
         </div>
@@ -2586,6 +2683,218 @@
     // Analytics event listeners
     document.getElementById('refreshAnalyticsBtn')?.addEventListener('click', loadAnalytics);
     document.getElementById('analyticsDays')?.addEventListener('change', loadAnalytics);
+
+    // =============================================
+    // REPORTS TAB FUNCTIONS
+    // =============================================
+
+    async function loadMissingClientsReport() {
+      const period = document.getElementById('reportPeriod')?.value || 'week';
+
+      document.getElementById('reportLoading').style.display = 'block';
+      document.getElementById('reportStats').style.display = 'none';
+      document.getElementById('coachBreakdownTitle').style.display = 'none';
+      document.getElementById('coachBreakdownContainer').style.display = 'none';
+      document.getElementById('pendingQueueTitle').style.display = 'none';
+      document.getElementById('pendingQueueTable').style.display = 'none';
+      document.getElementById('reportEmpty').style.display = 'none';
+
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/reports/missing-clients?period=${period}`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to load report');
+
+        const report = await response.json();
+
+        // Update summary stats
+        document.getElementById('reportTotalSynced').textContent = report.summary.total_transcripts_synced;
+        document.getElementById('reportPeriodText').textContent = `${report.period.start} - ${report.period.end}`;
+        document.getElementById('reportMissingClient').textContent = report.summary.transcripts_missing_client;
+        document.getElementById('reportUnmatchedEmails').textContent = report.summary.unique_unmatched_emails;
+        document.getElementById('reportCoachesAffected').textContent = report.summary.coaches_affected;
+
+        // Check if all clear
+        const hasIssues = report.summary.transcripts_missing_client > 0 || report.pending_queue.length > 0;
+
+        if (!hasIssues) {
+          document.getElementById('reportLoading').style.display = 'none';
+          document.getElementById('reportStats').style.display = 'grid';
+          document.getElementById('reportEmpty').style.display = 'block';
+          return;
+        }
+
+        // Render coach breakdown
+        if (report.by_coach && report.by_coach.length > 0) {
+          const container = document.getElementById('coachBreakdownContainer');
+          container.innerHTML = '';
+
+          report.by_coach.forEach(coach => {
+            const div = document.createElement('div');
+            div.style.cssText = 'margin-bottom: 20px; padding: 16px; background: #f8f9fa; border-radius: 8px;';
+            div.innerHTML = `
+              <h4 style="margin: 0 0 8px 0;">${coach.coach_name} <span style="font-weight: normal; color: #666;">(${coach.coach_email})</span></h4>
+              <p style="margin: 0 0 12px 0; color: #666; font-size: 14px;">
+                <strong>${coach.missing_client_count}</strong> transcript${coach.missing_client_count !== 1 ? 's' : ''} missing client
+                ${coach.unmatched_emails.length > 0 ? `<br><strong>Unmatched:</strong> ${coach.unmatched_emails.join(', ')}` : ''}
+              </p>
+              <table style="width: 100%; font-size: 13px;">
+                <thead>
+                  <tr>
+                    <th style="text-align: left; padding: 6px 4px; color: #666; border-bottom: 1px solid #ddd;">Title</th>
+                    <th style="text-align: left; padding: 6px 4px; color: #666; border-bottom: 1px solid #ddd;">Date</th>
+                    <th style="text-align: left; padding: 6px 4px; color: #666; border-bottom: 1px solid #ddd;">Unmatched Emails</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${coach.transcripts.map(t => `
+                    <tr>
+                      <td style="padding: 6px 4px; border-bottom: 1px solid #eee;">${t.title}</td>
+                      <td style="padding: 6px 4px; border-bottom: 1px solid #eee;">${new Date(t.date).toLocaleDateString()}</td>
+                      <td style="padding: 6px 4px; border-bottom: 1px solid #eee; color: #666;">${t.unmatched_emails.join(', ') || '-'}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            `;
+            container.appendChild(div);
+          });
+
+          document.getElementById('coachBreakdownTitle').style.display = 'block';
+          document.getElementById('coachBreakdownContainer').style.display = 'block';
+        }
+
+        // Render pending queue
+        if (report.pending_queue && report.pending_queue.length > 0) {
+          const tbody = document.getElementById('pendingQueueBody');
+          tbody.innerHTML = '';
+
+          report.pending_queue.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td>${item.title}</td>
+              <td>${item.host_email || item.organizer_email || '-'}</td>
+              <td>${(item.unmatched_emails || []).join(', ') || '-'}</td>
+              <td>${new Date(item.created_at).toLocaleDateString()}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+
+          document.getElementById('pendingQueueTitle').style.display = 'block';
+          document.getElementById('pendingQueueTable').style.display = 'table';
+        }
+
+        document.getElementById('reportLoading').style.display = 'none';
+        document.getElementById('reportStats').style.display = 'grid';
+
+      } catch (err) {
+        document.getElementById('reportLoading').style.display = 'none';
+        document.getElementById('reportStats').style.display = 'grid';
+        showToast('Failed to load report: ' + err.message, 'error');
+        console.error('Report load error:', err);
+      }
+    }
+
+    async function sendMissingClientsReport() {
+      const period = document.getElementById('reportPeriod')?.value || 'week';
+      const btn = document.getElementById('sendReportBtn');
+
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/reports/missing-clients/send`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ period })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.message || 'Failed to send report');
+        }
+
+        if (result.success) {
+          showToast(`Report sent to ${result.recipients.length} recipient(s)!`, 'success');
+          loadReportHistory();
+        } else {
+          showToast('Report generated but email failed: ' + (result.error || 'Unknown error'), 'error');
+        }
+
+      } catch (err) {
+        showToast('Failed to send report: ' + err.message, 'error');
+        console.error('Send report error:', err);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send Email';
+      }
+    }
+
+    async function loadReportHistory() {
+      document.getElementById('historyLoading').style.display = 'block';
+      document.getElementById('historyTable').style.display = 'none';
+      document.getElementById('historyEmpty').style.display = 'none';
+
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/reports/missing-clients/history?limit=10`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to load history');
+
+        const data = await response.json();
+
+        const tbody = document.getElementById('historyTableBody');
+        tbody.innerHTML = '';
+
+        if (data.reports && data.reports.length > 0) {
+          data.reports.forEach(report => {
+            const tr = document.createElement('tr');
+            const periodStart = new Date(report.period.start).toLocaleDateString();
+            const periodEnd = new Date(report.period.end).toLocaleDateString();
+            const statusClass = report.delivery_status === 'sent' ? 'color: #16a34a;' :
+                               report.delivery_status === 'failed' ? 'color: #dc2626;' : 'color: #666;';
+
+            tr.innerHTML = `
+              <td>${report.report_date}</td>
+              <td>${periodStart} - ${periodEnd}</td>
+              <td>${report.summary.transcripts_missing_client}</td>
+              <td>${report.summary.unique_unmatched_emails}</td>
+              <td style="${statusClass}">${report.delivery_status}</td>
+              <td style="font-size: 12px;">${(report.sent_to || []).join(', ') || '-'}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+          document.getElementById('historyTable').style.display = 'table';
+        } else {
+          document.getElementById('historyEmpty').style.display = 'block';
+        }
+
+        document.getElementById('historyLoading').style.display = 'none';
+
+      } catch (err) {
+        document.getElementById('historyLoading').style.display = 'none';
+        document.getElementById('historyEmpty').style.display = 'block';
+        console.error('History load error:', err);
+      }
+    }
+
+    // Reports event listeners
+    document.getElementById('refreshReportBtn')?.addEventListener('click', loadMissingClientsReport);
+    document.getElementById('reportPeriod')?.addEventListener('change', loadMissingClientsReport);
+    document.getElementById('sendReportBtn')?.addEventListener('click', sendMissingClientsReport);
+    document.getElementById('refreshHistoryBtn')?.addEventListener('click', loadReportHistory);
+
+    // Load reports when tab is clicked
+    document.querySelector('[data-tab="reports"]')?.addEventListener('click', () => {
+      loadMissingClientsReport();
+      loadReportHistory();
+    });
   </script>
 </body>
 </html>

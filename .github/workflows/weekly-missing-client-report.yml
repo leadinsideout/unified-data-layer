@@ -1,0 +1,83 @@
+name: Weekly Missing Client Report
+
+on:
+  schedule:
+    # Every Monday at 9 AM EST (14:00 UTC)
+    # Note: EST is UTC-5, so 9 AM EST = 14:00 UTC
+    - cron: '0 14 * * 1'
+
+  # Allow manual trigger for testing
+  workflow_dispatch:
+    inputs:
+      period:
+        description: 'Report period (week, month, or custom)'
+        required: false
+        default: 'week'
+        type: choice
+        options:
+          - week
+          - month
+
+jobs:
+  send-report:
+    name: Generate and Send Missing Client Report
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send Weekly Report
+        run: |
+          echo "Triggering weekly missing client report..."
+          echo "Period: ${{ github.event.inputs.period || 'week' }}"
+          echo "Target: ${{ vars.PRODUCTION_URL || 'https://unified-data-layer.vercel.app' }}"
+
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
+            -H "x-admin-api-key: ${{ secrets.ADMIN_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{"period": "${{ github.event.inputs.period || 'week' }}"}' \
+            "${{ vars.PRODUCTION_URL || 'https://unified-data-layer.vercel.app' }}/api/admin/reports/missing-clients/send")
+
+          # Extract HTTP status code (last line)
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          # Extract response body (all but last line)
+          BODY=$(echo "$RESPONSE" | sed '$d')
+
+          echo "Response Code: $HTTP_CODE"
+          echo "Response Body: $BODY"
+
+          # Check if request was successful
+          if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 300 ]; then
+            echo "Report sent successfully!"
+
+            # Parse and display summary
+            SUCCESS=$(echo "$BODY" | jq -r '.success // "unknown"')
+            RECIPIENTS=$(echo "$BODY" | jq -r '.recipients | join(", ") // "none"')
+            MISSING=$(echo "$BODY" | jq -r '.summary.transcripts_missing_client // 0')
+            PENDING=$(echo "$BODY" | jq -r '.summary.pending_coach_assignment // 0')
+
+            echo ""
+            echo "=== Report Summary ==="
+            echo "Email Sent: $SUCCESS"
+            echo "Recipients: $RECIPIENTS"
+            echo "Transcripts Missing Client: $MISSING"
+            echo "Pending Coach Assignment: $PENDING"
+            echo "======================"
+
+            # Fail if email wasn't actually sent
+            if [ "$SUCCESS" != "true" ]; then
+              echo "Warning: Report generated but email may not have been sent"
+              ERROR=$(echo "$BODY" | jq -r '.error // "Unknown error"')
+              echo "Error: $ERROR"
+              exit 1
+            fi
+          else
+            echo "Failed to send report!"
+            echo "Error response: $BODY"
+            exit 1
+          fi
+
+      - name: Notify on Failure
+        if: failure()
+        run: |
+          echo "Weekly missing client report failed to send!"
+          echo "Check the logs above for details."
+          # Future: Could add Slack notification here

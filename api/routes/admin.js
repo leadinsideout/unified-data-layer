@@ -1280,6 +1280,434 @@ export function createAdminRoutes(supabase, authMiddleware) {
     }
   });
 
+  // ============================================
+  // MISSING CLIENT REPORTS
+  // ============================================
+
+  /**
+   * GET /api/admin/reports/missing-clients
+   * Get aggregated report of transcripts with missing client assignments
+   * Query params: period ('week' | 'month' | 'custom'), start_date, end_date
+   */
+  router.get('/reports/missing-clients', authMiddleware, async (req, res) => {
+    try {
+      const { auth } = req;
+      const { period = 'week', start_date, end_date } = req.query;
+
+      // Verify user is an admin
+      const { data: admin, error: adminError } = await supabase
+        .from('admins')
+        .select('coaching_company_id')
+        .eq('id', auth.userId)
+        .single();
+
+      if (adminError || !admin) {
+        return res.status(403).json({
+          error: 'Forbidden',
+          message: 'Admin access required'
+        });
+      }
+
+      // Calculate date range
+      let periodStart, periodEnd;
+      periodEnd = new Date();
+
+      if (period === 'custom' && start_date && end_date) {
+        periodStart = new Date(start_date);
+        periodEnd = new Date(end_date);
+      } else if (period === 'month') {
+        periodStart = new Date();
+        periodStart.setDate(periodStart.getDate() - 30);
+      } else {
+        // Default to week
+        periodStart = new Date();
+        periodStart.setDate(periodStart.getDate() - 7);
+      }
+
+      // Get all synced transcripts in period
+      const { data: syncedItems, error: syncError } = await supabase
+        .from('fireflies_sync_state')
+        .select('id, fireflies_meeting_id, data_item_id, status, created_at')
+        .gte('created_at', periodStart.toISOString())
+        .lte('created_at', periodEnd.toISOString())
+        .eq('status', 'synced');
+
+      if (syncError) throw syncError;
+
+      const totalSynced = syncedItems?.length || 0;
+
+      // Get transcripts with missing clients (client_id is null)
+      const dataItemIds = (syncedItems || [])
+        .filter(s => s.data_item_id)
+        .map(s => s.data_item_id);
+
+      let transcriptsMissingClient = [];
+      if (dataItemIds.length > 0) {
+        const { data: missingClientItems, error: missingError } = await supabase
+          .from('data_items')
+          .select(`
+            id,
+            metadata,
+            session_date,
+            created_at,
+            coach:coaches(id, name, email),
+            client:clients(id, name)
+          `)
+          .in('id', dataItemIds)
+          .is('client_id', null)
+          .eq('data_type', 'transcript');
+
+        if (missingError) throw missingError;
+        transcriptsMissingClient = missingClientItems || [];
+      }
+
+      // Get pending queue items (unprocessed transcripts without coach match)
+      const { data: pendingItems, error: pendingError } = await supabase
+        .from('fireflies_pending')
+        .select('*')
+        .eq('status', 'pending_assignment')
+        .gte('created_at', periodStart.toISOString())
+        .lte('created_at', periodEnd.toISOString());
+
+      if (pendingError) throw pendingError;
+
+      // Aggregate by coach
+      const byCoach = {};
+      transcriptsMissingClient.forEach(item => {
+        const coachId = item.coach?.id || 'unknown';
+        const coachName = item.coach?.name || 'Unknown Coach';
+        const coachEmail = item.coach?.email || '';
+
+        if (!byCoach[coachId]) {
+          byCoach[coachId] = {
+            coach_id: coachId,
+            coach_name: coachName,
+            coach_email: coachEmail,
+            missing_client_count: 0,
+            unmatched_emails: new Set(),
+            transcripts: []
+          };
+        }
+
+        byCoach[coachId].missing_client_count++;
+
+        // Extract unmatched emails from metadata
+        const unmatchedEmails = item.metadata?.unmatched_emails || [];
+        unmatchedEmails.forEach(email => byCoach[coachId].unmatched_emails.add(email));
+
+        byCoach[coachId].transcripts.push({
+          id: item.id,
+          title: item.metadata?.title || item.metadata?.meeting_name || 'Untitled',
+          date: item.session_date || item.created_at,
+          unmatched_emails: unmatchedEmails
+        });
+      });
+
+      // Convert Sets to arrays
+      const byCoachArray = Object.values(byCoach).map(coach => ({
+        ...coach,
+        unmatched_emails: Array.from(coach.unmatched_emails)
+      }));
+
+      // Collect all unique unmatched emails
+      const allUnmatchedEmails = new Set();
+      byCoachArray.forEach(coach => {
+        coach.unmatched_emails.forEach(email => allUnmatchedEmails.add(email));
+      });
+      (pendingItems || []).forEach(item => {
+        (item.unmatched_emails || []).forEach(email => allUnmatchedEmails.add(email));
+      });
+
+      const report = {
+        period: {
+          start: periodStart.toISOString().split('T')[0],
+          end: periodEnd.toISOString().split('T')[0]
+        },
+        summary: {
+          total_transcripts_synced: totalSynced,
+          transcripts_missing_client: transcriptsMissingClient.length,
+          pending_coach_assignment: (pendingItems || []).length,
+          unique_unmatched_emails: allUnmatchedEmails.size,
+          coaches_affected: byCoachArray.length
+        },
+        by_coach: byCoachArray.sort((a, b) => b.missing_client_count - a.missing_client_count),
+        pending_queue: (pendingItems || []).map(item => ({
+          id: item.id,
+          meeting_id: item.meeting_id,
+          title: item.title,
+          unmatched_emails: item.unmatched_emails || [],
+          host_email: item.host_email,
+          organizer_email: item.organizer_email,
+          created_at: item.created_at
+        })),
+        generated_at: new Date().toISOString()
+      };
+
+      res.json(report);
+
+    } catch (error) {
+      console.error('Error generating missing clients report:', error);
+      res.status(500).json({
+        error: 'Internal server error',
+        message: error.message
+      });
+    }
+  });
+
+  /**
+   * POST /api/admin/reports/missing-clients/send
+   * Send the missing clients report via email
+   * Body: { period?, start_date?, end_date?, recipients? }
+   */
+  router.post('/reports/missing-clients/send', authMiddleware, async (req, res) => {
+    try {
+      const { auth } = req;
+      const { period = 'week', start_date, end_date, recipients } = req.body;
+
+      // Verify user is an admin
+      const { data: admin, error: adminError } = await supabase
+        .from('admins')
+        .select('coaching_company_id')
+        .eq('id', auth.userId)
+        .single();
+
+      if (adminError || !admin) {
+        return res.status(403).json({
+          error: 'Forbidden',
+          message: 'Admin access required'
+        });
+      }
+
+      // Generate the report by calling the GET endpoint logic
+      // (In production, you might want to refactor this into a shared function)
+      let periodStart, periodEnd;
+      periodEnd = new Date();
+
+      if (period === 'custom' && start_date && end_date) {
+        periodStart = new Date(start_date);
+        periodEnd = new Date(end_date);
+      } else if (period === 'month') {
+        periodStart = new Date();
+        periodStart.setDate(periodStart.getDate() - 30);
+      } else {
+        periodStart = new Date();
+        periodStart.setDate(periodStart.getDate() - 7);
+      }
+
+      // Get synced transcripts
+      const { data: syncedItems } = await supabase
+        .from('fireflies_sync_state')
+        .select('id, data_item_id, status, created_at')
+        .gte('created_at', periodStart.toISOString())
+        .lte('created_at', periodEnd.toISOString())
+        .eq('status', 'synced');
+
+      const totalSynced = syncedItems?.length || 0;
+      const dataItemIds = (syncedItems || []).filter(s => s.data_item_id).map(s => s.data_item_id);
+
+      let transcriptsMissingClient = [];
+      if (dataItemIds.length > 0) {
+        const { data: missingClientItems } = await supabase
+          .from('data_items')
+          .select(`
+            id, metadata, session_date, created_at,
+            coach:coaches(id, name, email)
+          `)
+          .in('id', dataItemIds)
+          .is('client_id', null)
+          .eq('data_type', 'transcript');
+        transcriptsMissingClient = missingClientItems || [];
+      }
+
+      // Get pending items
+      const { data: pendingItems } = await supabase
+        .from('fireflies_pending')
+        .select('*')
+        .eq('status', 'pending_assignment')
+        .gte('created_at', periodStart.toISOString())
+        .lte('created_at', periodEnd.toISOString());
+
+      // Build by_coach data
+      const byCoach = {};
+      transcriptsMissingClient.forEach(item => {
+        const coachId = item.coach?.id || 'unknown';
+        if (!byCoach[coachId]) {
+          byCoach[coachId] = {
+            coach_id: coachId,
+            coach_name: item.coach?.name || 'Unknown',
+            coach_email: item.coach?.email || '',
+            missing_client_count: 0,
+            unmatched_emails: new Set(),
+            transcripts: []
+          };
+        }
+        byCoach[coachId].missing_client_count++;
+        const unmatchedEmails = item.metadata?.unmatched_emails || [];
+        unmatchedEmails.forEach(email => byCoach[coachId].unmatched_emails.add(email));
+        byCoach[coachId].transcripts.push({
+          id: item.id,
+          title: item.metadata?.title || item.metadata?.meeting_name || 'Untitled',
+          date: item.session_date || item.created_at,
+          unmatched_emails: unmatchedEmails
+        });
+      });
+
+      const byCoachArray = Object.values(byCoach).map(coach => ({
+        ...coach,
+        unmatched_emails: Array.from(coach.unmatched_emails)
+      }));
+
+      const allUnmatchedEmails = new Set();
+      byCoachArray.forEach(c => c.unmatched_emails.forEach(e => allUnmatchedEmails.add(e)));
+      (pendingItems || []).forEach(p => (p.unmatched_emails || []).forEach(e => allUnmatchedEmails.add(e)));
+
+      const reportData = {
+        period: { start: periodStart.toISOString().split('T')[0], end: periodEnd.toISOString().split('T')[0] },
+        summary: {
+          total_transcripts_synced: totalSynced,
+          transcripts_missing_client: transcriptsMissingClient.length,
+          pending_coach_assignment: (pendingItems || []).length,
+          unique_unmatched_emails: allUnmatchedEmails.size,
+          coaches_affected: byCoachArray.length
+        },
+        by_coach: byCoachArray.sort((a, b) => b.missing_client_count - a.missing_client_count),
+        pending_queue: (pendingItems || []).map(item => ({
+          id: item.id, meeting_id: item.meeting_id, title: item.title,
+          unmatched_emails: item.unmatched_emails || [], created_at: item.created_at
+        }))
+      };
+
+      // Get recipient emails
+      let emailRecipients = recipients || [];
+
+      // If no recipients provided, get from environment and coaches
+      if (emailRecipients.length === 0) {
+        // Get Ryan's email from coaches table
+        const { data: ryanCoach } = await supabase
+          .from('coaches')
+          .select('email')
+          .ilike('name', '%ryan%')
+          .limit(1)
+          .single();
+
+        // Build recipient list
+        const envRecipients = process.env.ADMIN_REPORT_EMAILS?.split(',').map(e => e.trim()) || [];
+        if (ryanCoach?.email) emailRecipients.push(ryanCoach.email);
+        emailRecipients.push('jem@leadinsideout.io');
+        emailRecipients = [...new Set([...envRecipients, ...emailRecipients])];
+      }
+
+      // Import email service and send
+      let emailResult = { success: false, error: 'Email service not configured' };
+      try {
+        const { sendMissingClientReport } = await import('../services/email.js');
+        emailResult = await sendMissingClientReport(reportData, emailRecipients);
+      } catch (emailError) {
+        console.error('Email service error:', emailError);
+        emailResult = { success: false, error: emailError.message };
+      }
+
+      // Store report in history
+      const { data: storedReport, error: storeError } = await supabase
+        .from('missing_client_reports')
+        .insert({
+          report_date: new Date().toISOString().split('T')[0],
+          period_start: periodStart.toISOString(),
+          period_end: periodEnd.toISOString(),
+          total_transcripts_synced: reportData.summary.total_transcripts_synced,
+          transcripts_missing_client: reportData.summary.transcripts_missing_client,
+          unique_unmatched_emails: reportData.summary.unique_unmatched_emails,
+          coaches_affected: reportData.summary.coaches_affected,
+          report_data: reportData,
+          sent_to: emailRecipients,
+          sent_at: emailResult.success ? new Date().toISOString() : null,
+          delivery_status: emailResult.success ? 'sent' : 'failed',
+          delivery_error: emailResult.error || null
+        })
+        .select()
+        .single();
+
+      if (storeError) {
+        console.error('Error storing report:', storeError);
+      }
+
+      res.json({
+        success: emailResult.success,
+        report_id: storedReport?.id,
+        recipients: emailRecipients,
+        summary: reportData.summary,
+        error: emailResult.error || null
+      });
+
+    } catch (error) {
+      console.error('Error sending missing clients report:', error);
+      res.status(500).json({
+        error: 'Internal server error',
+        message: error.message
+      });
+    }
+  });
+
+  /**
+   * GET /api/admin/reports/missing-clients/history
+   * Get history of sent reports
+   * Query params: limit (default 10)
+   */
+  router.get('/reports/missing-clients/history', authMiddleware, async (req, res) => {
+    try {
+      const { auth } = req;
+      const { limit = 10 } = req.query;
+
+      // Verify user is an admin
+      const { data: admin, error: adminError } = await supabase
+        .from('admins')
+        .select('coaching_company_id')
+        .eq('id', auth.userId)
+        .single();
+
+      if (adminError || !admin) {
+        return res.status(403).json({
+          error: 'Forbidden',
+          message: 'Admin access required'
+        });
+      }
+
+      const { data: reports, error: reportsError } = await supabase
+        .from('missing_client_reports')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(parseInt(limit));
+
+      if (reportsError) throw reportsError;
+
+      res.json({
+        reports: (reports || []).map(r => ({
+          id: r.id,
+          report_date: r.report_date,
+          period: { start: r.period_start, end: r.period_end },
+          summary: {
+            total_transcripts_synced: r.total_transcripts_synced,
+            transcripts_missing_client: r.transcripts_missing_client,
+            unique_unmatched_emails: r.unique_unmatched_emails,
+            coaches_affected: r.coaches_affected
+          },
+          sent_to: r.sent_to,
+          sent_at: r.sent_at,
+          delivery_status: r.delivery_status,
+          created_at: r.created_at
+        })),
+        total: reports?.length || 0
+      });
+
+    } catch (error) {
+      console.error('Error fetching report history:', error);
+      res.status(500).json({
+        error: 'Internal server error',
+        message: error.message
+      });
+    }
+  });
+
   /**
    * GET /api/admin/analytics/performance
    * Get performance metrics (response times by percentile)
