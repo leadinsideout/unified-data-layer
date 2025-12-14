@@ -1347,11 +1347,15 @@ export function createFirefliesRoutes(supabase, openai) {
         const fullTranscript = await fetchTranscript(transcript.id, apiKey);
         if (!fullTranscript) {
           results.skipped.push({ id: transcript.id, title: transcript.title, reason: 'Transcript not found', key: keyLabel });
-          await supabase.from('fireflies_sync_state').insert({
+          // Record skip in sync state (ignore errors if already exists)
+          const { error: skipError } = await supabase.from('fireflies_sync_state').insert({
             fireflies_meeting_id: transcript.id,
             status: 'skipped',
             error_message: 'Transcript not found in Fireflies API'
           });
+          if (skipError && !skipError.message?.includes('duplicate')) {
+            console.error(`[Fireflies Sync] [${keyLabel}] Failed to record skip state:`, skipError.message);
+          }
           continue;
         }
 
@@ -1367,11 +1371,15 @@ export function createFirefliesRoutes(supabase, openai) {
         // Skip if no coach found
         if (!matches.coach) {
           results.skipped.push({ id: transcript.id, title: transcript.title, reason: 'No coach matched', key: keyLabel });
-          await supabase.from('fireflies_sync_state').insert({
+          // Record skip in sync state (ignore errors if already exists)
+          const { error: noCoachError } = await supabase.from('fireflies_sync_state').insert({
             fireflies_meeting_id: transcript.id,
             status: 'skipped',
             error_message: `No coach matched. Emails checked: ${matches.unmatched_emails.join(', ')}`
           });
+          if (noCoachError && !noCoachError.message?.includes('duplicate')) {
+            console.error(`[Fireflies Sync] [${keyLabel}] Failed to record skip state:`, noCoachError.message);
+          }
           continue;
         }
 
@@ -1423,12 +1431,15 @@ export function createFirefliesRoutes(supabase, openai) {
           });
         }
 
-        // Record successful sync
-        await supabase.from('fireflies_sync_state').insert({
+        // Record successful sync (ignore errors if already exists)
+        const { error: syncError } = await supabase.from('fireflies_sync_state').insert({
           fireflies_meeting_id: transcript.id,
           data_item_id: dataItem.id,
           status: 'synced'
         });
+        if (syncError && !syncError.message?.includes('duplicate')) {
+          console.error(`[Fireflies Sync] [${keyLabel}] Failed to record sync state:`, syncError.message);
+        }
 
         results.synced.push({
           id: transcript.id,
@@ -1474,11 +1485,15 @@ export function createFirefliesRoutes(supabase, openai) {
         console.error(`[Fireflies Sync] [${keyLabel}] Failed to sync ${transcript.id}:`, error);
         results.failed.push({ id: transcript.id, title: transcript.title, error: error.message, key: keyLabel });
 
-        await supabase.from('fireflies_sync_state').insert({
+        // Record failure in sync state (ignore errors if already exists)
+        const { error: failError } = await supabase.from('fireflies_sync_state').insert({
           fireflies_meeting_id: transcript.id,
           status: 'failed',
           error_message: error.message
-        }).catch(() => {}); // Ignore if already exists
+        });
+        if (failError && !failError.message?.includes('duplicate')) {
+          console.error(`[Fireflies Sync] [${keyLabel}] Failed to record fail state:`, failError.message);
+        }
       }
     }
 
