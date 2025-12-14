@@ -33,7 +33,7 @@ jobs:
           RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
             -H "Authorization: Bearer ${{ secrets.ADMIN_API_KEY }}" \
             -H "Content-Type: application/json" \
-            -d '{"period": "${{ github.event.inputs.period || 'week' }}"}' \
+            -d '{"period": "${{ github.event.inputs.period || 'week' }}", "recipients": ["dev@leadinsideout.io"]}' \
             "${{ vars.PRODUCTION_URL || 'https://unified-data-layer.vercel.app' }}/api/admin/reports/missing-clients/send")
 
           # Extract HTTP status code (last line)
