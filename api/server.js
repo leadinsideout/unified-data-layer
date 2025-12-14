@@ -27,7 +27,7 @@ import { createAuthMiddleware, createOptionalAuthMiddleware } from './middleware
 import { createAdminRoutes } from './routes/admin.js';
 import { createApiKeyRoutes } from './routes/api-keys.js';
 import { createAdminAuthRoutes, createAdminSessionMiddleware } from './routes/admin-auth.js';
-import { createV2ClientRoutes, createV2SearchRoutes } from './routes/v2/index.js';
+import { createV2ClientRoutes, createV2SearchRoutes, createV2TranscriptRoutes } from './routes/v2/index.js';
 import { createMCPRoutes } from './mcp/index.js';
 import { createFirefliesRoutes } from './integrations/fireflies.js';
 import { createAnalyticsMiddleware, logCostEvent, calculateEmbeddingCost } from './middleware/analytics.js';
@@ -395,8 +395,10 @@ app.use('/api/admin/api-keys', apiKeyRoutes);
 // Register v2 routes (for MCP server and Enhanced Custom GPT)
 const v2ClientRoutes = createV2ClientRoutes(supabase, authMiddleware);
 const v2SearchRoutes = createV2SearchRoutes(supabase, authMiddleware);
+const v2TranscriptRoutes = createV2TranscriptRoutes(supabase, authMiddleware);
 app.use('/api/v2/clients', v2ClientRoutes);
 app.use('/api/v2/search', v2SearchRoutes);
+app.use('/api/v2/transcripts', v2TranscriptRoutes);
 
 // Register MCP routes (Model Context Protocol for AI assistants)
 const mcpRoutes = createMCPRoutes(supabase, openai, authMiddleware);
@@ -1681,6 +1683,82 @@ app.get('/openapi.json', (req, res) => {
                   }
                 }
               }
+            }
+          }
+        }
+      },
+      '/api/v2/transcripts/recent': {
+        get: {
+          summary: 'List recent transcripts',
+          operationId: 'getRecentTranscripts',
+          description: 'Returns recent transcripts for authenticated coach, ordered by session date (most recent first). Simple database query - no semantic search. Use this when the user asks to "list sessions", "show recent transcripts", or "what transcripts do I have".',
+          security: [{ bearerAuth: [] }],
+          parameters: [
+            {
+              name: 'limit',
+              in: 'query',
+              schema: { type: 'integer', default: 20, maximum: 50 },
+              description: 'Maximum results (default 20, max 50)'
+            },
+            {
+              name: 'start_date',
+              in: 'query',
+              schema: { type: 'string', format: 'date' },
+              description: 'Filter by start date (ISO format, e.g., 2025-12-01)'
+            },
+            {
+              name: 'end_date',
+              in: 'query',
+              schema: { type: 'string', format: 'date' },
+              description: 'Filter by end date (ISO format, e.g., 2025-12-31)'
+            },
+            {
+              name: 'client_id',
+              in: 'query',
+              schema: { type: 'string', format: 'uuid' },
+              description: 'Filter by specific client ID'
+            }
+          ],
+          responses: {
+            '200': {
+              description: 'List of recent transcripts',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      transcripts: {
+                        type: 'array',
+                        items: {
+                          type: 'object',
+                          properties: {
+                            id: { type: 'string', format: 'uuid' },
+                            title: { type: 'string' },
+                            session_date: { type: 'string', format: 'date-time' },
+                            client_name: { type: 'string', nullable: true },
+                            client_id: { type: 'string', format: 'uuid', nullable: true },
+                            created_at: { type: 'string', format: 'date-time' }
+                          }
+                        }
+                      },
+                      total: { type: 'integer' },
+                      filters_applied: {
+                        type: 'object',
+                        properties: {
+                          coach_id: { type: 'string', format: 'uuid' },
+                          start_date: { type: 'string', nullable: true },
+                          end_date: { type: 'string', nullable: true },
+                          client_id: { type: 'string', format: 'uuid', nullable: true },
+                          limit: { type: 'integer' }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            '401': {
+              description: 'Authentication required'
             }
           }
         }

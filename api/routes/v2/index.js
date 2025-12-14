@@ -6,3 +6,4 @@
 
 export { createV2ClientRoutes } from './clients.js';
 export { createV2SearchRoutes } from './search.js';
+export { createV2TranscriptRoutes } from './transcripts.js';
