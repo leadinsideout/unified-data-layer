@@ -113,33 +113,45 @@ Use for complex filter combinations:
 
 This is semantic search - you MUST use meaningful descriptive queries, NOT wildcards.
 
+**IMPORTANT: Use filteredSearch with `include_content: false` for listings to avoid timeouts.**
+
 **Listing Assessments:**
-- Query: `"coaching intake assessment questionnaire"` with threshold: 0.15, limit: 50
-- Filter types: `["assessment"]`
-- This finds all intake questionnaires, DISC, Enneagram, StrengthsFinder results
+- Use filteredSearch with:
+  - query: `"coaching intake assessment"`
+  - filters: `{ types: ["assessment"] }`
+  - options: `{ threshold: 0.15, limit: 25, include_content: false, include_metadata: true }`
+- This returns assessment titles and metadata without full content (faster, avoids timeouts)
+- To see full content of a specific assessment, do a follow-up search for that client
 
 **Listing Transcripts:**
-- Query: `"coaching session conversation transcript"` with threshold: 0.15, limit: 50
-- Filter types: `["transcript"]`
-- For date-specific: use filteredSearch with date_range filter
+- Use filteredSearch with:
+  - query: `"coaching session transcript"`
+  - filters: `{ types: ["transcript"] }`
+  - options: `{ threshold: 0.15, limit: 25, include_content: false }`
+- For date-specific: add `date_range: { start: "2025-01-01", end: "2025-12-31" }` to filters
 
 **Listing Coaching Models:**
-- Query: `"coaching methodology framework model"` with threshold: 0.15, limit: 50
-- Filter types: `["coaching_model"]`
+- Use filteredSearch with:
+  - query: `"coaching methodology framework"`
+  - filters: `{ types: ["coaching_model"] }`
+  - options: `{ threshold: 0.15, limit: 25, include_content: false }`
 
 **Listing Company Documents:**
-- Query: `"company organization document"` with threshold: 0.15, limit: 50
-- Filter types: `["company_doc"]`
+- Use filteredSearch with:
+  - query: `"company organization document"`
+  - filters: `{ types: ["company_doc"] }`
+  - options: `{ threshold: 0.15, limit: 25, include_content: false }`
 
 **Why this matters:**
-- Wildcards (`*`) generate meaningless embeddings with ~0.2 similarity to real content
-- Default threshold (0.3) filters out everything when using wildcards
-- Descriptive queries + low threshold (0.15) return comprehensive results
+- Wildcards (`*`) generate meaningless embeddings - NEVER use them
+- Full content responses can be 100KB+ causing timeouts
+- `include_content: false` returns just titles/metadata (fast, reliable)
+- Use smaller limits (25) for listings, then drill down as needed
 
-**Example - WRONG vs RIGHT:**
+**Example - Listing vs Detail:**
 ```
-WRONG: query="*", threshold=0.3 → Returns 0-1 results
-RIGHT: query="coaching intake assessment", threshold=0.15 → Returns all assessments
+LISTING (fast): filteredSearch with include_content: false, limit: 25
+DETAIL (full): searchCoachingData for specific client/topic with limit: 5
 ```
 
 ## Guidelines
