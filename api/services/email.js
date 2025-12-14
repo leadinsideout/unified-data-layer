@@ -216,8 +216,12 @@ export async function sendMissingClientReport(reportData, recipients) {
   }
 
   try {
+    // Note: Using Resend's default domain for testing
+    // For production with custom domain, verify unified-data-layer.vercel.app in Resend dashboard
+    const fromAddress = process.env.RESEND_FROM_EMAIL || 'Unified Data Layer <onboarding@resend.dev>';
+
     const result = await resend.emails.send({
-      from: 'Unified Data Layer <reports@unified-data-layer.vercel.app>',
+      from: fromAddress,
       to: recipients,
       subject: subject,
       html: html
@@ -252,8 +256,10 @@ export async function sendTestEmail(recipient) {
   }
 
   try {
+    const fromAddress = process.env.RESEND_FROM_EMAIL || 'Unified Data Layer <onboarding@resend.dev>';
+
     const result = await resend.emails.send({
-      from: 'Unified Data Layer <reports@unified-data-layer.vercel.app>',
+      from: fromAddress,
       to: recipient,
       subject: 'Test Email - Unified Data Layer',
       html: `
