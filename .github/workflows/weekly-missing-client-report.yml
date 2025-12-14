@@ -31,7 +31,7 @@ jobs:
           echo "Target: ${{ vars.PRODUCTION_URL || 'https://unified-data-layer.vercel.app' }}"
 
           RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
-            -H "x-admin-api-key: ${{ secrets.ADMIN_API_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.ADMIN_API_KEY }}" \
             -H "Content-Type: application/json" \
             -d '{"period": "${{ github.event.inputs.period || 'week' }}"}' \
             "${{ vars.PRODUCTION_URL || 'https://unified-data-layer.vercel.app' }}/api/admin/reports/missing-clients/send")
