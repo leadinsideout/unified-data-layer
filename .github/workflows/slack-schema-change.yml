@@ -38,9 +38,8 @@ jobs:
 
       - name: Send Slack notification
         if: steps.check_schema.outputs.schema_changed == 'true'
-        uses: slackapi/slack-github-action@v1.27.0
+        uses: slackapi/slack-github-action@v1
         with:
-          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
           payload: |
             {
               "text": "⚠️ API Schema Updated - Action Required",
@@ -49,8 +48,7 @@ jobs:
                   "type": "header",
                   "text": {
                     "type": "plain_text",
-                    "text": "⚠️ API Schema Updated",
-                    "emoji": true
+                    "text": "⚠️ API Schema Updated"
                   }
                 },
                 {
@@ -70,16 +68,15 @@ jobs:
                     {
                       "type": "mrkdwn",
                       "text": "*Branch:*\n${{ github.ref_name }}"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Commit:*\n${{ github.event.head_commit.message }}"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Author:*\n${{ github.event.head_commit.author.name }}"
                     }
                   ]
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Commit:*\n${{ github.event.head_commit.message }}"
+                  }
                 },
                 {
                   "type": "section",
@@ -95,8 +92,7 @@ jobs:
                       "type": "button",
                       "text": {
                         "type": "plain_text",
-                        "text": "View Changes",
-                        "emoji": true
+                        "text": "View Changes"
                       },
                       "url": "${{ github.event.head_commit.url }}"
                     },
@@ -104,23 +100,14 @@ jobs:
                       "type": "button",
                       "text": {
                         "type": "plain_text",
-                        "text": "View Schema",
-                        "emoji": true
+                        "text": "View Schema"
                       },
                       "url": "https://unified-data-layer.vercel.app/openapi.json"
-                    },
-                    {
-                      "type": "button",
-                      "text": {
-                        "type": "plain_text",
-                        "text": "View Deployment",
-                        "emoji": true
-                      },
-                      "url": "https://unified-data-layer.vercel.app"
                     }
                   ]
                 }
               ]
             }
         env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
