@@ -1904,7 +1904,14 @@ app.get('/openapi.json', (req, res) => {
                         include_content: {
                           type: 'boolean',
                           default: true,
-                          description: 'Include content in results'
+                          description: 'Include content in results. Set to false for listing queries to avoid size limits.'
+                        },
+                        max_content_length: {
+                          type: 'integer',
+                          default: 2000,
+                          minimum: 100,
+                          maximum: 10000,
+                          description: 'Maximum characters per content field. Content exceeding this is truncated. Use lower values (e.g., 1000) for broad searches.'
                         }
                       }
                     }

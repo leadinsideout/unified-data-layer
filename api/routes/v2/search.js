@@ -185,7 +185,8 @@ export function createV2SearchRoutes(supabase, authMiddleware) {
         threshold = 0.3,
         limit = 10,
         include_metadata = true,
-        include_content = true
+        include_content = true,
+        max_content_length = 2000  // Truncate content to prevent huge responses
       } = options;
 
       // Validate threshold and limit
@@ -251,6 +252,8 @@ export function createV2SearchRoutes(supabase, authMiddleware) {
       }
 
       // Format results based on options
+      const validMaxLength = Math.max(100, Math.min(10000, parseInt(max_content_length) || 2000));
+
       const formattedResults = (chunks || []).map(chunk => {
         const result = {
           id: chunk.id,
@@ -260,7 +263,14 @@ export function createV2SearchRoutes(supabase, authMiddleware) {
         };
 
         if (include_content) {
-          result.content = chunk.content;
+          // Truncate content if it exceeds max length
+          if (chunk.content && chunk.content.length > validMaxLength) {
+            result.content = chunk.content.substring(0, validMaxLength) + '... [truncated]';
+            result.content_truncated = true;
+            result.original_length = chunk.content.length;
+          } else {
+            result.content = chunk.content;
+          }
         }
 
         if (include_metadata) {

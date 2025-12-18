@@ -8,9 +8,9 @@ on:
     # Allow manual trigger from GitHub Actions UI
     inputs:
       days_back:
-        description: 'Number of days to look back for transcripts'
+        description: 'Number of days to look back for transcripts (default 30, max 365 for backfill)'
         required: false
-        default: '7'
+        default: '30'
 
 jobs:
   sync:
@@ -19,7 +19,7 @@ jobs:
       - name: Trigger Fireflies Sync
         id: sync
         run: |
-          DAYS_BACK="${{ github.event.inputs.days_back || '7' }}"
+          DAYS_BACK="${{ github.event.inputs.days_back || '30' }}"
 
           echo "Syncing Fireflies transcripts from last $DAYS_BACK days..."
 

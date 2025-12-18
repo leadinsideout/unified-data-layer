@@ -1280,9 +1280,10 @@ export function createFirefliesRoutes(supabase, openai) {
 
     console.log(`[Fireflies Sync] Processing key: ${keyLabel}`);
 
+    // Paginated query to fetch ALL transcripts (not just first 50)
     const listQuery = `
-      query RecentTranscripts($limit: Int) {
-        transcripts(limit: $limit) {
+      query RecentTranscripts($limit: Int, $skip: Int) {
+        transcripts(limit: $limit, skip: $skip) {
           id
           title
           date
@@ -1291,34 +1292,79 @@ export function createFirefliesRoutes(supabase, openai) {
       }
     `;
 
-    const listResponse = await fetch(FIREFLIES_API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        query: listQuery,
-        variables: { limit: 50 }
-      })
-    });
+    // Calculate cutoff date upfront for pagination efficiency
+    const cutoffDate = Date.now() - (daysBack * 24 * 60 * 60 * 1000);
 
-    if (!listResponse.ok) {
-      throw new Error(`Fireflies API error: ${listResponse.status}`);
+    // Fetch ALL transcripts using pagination
+    const PAGE_SIZE = 50;
+    let allTranscripts = [];
+    let skip = 0;
+    let hasMore = true;
+
+    console.log(`[Fireflies Sync] [${keyLabel}] Fetching transcripts with pagination (cutoff: ${new Date(cutoffDate).toISOString()})`);
+
+    while (hasMore) {
+      const listResponse = await fetch(FIREFLIES_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          query: listQuery,
+          variables: { limit: PAGE_SIZE, skip }
+        })
+      });
+
+      if (!listResponse.ok) {
+        throw new Error(`Fireflies API error: ${listResponse.status}`);
+      }
+
+      const listData = await listResponse.json();
+      if (listData.errors) {
+        throw new Error(`Fireflies GraphQL error: ${JSON.stringify(listData.errors)}`);
+      }
+
+      const pageTranscripts = listData.data.transcripts || [];
+      console.log(`[Fireflies Sync] [${keyLabel}] Page ${Math.floor(skip / PAGE_SIZE) + 1}: ${pageTranscripts.length} transcripts`);
+
+      // Add transcripts from this page
+      allTranscripts.push(...pageTranscripts);
+
+      // Check if we should continue:
+      // - Got a full page (might be more)
+      // - All transcripts on this page are still within date range
+      if (pageTranscripts.length < PAGE_SIZE) {
+        // Less than full page = no more data
+        hasMore = false;
+      } else {
+        // Check if oldest transcript in this batch is still within range
+        const oldestInBatch = Math.min(...pageTranscripts.map(t => t.date));
+        if (oldestInBatch < cutoffDate) {
+          // We've gone past the cutoff date, stop paginating
+          hasMore = false;
+        } else {
+          // Continue to next page
+          skip += PAGE_SIZE;
+          // Safety limit: max 20 pages (1000 transcripts) to prevent runaway
+          if (skip >= 1000) {
+            console.log(`[Fireflies Sync] [${keyLabel}] Reached max pagination limit (1000 transcripts)`);
+            hasMore = false;
+          }
+        }
+      }
+
+      // Small delay between pages to respect rate limits
+      if (hasMore) {
+        await new Promise(resolve => setTimeout(resolve, 200));
+      }
     }
 
-    const listData = await listResponse.json();
-    if (listData.errors) {
-      throw new Error(`Fireflies GraphQL error: ${JSON.stringify(listData.errors)}`);
-    }
-
-    const transcripts = listData.data.transcripts || [];
-    results.transcriptsFound = transcripts.length;
-    console.log(`[Fireflies Sync] [${keyLabel}] Found ${transcripts.length} transcripts`);
+    results.transcriptsFound = allTranscripts.length;
+    console.log(`[Fireflies Sync] [${keyLabel}] Total found: ${allTranscripts.length} transcripts`);
 
     // Filter to only transcripts within the date range
-    const cutoffDate = Date.now() - (daysBack * 24 * 60 * 60 * 1000);
-    const recentTranscripts = transcripts.filter(t => t.date >= cutoffDate);
+    const recentTranscripts = allTranscripts.filter(t => t.date >= cutoffDate);
 
     // Check which ones are already synced OR already seen from another key
     const meetingIds = recentTranscripts.map(t => t.id);
