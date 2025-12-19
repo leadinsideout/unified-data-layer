@@ -1357,7 +1357,7 @@ app.get('/openapi.json', (req, res) => {
         post: {
           summary: 'Search coaching data semantically with filters',
           operationId: 'searchCoachingData',
-          description: 'Search across multiple data types using semantic similarity. Data types: transcript (sessions), assessment (client intake), coach_assessment (coach\'s own MBTI/strengths/Human Design), coaching_model (CLG frameworks, Mochary Method), company_doc. Supports filtering by type, coach, client, and organization.',
+          description: 'Semantic search across transcripts, assessments, coach_assessment (MBTI/strengths), coaching_model (CLG), company_doc. Filter by type, coach, client, org.',
           requestBody: {
             required: true,
             content: {
