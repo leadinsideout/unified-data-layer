@@ -1691,7 +1691,7 @@ app.get('/openapi.json', (req, res) => {
         get: {
           summary: 'List recent transcripts',
           operationId: 'getRecentTranscripts',
-          description: 'Returns recent transcripts for authenticated coach, ordered by session date (most recent first). Simple database query - no semantic search. IMPORTANT: By default, only returns CLIENT COACHING sessions (session_type=client_coaching). Use session_type=all to include internal meetings, networking calls, etc.',
+          description: 'List recent transcripts by date. Returns CLIENT COACHING sessions by default. Use session_type=all to include internal meetings.',
           security: [{ bearerAuth: [] }],
           parameters: [
             {
