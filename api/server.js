@@ -1357,7 +1357,7 @@ app.get('/openapi.json', (req, res) => {
         post: {
           summary: 'Search coaching data semantically with filters',
           operationId: 'searchCoachingData',
-          description: 'Search across multiple data types (transcripts, assessments, coaching models, company docs) using semantic similarity. Supports filtering by type, coach, client, and organization.',
+          description: 'Search across multiple data types using semantic similarity. Data types: transcript (sessions), assessment (client intake), coach_assessment (coach\'s own MBTI/strengths/Human Design), coaching_model (CLG frameworks, Mochary Method), company_doc. Supports filtering by type, coach, client, and organization.',
           requestBody: {
             required: true,
             content: {
@@ -1375,9 +1375,9 @@ app.get('/openapi.json', (req, res) => {
                       type: 'array',
                       items: {
                         type: 'string',
-                        enum: ['transcript', 'assessment', 'coaching_model', 'company_doc']
+                        enum: ['transcript', 'assessment', 'coach_assessment', 'coaching_model', 'company_doc']
                       },
-                      description: 'Filter by data types. Omit to search all types.',
+                      description: 'Filter by data types. Types: transcript (sessions), assessment (client intake), coach_assessment (coach\'s own MBTI/strengths/etc), coaching_model (frameworks), company_doc. Omit to search all.',
                       example: ['transcript', 'assessment']
                     },
                     coach_id: {
@@ -1432,8 +1432,8 @@ app.get('/openapi.json', (req, res) => {
                             data_item_id: { type: 'string', format: 'uuid', description: 'Parent data item ID' },
                             data_type: {
                               type: 'string',
-                              enum: ['transcript', 'assessment', 'coaching_model', 'company_doc'],
-                              description: 'Type of data'
+                              enum: ['transcript', 'assessment', 'coach_assessment', 'coaching_model', 'company_doc'],
+                              description: 'Type of data (coach_assessment = coach\'s own MBTI/strengths assessments)'
                             },
                             content: { type: 'string', description: 'Matching text chunk' },
                             similarity: { type: 'number', description: 'Similarity score (0-1)' },
@@ -1851,9 +1851,9 @@ app.get('/openapi.json', (req, res) => {
                           type: 'array',
                           items: {
                             type: 'string',
-                            enum: ['transcript', 'assessment', 'coaching_model', 'company_doc']
+                            enum: ['transcript', 'assessment', 'coach_assessment', 'coaching_model', 'company_doc']
                           },
-                          description: 'Filter by data types',
+                          description: 'Filter by data types. coach_assessment = coach\'s own MBTI/strengths assessments (not client assessments)',
                           example: ['transcript', 'assessment']
                         },
                         date_range: {
