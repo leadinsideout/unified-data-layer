@@ -7,6 +7,7 @@
  * Supported Data Types:
  * - transcript: Coaching session transcripts
  * - assessment: Client assessments (personality, 360, skills)
+ * - coach_assessment: Coach's own assessments (MBTI, StrengthsFinder, etc.)
  * - coaching_model: Coaching models and frameworks
  * - company_doc: Client organization documents
  *
@@ -20,6 +21,7 @@ import { TranscriptProcessor } from './transcript-processor.js';
 import { AssessmentProcessor } from './assessment-processor.js';
 import { CoachingModelProcessor } from './coaching-model-processor.js';
 import { CompanyDocProcessor } from './company-doc-processor.js';
+import { CoachAssessmentProcessor } from './coach-assessment-processor.js';
 
 export class DataProcessorFactory {
   constructor(openaiClient) {
@@ -33,7 +35,8 @@ export class DataProcessorFactory {
       'transcript': TranscriptProcessor,
       'assessment': AssessmentProcessor,
       'coaching_model': CoachingModelProcessor,
-      'company_doc': CompanyDocProcessor
+      'company_doc': CompanyDocProcessor,
+      'coach_assessment': CoachAssessmentProcessor
     };
   }
 
