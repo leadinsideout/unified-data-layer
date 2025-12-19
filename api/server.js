@@ -1691,9 +1691,19 @@ app.get('/openapi.json', (req, res) => {
         get: {
           summary: 'List recent transcripts',
           operationId: 'getRecentTranscripts',
-          description: 'Returns recent transcripts for authenticated coach, ordered by session date (most recent first). Simple database query - no semantic search. Use this when the user asks to "list sessions", "show recent transcripts", or "what transcripts do I have".',
+          description: 'Returns recent transcripts for authenticated coach, ordered by session date (most recent first). Simple database query - no semantic search. IMPORTANT: By default, only returns CLIENT COACHING sessions (session_type=client_coaching). Use session_type=all to include internal meetings, networking calls, etc.',
           security: [{ bearerAuth: [] }],
           parameters: [
+            {
+              name: 'session_type',
+              in: 'query',
+              schema: {
+                type: 'string',
+                default: 'client_coaching',
+                enum: ['client_coaching', 'internal_meeting', 'networking', 'sales_call', 'staff_1on1', 'training', '360_interview', 'other', 'all']
+              },
+              description: 'Filter by session type. Default is "client_coaching" (only client sessions). Use "all" to include internal meetings, networking, etc.'
+            },
             {
               name: 'limit',
               in: 'query',
@@ -1735,6 +1745,7 @@ app.get('/openapi.json', (req, res) => {
                             id: { type: 'string', format: 'uuid' },
                             title: { type: 'string' },
                             session_date: { type: 'string', format: 'date-time' },
+                            session_type: { type: 'string', description: 'Type of session (client_coaching, internal_meeting, etc.)' },
                             client_name: { type: 'string', nullable: true },
                             client_id: { type: 'string', format: 'uuid', nullable: true },
                             created_at: { type: 'string', format: 'date-time' }
@@ -1746,6 +1757,7 @@ app.get('/openapi.json', (req, res) => {
                         type: 'object',
                         properties: {
                           coach_id: { type: 'string', format: 'uuid' },
+                          session_type: { type: 'string', description: 'Session type filter applied (default: client_coaching)' },
                           start_date: { type: 'string', nullable: true },
                           end_date: { type: 'string', nullable: true },
                           client_id: { type: 'string', format: 'uuid', nullable: true },
@@ -1876,6 +1888,11 @@ app.get('/openapi.json', (req, res) => {
                           type: 'array',
                           items: { type: 'string', format: 'uuid' },
                           description: 'Filter by organization IDs'
+                        },
+                        session_type: {
+                          type: 'string',
+                          enum: ['client_coaching', 'internal_meeting', 'networking', 'sales_call', 'staff_1on1', 'training', '360_interview', 'other', 'all'],
+                          description: 'Filter by session type. Use "all" to include all types. Only applies to transcripts.'
                         }
                       }
                     },

@@ -27,11 +27,15 @@ export function createV2TranscriptRoutes(supabase, authMiddleware) {
    *   - start_date: Filter by start date (ISO format)
    *   - end_date: Filter by end date (ISO format)
    *   - client_id: Filter by specific client
+   *   - session_type: Filter by session type (default: 'client_coaching')
+   *                   Use 'all' to include all transcript types
+   *                   Valid types: client_coaching, internal_meeting, networking,
+   *                                sales_call, staff_1on1, training, 360_interview, other
    */
   router.get('/recent', authMiddleware, async (req, res) => {
     try {
       const { auth } = req;
-      const { limit = 20, start_date, end_date, client_id } = req.query;
+      const { limit = 20, start_date, end_date, client_id, session_type = 'client_coaching' } = req.query;
 
       // Validate limit (1-50)
       const resultLimit = Math.min(Math.max(1, parseInt(limit) || 20), 50);
@@ -52,6 +56,11 @@ export function createV2TranscriptRoutes(supabase, authMiddleware) {
         .order('session_date', { ascending: false, nullsFirst: false })
         .limit(resultLimit);
 
+      // Session type filter - default to client_coaching, use 'all' to get everything
+      if (session_type && session_type !== 'all') {
+        query = query.eq('metadata->>session_type', session_type);
+      }
+
       // Optional filters
       if (start_date) query = query.gte('session_date', start_date);
       if (end_date) query = query.lte('session_date', end_date);
@@ -66,6 +75,7 @@ export function createV2TranscriptRoutes(supabase, authMiddleware) {
         id: item.id,
         title: item.metadata?.title || `Transcript - ${item.session_date || 'No date'}`,
         session_date: item.session_date,
+        session_type: item.metadata?.session_type || 'unknown',
         client_name: item.clients?.name || null,
         client_id: item.client_id,
         created_at: item.created_at
@@ -76,6 +86,7 @@ export function createV2TranscriptRoutes(supabase, authMiddleware) {
         total: transcripts.length,
         filters_applied: {
           coach_id: auth.coachId,
+          session_type: session_type,
           start_date: start_date || null,
           end_date: end_date || null,
           client_id: client_id || null,

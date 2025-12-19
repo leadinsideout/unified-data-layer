@@ -89,6 +89,13 @@ Chronological history for a specific client:
 - `start_date`, `end_date`: Optional date filters (ISO format: 2024-01-01)
 - Great for session prep and progress reviews
 
+### getRecentTranscripts
+List recent transcripts by date (no semantic search):
+- **Returns only CLIENT COACHING sessions by default** (excludes internal meetings, networking)
+- Use `session_type=all` to include ALL transcripts (internal meetings, networking, etc.)
+- Supports: limit, start_date, end_date, client_id, session_type filters
+- Great for: "show recent sessions", "list my transcripts"
+
 ### getClientData
 Full data items with complete content for a client:
 - More detailed than timeline

@@ -177,7 +177,8 @@ export function createV2SearchRoutes(supabase, authMiddleware) {
         date_range,
         clients,
         coaches,
-        organizations
+        organizations,
+        session_type  // Filter by session type (client_coaching, internal_meeting, etc.)
       } = filters;
 
       // Extract options
@@ -251,6 +252,12 @@ export function createV2SearchRoutes(supabase, authMiddleware) {
         }
       }
 
+      // Apply session_type filter (post-query since RPC doesn't support it)
+      // Valid types: client_coaching, internal_meeting, networking, sales_call, staff_1on1, training, 360_interview, other
+      if (session_type && session_type !== 'all' && chunks) {
+        chunks = chunks.filter(c => c.metadata?.session_type === session_type);
+      }
+
       // Format results based on options
       const validMaxLength = Math.max(100, Math.min(10000, parseInt(max_content_length) || 2000));
 
@@ -295,7 +302,8 @@ export function createV2SearchRoutes(supabase, authMiddleware) {
           date_range,
           clients,
           coaches,
-          organizations
+          organizations,
+          session_type
         },
         options_applied: {
           threshold: validThreshold,
