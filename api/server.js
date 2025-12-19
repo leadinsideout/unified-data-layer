@@ -1948,14 +1948,29 @@ app.get('/openapi.json', (req, res) => {
                       query: { type: 'string' },
                       results: {
                         type: 'array',
+                        description: 'Search results with citation information for source tracking',
                         items: {
                           type: 'object',
                           properties: {
-                            content: { type: 'string' },
-                            similarity: { type: 'number' },
-                            data_type: { type: 'string' },
-                            title: { type: 'string' },
-                            session_date: { type: 'string' }
+                            content: { type: 'string', description: 'The matching content chunk' },
+                            similarity: { type: 'number', description: 'Relevance score 0-1' },
+                            data_type: { type: 'string', description: 'Type of data (transcript, assessment, etc.)' },
+                            data_item_id: { type: 'string', format: 'uuid', description: 'ID of the parent data item' },
+                            session_date: { type: 'string', description: 'Date of the session' },
+                            client_name: { type: 'string', description: 'Name of the client (if applicable)' },
+                            citation: {
+                              type: 'object',
+                              description: 'Citation information for source tracking. ALWAYS include this in your responses to cite sources.',
+                              properties: {
+                                title: { type: 'string', description: 'Document/session title' },
+                                date: { type: 'string', description: 'Session date (ISO format)' },
+                                date_formatted: { type: 'string', description: 'Human-readable date (e.g., "Dec 15, 2025")' },
+                                type: { type: 'string', description: 'Data type (transcript, assessment, etc.)' },
+                                client_name: { type: 'string', description: 'Client name if applicable' },
+                                source_url: { type: 'string', description: 'Direct link to source (e.g., Fireflies URL) if available' },
+                                formatted: { type: 'string', description: 'Pre-formatted citation string like "[Brad & Ryan Session, Dec 15, 2025]"' }
+                              }
+                            }
                           }
                         }
                       },

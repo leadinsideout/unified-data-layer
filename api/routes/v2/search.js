@@ -9,6 +9,18 @@ import express from 'express';
 import OpenAI from 'openai';
 
 /**
+ * Format a date for citation display
+ * @param {string|Date} date - Date to format
+ * @returns {string} Formatted date string (e.g., "Dec 15, 2025")
+ */
+function formatCitationDate(date) {
+  if (!date) return 'Unknown date';
+  const d = new Date(date);
+  if (isNaN(d.getTime())) return 'Unknown date';
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+/**
  * Create v2 search routes
  * @param {Object} supabase - Supabase client
  * @param {Function} authMiddleware - Authentication middleware
@@ -107,12 +119,48 @@ export function createV2SearchRoutes(supabase, authMiddleware) {
         throw searchError;
       }
 
+      // Enrich results with client names for citations
+      const clientIds = [...new Set((chunks || []).filter(c => c.client_id).map(c => c.client_id))];
+      let clientMap = new Map();
+
+      if (clientIds.length > 0) {
+        const { data: clientsData } = await supabase
+          .from('clients')
+          .select('id, name')
+          .in('id', clientIds);
+
+        if (clientsData) {
+          clientMap = new Map(clientsData.map(c => [c.id, c.name]));
+        }
+      }
+
+      // Add citation to each result
+      const enrichedResults = (chunks || []).map(chunk => {
+        const clientName = clientMap.get(chunk.client_id) || null;
+        const title = chunk.metadata?.title || 'Untitled';
+        const formattedDate = formatCitationDate(chunk.session_date);
+
+        return {
+          ...chunk,
+          client_name: clientName,
+          citation: {
+            title: title,
+            date: chunk.session_date,
+            date_formatted: formattedDate,
+            type: chunk.data_type,
+            client_name: clientName,
+            source_url: chunk.metadata?.transcript_url || null,
+            formatted: `[${title}, ${formattedDate}]`
+          }
+        };
+      });
+
       // Calculate response time
       const responseTime = Date.now() - startTime;
 
       // Group results by data type
       const resultsByType = {};
-      (chunks || []).forEach(chunk => {
+      enrichedResults.forEach(chunk => {
         if (!resultsByType[chunk.data_type]) {
           resultsByType[chunk.data_type] = [];
         }
@@ -121,8 +169,8 @@ export function createV2SearchRoutes(supabase, authMiddleware) {
 
       res.json({
         query,
-        results: chunks || [],
-        count: chunks?.length || 0,
+        results: enrichedResults,
+        count: enrichedResults.length,
         results_by_type: resultsByType,
         type_counts: Object.fromEntries(
           Object.entries(resultsByType).map(([type, items]) => [type, items.length])
@@ -258,15 +306,44 @@ export function createV2SearchRoutes(supabase, authMiddleware) {
         chunks = chunks.filter(c => c.metadata?.session_type === session_type);
       }
 
+      // Enrich results with client names for citations
+      const clientIds = [...new Set((chunks || []).filter(c => c.client_id).map(c => c.client_id))];
+      let clientMap = new Map();
+
+      if (clientIds.length > 0) {
+        const { data: clientsData } = await supabase
+          .from('clients')
+          .select('id, name')
+          .in('id', clientIds);
+
+        if (clientsData) {
+          clientMap = new Map(clientsData.map(c => [c.id, c.name]));
+        }
+      }
+
       // Format results based on options
       const validMaxLength = Math.max(100, Math.min(10000, parseInt(max_content_length) || 2000));
 
       const formattedResults = (chunks || []).map(chunk => {
+        const clientName = clientMap.get(chunk.client_id) || null;
+        const title = chunk.metadata?.title || 'Untitled';
+        const formattedDate = formatCitationDate(chunk.session_date);
+
         const result = {
           id: chunk.id,
           data_item_id: chunk.data_item_id,
           similarity: chunk.similarity,
-          data_type: chunk.data_type
+          data_type: chunk.data_type,
+          // Always include citation for source tracking
+          citation: {
+            title: title,
+            date: chunk.session_date,
+            date_formatted: formattedDate,
+            type: chunk.data_type,
+            client_name: clientName,
+            source_url: chunk.metadata?.transcript_url || null,
+            formatted: `[${title}, ${formattedDate}]`
+          }
         };
 
         if (include_content) {
@@ -284,6 +361,7 @@ export function createV2SearchRoutes(supabase, authMiddleware) {
           result.metadata = chunk.metadata;
           result.coach_id = chunk.coach_id;
           result.client_id = chunk.client_id;
+          result.client_name = clientName;
           result.session_date = chunk.session_date;
         }
 

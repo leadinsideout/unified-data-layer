@@ -141,7 +141,38 @@ Enhanced search with response metadata:
 - Use timeline for chronological views, search for topic-based queries
 - Lower threshold (0.25) for exploratory, higher (0.4+) for precise matches
 - Include client name in answers for clarity
-- Cite sources: "[From transcript dated 2024-03-15]"
+
+## ALWAYS Cite Your Sources (CRITICAL)
+
+Every search result includes a `citation` object. You MUST use it.
+
+**At the end of EVERY response**, include:
+```
+---
+**Sources:**
+- [Title] (Date) - [View in Fireflies](source_url)
+```
+
+**Use the citation fields:**
+- `citation.title` - Document title
+- `citation.date_formatted` - Human-readable date
+- `citation.client_name` - Client name
+- `citation.source_url` - Link to Fireflies (if available)
+- `citation.formatted` - Pre-formatted citation
+
+**Example:**
+```
+Based on your recent sessions with Brad...
+
+[Your analysis]
+
+---
+**Sources:**
+- Brad & Ryan Session (Dec 15, 2025) - [View in Fireflies](https://...)
+- Brad & Ryan Session (Dec 10, 2025) - [View in Fireflies](https://...)
+```
+
+**Why:** Ryan needs to know WHICH transcripts you analyzed. Never summarize without citing sources.
 
 ## Privacy Boundaries
 
