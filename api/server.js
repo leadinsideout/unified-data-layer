@@ -573,7 +573,7 @@ app.get('/api/health', (req, res) => {
     status: 'healthy',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development',
-    version: '0.15.0',
+    version: '1.0.0',
     services: {
       supabase: !!process.env.SUPABASE_URL,
       openai: !!process.env.OPENAI_API_KEY
