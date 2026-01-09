@@ -1,0 +1,1654 @@
+{
+  "timestamp": "2026-01-09T12:43:33.365Z",
+  "summary": {
+    "total": 228,
+    "canLinkImmediately": 3,
+    "needNewClient": 65,
+    "uniqueNewClients": 49,
+    "needManualReview": 160
+  },
+  "proposals": [
+    {
+      "transcriptId": "9c7bb17c-8d9e-4a95-9bbb-4eeb19540a1d",
+      "title": "Jake Krask and Ryan Session Jan 7 2026.m4a",
+      "coach": "Ryan Vaughn",
+      "extractedName": "Jake Krask",
+      "match": {
+        "client": {
+          "id": "337cdf39-5d16-4dae-9cc3-22f5f9948bd8",
+          "name": "Jake Krask",
+          "email": "jake@sixtwentysix.co",
+          "primary_coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11"
+        },
+        "confidence": 1,
+        "matchType": "exact"
+      },
+      "alternativeMatches": []
+    },
+    {
+      "transcriptId": "fd9dd618-b12c-4415-8f05-5dc7c0739cd0",
+      "title": "Jake Krask & Ryan Vaugh Session Dec 2 2025.m4a",
+      "coach": "Ryan Vaughn",
+      "extractedName": "Jake Krask",
+      "match": {
+        "client": {
+          "id": "337cdf39-5d16-4dae-9cc3-22f5f9948bd8",
+          "name": "Jake Krask",
+          "email": "jake@sixtwentysix.co",
+          "primary_coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11"
+        },
+        "confidence": 1,
+        "matchType": "exact"
+      },
+      "alternativeMatches": []
+    },
+    {
+      "transcriptId": "77a96f7e-5c2f-45a7-96ec-6d6263f9e8e2",
+      "title": "Fred & Ryan session",
+      "coach": "Ryan Vaughn",
+      "extractedName": "Fred",
+      "match": {
+        "client": {
+          "id": "bc98062a-eb80-4a72-a57e-24b79b1ac021",
+          "name": "Fred Stutzman",
+          "email": "fred@80pct.com",
+          "primary_coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11"
+        },
+        "confidence": 0.8,
+        "matchType": "high"
+      },
+      "alternativeMatches": [
+        {
+          "client": {
+            "id": "fbc036c1-8113-4d8b-9beb-f5ecc84f63fc",
+            "name": "Chris Fredericks",
+            "email": "chris@empowered.ventures",
+            "primary_coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11"
+          },
+          "confidence": 0.8,
+          "matchType": "high"
+        }
+      ]
+    }
+  ],
+  "needNewClient": [
+    {
+      "transcriptId": "f1857095-6087-4c83-94b5-86b12cf999d2",
+      "title": "Jonny <> JJ Coaching",
+      "coach": "JJ Vega",
+      "coachId": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "extractedName": "Jonny",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "e239ed69-44be-46a1-a3e4-9fb515c3eeda",
+      "title": "Christian Kennedy <> JJ Vega Initial Session",
+      "coach": "JJ Vega",
+      "coachId": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "extractedName": "Christian Kennedy",
+      "lowConfidenceMatches": [
+        {
+          "client": {
+            "id": "39eaf5bc-e063-48ab-8371-e49af2b53f65",
+            "name": "Christian Kletzl",
+            "email": "christian@usergems.com",
+            "primary_coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11"
+          },
+          "confidence": 0.5,
+          "matchType": "medium"
+        }
+      ]
+    },
+    {
+      "transcriptId": "3006ad57-f2bc-4614-9e9d-8bcff689e5ed",
+      "title": "Ryan & Jem",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Jem",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "28647246-668e-41cf-b46f-e6a8c0367f41",
+      "title": "Ryan & Amita IFS work",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Amita IFS work",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "4afbf118-3599-4ab2-b090-5e10b4e6a6c3",
+      "title": "Mikki <> JJ Intro",
+      "coach": "JJ Vega",
+      "coachId": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "extractedName": "Mikki",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "4f00bf33-4a88-4247-8562-8d2e030feba2",
+      "title": "Ryan & Jem",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Jem",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "ee50e8a1-7b55-4760-95d5-96958d0fed71",
+      "title": "IO Co-Creation Call",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "IO Co",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "79d1a958-a5b5-480a-8610-a8c70141b4ee",
+      "title": "Micah <> Ryan Jam on Webinar",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Micah",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "583b214d-a83f-4722-8c4c-126ec0c87e93",
+      "title": "360 Interview: Jameson & Ryan",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "360 Interview: Jameson",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "0d83dc82-0441-4158-b8d1-fcb383ddd0e9",
+      "title": "Thoughtleader - Ryan Vaughn (Content Call)",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Thoughtleader",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "a77bc3ed-40a3-4ddb-ad38-05981176ee74",
+      "title": "Ryan Vaughn & James Lenger",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "James Lenger",
+      "lowConfidenceMatches": [
+        {
+          "client": {
+            "id": "550e8400-e29b-41d4-a716-446655440008",
+            "name": "James Wilson",
+            "email": "james.wilson@innovatepartners.co",
+            "primary_coach_id": null
+          },
+          "confidence": 0.5,
+          "matchType": "medium"
+        },
+        {
+          "client": {
+            "id": "c7cc79c9-ae22-468a-985b-360b2d6a21a1",
+            "name": "James Hill",
+            "email": "jamesdonaldhill@gmail.com",
+            "primary_coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11"
+          },
+          "confidence": 0.5,
+          "matchType": "medium"
+        },
+        {
+          "client": {
+            "id": "c0018776-d8eb-47da-9eb1-21ca79a0f514",
+            "name": "James Green",
+            "email": "james@jdgreen.io",
+            "primary_coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11"
+          },
+          "confidence": 0.5,
+          "matchType": "medium"
+        }
+      ]
+    },
+    {
+      "transcriptId": "c3b954f9-fabc-4189-9195-b5dbd9ef7105",
+      "title": "Tracy & Ryan catch up about experiences",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Tracy",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "9c88a1e3-1c24-44bb-9a1d-ee59e682c6c5",
+      "title": "LI Outreach: Jem & Ryan",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "LI Outreach: Jem",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "b5dcf7a8-a309-4ac9-8b51-65a933a37928",
+      "title": "JJ <> Jonny Quick Sync",
+      "coach": "JJ Vega",
+      "coachId": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "extractedName": "Jonny Quick Sync",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "d0d7f850-98e5-4674-991d-ae39b4591d26",
+      "title": "Ryan Vaughn and Mati Engel",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Mati Engel",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "c4f86867-df52-42dc-b25b-e4d16f9a0beb",
+      "title": "IO - E7 Explore Team Coaching",
+      "coach": "JJ Vega",
+      "coachId": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "extractedName": "IO",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "80129eca-0f6b-4f0f-b953-958a0841aea3",
+      "title": "IO - E7 Explore Team Coaching",
+      "coach": "JJ Vega",
+      "coachId": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "extractedName": "IO",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "5cb28c01-61a5-4844-92fa-cb46d7ea718a",
+      "title": "IO Co-Creation Call",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "IO Co",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "701e1438-061a-4f64-af27-e8d9b827f8f2",
+      "title": "Matt <> JJ E7 Jam",
+      "coach": "JJ Vega",
+      "coachId": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "extractedName": "Matt",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "2c4b14ef-6817-40c7-a91d-80421a5bf1ce",
+      "title": "Mike <> JJ Coaching",
+      "coach": "JJ Vega",
+      "coachId": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "extractedName": "Mike",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "4e0b72cb-dd51-4139-b67c-1cf1c1ccbb12",
+      "title": "Emefa Boamah & Ryan Vaughn",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Emefa Boamah",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "a6ab9458-19b7-411a-812d-4fbf01a17d44",
+      "title": "Devin Martin & Ryan Vaughn",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Devin Martin",
+      "lowConfidenceMatches": [
+        {
+          "client": {
+            "id": "46dc8fd0-1766-4b1e-a0ca-2960dcbc9e50",
+            "name": "Martin Berg",
+            "email": "mb@dx.no",
+            "primary_coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11"
+          },
+          "confidence": 0.5,
+          "matchType": "medium"
+        },
+        {
+          "client": {
+            "id": "873986ff-8c19-4c71-9e05-2184b377210c",
+            "name": "Pete Martin",
+            "email": "applepetemartin@me.com",
+            "primary_coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11"
+          },
+          "confidence": 0.5,
+          "matchType": "medium"
+        }
+      ]
+    },
+    {
+      "transcriptId": "671c25ea-4ae6-46ab-b1f7-558dcc9d6a61",
+      "title": "Ryan & Jem",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Jem",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "810d1cf0-1431-453c-b848-21a370c87797",
+      "title": "Melissa & Ryan Hakomi",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Melissa",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "9eaedfd5-b31a-4b36-80a2-6a2f9b867eca",
+      "title": "IO Co-Creation Call",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "IO Co",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "8810713a-1a8f-4c64-8b85-7c9ad39f5366",
+      "title": "IO Co-Creation Call",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "IO Co",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "b3326f9c-1ffe-4fca-ae8f-7776fb1740ed",
+      "title": "Ryan H Vaughn and Steve Taylor",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Steve Taylor",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "8f299964-b942-40b1-8aed-8dedd5f326a7",
+      "title": "Phill, Margarita, Dennis & Ryan follow up on leadership sessions",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Phill, Margarita, Dennis",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "e5295ff5-4fcb-46f8-a0d1-e39a54b1ba83",
+      "title": "Melissa & Ryan Hakomi",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Melissa",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "f90570c3-b26d-4e6a-8083-acca94160d0f",
+      "title": "Tim Vandehey & Ryan Vaughn",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Tim Vandehey",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "3720e2a6-aa17-4a51-810b-3b1343053873",
+      "title": "Lance Rosen <> Ryan Vaughn",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Lance Rosen",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "5c13dc01-0274-454a-8bdf-6982be2cd52d",
+      "title": "Lou Marchetti & Ryan Vaughn",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Lou Marchetti",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "1a083098-9f45-44c0-9d21-d5773e40c2b2",
+      "title": "Mike Del Ponte & Ryan Vaughn",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Mike Del Ponte",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "0235d2bb-6cdd-44d6-9a5a-ad9a129e6903",
+      "title": "Ryan & Amita IFS work",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Amita IFS work",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "4d5a2104-f9d6-46db-b41a-e78e64766e4e",
+      "title": "Ryan & Jem",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Jem",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "651fec5e-f1d7-40bb-8c5b-d8dc72b56b9f",
+      "title": "JJ Fireflies <> UDL Auto-Save Test 4",
+      "coach": "JJ Vega",
+      "coachId": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "extractedName": "UDL Auto-Save Test 4",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "2efe5ca0-c6bc-46a5-829d-a570efc02ae3",
+      "title": "Jonny <> JJ Coaching",
+      "coach": "JJ Vega",
+      "coachId": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "extractedName": "Jonny",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "03a02bf6-7b80-41f8-ae41-827924cd9488",
+      "title": "Santi and Ryan-transcript-2025-08-25T22-09-56.139Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Santi",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "64e52f67-52b1-498b-a58c-9a209fb81b63",
+      "title": "Ryan Vaughn(Inside-Out Leadership) _ Barak and Shlomo-transcript-2025-08-25T19-47-01.909Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Shlomo-transcript-2025-08-25T19-47-01.909Z",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "173cab7d-c57f-4c58-b8d4-a4b000fc24cd",
+      "title": "Ryan Vaughn and William Dickinson-transcript-2025-07-21T18-02-39.911Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "William Dickinson-transcript-2025-07-21T18-02-39.911Z",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "6dd259bc-1103-4d0f-ab09-35061aa4a94f",
+      "title": "Ryan Vaughn and Karl Brandt-transcript-2025-07-17T17-07-20.330Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Karl Brandt-transcript-2025-07-17T17-07-20.330Z",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "7dcd2faf-ea4f-45e9-ba18-a0c8c952d4cd",
+      "title": "Ryan Vaughn and Itay Forer-transcript-2025-08-29T15-32-49.941Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Itay Forer-transcript-2025-08-29T15-32-49.941Z",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "d25d3fbe-d7c4-4460-8c2f-c8fa17be0971",
+      "title": "Ryan Vaughn and Glenn Rubenstein-transcript-2025-08-13T19-42-21.160Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Glenn Rubenstein-transcript-2025-08-13T19-42-21.160Z",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "ff34dce7-94ff-4a3b-9805-344158a6aa3c",
+      "title": "Ryan Vaughn and Darren Clifford-transcript-2025-06-02T20-05-07.796Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Darren Clifford-transcript-2025-06-02T20-05-07.796Z",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "dfb14463-d246-4709-9494-c96bd4969856",
+      "title": "Ryan Vaughn and Astrid Schanz-Garbassi-transcript-2025-08-05T17-01-10.347Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Astrid Schanz-Garbassi-transcript-2025-08-05T17-01-10.347Z",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "cd8124b4-86d1-4de1-8ad6-82363be67e13",
+      "title": "Ryan Vaughn and Amanda Lewan-transcript-2025-07-11T16-25-57.151Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Amanda Lewan-transcript-2025-07-11T16-25-57.151Z",
+      "lowConfidenceMatches": [
+        {
+          "client": {
+            "id": "550e8400-e29b-41d4-a716-446655440009",
+            "name": "Amanda Foster",
+            "email": "amanda.foster@scaleupventures.com",
+            "primary_coach_id": null
+          },
+          "confidence": 0.5,
+          "matchType": "medium"
+        }
+      ]
+    },
+    {
+      "transcriptId": "8585d408-2095-471c-a056-4c59d3c2749e",
+      "title": "Ryan Vaughn - Matt Thieleman and Mina Lee-transcript-2025-09-23T16-02-34.560Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Mina Lee-transcript-2025-09-23T16-02-34.560Z",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "fb6067e5-2a32-44ff-b9a6-b2e97b592266",
+      "title": "Ryan H Vaughn and Steve Taylor-transcript-2025-12-01T18-02-00.333Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Steve Taylor-transcript-2025-12-01T18-02-00.333Z",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "fdbdaf29-43e8-407f-a2f9-452674727ad4",
+      "title": "Ryan H Vaughn and Emma Wood-transcript-2025-10-08T19-59-47.166Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Emma Wood-transcript-2025-10-08T19-59-47.166Z",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "d79ad10d-09dc-4e74-89ad-8ab282f51a9e",
+      "title": "Ryan & Jem-transcript-2025-12-08T22-02-26.268Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Jem-transcript-2025-12-08T22-02-26.268Z",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "80f77114-8108-4b5e-bda6-e68d3b7d331c",
+      "title": "Ryan & Amita IFS work-transcript-2025-12-08T20-44-04.863Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Amita IFS work-transcript-2025-12-08T20-44-04.863Z",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "c3b9272c-12d4-4859-8c49-1f6b9c344f49",
+      "title": "Phill, Margarita, Dennis & Ryan follow up on leadership-transcript-2025-12-01T18-10-12.933Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Phill, Margarita, Dennis",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "c870e99a-13fc-4285-976e-246e84246e80",
+      "title": "Mike Del Ponte & Ryan Vaughn-transcript-2025-12-05T19-01-54.408Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Mike Del Ponte",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "8db74472-1185-4324-98b7-5fc6817b1fc0",
+      "title": "Melissa & Ryan Hakomi-transcript-2025-12-01T20-06-39.510Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Melissa",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "3114238a-7212-46a7-ab98-b2c0d4c46635",
+      "title": "Melissa & Ryan Hakomi-transcript-2025-11-17T20-02-35.954Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Melissa",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "093d4374-3e29-4926-84f0-bd6d4c424c6e",
+      "title": "Lou Marchetti & Ryan Vaughn-transcript-2025-12-05T17-05-01.079Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Lou Marchetti",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "6cd9d337-4771-47fb-bd9b-ffa4f7c45e49",
+      "title": "Laker Launchpad GVSU- Ryan Vaughn, Josh Ross & Jake Ros-transcript-2025-11-10T22-08-47.327Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Jake Ros-transcript-2025-11-10T22-08-47.327Z",
+      "lowConfidenceMatches": [
+        {
+          "client": {
+            "id": "337cdf39-5d16-4dae-9cc3-22f5f9948bd8",
+            "name": "Jake Krask",
+            "email": "jake@sixtwentysix.co",
+            "primary_coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11"
+          },
+          "confidence": 0.5,
+          "matchType": "medium"
+        }
+      ]
+    },
+    {
+      "transcriptId": "8244e1bc-5c9a-4064-8996-dddc20d4effd",
+      "title": "Joe Marston & Ryan Vaughn-transcript-2025-11-11T14-39-42.181Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Joe Marston",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "1f28ab2c-6afa-4e8d-adf3-06e0ec4afaec",
+      "title": "Jeremy Fisher & Ryan Vaughn-transcript-2025-11-18T16-33-46.770Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Jeremy Fisher",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "a59560ac-7ba8-4e61-ab9c-b3b491ff5e70",
+      "title": "IO Testimonial- Cal & Ryan-transcript-2025-12-05T18-05-23.097Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "IO Testimonial- Cal",
+      "lowConfidenceMatches": [
+        {
+          "client": {
+            "id": "52960bb7-8fe7-4448-b72e-9285bee96d66",
+            "name": "Cal Brunell",
+            "email": "cal@everydayspeech.com",
+            "primary_coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11"
+          },
+          "confidence": 0.3333333333333333,
+          "matchType": "medium"
+        }
+      ]
+    },
+    {
+      "transcriptId": "ddb0d74d-4eea-478b-a3f3-47dced21c5c2",
+      "title": "Copiloting with Pranab and Ryan-transcript-2025-09-17T15-02-41.057Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "Copiloting with Pranab",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "43d71877-2548-4f93-9a2a-ae847e5419c1",
+      "title": "360 Interview- Pallavi Sud & Ryan-transcript-2025-11-14T20-33-39.502Z",
+      "coach": "Ryan Vaughn",
+      "coachId": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "extractedName": "360 Interview- Pallavi Sud",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "a43921bc-5d5f-4997-8787-5171af475348",
+      "title": "Mike <> JJ Coaching",
+      "coach": "JJ Vega",
+      "coachId": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "extractedName": "Mike",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "d60b264b-beda-4a33-a72f-621ac0624ebc",
+      "title": "JJ Fireflies <> UDL Auto-Save Test 2",
+      "coach": "JJ Vega",
+      "coachId": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "extractedName": "UDL Auto-Save Test 2",
+      "lowConfidenceMatches": []
+    },
+    {
+      "transcriptId": "3ad6b722-273c-4ad3-bfce-4420613e7adc",
+      "title": "JJ <> Fireflies UDL Test 3",
+      "coach": "JJ Vega",
+      "coachId": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "extractedName": "Fireflies UDL Test 3",
+      "lowConfidenceMatches": []
+    }
+  ],
+  "noMatch": [
+    {
+      "transcriptId": "38da4a6a-febc-4562-b970-dd7a31b3e04d",
+      "title": "JJ & Ryan",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "bd828038-0024-4a8d-aedf-edd65faa82e8",
+      "title": "New FS Thing Weekly",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "24874284-0d5c-472e-9523-2667e7f611e0",
+      "title": "ryan@leadinsideout.io - Mon, 22 Dec 2025 16:09:03 UTC - Untitled",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "8459980d-48eb-4e0f-9183-799ece6fb440",
+      "title": "Retro: Designing 2026 Webinar",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "aade2b15-e37f-4222-8d12-0af9cfe632a5",
+      "title": "New FS Thing Weekly",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "6dd28559-adf5-4477-a249-2ba08779386a",
+      "title": "Ryan Cummins & Ryan Vaughn",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "d6d35d8e-692e-45a7-9c22-ba43709a0bc0",
+      "title": "Christian Kennedy | IO fit call",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "0f896eba-c13c-41d0-a71b-1dc916aed2d4",
+      "title": "GTM Chat",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "2b048cb5-875a-4e0a-9461-d4dbbaa658ab",
+      "title": "New FS Thing Weekly",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "9929b52b-fd73-4c6e-88cb-0f2d74fe34d6",
+      "title": "New FS Thing Weekly",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "35d93060-21d3-4b63-b91f-6d0a23f5a028",
+      "title": "Shelby Neuman 360° interview",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "60ad660f-1f45-41bf-b7e5-5c1c11920fcf",
+      "title": "Hampton Monthly Moderator Connect",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "2ff16f98-19ad-4044-9011-732948f43734",
+      "title": "ryan-leadinsideout-transcript-2025-10-17T17-06-03.406Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "9cc59da4-e406-42cb-8770-8fb5098124e4",
+      "title": "Zoom- Ryan (Inside-Out Leadership) - Ritik (Savvy Wealt-transcript-2025-06-23T19-06-18.066Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "98c72883-271a-408c-86b3-d50b6b65b13e",
+      "title": "Zain Jaffer - Ryan Vaughn-transcript-2025-10-09T16-01-15.481Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "55be7d31-3094-45ad-a381-21a7cd8cdb05",
+      "title": "Yuheng Wang _ Ryan Vaughn-transcript-2025-08-19T16-09-04.896Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "8553cb06-e22f-4681-b7c5-05bae844c4f2",
+      "title": "Tom-Ryan-biweekly-session-05132025-a6df4e7f-aed1",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "3cf24714-41b7-425f-a080-af4553217aae",
+      "title": "Thoughtleadr Service Delivery Call (Ryan Vaughn)-transcript-2025-11-14T16-04-35.547Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "08f54b5c-6eeb-4a59-8601-4e4cb11b4f3d",
+      "title": "Ted- Jim- - Ryan discuss VC Retreat-transcript-2025-06-30T17-05-00.522Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "9192cf32-b21b-4341-bba6-8a72f0fae603",
+      "title": "Taryn x Ryan Intro-transcript-2025-09-22T17-49-14.703Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "1bf0ee4a-74b8-4b76-889b-e440c4d809d0",
+      "title": "Talk retreats with Ryan Jason Matt-transcript-2025-06-13T19-02-20.995Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "f72a45eb-9bac-49f0-8ab8-3021a87c8370",
+      "title": "Structure on Embedding Organizational Support-transcript-2025-09-24T20-49-27.132Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "ee9a940b-f127-4b3e-b30e-cd8e531b0b76",
+      "title": "SixTwentySix _ Inside-Out Leadership- Operating System-transcript-2025-08-22T18-14-14.315Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "ca56e14a-32e5-420b-ac48-f1ed0f3f48b8",
+      "title": "SixTwentySix _ Inside-Out Leadership- Operating System-transcript-2025-08-22T18-06-43.686Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "d18be650-7283-4f39-9e8f-eae4108b7c1d",
+      "title": "Shelby Neuman 360° interview-transcript-2025-12-01T21-03-30.569Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "f40cfa35-fb33-41fa-91eb-614596995f15",
+      "title": "Scott - Ryan-transcript-2025-10-06T15-04-09.551Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "144090cc-5ed1-4591-849a-cd977c65afc2",
+      "title": "Sasza Lohrey _ Ryan Vaughn-transcript-2025-08-27T19-41-54.232Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "cadb4489-05f6-48f2-b9b8-ec6e9aa0b749",
+      "title": "Sasza Lohrey - Ryan Vaughn-transcript-2025-09-22T20-06-32.568Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "d1670047-4302-4881-b1bf-c865a166bcd8",
+      "title": "Ryan-Vaughn-and-William-Dickinson-d035f8c4-352f",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "64a5c912-644a-47b2-a0e0-49abc3249d61",
+      "title": "Ryan-Vaughn-and-Amanda-Lewan-fb377576-daca",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "b86cfd74-4a02-4d8f-bc55-051200f122bd",
+      "title": "Ryan-Vaughn-Mike-Algrim-3bbf588d-8b45",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "a2d505f3-1735-4444-9119-157a89292318",
+      "title": "Ryan-Tim LE Connect-transcript-2025-11-14T20-03-31.516Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "f853076a-a8f4-4b26-9036-7c6204572387",
+      "title": "Ryan-Ted-Kristina-talk-fund-manager-retreat-58d80abe-1b96",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "48864df9-bf9c-49e7-885f-20206d0bd411",
+      "title": "Ryan-Jason-Matt discuss strategic framework-transcript-2025-10-17T20-03-40.497Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "054f1a0f-b231-42dc-ba41-5c4e666d63d7",
+      "title": "Ryan- Ted- Kristina talk fund manager retreat-transcript-2025-07-15T17-28-33.309Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "96e9ec3c-c0de-4f22-99de-e4c469d45b22",
+      "title": "Ryan- Ted- EJ discuss GP retreat-transcript-2025-08-25T18-47-42.805Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "e7b4fc17-b94c-4d9a-969d-1de7d83c9fc2",
+      "title": "Ryan- Matt- Jason quick touch base-transcript-2025-07-25T19-00-14.756Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "e3a60e58-6f1c-4090-85d3-e14c2b888c4a",
+      "title": "Ryan- Jason- Matt align on Grand VC off-site-transcript-2025-08-13T18-55-11.918Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "e00bc4c1-b073-4c4a-a2f2-6bf2640f40ff",
+      "title": "Ryan _ Kristina - Founder Health Retreat-transcript-2025-06-23T18-34-21.912Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "18ffff2d-d849-4c0a-96c8-3d5151f1e2f4",
+      "title": "Ryan Vaughn _ Shayn Diamond-transcript-2025-07-07T15-44-18.938Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "8f581272-336c-4376-947c-bde6dc403a97",
+      "title": "Ryan Vaughn _ Ricky Sperber-transcript-2025-08-29T16-03-28.129Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "f14014e7-9822-4e6c-9935-8e2390bd27bd",
+      "title": "Ryan Vaughn _ Philip Swanson- Dennis Shaver - Margarit-transcript-2025-07-18T18-14-52.561Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "34f5f351-a0ee-4a64-9667-d5bcf30dd477",
+      "title": "Ryan Vaughn _ Mike Algrim-transcript-2025-07-11T20-16-38.832Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "d847c5cf-a1e1-41b9-a640-4279b46deec9",
+      "title": "Ryan Vaughn _ Matt Auron - Dan Hunt-transcript-2025-06-30T20-11-54.616Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "d300b9e0-9dbf-4b7e-976d-015bdfb2857a",
+      "title": "Ryan Vaughn _ Jordan Morgan-transcript-2025-05-30T18-09-44.373Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "2757072f-a406-493f-b807-18d71093f52d",
+      "title": "Ryan Vaughn _ Jay Krause-transcript-2025-07-02T15-59-53.341Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "93a57b68-5a2b-4517-940b-1c142227e0f6",
+      "title": "Ryan Vaughn _ Haley Hughes - Josh Felser-transcript-2025-08-27T20-57-26.378Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "bcc4ddde-12af-4e2e-a7ac-81c0c89b124d",
+      "title": "Ryan Vaughn _ Guy Turner-transcript-2025-06-26T15-45-32.573Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "6530b851-873e-48d4-aa45-c06ef93e65c9",
+      "title": "Ryan Vaughn _ Chad Todd-transcript-2025-06-23T17-39-10.007Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "e8a8986e-a962-4d14-8e56-2594999b807c",
+      "title": "Ryan Vaughn _ AJ Mizes-transcript-2025-06-30T17-53-21.454Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "e0ba0dc4-50d5-434c-b3d6-daae100a4e3b",
+      "title": "Ryan Vaughn _ 17144044911 -+17144044911- on Sep 3- 202-transcript-2025-09-03T19-38-12.745Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "f151d445-0c1a-447d-b7b3-759d3194dac1",
+      "title": "Ryan Vaughn - Receptiviti-transcript-2025-08-21T18-35-14.063Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "e8d1f4b5-cd1a-450b-9f9e-238c8e54b8c7",
+      "title": "Ryan Vaughn - Philippe Vella-transcript-2025-08-04T17-47-55.871Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "831f1801-79ae-4611-b82b-8a189c2ff9ca",
+      "title": "Ryan - Santi-transcript-2025-05-28T22-03-54.583Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "b8370998-f45e-4812-9831-63f6c0310a15",
+      "title": "Ryan - Matt discuss Bamboo-transcript-2025-07-25T19-18-48.113Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "da2e1f67-31b3-4c26-9809-1122680a201a",
+      "title": "Ryan - Josh Ross reconnect-transcript-2025-08-22T15-36-02.859Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "195d37b7-7151-4c00-a44a-8ba6ee3dbd7a",
+      "title": "Ryan - Jem-transcript-2025-11-13T21-28-26.940Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "4d966d81-7324-4713-b979-214e3ca7a09d",
+      "title": "Ryan - Jem-transcript-2025-11-04T19-44-38.187Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "23e9ed8f-3763-4e71-a5dd-1961657cecc6",
+      "title": "Ryan - Jem-transcript-2025-10-13T20-59-50.738Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "eef1be90-5eba-4e2d-acf5-3bd093f2b95c",
+      "title": "Ryan - Jem-transcript-2025-10-07T19-22-34.584Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "15a9f105-60e8-409a-a5c3-e54d6a2dbd5b",
+      "title": "Ryan - Jem-transcript-2025-09-29T20-55-18.104Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "3ca862d2-4e17-4c76-87ce-a92753c0d90e",
+      "title": "Ryan - Jem-transcript-2025-09-22T20-35-12.227Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "daae07cc-1d5a-464b-bc10-5c155e3c98b2",
+      "title": "Ryan - Jem-transcript-2025-09-08T20-11-49.277Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "4d706f89-16f9-4e61-83d7-ca4133434fde",
+      "title": "Ryan - Jem-transcript-2025-09-02T17-12-10.452Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "b99e3eb8-75e6-4a9e-a1c7-17ebc09241f8",
+      "title": "Ryan - Jem-transcript-2025-08-18T20-15-08.083Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "c1bce99a-e6d9-442b-952d-949530dd7015",
+      "title": "Ryan - Jem-transcript-2025-08-04T20-51-43.032Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "95dad97a-43f7-4dc4-8314-464e888049a2",
+      "title": "Ryan - Jem-transcript-2025-07-25T20-07-50.940Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "3acf6697-03e1-4841-a740-08b28f16d138",
+      "title": "Ryan - Jem-transcript-2025-07-14T20-33-50.854Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "82b6c82a-3c37-40e9-b174-d448db1fa791",
+      "title": "Ryan - Jem-transcript-2025-07-07T21-08-02.848Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "5ca366bb-64a5-411d-9991-44c3d3ff6d10",
+      "title": "Ryan - Jem-transcript-2025-06-30T20-58-47.671Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "411f3e48-2c8c-4ac1-ae71-b13d0b649c13",
+      "title": "Ryan - Jem-transcript-2025-06-23T20-46-05.628Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "a009278e-6180-44fa-9054-6e9be196cdab",
+      "title": "Ryan - Jem-transcript-2025-06-03T19-11-26.391Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "0e4415f0-775b-41e0-9ad1-b90fcb29e057",
+      "title": "Ryan - Jacob - Thoughtleadr-transcript-2025-06-13T15-18-27.922Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "245114e9-ac55-4db7-926a-d62679ece572",
+      "title": "Ryan - Bruno discuss coaching-transcript-2025-07-21T21-48-38.082Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "89d47478-328e-4923-8be7-09f2761da736",
+      "title": "Ryan - Brian connect-transcript-2025-06-13T15-16-10.179Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "ab818f74-0f5e-4e29-adc4-79b2ee5722ca",
+      "title": "Ryan - Amita IFS work-transcript-2025-10-13T19-43-57.545Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "8bc50506-94d6-48a6-9082-7bf0cf141302",
+      "title": "Ryan - Amita IFS work-transcript-2025-09-29T19-44-38.305Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "139afb6b-cde8-4758-8976-641417662fea",
+      "title": "Ryan - Amita IFS work-transcript-2025-09-15T19-32-54.793Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "401861f0-6d14-482a-923a-6406cf79df99",
+      "title": "Ryan - Amita IFS work-transcript-2025-08-04T19-49-01.521Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "e3c24921-dcba-4a01-82e6-6a0f02eb1423",
+      "title": "Retro for Offsite- Ryan- Matt - Jason-transcript-2025-09-29T16-34-05.044Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "336468be-5175-4531-9355-e2d6d16c0ed6",
+      "title": "Retro Meeting on Monarch- Ryan - Santi-transcript-2025-09-24T20-04-27.798Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "d58acfae-e845-40c0-84d0-940264a8e650",
+      "title": "Retro Call- Kelly- Tim - Ryan-transcript-2025-09-23T20-46-16.302Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "c3b64b94-4848-4148-a49b-ac9690ed0215",
+      "title": "Retro Call- Journaling App-transcript-2025-09-22T16-06-05.349Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "38d2d33f-7e5d-4aac-b0d7-47b1ceb05e35",
+      "title": "PEF Coaches - Sales-Enrollment Workshop - Brainstorm-transcript-2025-10-08T18-34-05.239Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "855cd925-d58d-4877-89a8-db2bb0c07e3c",
+      "title": "Nnamdi Ugwu _ Ryan Vaughn-transcript-2025-08-26T17-47-20.209Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "6cfd9f3b-4b41-40bd-80ca-c7c0a698eac6",
+      "title": "New FS Thing Weekly-transcript-2025-12-01T17-04-42.122Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "ebc55855-108d-47c3-b8f4-5f580b083ec3",
+      "title": "New FS Thing Weekly-transcript-2025-11-24T17-04-10.904Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "94c36757-77cd-4e30-bf8f-267391744f9b",
+      "title": "New FS Thing Weekly-transcript-2025-11-17T17-28-25.583Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "b43f9956-a73b-4294-b037-7367874b4f9c",
+      "title": "New FS Thing Weekly-transcript-2025-11-10T16-59-27.062Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "eb3646bb-d9b7-4b59-a3ba-140e815b30e9",
+      "title": "Neil-Carlson-Ryan-Vaughn-28c8feb3-79fb",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "3f6bcd46-5b9c-4e8e-9163-55249be7e077",
+      "title": "Mina Lee - Ryan Vaughn-transcript-2025-09-03T16-22-03.280Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "7e55c695-68f3-42ed-b215-fab99aa9ed59",
+      "title": "Mina Lee - Ryan Vaughn-transcript-2025-08-21T19-04-04.684Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "61e888d5-7c80-4153-be34-c2252b3d5d97",
+      "title": "Melissa-Ryan-Hakomi-0be17585-66eb",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "f5620a40-aa21-41a3-9ea2-e6f7839d35e7",
+      "title": "Melissa - Ryan Hakomi-transcript-2025-11-03T20-08-38.620Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "5388bd3e-4523-4fb2-be78-4b62e5c7e140",
+      "title": "Melissa - Ryan Hakomi-transcript-2025-09-22T19-04-02.218Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "3ce0eed3-cf32-4291-852d-ccbd61ed868b",
+      "title": "Melissa - Ryan Hakomi-transcript-2025-09-08T19-09-14.769Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "26f0a3e4-e0b2-4fe2-a5c4-2a303befccb3",
+      "title": "Melissa - Ryan Hakomi-transcript-2025-08-11T19-12-25.629Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "ed56765c-1a03-4263-9bc6-2361625b3ce8",
+      "title": "Melissa - Ryan Hakomi-transcript-2025-07-14T19-04-38.245Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "d387489a-8682-4c5f-bc52-982803ba3bdd",
+      "title": "Melissa - Ryan Hakomi-transcript-2025-06-30T19-00-08.438Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "3dd35a4d-4f43-45df-bd61-6a9a8bc6a322",
+      "title": "Melissa - Ryan Hakomi-transcript-2025-06-02T19-03-18.468Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "93db5cb1-cef4-45d8-b005-e552bf2f31c4",
+      "title": "Matthew Attou _ Ryan Vaughn-transcript-2025-07-07T17-49-11.731Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "578f72c1-a6c7-435f-8ffc-721d24e5dc53",
+      "title": "Lulu Liang _ Ryan Vaughn-transcript-2025-07-25T16-01-35.255Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "f9d0623b-6322-458d-8662-ab528d55be58",
+      "title": "LinkedIn Strategy- Ryan- Jason- John - Jem-transcript-2025-10-17T16-33-40.473Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "86f285ba-aee6-4bc1-8af9-046ad6891ece",
+      "title": "League of Extraordinary Gentlemen talks with an Extraor-transcript-2025-11-16T16-15-05.519Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "cc74c93f-52aa-4728-a6ac-28745d5b8cf3",
+      "title": "Lance Rosen - Ryan Vaughn-transcript-2025-12-05T16-35-07.863Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "ec39bbf5-f5e3-4798-b850-842b9cbba225",
+      "title": "Kendall Hines - Ryan Vaughn-transcript-2025-09-25T20-19-14.985Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "dbf1002e-36f7-44a8-bb70-fdd34f0e7947",
+      "title": "Kayla Carreiro - Ryan Vaughn-transcript-2025-09-12T17-07-31.533Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "fca56168-f5b6-411c-b620-bac2fb0b4cae",
+      "title": "Katie-Birge-Ryan-Vaughn-a0af35f6-f4f2",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "3304a3c7-dc4b-4f0a-b45b-6586204a89d7",
+      "title": "Katie Birge _ Ryan Vaughn-transcript-2025-07-15T19-54-45.010Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "0e99b593-5af4-4b08-86d1-1c8639a14bf0",
+      "title": "Jonny - I-O coach matching-transcript-2025-09-12T20-53-11.734Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "d925be29-b3f6-4beb-8448-cc9c9f8e6003",
+      "title": "Jon-Robin-Inside-Out-Mutual-Fit-Call-0be0c4b7-7ed0",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "01b9ae92-8f0e-442f-aae6-31f10d6d3256",
+      "title": "Jon Robin - Inside-Out Mutual Fit Call-transcript-2025-07-08T20-46-43.121Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "56e8ffb2-31dd-44a0-8661-0372a90a6d57",
+      "title": "Jason - Ryan Vaughn- Talk about John-transcript-2025-10-17T17-59-54.887Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "957b93e1-a3f8-4b42-a14d-a14574b5ed0d",
+      "title": "Inside-Out Mutual Fit Call-transcript-2025-09-26T13-52-08.878Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "6b6959cb-5950-46c2-aa56-32df94cd4079",
+      "title": "Inside-Out Mutual Fit Call-transcript-2025-09-09T20-03-14.952Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "2357cfcc-a496-481c-93a5-bd838292d3b0",
+      "title": "IO-Co-Creation-Call-ddc409ef-f8b2",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "2ea1bcb6-db0e-4f10-b8e5-c1851ffb0b8b",
+      "title": "IO Vision - Contributions Meeting-transcript-2025-09-30T16-06-18.394Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "4ae56f7e-b7f8-454c-ba87-e13a6ab429b1",
+      "title": "IO Fit Call- Steve Shideler - Ryan Vaughn-transcript-2025-09-17T16-13-03.922Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "7329028f-be8f-46df-a088-665432890572",
+      "title": "IO Fit Call- Paul-Louis Burguet - Ryan Vaughn-transcript-2025-09-24T15-53-40.767Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "69aa279e-772c-4145-aa2a-1e7029ece2e1",
+      "title": "IO Fit Call- Joey Kim - Ryan Vaughn-transcript-2025-09-15T20-45-54.788Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "b142457a-d681-4d26-8809-f827331d0fcb",
+      "title": "IO Co-Creation Call-transcript-2025-12-08T15-14-11.100Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "b2492f05-f82c-46e8-aa46-197b253eee24",
+      "title": "IO Co-Creation Call-transcript-2025-12-01T16-04-21.918Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "ac40b22c-cd94-4a3e-b205-0f6bc20e4822",
+      "title": "IO Co-Creation Call-transcript-2025-11-24T14-50-04.895Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "6829e06a-139d-4fd5-8e71-9de79cf2d366",
+      "title": "IO Co-Creation Call-transcript-2025-11-17T16-06-25.281Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "04a3bcd5-ab79-4f98-af4a-5bd96df5c213",
+      "title": "IO Co-Creation Call-transcript-2025-11-03T16-05-50.146Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "64986f73-05ca-4742-9e57-3024b1887b54",
+      "title": "IO Co-Creation Call-transcript-2025-10-16T14-46-17.421Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "81c52d12-e92f-44a6-bbd6-26409b58d327",
+      "title": "IO Co-Creation Call-transcript-2025-09-05T16-07-02.612Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "b757b241-1e5f-4aa3-8613-02c148d15d16",
+      "title": "IO Co-Creation Call-transcript-2025-07-11T16-06-02.449Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "c38da6da-cca8-4b2f-b215-0cf2addfe5ea",
+      "title": "IO AI Meeting-transcript-2025-10-14T16-10-49.434Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "0c035d2e-9c7d-4675-ab06-41c763d511d0",
+      "title": "IO AI Meeting-transcript-2025-09-15T15-09-03.285Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "f53a97fb-cf0a-47b0-9070-6d51b395dc03",
+      "title": "IO AI Meeting-transcript-2025-08-18T15-31-06.366Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "c5bc7cdb-529b-4cd0-8570-4bc31d1e3175",
+      "title": "I-O Fit Call- Rich Gerbe _ Ryan Vaughn-transcript-2025-08-08T15-07-57.132Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "ccd633f5-a1c0-4ce3-9ab7-8240d34c44f5",
+      "title": "I-O - SixTwentySix- proposal review-transcript-2025-08-29T19-02-58.759Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "76051fe5-f168-440d-bb24-43bdaa0963f0",
+      "title": "Harry - Ryan-transcript-2025-11-06T16-34-07.427Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "62344c0d-acf1-4161-b191-6c36e2213930",
+      "title": "Hampton Monthly Moderator Connect-transcript-2025-12-02T17-41-15.053Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "25b716b2-a95f-43aa-a41a-8746a507659c",
+      "title": "Hampton Monthly Moderator Connect-transcript-2025-10-07T16-51-47.999Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "69d09c9a-fc47-4bd2-8d7a-9010763c1dfa",
+      "title": "Gabor Soter _ Ryan Vaughn - JJ Vega-transcript-2025-09-02T16-27-41.364Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "14a4ac1f-8125-429e-a4df-aca3f6ed07ce",
+      "title": "Fritz-Lensch-Ryan-Vaughn-70e545e9-c301",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "22baa1d8-8b62-480a-8800-60d1b15c4494",
+      "title": "Fritz Lensch _ Ryan Vaughn-transcript-2025-07-21T18-34-23.718Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "efd1507b-12c0-4bfc-96be-0667cf84d94b",
+      "title": "Fit-Call- Barron Caster _ Ryan Vaughn-transcript-2025-07-01T16-58-00.270Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "138f77a3-c8ab-4e62-966e-c0e6f8b826ef",
+      "title": "Facilitator Training- MITs - Reflections led by Peter C-transcript-2025-06-26T19-31-49.769Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "111ba1a8-0550-4c71-85e7-57eec7ed79e2",
+      "title": "Facilitator Office Hours with Core-transcript-2025-08-13T16-46-20.553Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "b07528a4-cf68-4992-8390-e9addca0c419",
+      "title": "Edward Norton- DVP - IDV- Reimagining the Board Meeting-transcript-2025-09-08T16-31-13.601Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "87a4d1ae-08df-4a25-b904-6bc1aa71285e",
+      "title": "EJ Merkert - Ryan Vaughn-transcript-2025-10-17T16-32-45.244Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "86647262-a7b0-4f8a-b5e6-274d6becbd2f",
+      "title": "E7 Oppty- Matt, JJ & Ryan-transcript-2025-11-11T15-07-37.060Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "a60e5fee-39ae-4ae0-8ce2-aa6c31c0416b",
+      "title": "Discuss about Justin-s Exit with Matt-transcript-2025-08-13T18-03-59.601Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "a3d7fd40-922b-4e8f-b640-fce7cdd5526f",
+      "title": "Derek-Ryan Connect-transcript-2025-10-17T17-34-50.644Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "639f631f-139a-4598-a1fe-32199aab29e4",
+      "title": "Corinda Hayes - Ryan Vaughn-transcript-2025-11-10T18-57-29.265Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "9a93d69e-6a71-4b60-9f7f-d688b00f9506",
+      "title": "Collab chat with Bamboo Ann Arbor-transcript-2025-08-07T20-01-12.198Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "bbbbd70b-c198-4479-8a18-9d53242d5aaa",
+      "title": "CoachGPT- Retro Call with Nick-transcript-2025-08-25T20-00-44.829Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "dc1f3267-fc12-4030-8e4a-46708e9da524",
+      "title": "Coach AI x RapidDev Sync-transcript-2025-08-04T16-46-10.404Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "a61c7b86-a213-42cc-a096-21773fe2ad0f",
+      "title": "Catch-Up-Joe-Malcoun-Ryan-Vaughn-62ed28ff-61ea",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "cfce9ba4-4abf-4c43-8930-a040dbd75be4",
+      "title": "Catch up with Pranab - Sam-transcript-2025-11-07T16-34-46.554Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "d0ed9866-7c75-45b1-b22d-fbcd3291a59d",
+      "title": "Carleigh Finch _ Ryan Vaughn-transcript-2025-09-15T20-01-13.695Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "65781314-f8a6-4f30-8d3a-3c3790c4c64f",
+      "title": "Astrid Korin _ Ryan Vaughn-transcript-2025-08-29T16-33-50.097Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "f9c30dce-5093-461a-9ffc-797e32102e7a",
+      "title": "Andrea-Jason session-transcript-2025-06-04T13-52-56.904Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "f39ce071-b7ba-4868-bcf7-2b373309172a",
+      "title": "360-Interview-Jameson-Ryan-aee51d6f-e975",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "d14dabe7-092a-4515-89e9-de0372e27b3d",
+      "title": "360 Review- Logan Sease - Ryan Vaughn-transcript-2025-11-13T17-03-22.397Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "a4fef1b0-2150-472c-a559-423624f3789c",
+      "title": "360 Review- Brian Grabowski - Ryan Vaughn-transcript-2025-11-13T16-29-59.438Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    },
+    {
+      "transcriptId": "f8375392-6977-439f-99ef-4b60e77ec348",
+      "title": "360 Interview- Mark Kraynak - Ryan Vaughn-transcript-2025-11-05T17-32-39.934Z",
+      "coach": "Ryan Vaughn",
+      "reason": "Could not extract client name from title"
+    }
+  ]
+}
