@@ -371,6 +371,13 @@ app.post('/api/admin/data/upload', adminSessionMiddleware, upload.single('file')
       companyId: admin.coaching_company_id
     };
 
+    // For assessments, add required assessment_type field
+    if (data_type === 'assessment') {
+      metadata.assessment_type = req.body.assessment_type || '360'; // Default to 360 review
+      metadata.client_id = metadata.clientId; // AssessmentProcessor expects client_id not clientId
+      metadata.coach_id = metadata.coachId; // Also pass coach_id
+    }
+
     // Get processor and process the data
     const processor = processorFactory.getProcessor(data_type);
     const { dataItem, chunks } = await processor.process(content, metadata);
