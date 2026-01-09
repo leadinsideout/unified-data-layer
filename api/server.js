@@ -361,22 +361,56 @@ app.post('/api/admin/data/upload', adminSessionMiddleware, upload.single('file')
       }
     }
 
-    // Get processor and process the data
-    const processor = processorFactory.getProcessor(data_type);
-    const result = await processor.processAndStore({
-      rawContent: content,
+    // Prepare metadata for processor
+    const metadata = {
       dataType: data_type,
       coachId: coach_id,
       clientId: client_id || null,
       sessionDate: session_date || null,
       title: title || req.file.originalname,
-      supabase
-    });
+      companyId: admin.coaching_company_id
+    };
+
+    // Get processor and process the data
+    const processor = processorFactory.getProcessor(data_type);
+    const { dataItem, chunks } = await processor.process(content, metadata);
+
+    // Insert data item
+    const { data: insertedItem, error: dataItemError } = await supabase
+      .from('data_items')
+      .insert(dataItem)
+      .select()
+      .single();
+
+    if (dataItemError) {
+      console.error('Database error:', dataItemError);
+      throw new Error(`Failed to save ${data_type}: ${dataItemError.message}`);
+    }
+
+    console.log(`[Admin Upload] Saved ${data_type} with ID ${insertedItem.id}, creating ${chunks.length} chunks...`);
+
+    // Prepare chunk records for database
+    const chunkRecords = chunks.map((chunk, index) => ({
+      data_item_id: insertedItem.id,
+      chunk_index: index,
+      content: chunk.content,
+      embedding: processor.formatEmbeddingForDB(chunk.embedding)
+    }));
+
+    // Batch insert chunks
+    const { error: chunksError } = await supabase
+      .from('data_chunks')
+      .insert(chunkRecords);
+
+    if (chunksError) {
+      console.error('Chunks insert error:', chunksError);
+      throw new Error(`Failed to save ${data_type} chunks: ${chunksError.message}`);
+    }
 
     res.status(201).json({
       message: 'File uploaded and processed successfully',
-      dataItemId: result.dataItemId,
-      chunksCreated: result.chunksCreated
+      dataItemId: insertedItem.id,
+      chunksCreated: chunks.length
     });
 
   } catch (error) {
