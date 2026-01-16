@@ -2561,7 +2561,7 @@
 
         if (!response.ok) throw new Error('Failed to load data item');
 
-        const { item } = await response.json();
+        const item = await response.json();
 
         // Populate form fields
         document.getElementById('editDataId').value = item.id;
