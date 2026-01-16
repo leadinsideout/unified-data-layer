@@ -1309,6 +1309,60 @@
     </div>
   </div>
 
+  <!-- Edit Data Modal -->
+  <div class="modal-overlay" id="editDataModal">
+    <div class="modal" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3>Edit Data Item</h3>
+        <button class="modal-close" data-close>&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="editDataForm">
+          <input type="hidden" id="editDataId">
+
+          <!-- Data Type (Read-only) -->
+          <div class="form-group">
+            <label>Data Type</label>
+            <input type="text" id="editDataType" disabled style="background: #f0f0f0; cursor: not-allowed;">
+          </div>
+
+          <!-- Title/Metadata (Type-specific) -->
+          <div class="form-group" id="editTitleGroup">
+            <label for="editTitle">Title</label>
+            <input type="text" id="editTitle" placeholder="Auto-generated if blank">
+          </div>
+
+          <!-- Coach -->
+          <div class="form-group">
+            <label for="editCoach">Coach</label>
+            <select id="editCoach">
+              <option value="">Loading coaches...</option>
+            </select>
+          </div>
+
+          <!-- Client -->
+          <div class="form-group">
+            <label for="editClient">Client</label>
+            <select id="editClient">
+              <option value="">Select coach first...</option>
+            </select>
+          </div>
+
+          <!-- Session Date -->
+          <div class="form-group">
+            <label for="editSessionDate">Session Date</label>
+            <input type="date" id="editSessionDate">
+          </div>
+
+          <div class="modal-footer" style="padding-top: 24px;">
+            <button type="button" class="btn btn-secondary" data-close>Cancel</button>
+            <button type="submit" class="btn btn-primary" id="saveEditBtn">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- Data Preview Modal -->
   <div class="modal-overlay" id="previewModal">
     <div class="modal" style="max-width: 700px;">
@@ -2397,6 +2451,7 @@
             <td>${formatDate(item.session_date || item.created_at)}</td>
             <td class="actions">
               <button class="btn btn-secondary btn-sm" onclick="previewData('${item.id}')">View</button>
+              <button class="btn btn-primary btn-sm" onclick="editData('${item.id}')">Edit</button>
               <button class="btn btn-danger btn-sm" onclick="deleteData('${item.id}', '${escapeHtml(item.title || 'this item')}')">Delete</button>
             </td>
           </tr>
@@ -2486,6 +2541,163 @@
         }
       };
     }
+
+    // ============================================
+    // EDIT DATA FUNCTIONS
+    // ============================================
+
+    async function editData(id) {
+      try {
+        // Fetch full item details
+        const response = await fetch(`${API_BASE}/api/admin/data/${id}`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to load data item');
+
+        const { item } = await response.json();
+
+        // Populate form fields
+        document.getElementById('editDataId').value = item.id;
+        document.getElementById('editDataType').value = item.data_type;
+        document.getElementById('editSessionDate').value = item.session_date
+          ? item.session_date.split('T')[0]
+          : '';
+
+        // Populate title from metadata (type-specific)
+        const title = item.metadata?.title
+          || item.metadata?.meeting_name
+          || item.metadata?.doc_title
+          || '';
+        document.getElementById('editTitle').value = title;
+
+        // Load coaches dropdown
+        await loadCoachesForEdit();
+
+        // Load clients for selected coach
+        if (item.coach_id) {
+          document.getElementById('editCoach').value = item.coach_id;
+          await loadClientsForEdit();
+          document.getElementById('editClient').value = item.client_id || '';
+        }
+
+        // Show modal
+        document.getElementById('editDataModal').classList.add('active');
+
+      } catch (err) {
+        showToast('Failed to load data item: ' + err.message, 'error');
+      }
+    }
+
+    async function loadCoachesForEdit() {
+      const coachSelect = document.getElementById('editCoach');
+
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/users`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to load coaches');
+
+        const data = await response.json();
+        const coaches = data.coaches || [];
+
+        coachSelect.innerHTML = '<option value="">Select coach...</option>' +
+          coaches.map(c => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
+
+      } catch (err) {
+        coachSelect.innerHTML = '<option value="">Failed to load</option>';
+      }
+    }
+
+    async function loadClientsForEdit() {
+      const coachId = document.getElementById('editCoach').value;
+      const clientSelect = document.getElementById('editClient');
+
+      if (!coachId) {
+        clientSelect.innerHTML = '<option value="">Select coach first...</option>';
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/api/admin/coaches/${coachId}/clients`, {
+          headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to load clients');
+
+        const data = await response.json();
+        const clients = data.clients || [];
+
+        clientSelect.innerHTML = '<option value="">No client (optional)...</option>' +
+          clients.map(c => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
+
+      } catch (err) {
+        clientSelect.innerHTML = '<option value="">Failed to load</option>';
+      }
+    }
+
+    // Load clients when coach changes
+    document.getElementById('editCoach').addEventListener('change', loadClientsForEdit);
+
+    // Handle edit form submission
+    document.getElementById('editDataForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const id = document.getElementById('editDataId').value;
+      const coachId = document.getElementById('editCoach').value || null;
+      const clientId = document.getElementById('editClient').value || null;
+      const sessionDate = document.getElementById('editSessionDate').value || null;
+      const title = document.getElementById('editTitle').value.trim();
+      const dataType = document.getElementById('editDataType').value;
+
+      const saveBtn = document.getElementById('saveEditBtn');
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Saving...';
+
+      try {
+        // Build metadata update based on data type
+        const metadata = {};
+        if (title) {
+          if (dataType === 'transcript') {
+            metadata.title = title;
+          } else if (dataType === 'company_doc') {
+            metadata.doc_title = title;
+          } else {
+            metadata.title = title; // Generic fallback
+          }
+        }
+
+        const response = await fetch(`${API_BASE}/api/admin/data/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            coach_id: coachId,
+            client_id: clientId,
+            session_date: sessionDate,
+            metadata: Object.keys(metadata).length > 0 ? metadata : undefined
+          })
+        });
+
+        if (!response.ok) {
+          const data = await response.json();
+          throw new Error(data.message || 'Update failed');
+        }
+
+        showToast('Data item updated successfully', 'success');
+        document.getElementById('editDataModal').classList.remove('active');
+        loadDataItems(); // Refresh table
+
+      } catch (err) {
+        showToast('Failed to update: ' + err.message, 'error');
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save Changes';
+      }
+    });
 
     // ============================================
     // ANALYTICS FUNCTIONS

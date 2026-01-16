@@ -1052,6 +1052,133 @@ export function createAdminRoutes(supabase, authMiddleware) {
     }
   });
 
+  /**
+   * PUT /api/admin/data/:id
+   * Update data item metadata (coach, client, session date, title)
+   * Body: { coach_id?, client_id?, session_date?, metadata? }
+   */
+  router.put('/data/:id', authMiddleware, async (req, res) => {
+    try {
+      const { auth } = req;
+      const { id } = req.params;
+      const { coach_id, client_id, session_date, metadata } = req.body;
+
+      // Verify user is an admin
+      const { data: admin, error: adminError } = await supabase
+        .from('admins')
+        .select('id, coaching_company_id')
+        .eq('id', auth.userId)
+        .single();
+
+      if (adminError || !admin) {
+        return res.status(403).json({ error: 'Admin access required' });
+      }
+
+      // Get existing item to verify it belongs to admin's company
+      const { data: existingItem, error: fetchError } = await supabase
+        .from('data_items')
+        .select('id, coach_id, data_type, metadata, coaches!inner(coaching_company_id)')
+        .eq('id', id)
+        .single();
+
+      if (fetchError || !existingItem) {
+        return res.status(404).json({ error: 'Data item not found' });
+      }
+
+      if (existingItem.coaches.coaching_company_id !== admin.coaching_company_id) {
+        return res.status(404).json({ error: 'Data item not found' });
+      }
+
+      // Validate new coach belongs to admin's company (if provided)
+      if (coach_id !== undefined && coach_id !== null) {
+        const { data: coach, error: coachError } = await supabase
+          .from('coaches')
+          .select('id')
+          .eq('id', coach_id)
+          .eq('coaching_company_id', admin.coaching_company_id)
+          .single();
+
+        if (coachError || !coach) {
+          return res.status(400).json({
+            error: 'Invalid coach_id',
+            message: 'Coach must belong to your company'
+          });
+        }
+      }
+
+      // Validate new client belongs to admin's company (if provided)
+      if (client_id !== undefined && client_id !== null) {
+        const { data: client, error: clientError } = await supabase
+          .from('clients')
+          .select('id, primary_coach_id')
+          .eq('id', client_id)
+          .single();
+
+        if (clientError || !client) {
+          return res.status(400).json({ error: 'Invalid client_id' });
+        }
+
+        // Verify client's coach belongs to admin's company
+        const { data: clientCoach, error: clientCoachError } = await supabase
+          .from('coaches')
+          .select('coaching_company_id')
+          .eq('id', client.primary_coach_id)
+          .single();
+
+        if (clientCoachError || clientCoach.coaching_company_id !== admin.coaching_company_id) {
+          return res.status(400).json({
+            error: 'Invalid client_id',
+            message: 'Client must belong to your company'
+          });
+        }
+      }
+
+      // Build update object (only include provided fields)
+      const updates = {
+        updated_at: new Date()
+      };
+
+      if (coach_id !== undefined) {
+        updates.coach_id = coach_id;
+      }
+
+      if (client_id !== undefined) {
+        updates.client_id = client_id;
+      }
+
+      if (session_date !== undefined) {
+        updates.session_date = session_date;
+      }
+
+      // Merge metadata updates with existing metadata
+      if (metadata) {
+        updates.metadata = { ...existingItem.metadata, ...metadata };
+      }
+
+      // Execute update
+      const { data: updatedItem, error: updateError } = await supabase
+        .from('data_items')
+        .update(updates)
+        .eq('id', id)
+        .select('id, data_type, metadata, coach_id, client_id, session_date, updated_at')
+        .single();
+
+      if (updateError) throw updateError;
+
+      res.json({
+        message: 'Data item updated successfully',
+        item: updatedItem
+      });
+
+    } catch (error) {
+      console.error('Error updating data item:', error);
+      res.status(500).json({
+        error: 'Internal server error',
+        message: error.message
+      });
+    }
+  });
+
   // ============================================
   // ANALYTICS ENDPOINTS
   // ============================================
