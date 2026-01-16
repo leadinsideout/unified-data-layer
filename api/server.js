@@ -94,6 +94,7 @@ app.use(helmet({
     directives: {
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "'unsafe-inline'"], // For admin.html inline scripts
+      scriptSrcAttr: ["'unsafe-inline'"], // For onclick handlers in admin.html
       styleSrc: ["'self'", "'unsafe-inline'"],
       imgSrc: ["'self'", "data:"],
       connectSrc: ["'self'", "https://api.openai.com", "https://*.supabase.co"],
