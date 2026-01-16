@@ -1524,6 +1524,12 @@
         navigator.clipboard.writeText(key);
         showToast('API key copied to clipboard', 'success');
       });
+
+      // Edit Data - Load clients when coach changes
+      document.getElementById('editCoach').addEventListener('change', loadClientsForEdit);
+
+      // Edit Data - Handle form submission
+      document.getElementById('editDataForm').addEventListener('submit', handleEditDataSubmit);
     }
 
     // Auth Functions
@@ -2637,11 +2643,8 @@
       }
     }
 
-    // Load clients when coach changes
-    document.getElementById('editCoach').addEventListener('change', loadClientsForEdit);
-
     // Handle edit form submission
-    document.getElementById('editDataForm').addEventListener('submit', async (e) => {
+    async function handleEditDataSubmit(e) {
       e.preventDefault();
 
       const id = document.getElementById('editDataId').value;
@@ -2697,7 +2700,7 @@
         saveBtn.disabled = false;
         saveBtn.textContent = 'Save Changes';
       }
-    });
+    }
 
     // ============================================
     // ANALYTICS FUNCTIONS
