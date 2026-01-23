@@ -73,7 +73,7 @@ export function createV2ClientRoutes(supabase, authMiddleware) {
           coaches(id, name)
         `)
         .eq('client_id', clientId)
-        .order('session_date', { ascending: true, nullsFirst: false })
+        .order('session_date', { ascending: false, nullsFirst: false })
         .limit(resultLimit);
 
       // Apply date filters
