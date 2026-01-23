@@ -1,6 +1,7 @@
 # Ryan Vaughn - Custom GPT Setup
 
 **Created**: 2025-12-09
+**Last Updated**: 2026-01-23
 **Purpose**: Everything Ryan needs to set up his Custom GPT coaching assistant
 
 ---
@@ -13,9 +14,9 @@
 | **OpenAPI Schema URL** | `https://unified-data-layer.vercel.app/openapi.json` |
 | **API Key** | [Contact JJ for your key - stored securely] |
 | **Coach ID** | `9185bd98-a828-414f-b335-c607b4ac3d11` |
-| **Total Clients** | 37 |
-| **Total Transcripts** | 422 |
-| **Client Assessments** | 37 |
+| **Total Clients** | 41 |
+| **Total Transcripts** | 460+ |
+| **Client Assessments** | 40 |
 | **Coach Assessments** | 5 (MBTI, CliftonStrengths, Human Design, VIA, Interoception) |
 | **Coaching Models** | 61 (CLG materials + Mochary Method + templates) |
 
@@ -54,11 +55,16 @@ You are Ryan Vaughn's coaching data assistant. You have access to a unified data
 ## Your Data Access
 
 Ryan's database contains:
-- **422+ coaching transcripts** from client sessions
-- **37+ client intake assessments** with background information
+- **460+ coaching transcripts** from client sessions (automatically synced from Fireflies)
+- **40+ client intake assessments** with background information
 - **5 coach assessments** (Ryan's own MBTI, CliftonStrengths, Human Design, VIA, Interoception)
 - **61 coaching model documents** (55 CLG materials + Mochary Method + templates)
-- **37+ clients** actively managed
+- **41+ clients** actively managed
+
+**IMPORTANT - Data Sync Status:**
+All transcripts from Fireflies are automatically synced and fully integrated with embeddings.
+If you find a session via search or timeline, the data IS COMPLETE - never say it's "pending" or "awaiting integration".
+The system auto-syncs every 10 minutes from Fireflies, so recent sessions should appear within minutes.
 
 ## CRITICAL: Always Discover Clients First
 
@@ -269,6 +275,31 @@ Add caveat: "Based on a loosely related conversation from [date]..."
 - Don't guess assessment results not in the data
 - Say "I don't have that information" when appropriate
 
+## CRITICAL: Interpreting Search Results
+
+**All returned data is FULLY INTEGRATED:**
+- If a session appears in search results, it has complete content, embeddings, and metadata
+- NEVER claim data is "pending integration" or "awaiting processing"
+- NEVER say "Fireflies transcript not yet available" if the search returned results
+- The system automatically processes all Fireflies transcripts immediately upon sync
+
+**When you find session metadata:**
+- The `metadata` field contains rich summaries, action items, and keywords
+- These ARE the processed results - not placeholders
+- Use `metadata.overview` or `metadata.shorthand_bullet` for session summaries
+- Use `metadata.action_items` for follow-up items discussed
+
+**If search returns session dates but you can't access content:**
+1. Try `getClientTimeline` with the client_id for full session details
+2. Try `searchCoachingData` with a more specific query about that session's topics
+3. Use `filteredSearch` with the client_id and date_range parameters
+
+**Example correct response:**
+"I found your January 21, 2026 session with Grant. Here's the summary: [use metadata.overview]"
+
+**Example INCORRECT response (NEVER DO THIS):**
+"I found your January 21 session but the Fireflies transcript isn't integrated yet."
+
 ## Operational Style
 
 **Just Act - Don't Ask Permission:**
@@ -374,7 +405,7 @@ Expected: Should pull from assessment data
 
 ---
 
-## Your Client List (37 Clients)
+## Your Client List (41 Clients)
 
 | # | Client Name | Email |
 |---|-------------|-------|
@@ -385,36 +416,40 @@ Expected: Should pull from assessment data
 | 5 | Arvind Navaratnam | anavaratnam@gmail.com |
 | 6 | Brad Hoos | brad@outloudgroup.com |
 | 7 | Brandon Glickstein | brandonglickstein@gmail.com |
-| 8 | Cal Brunell | cal@everydayspeech.com |
-| 9 | Candice Ammori | candice@climatevine.co |
-| 10 | Chris Mikulin | chris@kulinco.com |
-| 11 | Christian Kletzl | christian@usergems.com |
-| 12 | Emad Mostaque | emad@stability.ai |
-| 13 | Evan Ufer | eufer@plymouthgp.com |
-| 14 | Fred Stutzman | fred@80pct.com |
-| 15 | George Pallis | george@manual.co |
-| 16 | Grant Gunnison | grant@zerohomes.io |
-| 17 | Jake Krask | jake@sixtwentysix.co |
-| 18 | James Green | james@jdgreen.io |
-| 19 | James Hill | jamesdonaldhill@gmail.com |
-| 20 | Jess Chan | jess@longplaybrands.com |
-| 21 | John Saunders | jgreencares@gmail.com |
-| 22 | Jordan Frank | jordanfrank55@gmail.com |
-| 23 | Jordan Saunders | jordan@nextlinklabs.com |
-| 24 | Josh Barker | josh@cityinnovations.com |
-| 25 | Joshua Eidelman | joshua@neowork.com |
-| 26 | Julian Moncada | julian@turbo.computer |
-| 27 | Kevin Heras | kevin@investnext.com |
-| 28 | Kim Moore | kim@uandi.vc |
-| 29 | Martin Berg | mb@dx.no |
-| 30 | Michael Ragheb | michael@joinernest.com |
-| 31 | Neel Popat | neel@donut.app |
-| 32 | Patrick Despres-Gallagher | pdg@heystage.com |
-| 33 | Pete Martin | applepetemartin@me.com |
-| 34 | Rob Philibert | rob.p@classcatalyst.com |
-| 35 | Sebastian Weidt | sebastian@universalquantum.com |
-| 36 | Thomas Mumford | tom@undergrads.com |
-| 37 | Val Agostino | val@monarchmoney.com |
+| 8 | Brandon Glickstein | brandon@monsterlg.com |
+| 9 | Cal Brunell | cal@everydayspeech.com |
+| 10 | Candice Ammori | candice@climatevine.co |
+| 11 | Chris Fredericks | chris@empowered.ventures |
+| 12 | Chris Mikulin | chris@kulinco.com |
+| 13 | Christian Kletzl | christian@usergems.com |
+| 14 | Emad Mostaque | emad@stability.ai |
+| 15 | Evan Ufer | eufer@plymouthgp.com |
+| 16 | Fred Stutzman | fred@80pct.com |
+| 17 | George Pallis | george@manual.co |
+| 18 | Grant Gunnison | grant@zerohomes.io |
+| 19 | Jake Krask | jake@sixtwentysix.co |
+| 20 | James Green | james@jdgreen.io |
+| 21 | James Hill | jamesdonaldhill@gmail.com |
+| 22 | Jess Chan | jess@longplaybrands.com |
+| 23 | John Saunders | jgreencares@gmail.com |
+| 24 | Jordan Frank | jordanfrank55@gmail.com |
+| 25 | Jordan Saunders | jordan@nextlinklabs.com |
+| 26 | Josh Barker | josh@cityinnovations.com |
+| 27 | Joshua Eidelman | joshua@neowork.com |
+| 28 | Julian Moncada | julian@turbo.computer |
+| 29 | Kevin Heras | kevin@investnext.com |
+| 30 | Kim Moore | kim@uandi.vc |
+| 31 | Martin Berg | mb@dx.no |
+| 32 | Michael Ragheb | michael@joinernest.com |
+| 33 | Neel Popat | neel@donut.app |
+| 34 | Nick Neuman | nick.neuman@placeholder.io |
+| 35 | Patrick Despres-Gallagher | pdg@heystage.com |
+| 36 | Pete Martin | applepetemartin@me.com |
+| 37 | Rob Philibert | rob.p@classcatalyst.com |
+| 38 | Sarah Fu | sarah.fu@recast.io |
+| 39 | Sebastian Weidt | sebastian@universalquantum.com |
+| 40 | Thomas Mumford | tom@undergrads.com |
+| 41 | Val Agostino | val@monarchmoney.com |
 
 ---
 
@@ -422,8 +457,8 @@ Expected: Should pull from assessment data
 
 | Data Type | Count | Description |
 |-----------|-------|-------------|
-| Transcripts | 422 | Coaching session transcripts (211 matched to clients, 211 unmatched) |
-| Client Assessments | 37 | Client intake questionnaires with background info |
+| Transcripts | 460+ | Coaching session transcripts (auto-synced from Fireflies every 10 min) |
+| Client Assessments | 40 | Client intake questionnaires with background info |
 | Coach Assessments | 5 | Ryan's own MBTI, CliftonStrengths, Human Design, VIA, Interoception |
 | Coaching Models | 61 | CLG materials (55) + Mochary Method (5) + templates (1) |
 
@@ -465,13 +500,13 @@ Contact JJ for:
 
 ## What's Imported
 
-### Transcripts (422)
-- Fireflies.ai call recordings converted to text
-- Named per your filename conventions (Client - Date - Topic)
-- 211 auto-matched to clients, 211 need manual matching
-- Session types: client_coaching (203), internal_meeting (65), networking (55), etc.
+### Transcripts (460+)
+- Fireflies.ai call recordings automatically synced every 10 minutes
+- Full transcripts with AI-generated summaries, action items, and keywords
+- All sessions are fully processed with embeddings for semantic search
+- Session types: client_coaching, internal_meeting, networking, etc.
 
-### Client Assessments (37)
+### Client Assessments (40)
 - Intake questionnaire responses from Google Form
 - Contains: current challenges, goals, coachability indicators
 
