@@ -62,9 +62,15 @@ export function createAdminRoutes(supabase, authMiddleware) {
         });
       }
 
+      // Auto-generate slug from name
+      const slug = name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+
       const { data: org, error } = await supabase
         .from('client_organizations')
-        .insert({ name, industry: industry || null })
+        .insert({ name, slug, industry: industry || null })
         .select()
         .single();
 
