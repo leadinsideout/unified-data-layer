@@ -830,6 +830,7 @@
                   <option value="assessment">Assessment</option>
                   <option value="coaching_model">Coaching Model</option>
                   <option value="company_doc">Company Document</option>
+                  <option value="blog_post">Blog Post</option>
                 </select>
               </div>
               <div class="form-group">
@@ -880,6 +881,7 @@
                   <option value="assessment">Assessment</option>
                   <option value="coaching_model">Coaching Model</option>
                   <option value="company_doc">Company Doc</option>
+                  <option value="blog_post">Blog Post</option>
                 </select>
               </div>
               <div class="form-group">
@@ -2238,10 +2240,13 @@
       // Coach change - load clients
       document.getElementById('uploadCoach').addEventListener('change', loadClientsForUpload);
 
-      // Type change - show/hide client field
+      // Type change - show/hide client field, update date label
       document.getElementById('uploadType').addEventListener('change', (e) => {
         const clientGroup = document.getElementById('uploadClientGroup');
+        const dateLabel = document.querySelector('label[for="uploadDate"]');
+
         clientGroup.style.display = ['transcript', 'assessment'].includes(e.target.value) ? 'block' : 'none';
+        dateLabel.textContent = e.target.value === 'blog_post' ? 'Publish Date (optional)' : 'Session Date (optional)';
       });
     }
 

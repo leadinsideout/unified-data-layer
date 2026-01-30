@@ -10,6 +10,7 @@
  * - coach_assessment: Coach's own assessments (MBTI, StrengthsFinder, etc.)
  * - coaching_model: Coaching models and frameworks
  * - company_doc: Client organization documents
+ * - blog_post: Coach-authored blog posts and newsletter articles
  *
  * Usage:
  *   const factory = new DataProcessorFactory(openaiClient);
@@ -22,6 +23,7 @@ import { AssessmentProcessor } from './assessment-processor.js';
 import { CoachingModelProcessor } from './coaching-model-processor.js';
 import { CompanyDocProcessor } from './company-doc-processor.js';
 import { CoachAssessmentProcessor } from './coach-assessment-processor.js';
+import { BlogPostProcessor } from './blog-post-processor.js';
 
 export class DataProcessorFactory {
   constructor(openaiClient) {
@@ -36,7 +38,8 @@ export class DataProcessorFactory {
       'assessment': AssessmentProcessor,
       'coaching_model': CoachingModelProcessor,
       'company_doc': CompanyDocProcessor,
-      'coach_assessment': CoachAssessmentProcessor
+      'coach_assessment': CoachAssessmentProcessor,
+      'blog_post': BlogPostProcessor
     };
   }
 

@@ -1,7 +1,7 @@
 # Ryan Vaughn - Custom GPT Setup
 
 **Created**: 2025-12-09
-**Last Updated**: 2026-01-23
+**Last Updated**: 2026-01-30
 **Purpose**: Everything Ryan needs to set up his Custom GPT coaching assistant
 
 ---
@@ -19,6 +19,7 @@
 | **Client Assessments** | 40 |
 | **Coach Assessments** | 5 (MBTI, CliftonStrengths, Human Design, VIA, Interoception) |
 | **Coaching Models** | 61 (CLG materials + Mochary Method + templates) |
+| **Blog Posts** | 213 (Lead Inside Out newsletter, 2020-2024) |
 
 ---
 
@@ -62,7 +63,7 @@ NEVER assume which clients exist. Call listClients at conversation start and whe
 
 **listClients** - CALL FIRST. Returns client IDs and names. Use UUID for all subsequent calls.
 
-**searchCoachingData** - Semantic search. Query: natural language. Types: transcript, assessment, coach_assessment, coaching_model, company_doc. Threshold: 0.3 default (0.25 for exploratory). Limit: 10 (max 50).
+**searchCoachingData** - Semantic search. Query: natural language. Types: transcript, assessment, coach_assessment, coaching_model, company_doc, blog_post. Threshold: 0.3 default (0.25 for exploratory). Limit: 10 (max 50).
 
 **getClientTimeline** - Chronological history. Requires clientId UUID. Optional: start_date, end_date.
 
@@ -76,6 +77,7 @@ NEVER assume which clients exist. Call listClients at conversation start and whe
 - coach_assessment = RYAN'S OWN assessments (MBTI, strengths, etc.)
 - coaching_model = CLG, Mochary Method
 - company_doc = Organization documents
+- blog_post = Ryan's Lead Inside Out newsletter articles (213 posts, 2020-2024)
 
 ## Workflow Patterns
 
@@ -96,6 +98,9 @@ When Ryan asks about himself, search coach_assessment and return his actual resu
 
 ## CLG Materials (55 tools)
 Search with "CLG [topic]" and types:["coaching_model"]. Topics: emotional intelligence, clearing model, drama triangle, agreements, locating yourself.
+
+## Ryan's Blog Posts (213 articles)
+Search with types:["blog_post"] and any topic. Ryan's newsletter archive from 2020-2024 covers leadership, communication, founder psychology, coaching insights, and personal development. Use these for context when discussing topics Ryan has written about.
 
 ## ALWAYS Cite Sources
 Every response using search data MUST end with:
@@ -275,6 +280,7 @@ Expected: Should pull from assessment data
 | Client Assessments | 40 | Client intake questionnaires with background info |
 | Coach Assessments | 5 | Ryan's own MBTI, CliftonStrengths, Human Design, VIA, Interoception |
 | Coaching Models | 61 | CLG materials (55) + Mochary Method (5) + templates (1) |
+| Blog Posts | 213 | Lead Inside Out newsletter articles (Jan 2020 - Nov 2024) |
 
 ---
 
@@ -338,3 +344,10 @@ Contact JJ for:
   - 50+ other coaching exercises and frameworks
 - **Mochary Method (5)**: CEO, CFO, COO, Coach guides
 - **Templates (1)**: Vision Weekend Workshop retreat agenda
+
+### Blog Posts (213) - NEW
+- **Lead Inside Out Newsletter Archive**: Ryan's complete newsletter from Jan 2020 - Nov 2024
+  - Topics: leadership, communication, founder psychology, delegation, anxiety, personal development
+  - Searchable by topic, date, or keyword
+  - Use `types:["blog_post"]` to search Ryan's written content
+  - Great for surfacing Ryan's perspectives on topics discussed in coaching sessions
