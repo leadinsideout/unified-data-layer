@@ -72,3 +72,11 @@ udlmvp-deprecated/
 .vercel
 .admin-api-key
 .checkpoint13-api-keys.json
+
+# Archive folders (historical data, not needed in repo)
+docs/archive/
+data/archive/
+reports/archive/
+
+# Claude Code plans (ephemeral)
+.claude/plans/

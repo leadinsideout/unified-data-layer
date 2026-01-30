@@ -24,6 +24,7 @@ import multer from 'multer';
 import pdfParse from 'pdf-parse';
 import { DataProcessorFactory } from './processors/index.js';
 import { createAuthMiddleware, createOptionalAuthMiddleware } from './middleware/auth.js';
+import { VERSION } from './version.js';
 import { createAdminRoutes } from './routes/admin.js';
 import { createApiKeyRoutes } from './routes/api-keys.js';
 import { createAdminAuthRoutes, createAdminSessionMiddleware } from './routes/admin-auth.js';
@@ -559,7 +560,7 @@ app.post('/api/feedback', authMiddleware, async (req, res) => {
 app.get('/', (req, res) => {
   res.json({
     name: 'Unified Data Layer API',
-    version: '0.15.0',
+    version: VERSION,
     description: 'Multi-type semantic search API with MCP server for AI assistants',
     endpoints: {
       health: 'GET /api/health',
@@ -615,7 +616,7 @@ app.get('/api/health', (req, res) => {
     status: 'healthy',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development',
-    version: '1.0.0',
+    version: VERSION,
     services: {
       supabase: !!process.env.SUPABASE_URL,
       openai: !!process.env.OPENAI_API_KEY
@@ -1384,7 +1385,7 @@ app.get('/openapi.json', (req, res) => {
     openapi: '3.1.0',
     info: {
       title: 'Unified Data Layer API',
-      version: '0.15.0',
+      version: VERSION,
       description: 'Multi-type semantic search API for coaching data (transcripts, assessments, models, org docs). Returns relevant chunks for AI platform synthesis with type-aware filtering.'
     },
     servers: [
