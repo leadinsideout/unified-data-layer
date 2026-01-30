@@ -195,6 +195,7 @@ function readExcelClients(filePath) {
 // ============================================
 
 const ORGANIZATIONS = [
+  { name: 'Independent / No Organization', industry: 'Independent' }, // Default for clients without a company
   { name: 'BASK', industry: 'Consumer Products' },
   { name: 'E7 Solutions', industry: 'Consulting' },
   { name: 'MATTER Studio', industry: 'Design' },
@@ -268,9 +269,14 @@ async function main() {
       const company = row['Company'];
       const status = row['Active/Inactive'];
 
-      // Find organization ID
-      const org = company && company !== '-' ? orgMap[company] : null;
-      const orgId = org?.id || null;
+      // Find organization ID (use default "Independent" org if no company)
+      let orgId;
+      if (company && company !== '-') {
+        orgId = orgMap[company]?.id;
+      }
+      if (!orgId) {
+        orgId = orgMap['Independent / No Organization']?.id;
+      }
 
       // Create client
       const client = await createClient(name, email, orgId);
@@ -317,6 +323,11 @@ async function main() {
       else if (emailDomain === 'remoteprjobs.com') orgId = orgMap['Remote PR Jobs']?.id;
       else if (emailDomain === 'vansary.com') orgId = orgMap['Vansary']?.id;
       else if (emailDomain === 'wearedatawise.com') orgId = orgMap['Datawise']?.id;
+
+      // Use default "Independent" org if no match
+      if (!orgId) {
+        orgId = orgMap['Independent / No Organization']?.id;
+      }
 
       // Create client
       const client = await createClient(name, email, orgId);
