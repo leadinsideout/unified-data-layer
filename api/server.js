@@ -1418,9 +1418,9 @@ app.get('/openapi.json', (req, res) => {
                       type: 'array',
                       items: {
                         type: 'string',
-                        enum: ['transcript', 'assessment', 'coach_assessment', 'coaching_model', 'company_doc']
+                        enum: ['transcript', 'assessment', 'coach_assessment', 'coaching_model', 'company_doc', 'blog_post', 'questionnaire']
                       },
-                      description: 'Filter by data types. Types: transcript (sessions), assessment (client intake), coach_assessment (coach\'s own MBTI/strengths/etc), coaching_model (frameworks), company_doc. Omit to search all.',
+                      description: 'Filter by data types. Types: transcript (sessions), assessment (structured scores), coach_assessment (coach\'s own MBTI/strengths/etc), coaching_model (frameworks), company_doc, blog_post (newsletter articles), questionnaire (intake Q&A forms). Omit to search all.',
                       example: ['transcript', 'assessment']
                     },
                     coach_id: {
@@ -1475,8 +1475,8 @@ app.get('/openapi.json', (req, res) => {
                             data_item_id: { type: 'string', format: 'uuid', description: 'Parent data item ID' },
                             data_type: {
                               type: 'string',
-                              enum: ['transcript', 'assessment', 'coach_assessment', 'coaching_model', 'company_doc'],
-                              description: 'Type of data (coach_assessment = coach\'s own MBTI/strengths assessments)'
+                              enum: ['transcript', 'assessment', 'coach_assessment', 'coaching_model', 'company_doc', 'blog_post', 'questionnaire'],
+                              description: 'Type of data (coach_assessment = coach\'s own assessments, questionnaire = intake Q&A forms)'
                             },
                             content: { type: 'string', description: 'Matching text chunk' },
                             similarity: { type: 'number', description: 'Similarity score (0-1)' },
@@ -1894,9 +1894,9 @@ app.get('/openapi.json', (req, res) => {
                           type: 'array',
                           items: {
                             type: 'string',
-                            enum: ['transcript', 'assessment', 'coach_assessment', 'coaching_model', 'company_doc']
+                            enum: ['transcript', 'assessment', 'coach_assessment', 'coaching_model', 'company_doc', 'blog_post', 'questionnaire']
                           },
-                          description: 'Filter by data types. coach_assessment = coach\'s own MBTI/strengths assessments (not client assessments)',
+                          description: 'Filter by data types. questionnaire = intake Q&A forms, coach_assessment = coach\'s own assessments',
                           example: ['transcript', 'assessment']
                         },
                         date_range: {

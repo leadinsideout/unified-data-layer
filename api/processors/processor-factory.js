@@ -11,6 +11,7 @@
  * - coaching_model: Coaching models and frameworks
  * - company_doc: Client organization documents
  * - blog_post: Coach-authored blog posts and newsletter articles
+ * - questionnaire: Client intake questionnaires and coaching forms
  *
  * Usage:
  *   const factory = new DataProcessorFactory(openaiClient);
@@ -24,6 +25,7 @@ import { CoachingModelProcessor } from './coaching-model-processor.js';
 import { CompanyDocProcessor } from './company-doc-processor.js';
 import { CoachAssessmentProcessor } from './coach-assessment-processor.js';
 import { BlogPostProcessor } from './blog-post-processor.js';
+import { QuestionnaireProcessor } from './questionnaire-processor.js';
 
 export class DataProcessorFactory {
   constructor(openaiClient) {
@@ -39,7 +41,8 @@ export class DataProcessorFactory {
       'coaching_model': CoachingModelProcessor,
       'company_doc': CompanyDocProcessor,
       'coach_assessment': CoachAssessmentProcessor,
-      'blog_post': BlogPostProcessor
+      'blog_post': BlogPostProcessor,
+      'questionnaire': QuestionnaireProcessor
     };
   }
 

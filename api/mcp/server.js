@@ -52,9 +52,9 @@ export function createMCPServer(supabase, openai) {
             type: 'array',
             items: {
               type: 'string',
-              enum: ['transcript', 'assessment', 'coaching_model', 'company_doc']
+              enum: ['transcript', 'assessment', 'coaching_model', 'company_doc', 'blog_post', 'questionnaire']
             },
-            description: 'Filter by data types. Omit to search all types.'
+            description: 'Filter by data types. questionnaire = intake Q&A forms. Omit to search all types.'
           },
           client_id: {
             type: 'string',
@@ -88,8 +88,8 @@ export function createMCPServer(supabase, openai) {
         properties: {
           data_type: {
             type: 'string',
-            enum: ['transcript', 'assessment', 'coaching_model', 'company_doc'],
-            description: 'Type of data being uploaded'
+            enum: ['transcript', 'assessment', 'coaching_model', 'company_doc', 'blog_post', 'questionnaire'],
+            description: 'Type of data being uploaded (questionnaire = intake Q&A forms)'
           },
           content: {
             type: 'string',
@@ -141,9 +141,9 @@ export function createMCPServer(supabase, openai) {
             type: 'array',
             items: {
               type: 'string',
-              enum: ['transcript', 'assessment', 'coaching_model', 'company_doc']
+              enum: ['transcript', 'assessment', 'coaching_model', 'company_doc', 'blog_post', 'questionnaire']
             },
-            description: 'Filter by data types'
+            description: 'Filter by data types (questionnaire = intake Q&A forms)'
           },
           limit: {
             type: 'number',
@@ -301,7 +301,7 @@ async function handleUploadData(supabase, openai, args) {
     };
   }
 
-  const validTypes = ['transcript', 'assessment', 'coaching_model', 'company_doc'];
+  const validTypes = ['transcript', 'assessment', 'coaching_model', 'company_doc', 'blog_post', 'questionnaire'];
   if (!validTypes.includes(data_type)) {
     return {
       content: [{ type: 'text', text: `Error: data_type must be one of: ${validTypes.join(', ')}` }],

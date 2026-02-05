@@ -828,6 +828,7 @@
                   <option value="">Select type...</option>
                   <option value="transcript">Transcript</option>
                   <option value="assessment">Assessment</option>
+                  <option value="questionnaire">Questionnaire</option>
                   <option value="coaching_model">Coaching Model</option>
                   <option value="company_doc">Company Document</option>
                   <option value="blog_post">Blog Post</option>
@@ -879,6 +880,7 @@
                   <option value="">All Types</option>
                   <option value="transcript">Transcript</option>
                   <option value="assessment">Assessment</option>
+                  <option value="questionnaire">Questionnaire</option>
                   <option value="coaching_model">Coaching Model</option>
                   <option value="company_doc">Company Doc</option>
                   <option value="blog_post">Blog Post</option>
@@ -2245,8 +2247,9 @@
         const clientGroup = document.getElementById('uploadClientGroup');
         const dateLabel = document.querySelector('label[for="uploadDate"]');
 
-        clientGroup.style.display = ['transcript', 'assessment'].includes(e.target.value) ? 'block' : 'none';
-        dateLabel.textContent = e.target.value === 'blog_post' ? 'Publish Date (optional)' : 'Session Date (optional)';
+        clientGroup.style.display = ['transcript', 'assessment', 'questionnaire'].includes(e.target.value) ? 'block' : 'none';
+        dateLabel.textContent = e.target.value === 'blog_post' ? 'Publish Date (optional)' :
+                                e.target.value === 'questionnaire' ? 'Completion Date (optional)' : 'Session Date (optional)';
       });
     }
 
