@@ -448,6 +448,11 @@ export async function fetchTranscript(meetingId, apiKey) {
         organizer_email
         participants
         transcript_url
+        user {
+          user_id
+          email
+          name
+        }
         sentences {
           index
           speaker_id
@@ -535,6 +540,9 @@ export function formatTranscript(transcript) {
     session_date: transcript.date ? new Date(transcript.date).toISOString().split('T')[0] : null,
     host_email: transcript.host_email,
     organizer_email: transcript.organizer_email,
+    // Fireflies user who owns this transcript (most reliable for coach matching)
+    fireflies_user_email: transcript.user?.email || null,
+    fireflies_user_name: transcript.user?.name || null,
     metadata
   };
 }
@@ -610,13 +618,14 @@ export async function findCoachById(supabase, coachId) {
  * Identifies coach, client, and organization from attendee list
  *
  * PRIORITY ORDER for coach matching:
- * 1. Organizer email (meeting owner is most likely the coach)
- * 2. Host email (if different from organizer)
- * 3. Other attendees
- * 4. Fallback coach ID (if provided, used when email matching fails)
+ * 1. Fireflies user email (the person who owns the transcript in Fireflies - most reliable)
+ * 2. Organizer email (meeting creator)
+ * 3. Host email (if different from organizer)
+ * 4. Other attendees
+ * 5. Fallback coach ID (if provided, used when email matching fails)
  *
  * @param {Object} supabase - Supabase client
- * @param {Object} transcript - Formatted transcript with host_email, organizer_email
+ * @param {Object} transcript - Formatted transcript with host_email, organizer_email, fireflies_user_email
  * @param {Array} attendees - Array of {email, name, displayName} from Fireflies
  * @param {Object} options - Optional settings
  * @param {string} options.fallbackCoachId - Coach ID to use if no email match (e.g., API key owner)
@@ -629,53 +638,67 @@ export async function matchParticipants(supabase, transcript, attendees, options
     client: null,
     organization_id: null,
     unmatched_emails: [],
-    matched_via: null  // 'email', 'primary_coach', or 'api_key_owner'
+    matched_via: null  // 'email', 'fireflies_user', 'primary_coach', or 'api_key_owner'
   };
 
-  // Build ordered list of emails to check - organizer first, then host, then attendees
+  // Build ordered list of emails to check
   // Use array to preserve priority order (Set iteration order is not guaranteed)
   const emailsToCheck = [];
   const seenEmails = new Set();
 
-  // Priority 1: Organizer (meeting creator - most likely to be the coach)
+  // Priority 1: Fireflies user (transcript owner - most reliable for coach matching)
+  // This is the person whose Fireflies account recorded/owns the transcript
+  if (transcript.fireflies_user_email) {
+    const email = transcript.fireflies_user_email.toLowerCase();
+    if (!seenEmails.has(email)) {
+      emailsToCheck.push({ email, source: 'fireflies_user' });
+      seenEmails.add(email);
+    }
+  }
+
+  // Priority 2: Organizer (meeting creator)
   if (transcript.organizer_email) {
     const email = transcript.organizer_email.toLowerCase();
     if (!seenEmails.has(email)) {
-      emailsToCheck.push(email);
+      emailsToCheck.push({ email, source: 'organizer' });
       seenEmails.add(email);
     }
   }
 
-  // Priority 2: Host (if different from organizer)
+  // Priority 3: Host (if different from organizer)
   if (transcript.host_email) {
     const email = transcript.host_email.toLowerCase();
     if (!seenEmails.has(email)) {
-      emailsToCheck.push(email);
+      emailsToCheck.push({ email, source: 'host' });
       seenEmails.add(email);
     }
   }
 
-  // Priority 3: Other attendees
+  // Priority 4: Other attendees
   if (attendees && Array.isArray(attendees)) {
     for (const attendee of attendees) {
       if (attendee.email) {
         const email = attendee.email.toLowerCase();
         if (!seenEmails.has(email)) {
-          emailsToCheck.push(email);
+          emailsToCheck.push({ email, source: 'attendee' });
           seenEmails.add(email);
         }
       }
     }
   }
 
-  // Check each email in priority order - organizer first
-  for (const email of emailsToCheck) {
-    // First try to match as coach (organizer most likely to be coach)
+  // Check each email in priority order - fireflies_user first, then organizer, etc.
+  for (const { email, source } of emailsToCheck) {
+    // First try to match as coach
     if (!result.coach) {
       const coach = await findCoachByEmail(supabase, email);
       if (coach) {
         result.coach = coach;
-        result.matched_via = 'email';
+        // Track how we matched - fireflies_user is most reliable
+        result.matched_via = source === 'fireflies_user' ? 'fireflies_user' : 'email';
+        if (source === 'fireflies_user') {
+          console.log(`[Fireflies] Coach matched via Fireflies user: ${coach.name} (${email})`);
+        }
         continue;
       }
     }
