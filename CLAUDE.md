@@ -509,6 +509,7 @@ Format: `v0.X.0` where X is the last checkpoint of the phase (or `v1.0.0` for pr
   - Checkpoint releases: AI runs `npm run release --release-as 0.X.0` (minor versions)
   - Phase completions: AI runs `npm run release --release-as X.0.0` (major versions, notifies #team_ai)
 - **MCP Tools**: Default to using MCP tools for platform operations (see MCP Tool Usage below)
+- **Autonomy**: Proceed without asking for approval on ALL read-only operations, bash commands, running scripts, API GET requests, database SELECT queries, file reads, and code analysis. Only ask for explicit user approval on **database CREATE/UPDATE/DELETE operations** (INSERT, UPDATE, DELETE, ALTER, DROP, migrations) and destructive actions (force push, production deploys, publishing). This applies to subagents/Task tool as well — launch them freely for research and read-only work.
 
 ### Current Blockers
 - None

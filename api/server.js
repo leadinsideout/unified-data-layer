@@ -33,6 +33,15 @@ import { createMCPRoutes } from './mcp/index.js';
 import { createFirefliesRoutes } from './integrations/fireflies.js';
 import { createAnalyticsMiddleware, logCostEvent, calculateEmbeddingCost } from './middleware/analytics.js';
 
+/**
+ * Sanitize PDF-extracted text for PostgreSQL storage.
+ * Removes null bytes and C0 control characters (except tab, newline, carriage return)
+ * that PostgreSQL rejects with "unsupported Unicode escape sequence".
+ */
+function sanitizePdfText(text) {
+  return text.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '');
+}
+
 // Load environment variables
 dotenv.config();
 
@@ -350,7 +359,7 @@ app.post('/api/admin/data/upload', adminSessionMiddleware, upload.single('file')
     // Handle PDF files
     if (req.file.mimetype === 'application/pdf') {
       const pdfData = await pdfParse(req.file.buffer);
-      content = pdfData.text;
+      content = sanitizePdfText(pdfData.text);
     }
 
     // Handle JSON files - extract text content
@@ -752,7 +761,7 @@ app.post('/api/transcripts/upload-pdf', optionalAuthMiddleware, upload.single('f
 
     // Parse PDF
     const pdfData = await pdfParse(req.file.buffer);
-    const text = pdfData.text;
+    const text = sanitizePdfText(pdfData.text);
 
     if (!text || text.trim().length < 50) {
       return res.status(400).json({

@@ -124,7 +124,7 @@ For reference, here are the clients currently in your system:
 | Amy Hollis | amy@employeesfirst.com |
 | Arvind Navaratnam | anavaratnam@gmail.com |
 | Brad Hoos | brad@outloudgroup.com |
-| Brandon Glickstein | brandonglickstein@gmail.com |
+| Brandon Glickstein | brandon@monsterlg.com |
 | Cal Brunell | cal@everydayspeech.com |
 | Candice Ammori | candice@climatevine.co |
 | Chris Mikulin | chris@kulinco.com |

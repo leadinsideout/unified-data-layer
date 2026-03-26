@@ -1,0 +1,3966 @@
+{
+  "generated_at": "2026-02-20T15:16:44.615Z",
+  "summary": {
+    "total_transcripts_in_db": 776,
+    "already_linked": 472,
+    "total_scanned_unlinked": 304,
+    "coaching_unlinked": 0,
+    "likely_coaching": 20,
+    "possible_coaching": 0,
+    "unclear": 4,
+    "non_coaching_excluded": 280,
+    "link_actions": {
+      "can_link_high_confidence": 0,
+      "can_link_medium_confidence": 1,
+      "need_new_client": 0,
+      "need_manual_review": 23
+    }
+  },
+  "by_coach": {
+    "Ryan Vaughn": {
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "total": 19,
+      "transcripts": [
+        {
+          "id": "c34639bb-6286-4f4d-92ea-1d5e9dc25099",
+          "session_date": "2026-02-18T00:00:00",
+          "created_at": "2026-02-18T19:55:41.39221",
+          "title": "Intro Call w/ Rob Scott - Flywheel Growth Engines",
+          "coach_name": "Ryan Vaughn",
+          "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+          "coach_email": "ryan@leadinsideout.io",
+          "session_type": "untagged",
+          "source": "fireflies",
+          "classification": "likely_coaching",
+          "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+          "speaker_count": 2,
+          "speakers": [
+            "Rob Scott",
+            "Ryan"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 30.43000030517578,
+          "transcript_url": "https://app.fireflies.ai/view/01KH967Y3YHJBX82HDF8T3M38B",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": "Flywheel Growth Engines"
+          }
+        },
+        {
+          "id": "a07644cf-54c1-4ff8-86df-963efe819530",
+          "session_date": "2026-02-17T00:00:00",
+          "created_at": "2026-02-17T21:05:22.005448",
+          "title": "Mattia & Ryan",
+          "coach_name": "Ryan Vaughn",
+          "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+          "coach_email": "ryan@leadinsideout.io",
+          "session_type": "untagged",
+          "source": "fireflies",
+          "classification": "likely_coaching",
+          "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+          "speaker_count": 2,
+          "speakers": [
+            "Mattia Gheda",
+            "Ryan Vaughn"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 29.729999542236328,
+          "transcript_url": "https://app.fireflies.ai/view/01KFH0M033YWWWTMNM0AXN7XAV",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": "Mattia"
+          }
+        },
+        {
+          "id": "7c211717-5807-42a3-9cf5-f2122811b15f",
+          "session_date": "2026-02-13T00:00:00",
+          "created_at": "2026-02-13T17:56:47.805165",
+          "title": "Inside-Out X Vance & Company || Bi-Weekly Interview",
+          "coach_name": "Ryan Vaughn",
+          "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+          "coach_email": "ryan@leadinsideout.io",
+          "session_type": "untagged",
+          "source": "fireflies",
+          "classification": "likely_coaching",
+          "classification_reason": "title contains name pair, extracted: \"Inside-Out X Vance\"",
+          "speaker_count": 3,
+          "speakers": [
+            "Adam Barr",
+            "Samantha Veneklase",
+            "Ryan Vaughn"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 11.100000381469727,
+          "transcript_url": "https://app.fireflies.ai/view/01KGWBATAF2DH7SKV07F2RMXDK",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": "Inside-Out X Vance"
+          }
+        },
+        {
+          "id": "150f6bf8-7051-41c5-b522-70cf58f7db8c",
+          "session_date": "2026-02-09T00:00:00",
+          "created_at": "2026-02-09T19:37:55.186438",
+          "title": "Inside-Out x Vance | Onboarding",
+          "coach_name": "Ryan Vaughn",
+          "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+          "coach_email": "ryan@leadinsideout.io",
+          "session_type": "untagged",
+          "source": "fireflies",
+          "classification": "likely_coaching",
+          "classification_reason": "title contains name pair, extracted: \"Inside\"",
+          "speaker_count": 5,
+          "speakers": [
+            "Caton Vance",
+            "Ryan Vaughn",
+            "Jemaima Mesina",
+            "Dominic Cipolla",
+            "Samantha"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 31.399999618530273,
+          "transcript_url": "https://app.fireflies.ai/view/01KGQFHBG303KBZXNFAZ5HKDJH",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": "Inside"
+          }
+        },
+        {
+          "id": "5afde8d8-2a2a-4c1a-8ae0-b3feaac61845",
+          "session_date": "2026-02-09T00:00:00",
+          "created_at": "2026-02-09T21:27:40.259362",
+          "title": "Ryan <> Adam",
+          "coach_name": "Ryan Vaughn",
+          "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+          "coach_email": "ryan@leadinsideout.io",
+          "session_type": "untagged",
+          "source": "fireflies",
+          "classification": "likely_coaching",
+          "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+          "speaker_count": 2,
+          "speakers": [
+            "Ryan Vaughn",
+            "Adam Lurie"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 29.8700008392334,
+          "transcript_url": "https://app.fireflies.ai/view/01KGQFHBG2B6X0TGF5XSCB8413",
+          "linking": {
+            "action": "link_existing",
+            "confidence": "medium",
+            "method": "name_fuzzy",
+            "proposed_client_id": "550e8400-e29b-41d4-a716-44665544000b",
+            "proposed_client_name": "Rachel Adams",
+            "proposed_client_email": "rachel.adams@growthlabs.io",
+            "extracted_name": "Adam",
+            "match_score": 80,
+            "alternative_matches": []
+          }
+        },
+        {
+          "id": "39faa03d-7740-44e3-84c6-1d30d3954985",
+          "session_date": "2026-02-06T00:00:00",
+          "created_at": "2026-02-12T19:32:57.240804",
+          "title": "Inside Out <> ST Ventures Lab",
+          "coach_name": "Ryan Vaughn",
+          "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+          "coach_email": "ryan@leadinsideout.io",
+          "session_type": "untagged",
+          "source": "fireflies",
+          "classification": "likely_coaching",
+          "classification_reason": "title contains name pair, extracted: \"Inside Out\"",
+          "speaker_count": 5,
+          "speakers": [
+            "Kristi DeLozier",
+            "Ryan Vaughn",
+            "Micah Baldwin",
+            "Keeisi Caballero",
+            "Matt Thieleman"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 53.20000076293945,
+          "transcript_url": "https://app.fireflies.ai/view/01KGG19NF45F2NEJE7B82YVTSX",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": "Inside Out"
+          }
+        },
+        {
+          "id": "5a3221bf-44b5-42d3-aef3-501337735230",
+          "session_date": "2026-02-02T00:00:00",
+          "created_at": "2026-02-02T23:02:58.793561",
+          "title": "CEO Calendar Workflow session",
+          "coach_name": "Ryan Vaughn",
+          "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+          "coach_email": "ryan@leadinsideout.io",
+          "session_type": "untagged",
+          "source": "fireflies",
+          "classification": "likely_coaching",
+          "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+          "speaker_count": 2,
+          "speakers": [
+            "Joel Garcia",
+            "Ryan Vaughn"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 64.11000061035156,
+          "transcript_url": "https://app.fireflies.ai/view/01KG7M2WMT97ZFDRNWTBE80W0J",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": null
+          }
+        },
+        {
+          "id": "8ccd5675-3850-4b1b-a182-81ec6ce3c24b",
+          "session_date": "2026-01-30T00:00:00",
+          "created_at": "2026-01-30T18:58:48.390726",
+          "title": "Tarikh & Ryan",
+          "coach_name": "Ryan Vaughn",
+          "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+          "coach_email": "ryan@leadinsideout.io",
+          "session_type": "untagged",
+          "source": "fireflies",
+          "classification": "likely_coaching",
+          "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+          "speaker_count": 2,
+          "speakers": [
+            "Tarikh Korula",
+            "Ryan Vaughn"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 46.5099983215332,
+          "transcript_url": "https://app.fireflies.ai/view/01KFP77PNNSPQDPDVR4RP6XZV1",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": "Tarikh"
+          }
+        },
+        {
+          "id": "d7250cfa-5bbb-4870-9574-00df3135b46b",
+          "session_date": "2026-01-29T00:00:00",
+          "created_at": "2026-01-29T21:54:45.058921",
+          "title": "Ted Serbinski <> Ryan Vaughn",
+          "coach_name": "Ryan Vaughn",
+          "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+          "coach_email": "ryan@leadinsideout.io",
+          "session_type": "untagged",
+          "source": "fireflies",
+          "classification": "likely_coaching",
+          "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+          "speaker_count": 2,
+          "speakers": [
+            "Ryan Vaughn",
+            "Ted Serbinski"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 37.77000045776367,
+          "transcript_url": "https://app.fireflies.ai/view/01KFZZ69XFM8TBKFBD1EWTJD2C",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": "Ted Serbinski"
+          }
+        },
+        {
+          "id": "99a93452-4811-48de-8d92-3f2e29441707",
+          "session_date": "2026-01-28T00:00:00",
+          "created_at": "2026-01-28T20:22:07.786148",
+          "title": "Ryan Vaughn | Jen & Bob Westerfield",
+          "coach_name": "Ryan Vaughn",
+          "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+          "coach_email": "ryan@leadinsideout.io",
+          "session_type": "untagged",
+          "source": "fireflies",
+          "classification": "likely_coaching",
+          "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+          "speaker_count": 2,
+          "speakers": [
+            "Ryan Vaughn",
+            "Jennifer Westerfield"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 59.970001220703125,
+          "transcript_url": "https://app.fireflies.ai/view/01KFH0M039T9VK5X9TS7HKYY63",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": "Bob Westerfield"
+          }
+        },
+        {
+          "id": "0aa9a120-2d23-488c-95b3-76a4751011d2",
+          "session_date": "2026-01-21T00:00:00",
+          "created_at": "2026-01-21T18:09:14.804658",
+          "title": "Hampton: Transitioning to the New Core Model",
+          "coach_name": "Ryan Vaughn",
+          "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+          "coach_email": "ryan@leadinsideout.io",
+          "session_type": "untagged",
+          "source": "fireflies",
+          "classification": "unclear",
+          "classification_reason": "session_type=untagged, 8 speakers, no matching patterns",
+          "speaker_count": 8,
+          "speakers": [
+            "Hampton Member Experience",
+            "Hampton Member Experience",
+            "Marshall Hayes",
+            "Lauren Meagher",
+            "Rachel Peck",
+            "Euxie",
+            "Jason Pliml",
+            "Stephanie Redlener"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 62.540000915527344,
+          "transcript_url": "https://app.fireflies.ai/view/01KEZ5A2PG4ERBP6XWSDV5JFEY",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": null
+          }
+        },
+        {
+          "id": "24874284-0d5c-472e-9523-2667e7f611e0",
+          "session_date": "2025-12-22T00:00:00",
+          "created_at": "2025-12-22T16:37:35.262022",
+          "title": "ryan@leadinsideout.io - Mon, 22 Dec 2025 16:09:03 UTC - Untitled",
+          "coach_name": "Ryan Vaughn",
+          "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+          "coach_email": "ryan@leadinsideout.io",
+          "session_type": "untagged",
+          "source": "fireflies",
+          "classification": "likely_coaching",
+          "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+          "speaker_count": 2,
+          "speakers": [
+            "Ryan Vaughn",
+            "Brendan Mahoney"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 25.989999771118164,
+          "transcript_url": "https://app.fireflies.ai/view/01KD3D4GNYSRT046DJWP5GBMET",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": null
+          }
+        },
+        {
+          "id": "0d83dc82-0441-4158-b8d1-fcb383ddd0e9",
+          "session_date": "2025-11-20T00:00:00",
+          "created_at": "2025-12-18T20:43:41.554781",
+          "title": "Thoughtleader - Ryan Vaughn (Content Call)",
+          "coach_name": "Ryan Vaughn",
+          "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+          "coach_email": "ryan@leadinsideout.io",
+          "session_type": "other",
+          "source": "fireflies",
+          "classification": "likely_coaching",
+          "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+          "speaker_count": 2,
+          "speakers": [
+            "Ryan Vaughn",
+            "Alexander Perkins"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 35.220001220703125,
+          "transcript_url": "https://app.fireflies.ai/view/01KADR17QNZQC9RB9M1H87R50W",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": "Thoughtleader"
+          }
+        },
+        {
+          "id": "758a88a6-4a39-4b1e-b4d6-2eb474225883",
+          "session_date": "2025-11-16T00:00:00",
+          "created_at": "2026-02-12T19:11:08.435265",
+          "title": "League of Extraordinary Gentlemen talks with an Extraordinary Gentleman (Iain McGilchrist)",
+          "coach_name": "Ryan Vaughn",
+          "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+          "coach_email": "ryan@leadinsideout.io",
+          "session_type": "untagged",
+          "source": "fireflies",
+          "classification": "unclear",
+          "classification_reason": "session_type=untagged, 6 speakers, no matching patterns",
+          "speaker_count": 6,
+          "speakers": [
+            "Ryan Vaughn",
+            "Iain McGilchrist",
+            "J Tower",
+            "Ben VerWys",
+            "Ryan Kilpatrick",
+            "Andy Van Solkema"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 135.1999969482422,
+          "transcript_url": "https://app.fireflies.ai/view/01K9QQVMEBT4SGXVH3QHKMGFJ5",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": null
+          }
+        },
+        {
+          "id": "61c9d6e6-2b99-462e-b3ef-8105e0358b23",
+          "session_date": "2025-11-14T00:00:00",
+          "created_at": "2026-02-12T19:14:54.159317",
+          "title": "Brian Wang <> Ryan Vaughn",
+          "coach_name": "Ryan Vaughn",
+          "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+          "coach_email": "ryan@leadinsideout.io",
+          "session_type": "untagged",
+          "source": "fireflies",
+          "classification": "likely_coaching",
+          "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+          "speaker_count": 2,
+          "speakers": [
+            "Ryan Vaughn",
+            "Brian Wang"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 45.77000045776367,
+          "transcript_url": "https://app.fireflies.ai/view/01K5V9330VAJ47W9CHQ15X7CEB",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": "Brian Wang"
+          }
+        },
+        {
+          "id": "49e99bf0-f39c-4eb8-bb9a-e512c726b80d",
+          "session_date": "2025-11-14T00:00:00",
+          "created_at": "2026-02-12T19:11:31.881416",
+          "title": "Ryan:Tim LE Connect",
+          "coach_name": "Ryan Vaughn",
+          "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+          "coach_email": "ryan@leadinsideout.io",
+          "session_type": "untagged",
+          "source": "fireflies",
+          "classification": "likely_coaching",
+          "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+          "speaker_count": 2,
+          "speakers": [
+            "Timothy Bragassa",
+            "Ryan Vaughn"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 30.1299991607666,
+          "transcript_url": "https://app.fireflies.ai/view/01K9QQVMDMQVPB7HW5MJB2QVW3",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": null
+          }
+        },
+        {
+          "id": "a47f7b48-9844-4681-a0f8-35d148176309",
+          "session_date": "2025-11-10T00:00:00",
+          "created_at": "2026-02-12T19:18:39.493445",
+          "title": "Corinda Hayes <> Ryan Vaughn",
+          "coach_name": "Ryan Vaughn",
+          "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+          "coach_email": "ryan@leadinsideout.io",
+          "session_type": "untagged",
+          "source": "fireflies",
+          "classification": "likely_coaching",
+          "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+          "speaker_count": 2,
+          "speakers": [
+            "Corinda",
+            "Ryan Vaughn"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 24.780000686645508,
+          "transcript_url": "https://app.fireflies.ai/view/01K9JV5EVPFT5DAFRT00M6ZSDX",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": "Corinda Hayes"
+          }
+        },
+        {
+          "id": "11439258-8eaa-47d5-a2a2-6fda1e75d91e",
+          "session_date": "2025-11-10T00:00:00",
+          "created_at": "2026-02-12T19:18:14.876916",
+          "title": "Laker Launchpad GVSU: Ryan Vaughn, Josh Ross & Jake Rossi",
+          "coach_name": "Ryan Vaughn",
+          "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+          "coach_email": "ryan@leadinsideout.io",
+          "session_type": "untagged",
+          "source": "fireflies",
+          "classification": "likely_coaching",
+          "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+          "speaker_count": 2,
+          "speakers": [
+            "Ryan Vaughn",
+            "Josh Ross"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 34.619998931884766,
+          "transcript_url": "https://app.fireflies.ai/view/01K9JV5EXG8XXMVJD79DA1FTQ0",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": "Jake Rossi"
+          }
+        },
+        {
+          "id": "e0ba0dc4-50d5-434c-b3d6-daae100a4e3b",
+          "session_date": "2025-09-03T19:38:12",
+          "created_at": "2025-12-09T12:07:06.656135",
+          "title": "Ryan Vaughn _ 17144044911 -+17144044911- on Sep 3- 202-transcript-2025-09-03T19-38-12.745Z",
+          "coach_name": "Ryan Vaughn",
+          "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+          "coach_email": "ryan@leadinsideout.io",
+          "session_type": "miscellaneous",
+          "source": "manual_import",
+          "classification": "unclear",
+          "classification_reason": "session_type=miscellaneous, 0 speakers, no matching patterns",
+          "speaker_count": 0,
+          "speakers": [],
+          "attendee_emails": [],
+          "duration_seconds": null,
+          "transcript_url": null,
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": null
+          }
+        }
+      ]
+    },
+    "JJ Vega": {
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "total": 4,
+      "transcripts": [
+        {
+          "id": "2a6d7d8c-dbdb-4b63-85ab-649ce4df24d3",
+          "session_date": "2026-02-02T00:00:00",
+          "created_at": "2026-02-02T17:28:50.619222",
+          "title": "JourneyLoop Demo between Marco Lamina and JJ Vega",
+          "coach_name": "JJ Vega",
+          "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+          "coach_email": "jj@leadinsideout.io",
+          "session_type": "untagged",
+          "source": "fireflies",
+          "classification": "likely_coaching",
+          "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+          "speaker_count": 2,
+          "speakers": [
+            "Marco Lamina",
+            "JJ Vega"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 27.290000915527344,
+          "transcript_url": "https://app.fireflies.ai/view/01KG0GTPTN6RGBGA0SFCWAV94K",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": "JourneyLoop Demo between Marco Lamina"
+          }
+        },
+        {
+          "id": "651fec5e-f1d7-40bb-8c5b-d8dc72b56b9f",
+          "session_date": "2025-12-10T00:00:00",
+          "created_at": "2025-12-10T18:58:54.392089",
+          "title": "JJ Fireflies <> UDL Auto-Save Test 4",
+          "coach_name": "JJ Vega",
+          "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+          "coach_email": "jj@leadinsideout.io",
+          "session_type": "test_data",
+          "source": "fireflies",
+          "classification": "likely_coaching",
+          "classification_reason": "title contains name pair, extracted: \"UDL Auto-Save Test 4\"",
+          "speaker_count": 1,
+          "speakers": [
+            "JJ Vega"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 6.400000095367432,
+          "transcript_url": "https://app.fireflies.ai/view/01KC4S5K51PKMC1E66TK6V2J4P",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": "UDL Auto-Save Test 4"
+          }
+        },
+        {
+          "id": "3ad6b722-273c-4ad3-bfce-4420613e7adc",
+          "session_date": "2025-12-04T00:00:00",
+          "created_at": "2025-12-04T15:21:10.618836",
+          "title": "JJ <> Fireflies UDL Test 3",
+          "coach_name": "JJ Vega",
+          "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+          "coach_email": "jj@leadinsideout.io",
+          "session_type": "test_data",
+          "source": "fireflies",
+          "classification": "likely_coaching",
+          "classification_reason": "title contains name pair, extracted: \"Fireflies UDL Test 3\"",
+          "speaker_count": 0,
+          "speakers": [],
+          "attendee_emails": [],
+          "duration_seconds": 4.710000038146973,
+          "transcript_url": "https://app.fireflies.ai/view/01KBMSMDCY5FVYQNXM9NNFTRFD",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": "Fireflies UDL Test 3"
+          }
+        },
+        {
+          "id": "d60b264b-beda-4a33-a72f-621ac0624ebc",
+          "session_date": "2025-12-02T00:00:00",
+          "created_at": "2025-12-04T15:21:11.603595",
+          "title": "JJ Fireflies <> UDL Auto-Save Test 2",
+          "coach_name": "JJ Vega",
+          "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+          "coach_email": "jj@leadinsideout.io",
+          "session_type": "test_data",
+          "source": "fireflies",
+          "classification": "likely_coaching",
+          "classification_reason": "title contains name pair, extracted: \"UDL Auto-Save Test 2\"",
+          "speaker_count": 1,
+          "speakers": [
+            "JJ Vega"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 4.010000228881836,
+          "transcript_url": "https://app.fireflies.ai/view/01KBFWGQR4T3BJWWAGVDVT9F7B",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": "UDL Auto-Save Test 2"
+          }
+        }
+      ]
+    },
+    "Jason Pliml": {
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "total": 1,
+      "transcripts": [
+        {
+          "id": "53082285-8e2e-493b-bf54-9cecf0e81df9",
+          "session_date": "2026-01-30T00:00:00",
+          "created_at": "2026-01-30T18:58:33.945116",
+          "title": "jason@leadinsideout.io - Fri, 30 Jan 2026 13:05:08 EST - Untitled",
+          "coach_name": "Jason Pliml",
+          "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+          "coach_email": "jason@leadinsideout.io",
+          "session_type": "untagged",
+          "source": "fireflies",
+          "classification": "unclear",
+          "classification_reason": "session_type=untagged, 3 speakers, no matching patterns",
+          "speaker_count": 3,
+          "speakers": [
+            "Andrea Holland",
+            "Raza Kassar",
+            "Jason Pliml"
+          ],
+          "attendee_emails": [],
+          "duration_seconds": 45.22999954223633,
+          "transcript_url": "https://app.fireflies.ai/view/01KG819311P0QYE56R17MR3XKV",
+          "linking": {
+            "action": "manual_review",
+            "confidence": "low",
+            "method": "no_signals",
+            "extracted_name": null
+          }
+        }
+      ]
+    }
+  },
+  "all_transcripts": [
+    {
+      "id": "c34639bb-6286-4f4d-92ea-1d5e9dc25099",
+      "session_date": "2026-02-18T00:00:00",
+      "created_at": "2026-02-18T19:55:41.39221",
+      "title": "Intro Call w/ Rob Scott - Flywheel Growth Engines",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Rob Scott",
+        "Ryan"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 30.43000030517578,
+      "transcript_url": "https://app.fireflies.ai/view/01KH967Y3YHJBX82HDF8T3M38B",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Flywheel Growth Engines"
+      }
+    },
+    {
+      "id": "a07644cf-54c1-4ff8-86df-963efe819530",
+      "session_date": "2026-02-17T00:00:00",
+      "created_at": "2026-02-17T21:05:22.005448",
+      "title": "Mattia & Ryan",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Mattia Gheda",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 29.729999542236328,
+      "transcript_url": "https://app.fireflies.ai/view/01KFH0M033YWWWTMNM0AXN7XAV",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Mattia"
+      }
+    },
+    {
+      "id": "7c211717-5807-42a3-9cf5-f2122811b15f",
+      "session_date": "2026-02-13T00:00:00",
+      "created_at": "2026-02-13T17:56:47.805165",
+      "title": "Inside-Out X Vance & Company || Bi-Weekly Interview",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "title contains name pair, extracted: \"Inside-Out X Vance\"",
+      "speaker_count": 3,
+      "speakers": [
+        "Adam Barr",
+        "Samantha Veneklase",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 11.100000381469727,
+      "transcript_url": "https://app.fireflies.ai/view/01KGWBATAF2DH7SKV07F2RMXDK",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Inside-Out X Vance"
+      }
+    },
+    {
+      "id": "150f6bf8-7051-41c5-b522-70cf58f7db8c",
+      "session_date": "2026-02-09T00:00:00",
+      "created_at": "2026-02-09T19:37:55.186438",
+      "title": "Inside-Out x Vance | Onboarding",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "title contains name pair, extracted: \"Inside\"",
+      "speaker_count": 5,
+      "speakers": [
+        "Caton Vance",
+        "Ryan Vaughn",
+        "Jemaima Mesina",
+        "Dominic Cipolla",
+        "Samantha"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 31.399999618530273,
+      "transcript_url": "https://app.fireflies.ai/view/01KGQFHBG303KBZXNFAZ5HKDJH",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Inside"
+      }
+    },
+    {
+      "id": "5afde8d8-2a2a-4c1a-8ae0-b3feaac61845",
+      "session_date": "2026-02-09T00:00:00",
+      "created_at": "2026-02-09T21:27:40.259362",
+      "title": "Ryan <> Adam",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Adam Lurie"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 29.8700008392334,
+      "transcript_url": "https://app.fireflies.ai/view/01KGQFHBG2B6X0TGF5XSCB8413",
+      "linking": {
+        "action": "link_existing",
+        "confidence": "medium",
+        "method": "name_fuzzy",
+        "proposed_client_id": "550e8400-e29b-41d4-a716-44665544000b",
+        "proposed_client_name": "Rachel Adams",
+        "proposed_client_email": "rachel.adams@growthlabs.io",
+        "extracted_name": "Adam",
+        "match_score": 80,
+        "alternative_matches": []
+      }
+    },
+    {
+      "id": "39faa03d-7740-44e3-84c6-1d30d3954985",
+      "session_date": "2026-02-06T00:00:00",
+      "created_at": "2026-02-12T19:32:57.240804",
+      "title": "Inside Out <> ST Ventures Lab",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "title contains name pair, extracted: \"Inside Out\"",
+      "speaker_count": 5,
+      "speakers": [
+        "Kristi DeLozier",
+        "Ryan Vaughn",
+        "Micah Baldwin",
+        "Keeisi Caballero",
+        "Matt Thieleman"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 53.20000076293945,
+      "transcript_url": "https://app.fireflies.ai/view/01KGG19NF45F2NEJE7B82YVTSX",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Inside Out"
+      }
+    },
+    {
+      "id": "2a6d7d8c-dbdb-4b63-85ab-649ce4df24d3",
+      "session_date": "2026-02-02T00:00:00",
+      "created_at": "2026-02-02T17:28:50.619222",
+      "title": "JourneyLoop Demo between Marco Lamina and JJ Vega",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Marco Lamina",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 27.290000915527344,
+      "transcript_url": "https://app.fireflies.ai/view/01KG0GTPTN6RGBGA0SFCWAV94K",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "JourneyLoop Demo between Marco Lamina"
+      }
+    },
+    {
+      "id": "5a3221bf-44b5-42d3-aef3-501337735230",
+      "session_date": "2026-02-02T00:00:00",
+      "created_at": "2026-02-02T23:02:58.793561",
+      "title": "CEO Calendar Workflow session",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Joel Garcia",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 64.11000061035156,
+      "transcript_url": "https://app.fireflies.ai/view/01KG7M2WMT97ZFDRNWTBE80W0J",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "8ccd5675-3850-4b1b-a182-81ec6ce3c24b",
+      "session_date": "2026-01-30T00:00:00",
+      "created_at": "2026-01-30T18:58:48.390726",
+      "title": "Tarikh & Ryan",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Tarikh Korula",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 46.5099983215332,
+      "transcript_url": "https://app.fireflies.ai/view/01KFP77PNNSPQDPDVR4RP6XZV1",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Tarikh"
+      }
+    },
+    {
+      "id": "53082285-8e2e-493b-bf54-9cecf0e81df9",
+      "session_date": "2026-01-30T00:00:00",
+      "created_at": "2026-01-30T18:58:33.945116",
+      "title": "jason@leadinsideout.io - Fri, 30 Jan 2026 13:05:08 EST - Untitled",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "unclear",
+      "classification_reason": "session_type=untagged, 3 speakers, no matching patterns",
+      "speaker_count": 3,
+      "speakers": [
+        "Andrea Holland",
+        "Raza Kassar",
+        "Jason Pliml"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 45.22999954223633,
+      "transcript_url": "https://app.fireflies.ai/view/01KG819311P0QYE56R17MR3XKV",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "d7250cfa-5bbb-4870-9574-00df3135b46b",
+      "session_date": "2026-01-29T00:00:00",
+      "created_at": "2026-01-29T21:54:45.058921",
+      "title": "Ted Serbinski <> Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Ted Serbinski"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 37.77000045776367,
+      "transcript_url": "https://app.fireflies.ai/view/01KFZZ69XFM8TBKFBD1EWTJD2C",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Ted Serbinski"
+      }
+    },
+    {
+      "id": "99a93452-4811-48de-8d92-3f2e29441707",
+      "session_date": "2026-01-28T00:00:00",
+      "created_at": "2026-01-28T20:22:07.786148",
+      "title": "Ryan Vaughn | Jen & Bob Westerfield",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Jennifer Westerfield"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 59.970001220703125,
+      "transcript_url": "https://app.fireflies.ai/view/01KFH0M039T9VK5X9TS7HKYY63",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Bob Westerfield"
+      }
+    },
+    {
+      "id": "0aa9a120-2d23-488c-95b3-76a4751011d2",
+      "session_date": "2026-01-21T00:00:00",
+      "created_at": "2026-01-21T18:09:14.804658",
+      "title": "Hampton: Transitioning to the New Core Model",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "unclear",
+      "classification_reason": "session_type=untagged, 8 speakers, no matching patterns",
+      "speaker_count": 8,
+      "speakers": [
+        "Hampton Member Experience",
+        "Hampton Member Experience",
+        "Marshall Hayes",
+        "Lauren Meagher",
+        "Rachel Peck",
+        "Euxie",
+        "Jason Pliml",
+        "Stephanie Redlener"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 62.540000915527344,
+      "transcript_url": "https://app.fireflies.ai/view/01KEZ5A2PG4ERBP6XWSDV5JFEY",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "24874284-0d5c-472e-9523-2667e7f611e0",
+      "session_date": "2025-12-22T00:00:00",
+      "created_at": "2025-12-22T16:37:35.262022",
+      "title": "ryan@leadinsideout.io - Mon, 22 Dec 2025 16:09:03 UTC - Untitled",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Brendan Mahoney"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 25.989999771118164,
+      "transcript_url": "https://app.fireflies.ai/view/01KD3D4GNYSRT046DJWP5GBMET",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "651fec5e-f1d7-40bb-8c5b-d8dc72b56b9f",
+      "session_date": "2025-12-10T00:00:00",
+      "created_at": "2025-12-10T18:58:54.392089",
+      "title": "JJ Fireflies <> UDL Auto-Save Test 4",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "test_data",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "title contains name pair, extracted: \"UDL Auto-Save Test 4\"",
+      "speaker_count": 1,
+      "speakers": [
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 6.400000095367432,
+      "transcript_url": "https://app.fireflies.ai/view/01KC4S5K51PKMC1E66TK6V2J4P",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "UDL Auto-Save Test 4"
+      }
+    },
+    {
+      "id": "3ad6b722-273c-4ad3-bfce-4420613e7adc",
+      "session_date": "2025-12-04T00:00:00",
+      "created_at": "2025-12-04T15:21:10.618836",
+      "title": "JJ <> Fireflies UDL Test 3",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "test_data",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "title contains name pair, extracted: \"Fireflies UDL Test 3\"",
+      "speaker_count": 0,
+      "speakers": [],
+      "attendee_emails": [],
+      "duration_seconds": 4.710000038146973,
+      "transcript_url": "https://app.fireflies.ai/view/01KBMSMDCY5FVYQNXM9NNFTRFD",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Fireflies UDL Test 3"
+      }
+    },
+    {
+      "id": "d60b264b-beda-4a33-a72f-621ac0624ebc",
+      "session_date": "2025-12-02T00:00:00",
+      "created_at": "2025-12-04T15:21:11.603595",
+      "title": "JJ Fireflies <> UDL Auto-Save Test 2",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "test_data",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "title contains name pair, extracted: \"UDL Auto-Save Test 2\"",
+      "speaker_count": 1,
+      "speakers": [
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 4.010000228881836,
+      "transcript_url": "https://app.fireflies.ai/view/01KBFWGQR4T3BJWWAGVDVT9F7B",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "UDL Auto-Save Test 2"
+      }
+    },
+    {
+      "id": "0d83dc82-0441-4158-b8d1-fcb383ddd0e9",
+      "session_date": "2025-11-20T00:00:00",
+      "created_at": "2025-12-18T20:43:41.554781",
+      "title": "Thoughtleader - Ryan Vaughn (Content Call)",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "other",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Alexander Perkins"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 35.220001220703125,
+      "transcript_url": "https://app.fireflies.ai/view/01KADR17QNZQC9RB9M1H87R50W",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Thoughtleader"
+      }
+    },
+    {
+      "id": "758a88a6-4a39-4b1e-b4d6-2eb474225883",
+      "session_date": "2025-11-16T00:00:00",
+      "created_at": "2026-02-12T19:11:08.435265",
+      "title": "League of Extraordinary Gentlemen talks with an Extraordinary Gentleman (Iain McGilchrist)",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "unclear",
+      "classification_reason": "session_type=untagged, 6 speakers, no matching patterns",
+      "speaker_count": 6,
+      "speakers": [
+        "Ryan Vaughn",
+        "Iain McGilchrist",
+        "J Tower",
+        "Ben VerWys",
+        "Ryan Kilpatrick",
+        "Andy Van Solkema"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 135.1999969482422,
+      "transcript_url": "https://app.fireflies.ai/view/01K9QQVMEBT4SGXVH3QHKMGFJ5",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "61c9d6e6-2b99-462e-b3ef-8105e0358b23",
+      "session_date": "2025-11-14T00:00:00",
+      "created_at": "2026-02-12T19:14:54.159317",
+      "title": "Brian Wang <> Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Brian Wang"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 45.77000045776367,
+      "transcript_url": "https://app.fireflies.ai/view/01K5V9330VAJ47W9CHQ15X7CEB",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Brian Wang"
+      }
+    },
+    {
+      "id": "49e99bf0-f39c-4eb8-bb9a-e512c726b80d",
+      "session_date": "2025-11-14T00:00:00",
+      "created_at": "2026-02-12T19:11:31.881416",
+      "title": "Ryan:Tim LE Connect",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Timothy Bragassa",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 30.1299991607666,
+      "transcript_url": "https://app.fireflies.ai/view/01K9QQVMDMQVPB7HW5MJB2QVW3",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "a47f7b48-9844-4681-a0f8-35d148176309",
+      "session_date": "2025-11-10T00:00:00",
+      "created_at": "2026-02-12T19:18:39.493445",
+      "title": "Corinda Hayes <> Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Corinda",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 24.780000686645508,
+      "transcript_url": "https://app.fireflies.ai/view/01K9JV5EVPFT5DAFRT00M6ZSDX",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Corinda Hayes"
+      }
+    },
+    {
+      "id": "11439258-8eaa-47d5-a2a2-6fda1e75d91e",
+      "session_date": "2025-11-10T00:00:00",
+      "created_at": "2026-02-12T19:18:14.876916",
+      "title": "Laker Launchpad GVSU: Ryan Vaughn, Josh Ross & Jake Rossi",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Josh Ross"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 34.619998931884766,
+      "transcript_url": "https://app.fireflies.ai/view/01K9JV5EXG8XXMVJD79DA1FTQ0",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Jake Rossi"
+      }
+    },
+    {
+      "id": "e0ba0dc4-50d5-434c-b3d6-daae100a4e3b",
+      "session_date": "2025-09-03T19:38:12",
+      "created_at": "2025-12-09T12:07:06.656135",
+      "title": "Ryan Vaughn _ 17144044911 -+17144044911- on Sep 3- 202-transcript-2025-09-03T19-38-12.745Z",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "miscellaneous",
+      "source": "manual_import",
+      "classification": "unclear",
+      "classification_reason": "session_type=miscellaneous, 0 speakers, no matching patterns",
+      "speaker_count": 0,
+      "speakers": [],
+      "attendee_emails": [],
+      "duration_seconds": null,
+      "transcript_url": null,
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    }
+  ],
+  "non_coaching_excluded": [
+    {
+      "id": "6dc13da8-2264-4978-871f-da10eac620c8",
+      "title": "Catch up: Franziska Gonder & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "bf712aa2-62e2-4912-ac59-ca3063f0f08a",
+      "title": "Maria Wlosinska & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "dfa1398c-97dd-4e29-878e-a2e6458aad6a",
+      "title": "Borg Integration: JJ & Ryan",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "session_type=staff_1on1"
+    },
+    {
+      "id": "170f9f4f-ba47-4dbd-b5aa-c6c90e1822ef",
+      "title": "Ryan & Jem",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "a8ddaec9-cc9f-4b1d-be07-dd75abd5c4b7",
+      "title": "Ryan Vaughn and Anna (Cogswell) Kolwicz",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "52e5bf1d-a36d-4996-8635-9fa0e8b509db",
+      "title": "Melissa & Ryan Hakomi",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "training",
+      "excluded_reason": "title matched training pattern"
+    },
+    {
+      "id": "a708285d-5c1a-46df-a2c5-a9928157572a",
+      "title": "Trista Van Tine & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "aa4daaab-765c-4eef-8abc-44b49950ccd6",
+      "title": "IO Co-Creation Call",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "bdd8cc06-e150-48e8-b851-4617774fdb81",
+      "title": "JJ & Ryan",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "session_type=staff_1on1"
+    },
+    {
+      "id": "36a94aa8-b97a-4089-b019-ec2b29d4af3b",
+      "title": "JJ Vega and Jason Pliml",
+      "coach_name": "Jason Pliml",
+      "session_type": "staff_1on1",
+      "excluded_reason": "session_type=staff_1on1"
+    },
+    {
+      "id": "480e3993-77b7-4063-9af7-2667fcd9c453",
+      "title": "Ryan Vaughn and Peter Corbett",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "55dbc408-4b5f-4586-a64b-bedab9416fd9",
+      "title": "Ryan Vaughn and Peter Corbett",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "1f16c36b-9ca0-4800-bc8f-89ca6849741f",
+      "title": "JJ Vega and Jason Pliml",
+      "coach_name": "Jason Pliml",
+      "session_type": "staff_1on1",
+      "excluded_reason": "session_type=staff_1on1"
+    },
+    {
+      "id": "a215e984-957e-4785-97f2-e50337612c32",
+      "title": "Inside-Out Mutual Fit Call | Habib Moody",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "title matched sales_call pattern"
+    },
+    {
+      "id": "1984da6f-ce81-4410-87c9-317a7513cdbc",
+      "title": "Ryan and Tracy discuss retreat proposal",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "0ec3a698-fd69-48d5-b238-e6d7ad1ce214",
+      "title": "Samuel Etskovitz & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "88dead7f-5550-4a0e-a4e0-394fa17d3ec7",
+      "title": "Ryan and Tracy discuss retreat proposal",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "0ca019c6-b762-4e9d-af3a-3799a8d95815",
+      "title": "Inside-Out Mutual Fit Call | Habib Moody",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "title matched sales_call pattern"
+    },
+    {
+      "id": "b3c30dab-43b6-4113-bbaf-a373d1663e1b",
+      "title": "Samuel Etskovitz & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "c211ecab-07a4-48d6-bf52-3e7ddd07d39f",
+      "title": "Nate Lowery & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "d7d34160-d6ba-4572-a90c-4ceea204c0db",
+      "title": "30 Minute Meeting with Jeff Martin & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "15e1e94a-0910-42e2-94e6-93c577b46627",
+      "title": "30 Minute Meeting with Jeff Martin & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "63d6a777-bfb3-43d9-af26-667123ebf395",
+      "title": "Nate Lowery & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "69322764-6c30-46d3-8851-b67ca77ae20d",
+      "title": "Ryan & Jem",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "eb1fd66f-b1c0-42b2-b46b-6509efc9095b",
+      "title": "Derek/Ryan Weekly",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "session_type=staff_1on1"
+    },
+    {
+      "id": "55467936-d4ca-4ec1-8b2e-c92c149d2270",
+      "title": "IO Fit Call: Tanika & Ryan",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "title matched sales_call pattern"
+    },
+    {
+      "id": "6d0ca957-81ff-414c-9269-89fbb455d5db",
+      "title": "IO Co-Creation Call",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "59d514e1-c91e-427b-97ad-7771bc8ec6f0",
+      "title": "Micah <> JJ Borg Jam",
+      "coach_name": "JJ Vega",
+      "session_type": "staff_1on1",
+      "excluded_reason": "session_type=staff_1on1"
+    },
+    {
+      "id": "782cd290-623a-4c89-bd0e-6f4120fd2387",
+      "title": "Micah/Matt/Ryan discuss ST Ventures",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "session_type=staff_1on1"
+    },
+    {
+      "id": "4c052c4f-58e0-4b0f-8d0c-e0e75260c338",
+      "title": "IO Meeting: Structure on Embedding Organizational Support [626]",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "1101ca04-c7da-45ce-b6d7-cce3d87e78dd",
+      "title": "JJ & Ryan Vision",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "session_type=staff_1on1"
+    },
+    {
+      "id": "cb1375c5-0b5d-454a-87f2-5441b5e11db8",
+      "title": "Derek/Ryan Weekly",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "session_type=staff_1on1"
+    },
+    {
+      "id": "23fd949c-812e-412f-9926-e31c93e1693d",
+      "title": "Ryan & Jem",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "2e358516-b0f5-47d6-90b0-7b2f7c350c25",
+      "title": "Ryan & Amita IFS work",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "personal_development",
+      "excluded_reason": "title matched personal_development pattern"
+    },
+    {
+      "id": "11693868-d5a4-42c3-9d99-ce593b8445b2",
+      "title": "IO Co-Creation Call",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "2cb773da-6a1d-48c4-82f3-157a59c25c8f",
+      "title": "Ryan & Jem",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "efb146b1-6863-48ae-9e2f-dcc351f68db0",
+      "title": "Ryan & David (Leading Edge)",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "b9a73d77-fcd8-42ac-a8b0-8d26f6041689",
+      "title": "Derek/Ryan Weekly",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "session_type=staff_1on1"
+    },
+    {
+      "id": "2e5ad13e-44c3-4b51-8b47-119327cf73e5",
+      "title": "Ryan Vaughn and Reuben Levinsohn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "26163566-3b9d-4067-99c8-d0737e130558",
+      "title": "Ryan & Jem",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "d80ceb48-c109-4303-862f-f04f2a65306f",
+      "title": "Drew Fulkerson & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "ba0b81f0-4adf-4923-9b2f-c246457c66b0",
+      "title": "IO Co-Creation Call",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "13f5691c-001b-4876-8b9e-5638548fb2b0",
+      "title": "Micah and Matt, StVenture Lab",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "session_type=staff_1on1"
+    },
+    {
+      "id": "3b79db0a-e33a-4806-88e6-0b433422837f",
+      "title": "Ryan & Jem",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "01a2ddc7-8b7c-47b1-9790-a8d654b6b791",
+      "title": "Derek/Ryan Weekly",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "session_type=staff_1on1"
+    },
+    {
+      "id": "fcab4f1b-0738-4bc7-87a0-32d4aeb1acae",
+      "title": "IO Co-Creation Call",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "949c4b47-0f9f-4dd9-8444-599627284cf4",
+      "title": "Ryan & Rick talk novels",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "b185e102-c546-4dd0-b56c-50e814410e91",
+      "title": "Inside-Out fit call | Laura Chirichigno",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "title matched sales_call pattern"
+    },
+    {
+      "id": "9a41d521-109f-422d-ae96-a40056b209d3",
+      "title": "IO Fit Call: Ira McMahon & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "title matched sales_call pattern"
+    },
+    {
+      "id": "73cb72e5-2261-4ef3-b1e6-f4744a0d5387",
+      "title": "New FS Thing",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "65388858-b4f3-4c12-9c6e-ccb620d885a0",
+      "title": "Parker Gates & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "025d3e16-207d-440c-8252-77e279174f33",
+      "title": "Matt <> JJ AI & Stuff",
+      "coach_name": "JJ Vega",
+      "session_type": "staff_1on1",
+      "excluded_reason": "session_type=staff_1on1"
+    },
+    {
+      "id": "4f3df109-f292-4b6b-adf4-fc8539826d79",
+      "title": "IO Co-Creation Call",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "bd828038-0024-4a8d-aedf-edd65faa82e8",
+      "title": "New FS Thing Weekly",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "28647246-668e-41cf-b46f-e6a8c0367f41",
+      "title": "Ryan & Amita IFS work",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "personal_development",
+      "excluded_reason": "title matched personal_development pattern"
+    },
+    {
+      "id": "3006ad57-f2bc-4614-9e9d-8bcff689e5ed",
+      "title": "Ryan & Jem",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "38da4a6a-febc-4562-b970-dd7a31b3e04d",
+      "title": "JJ & Ryan",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "session_type=staff_1on1"
+    },
+    {
+      "id": "f83b742d-2dd6-4a9c-86be-4d7ee36bbab1",
+      "title": "IO Co-Creation Call",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "4f00bf33-4a88-4247-8562-8d2e030feba2",
+      "title": "Ryan & Jem",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "1375cff6-8aa6-4d1b-bfda-d92f049c0aa7",
+      "title": "Retro: Designing 2026 Webinar",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "session_type=staff_1on1"
+    },
+    {
+      "id": "d6d35d8e-692e-45a7-9c22-ba43709a0bc0",
+      "title": "Christian Kennedy | IO fit call",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "title matched sales_call pattern"
+    },
+    {
+      "id": "4e0b72cb-dd51-4139-b67c-1cf1c1ccbb12",
+      "title": "Emefa Boamah & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "a6ab9458-19b7-411a-812d-4fbf01a17d44",
+      "title": "Devin Martin & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "0f896eba-c13c-41d0-a71b-1dc916aed2d4",
+      "title": "GTM Chat",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "session_type=internal_meeting"
+    },
+    {
+      "id": "86e8169e-f2c0-414d-98c9-7a9b3439a6c6",
+      "title": "IO Co-Creation Call",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "671c25ea-4ae6-46ab-b1f7-558dcc9d6a61",
+      "title": "Ryan & Jem",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "810d1cf0-1431-453c-b848-21a370c87797",
+      "title": "Melissa & Ryan Hakomi",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "training",
+      "excluded_reason": "title matched training pattern"
+    },
+    {
+      "id": "2b048cb5-875a-4e0a-9461-d4dbbaa658ab",
+      "title": "New FS Thing Weekly",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "f90570c3-b26d-4e6a-8083-acca94160d0f",
+      "title": "Tim Vandehey & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "8553cb06-e22f-4681-b7c5-05bae844c4f2",
+      "title": "Tom-Ryan-biweekly-session-05132025-a6df4e7f-aed1",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "session_type=internal_meeting"
+    },
+    {
+      "id": "d1670047-4302-4881-b1bf-c865a166bcd8",
+      "title": "Ryan-Vaughn-and-William-Dickinson-d035f8c4-352f",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "64a5c912-644a-47b2-a0e0-49abc3249d61",
+      "title": "Ryan-Vaughn-and-Amanda-Lewan-fb377576-daca",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "b86cfd74-4a02-4d8f-bc55-051200f122bd",
+      "title": "Ryan-Vaughn-Mike-Algrim-3bbf588d-8b45",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "f853076a-a8f4-4b26-9036-7c6204572387",
+      "title": "Ryan-Ted-Kristina-talk-fund-manager-retreat-58d80abe-1b96",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "eb3646bb-d9b7-4b59-a3ba-140e815b30e9",
+      "title": "Neil-Carlson-Ryan-Vaughn-28c8feb3-79fb",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "other_coach_session",
+      "excluded_reason": "session_type=other_coach_session"
+    },
+    {
+      "id": "61e888d5-7c80-4153-be34-c2252b3d5d97",
+      "title": "Melissa-Ryan-Hakomi-0be17585-66eb",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "training",
+      "excluded_reason": "title matched training pattern"
+    },
+    {
+      "id": "fca56168-f5b6-411c-b620-bac2fb0b4cae",
+      "title": "Katie-Birge-Ryan-Vaughn-a0af35f6-f4f2",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "d925be29-b3f6-4beb-8448-cc9c9f8e6003",
+      "title": "Jon-Robin-Inside-Out-Mutual-Fit-Call-0be0c4b7-7ed0",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "title matched sales_call pattern"
+    },
+    {
+      "id": "2357cfcc-a496-481c-93a5-bd838292d3b0",
+      "title": "IO-Co-Creation-Call-ddc409ef-f8b2",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "14a4ac1f-8125-429e-a4df-aca3f6ed07ce",
+      "title": "Fritz-Lensch-Ryan-Vaughn-70e545e9-c301",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "a61c7b86-a213-42cc-a096-21773fe2ad0f",
+      "title": "Catch-Up-Joe-Malcoun-Ryan-Vaughn-62ed28ff-61ea",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "f39ce071-b7ba-4868-bcf7-2b373309172a",
+      "title": "360-Interview-Jameson-Ryan-aee51d6f-e975",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "360_interview",
+      "excluded_reason": "title matched 360_interview pattern"
+    },
+    {
+      "id": "d79ad10d-09dc-4e74-89ad-8ab282f51a9e",
+      "title": "Ryan & Jem-transcript-2025-12-08T22-02-26.268Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "80f77114-8108-4b5e-bda6-e68d3b7d331c",
+      "title": "Ryan & Amita IFS work-transcript-2025-12-08T20-44-04.863Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "personal_development",
+      "excluded_reason": "title matched personal_development pattern"
+    },
+    {
+      "id": "b142457a-d681-4d26-8809-f827331d0fcb",
+      "title": "IO Co-Creation Call-transcript-2025-12-08T15-14-11.100Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "4d5a2104-f9d6-46db-b41a-e78e64766e4e",
+      "title": "Ryan & Jem",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "0235d2bb-6cdd-44d6-9a5a-ad9a129e6903",
+      "title": "Ryan & Amita IFS work",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "personal_development",
+      "excluded_reason": "title matched personal_development pattern"
+    },
+    {
+      "id": "c870e99a-13fc-4285-976e-246e84246e80",
+      "title": "Mike Del Ponte & Ryan Vaughn-transcript-2025-12-05T19-01-54.408Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "a59560ac-7ba8-4e61-ab9c-b3b491ff5e70",
+      "title": "IO Testimonial- Cal & Ryan-transcript-2025-12-05T18-05-23.097Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "session_type=internal_meeting"
+    },
+    {
+      "id": "093d4374-3e29-4926-84f0-bd6d4c424c6e",
+      "title": "Lou Marchetti & Ryan Vaughn-transcript-2025-12-05T17-05-01.079Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "cc74c93f-52aa-4728-a6ac-28745d5b8cf3",
+      "title": "Lance Rosen - Ryan Vaughn-transcript-2025-12-05T16-35-07.863Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "session_type=sales_call"
+    },
+    {
+      "id": "5c13dc01-0274-454a-8bdf-6982be2cd52d",
+      "title": "Lou Marchetti & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "3720e2a6-aa17-4a51-810b-3b1343053873",
+      "title": "Lance Rosen <> Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "1a083098-9f45-44c0-9d21-d5773e40c2b2",
+      "title": "Mike Del Ponte & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "62344c0d-acf1-4161-b191-6c36e2213930",
+      "title": "Hampton Monthly Moderator Connect-transcript-2025-12-02T17-41-15.053Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "60ad660f-1f45-41bf-b7e5-5c1c11920fcf",
+      "title": "Hampton Monthly Moderator Connect",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "d18be650-7283-4f39-9e8f-eae4108b7c1d",
+      "title": "Shelby Neuman 360° interview-transcript-2025-12-01T21-03-30.569Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "360_interview",
+      "excluded_reason": "title matched 360_interview pattern"
+    },
+    {
+      "id": "8db74472-1185-4324-98b7-5fc6817b1fc0",
+      "title": "Melissa & Ryan Hakomi-transcript-2025-12-01T20-06-39.510Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "training",
+      "excluded_reason": "title matched training pattern"
+    },
+    {
+      "id": "c3b9272c-12d4-4859-8c49-1f6b9c344f49",
+      "title": "Phill, Margarita, Dennis & Ryan follow up on leadership-transcript-2025-12-01T18-10-12.933Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "session_type=internal_meeting"
+    },
+    {
+      "id": "fb6067e5-2a32-44ff-b9a6-b2e97b592266",
+      "title": "Ryan H Vaughn and Steve Taylor-transcript-2025-12-01T18-02-00.333Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "6cfd9f3b-4b41-40bd-80ca-c7c0a698eac6",
+      "title": "New FS Thing Weekly-transcript-2025-12-01T17-04-42.122Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "b2492f05-f82c-46e8-aa46-197b253eee24",
+      "title": "IO Co-Creation Call-transcript-2025-12-01T16-04-21.918Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "b3326f9c-1ffe-4fca-ae8f-7776fb1740ed",
+      "title": "Ryan H Vaughn and Steve Taylor",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "8810713a-1a8f-4c64-8b85-7c9ad39f5366",
+      "title": "IO Co-Creation Call",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "9929b52b-fd73-4c6e-88cb-0f2d74fe34d6",
+      "title": "New FS Thing Weekly",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "e5295ff5-4fcb-46f8-a0d1-e39a54b1ba83",
+      "title": "Melissa & Ryan Hakomi",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "training",
+      "excluded_reason": "title matched training pattern"
+    },
+    {
+      "id": "35d93060-21d3-4b63-b91f-6d0a23f5a028",
+      "title": "Shelby Neuman 360° interview",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "360_interview",
+      "excluded_reason": "title matched 360_interview pattern"
+    },
+    {
+      "id": "8f299964-b942-40b1-8aed-8dedd5f326a7",
+      "title": "Phill, Margarita, Dennis & Ryan follow up on leadership sessions",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "session_type=internal_meeting"
+    },
+    {
+      "id": "701e1438-061a-4f64-af27-e8d9b827f8f2",
+      "title": "Matt <> JJ E7 Jam",
+      "coach_name": "JJ Vega",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "ebc55855-108d-47c3-b8f4-5f580b083ec3",
+      "title": "New FS Thing Weekly-transcript-2025-11-24T17-04-10.904Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "ac40b22c-cd94-4a3e-b205-0f6bc20e4822",
+      "title": "IO Co-Creation Call-transcript-2025-11-24T14-50-04.895Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "aade2b15-e37f-4222-8d12-0af9cfe632a5",
+      "title": "New FS Thing Weekly",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "5cb28c01-61a5-4844-92fa-cb46d7ea718a",
+      "title": "IO Co-Creation Call",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "c4f86867-df52-42dc-b25b-e4d16f9a0beb",
+      "title": "IO - E7 Explore Team Coaching",
+      "coach_name": "JJ Vega",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "80129eca-0f6b-4f0f-b953-958a0841aea3",
+      "title": "IO - E7 Explore Team Coaching",
+      "coach_name": "JJ Vega",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "6dd28559-adf5-4477-a249-2ba08779386a",
+      "title": "Ryan Cummins & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "583b214d-a83f-4722-8c4c-126ec0c87e93",
+      "title": "360 Interview: Jameson & Ryan",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "360_interview",
+      "excluded_reason": "title matched 360_interview pattern"
+    },
+    {
+      "id": "c3b954f9-fabc-4189-9195-b5dbd9ef7105",
+      "title": "Tracy & Ryan catch up about experiences",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "a77bc3ed-40a3-4ddb-ad38-05981176ee74",
+      "title": "Ryan Vaughn & James Lenger",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "d0d7f850-98e5-4674-991d-ae39b4591d26",
+      "title": "Ryan Vaughn and Mati Engel",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "9c88a1e3-1c24-44bb-9a1d-ee59e682c6c5",
+      "title": "LI Outreach: Jem & Ryan",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "5069d5c5-f13e-4f51-91a6-17c11bd90ca0",
+      "title": "Micah <> Ryan Jam on Webinar",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "session_type=staff_1on1"
+    },
+    {
+      "id": "1f28ab2c-6afa-4e8d-adf3-06e0ec4afaec",
+      "title": "Jeremy Fisher & Ryan Vaughn-transcript-2025-11-18T16-33-46.770Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "178cce0d-58e5-445e-bad7-3861feaf135d",
+      "title": "Jeremy Fisher & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "86ebb7d7-3354-4807-aa7e-e9117f19d642",
+      "title": "Ryan, Jem & Jason discuss marketing project",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "3114238a-7212-46a7-ab98-b2c0d4c46635",
+      "title": "Melissa & Ryan Hakomi-transcript-2025-11-17T20-02-35.954Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "training",
+      "excluded_reason": "title matched training pattern"
+    },
+    {
+      "id": "94c36757-77cd-4e30-bf8f-267391744f9b",
+      "title": "New FS Thing Weekly-transcript-2025-11-17T17-28-25.583Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "6829e06a-139d-4fd5-8e71-9de79cf2d366",
+      "title": "IO Co-Creation Call-transcript-2025-11-17T16-06-25.281Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "a3d26277-66b9-4640-8f54-746637aeba8a",
+      "title": "IO Co-Creation Call",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "bc190cab-ffa0-4b1a-8b81-3b9c806e3901",
+      "title": "New FS Thing Weekly",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "db18feec-8969-463c-8ba7-00fe59afe134",
+      "title": "Melissa & Ryan Hakomi",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "training",
+      "excluded_reason": "title matched training pattern"
+    },
+    {
+      "id": "86f285ba-aee6-4bc1-8af9-046ad6891ece",
+      "title": "League of Extraordinary Gentlemen talks with an Extraor-transcript-2025-11-16T16-15-05.519Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "session_type=internal_meeting"
+    },
+    {
+      "id": "43d71877-2548-4f93-9a2a-ae847e5419c1",
+      "title": "360 Interview- Pallavi Sud & Ryan-transcript-2025-11-14T20-33-39.502Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "360_interview",
+      "excluded_reason": "title matched 360_interview pattern"
+    },
+    {
+      "id": "a2d505f3-1735-4444-9119-157a89292318",
+      "title": "Ryan-Tim LE Connect-transcript-2025-11-14T20-03-31.516Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "3cf24714-41b7-425f-a080-af4553217aae",
+      "title": "Thoughtleadr Service Delivery Call (Ryan Vaughn)-transcript-2025-11-14T16-04-35.547Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "8b76a763-ea7a-493c-b0a0-3a50f12766da",
+      "title": "John Burns & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "08158b40-9101-466e-8d90-885e78417315",
+      "title": "360 Interview: Pallavi & Ryan",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "360_interview",
+      "excluded_reason": "title matched 360_interview pattern"
+    },
+    {
+      "id": "7f1294d4-c638-48e1-9ac4-61132b3ca145",
+      "title": "Thoughtleadr Service Delivery Call (Ryan Vaughn)",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "195d37b7-7151-4c00-a44a-8ba6ee3dbd7a",
+      "title": "Ryan - Jem-transcript-2025-11-13T21-28-26.940Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "d14dabe7-092a-4515-89e9-de0372e27b3d",
+      "title": "360 Review- Logan Sease - Ryan Vaughn-transcript-2025-11-13T17-03-22.397Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "360_interview",
+      "excluded_reason": "title matched 360_interview pattern"
+    },
+    {
+      "id": "a4fef1b0-2150-472c-a559-423624f3789c",
+      "title": "360 Review- Brian Grabowski - Ryan Vaughn-transcript-2025-11-13T16-29-59.438Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "360_interview",
+      "excluded_reason": "title matched 360_interview pattern"
+    },
+    {
+      "id": "56d7400a-4236-410b-8d64-d3f33b82478b",
+      "title": "360 Review: Brian Grabowski & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "360_interview",
+      "excluded_reason": "title matched 360_interview pattern"
+    },
+    {
+      "id": "5a2c8f3e-46dd-4cb1-b68b-0ea880b267d6",
+      "title": "Ryan & Jem",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "8dc57d73-befd-49fd-90bf-c38faa99fbe7",
+      "title": "360 Review: Logan Sease & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "360_interview",
+      "excluded_reason": "title matched 360_interview pattern"
+    },
+    {
+      "id": "632f522e-9c24-4a7e-8838-cf9ccc4e4b57",
+      "title": "Backend Meeting: Ryan, JJ & Jem",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "86647262-a7b0-4f8a-b5e6-274d6becbd2f",
+      "title": "E7 Oppty- Matt, JJ & Ryan-transcript-2025-11-11T15-07-37.060Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "8244e1bc-5c9a-4064-8996-dddc20d4effd",
+      "title": "Joe Marston & Ryan Vaughn-transcript-2025-11-11T14-39-42.181Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "e759e765-4a90-452b-b270-602c72bd26c7",
+      "title": "Joe Marston & Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "c5129b76-108f-416a-b44a-19ee81ac7eea",
+      "title": "IO Meeting: Structure on Embedding Organizational Support [626]",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "f025ba2e-896d-4b00-abad-e768a495b300",
+      "title": "E7 Oppty: Matt, JJ & Ryan",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "6cd9d337-4771-47fb-bd9b-ffa4f7c45e49",
+      "title": "Laker Launchpad GVSU- Ryan Vaughn, Josh Ross & Jake Ros-transcript-2025-11-10T22-08-47.327Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "session_type=internal_meeting"
+    },
+    {
+      "id": "639f631f-139a-4598-a1fe-32199aab29e4",
+      "title": "Corinda Hayes - Ryan Vaughn-transcript-2025-11-10T18-57-29.265Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "session_type=sales_call"
+    },
+    {
+      "id": "b43f9956-a73b-4294-b037-7367874b4f9c",
+      "title": "New FS Thing Weekly-transcript-2025-11-10T16-59-27.062Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "cfce9ba4-4abf-4c43-8930-a040dbd75be4",
+      "title": "Catch up with Pranab - Sam-transcript-2025-11-07T16-34-46.554Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "76051fe5-f168-440d-bb24-43bdaa0963f0",
+      "title": "Harry - Ryan-transcript-2025-11-06T16-34-07.427Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "f8375392-6977-439f-99ef-4b60e77ec348",
+      "title": "360 Interview- Mark Kraynak - Ryan Vaughn-transcript-2025-11-05T17-32-39.934Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "360_interview",
+      "excluded_reason": "title matched 360_interview pattern"
+    },
+    {
+      "id": "4d966d81-7324-4713-b979-214e3ca7a09d",
+      "title": "Ryan - Jem-transcript-2025-11-04T19-44-38.187Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "f5620a40-aa21-41a3-9ea2-e6f7839d35e7",
+      "title": "Melissa - Ryan Hakomi-transcript-2025-11-03T20-08-38.620Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "training",
+      "excluded_reason": "title matched training pattern"
+    },
+    {
+      "id": "04a3bcd5-ab79-4f98-af4a-5bd96df5c213",
+      "title": "IO Co-Creation Call-transcript-2025-11-03T16-05-50.146Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "48864df9-bf9c-49e7-885f-20206d0bd411",
+      "title": "Ryan-Jason-Matt discuss strategic framework-transcript-2025-10-17T20-03-40.497Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "56e8ffb2-31dd-44a0-8661-0372a90a6d57",
+      "title": "Jason - Ryan Vaughn- Talk about John-transcript-2025-10-17T17-59-54.887Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "session_type=internal_meeting"
+    },
+    {
+      "id": "a3d7fd40-922b-4e8f-b640-fce7cdd5526f",
+      "title": "Derek-Ryan Connect-transcript-2025-10-17T17-34-50.644Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "2ff16f98-19ad-4044-9011-732948f43734",
+      "title": "ryan-leadinsideout-transcript-2025-10-17T17-06-03.406Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "session_type=internal_meeting"
+    },
+    {
+      "id": "f9d0623b-6322-458d-8662-ab528d55be58",
+      "title": "LinkedIn Strategy- Ryan- Jason- John - Jem-transcript-2025-10-17T16-33-40.473Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "87a4d1ae-08df-4a25-b904-6bc1aa71285e",
+      "title": "EJ Merkert - Ryan Vaughn-transcript-2025-10-17T16-32-45.244Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "session_type=sales_call"
+    },
+    {
+      "id": "64986f73-05ca-4742-9e57-3024b1887b54",
+      "title": "IO Co-Creation Call-transcript-2025-10-16T14-46-17.421Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "c38da6da-cca8-4b2f-b215-0cf2addfe5ea",
+      "title": "IO AI Meeting-transcript-2025-10-14T16-10-49.434Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "23e9ed8f-3763-4e71-a5dd-1961657cecc6",
+      "title": "Ryan - Jem-transcript-2025-10-13T20-59-50.738Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "ab818f74-0f5e-4e29-adc4-79b2ee5722ca",
+      "title": "Ryan - Amita IFS work-transcript-2025-10-13T19-43-57.545Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "personal_development",
+      "excluded_reason": "title matched personal_development pattern"
+    },
+    {
+      "id": "98c72883-271a-408c-86b3-d50b6b65b13e",
+      "title": "Zain Jaffer - Ryan Vaughn-transcript-2025-10-09T16-01-15.481Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "session_type=sales_call"
+    },
+    {
+      "id": "fdbdaf29-43e8-407f-a2f9-452674727ad4",
+      "title": "Ryan H Vaughn and Emma Wood-transcript-2025-10-08T19-59-47.166Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "38d2d33f-7e5d-4aac-b0d7-47b1ceb05e35",
+      "title": "PEF Coaches - Sales-Enrollment Workshop - Brainstorm-transcript-2025-10-08T18-34-05.239Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "training",
+      "excluded_reason": "title matched training pattern"
+    },
+    {
+      "id": "eef1be90-5eba-4e2d-acf5-3bd093f2b95c",
+      "title": "Ryan - Jem-transcript-2025-10-07T19-22-34.584Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "25b716b2-a95f-43aa-a41a-8746a507659c",
+      "title": "Hampton Monthly Moderator Connect-transcript-2025-10-07T16-51-47.999Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "f40cfa35-fb33-41fa-91eb-614596995f15",
+      "title": "Scott - Ryan-transcript-2025-10-06T15-04-09.551Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "2ea1bcb6-db0e-4f10-b8e5-c1851ffb0b8b",
+      "title": "IO Vision - Contributions Meeting-transcript-2025-09-30T16-06-18.394Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "15a9f105-60e8-409a-a5c3-e54d6a2dbd5b",
+      "title": "Ryan - Jem-transcript-2025-09-29T20-55-18.104Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "8bc50506-94d6-48a6-9082-7bf0cf141302",
+      "title": "Ryan - Amita IFS work-transcript-2025-09-29T19-44-38.305Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "personal_development",
+      "excluded_reason": "title matched personal_development pattern"
+    },
+    {
+      "id": "e3c24921-dcba-4a01-82e6-6a0f02eb1423",
+      "title": "Retro for Offsite- Ryan- Matt - Jason-transcript-2025-09-29T16-34-05.044Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "957b93e1-a3f8-4b42-a14d-a14574b5ed0d",
+      "title": "Inside-Out Mutual Fit Call-transcript-2025-09-26T13-52-08.878Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "title matched sales_call pattern"
+    },
+    {
+      "id": "ec39bbf5-f5e3-4798-b850-842b9cbba225",
+      "title": "Kendall Hines - Ryan Vaughn-transcript-2025-09-25T20-19-14.985Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "session_type=sales_call"
+    },
+    {
+      "id": "f72a45eb-9bac-49f0-8ab8-3021a87c8370",
+      "title": "Structure on Embedding Organizational Support-transcript-2025-09-24T20-49-27.132Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "336468be-5175-4531-9355-e2d6d16c0ed6",
+      "title": "Retro Meeting on Monarch- Ryan - Santi-transcript-2025-09-24T20-04-27.798Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "7329028f-be8f-46df-a088-665432890572",
+      "title": "IO Fit Call- Paul-Louis Burguet - Ryan Vaughn-transcript-2025-09-24T15-53-40.767Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "title matched sales_call pattern"
+    },
+    {
+      "id": "d58acfae-e845-40c0-84d0-940264a8e650",
+      "title": "Retro Call- Kelly- Tim - Ryan-transcript-2025-09-23T20-46-16.302Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "8585d408-2095-471c-a056-4c59d3c2749e",
+      "title": "Ryan Vaughn - Matt Thieleman and Mina Lee-transcript-2025-09-23T16-02-34.560Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "3ca862d2-4e17-4c76-87ce-a92753c0d90e",
+      "title": "Ryan - Jem-transcript-2025-09-22T20-35-12.227Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "cadb4489-05f6-48f2-b9b8-ec6e9aa0b749",
+      "title": "Sasza Lohrey - Ryan Vaughn-transcript-2025-09-22T20-06-32.568Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "session_type=sales_call"
+    },
+    {
+      "id": "5388bd3e-4523-4fb2-be78-4b62e5c7e140",
+      "title": "Melissa - Ryan Hakomi-transcript-2025-09-22T19-04-02.218Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "training",
+      "excluded_reason": "title matched training pattern"
+    },
+    {
+      "id": "9192cf32-b21b-4341-bba6-8a72f0fae603",
+      "title": "Taryn x Ryan Intro-transcript-2025-09-22T17-49-14.703Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "c3b64b94-4848-4148-a49b-ac9690ed0215",
+      "title": "Retro Call- Journaling App-transcript-2025-09-22T16-06-05.349Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "4ae56f7e-b7f8-454c-ba87-e13a6ab429b1",
+      "title": "IO Fit Call- Steve Shideler - Ryan Vaughn-transcript-2025-09-17T16-13-03.922Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "title matched sales_call pattern"
+    },
+    {
+      "id": "ddb0d74d-4eea-478b-a3f3-47dced21c5c2",
+      "title": "Copiloting with Pranab and Ryan-transcript-2025-09-17T15-02-41.057Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "69aa279e-772c-4145-aa2a-1e7029ece2e1",
+      "title": "IO Fit Call- Joey Kim - Ryan Vaughn-transcript-2025-09-15T20-45-54.788Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "title matched sales_call pattern"
+    },
+    {
+      "id": "d0ed9866-7c75-45b1-b22d-fbcd3291a59d",
+      "title": "Carleigh Finch _ Ryan Vaughn-transcript-2025-09-15T20-01-13.695Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "session_type=sales_call"
+    },
+    {
+      "id": "139afb6b-cde8-4758-8976-641417662fea",
+      "title": "Ryan - Amita IFS work-transcript-2025-09-15T19-32-54.793Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "personal_development",
+      "excluded_reason": "title matched personal_development pattern"
+    },
+    {
+      "id": "0c035d2e-9c7d-4675-ab06-41c763d511d0",
+      "title": "IO AI Meeting-transcript-2025-09-15T15-09-03.285Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "0e99b593-5af4-4b08-86d1-1c8639a14bf0",
+      "title": "Jonny - I-O coach matching-transcript-2025-09-12T20-53-11.734Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "title matched sales_call pattern"
+    },
+    {
+      "id": "dbf1002e-36f7-44a8-bb70-fdd34f0e7947",
+      "title": "Kayla Carreiro - Ryan Vaughn-transcript-2025-09-12T17-07-31.533Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "session_type=sales_call"
+    },
+    {
+      "id": "6b6959cb-5950-46c2-aa56-32df94cd4079",
+      "title": "Inside-Out Mutual Fit Call-transcript-2025-09-09T20-03-14.952Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "title matched sales_call pattern"
+    },
+    {
+      "id": "daae07cc-1d5a-464b-bc10-5c155e3c98b2",
+      "title": "Ryan - Jem-transcript-2025-09-08T20-11-49.277Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "3ce0eed3-cf32-4291-852d-ccbd61ed868b",
+      "title": "Melissa - Ryan Hakomi-transcript-2025-09-08T19-09-14.769Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "training",
+      "excluded_reason": "title matched training pattern"
+    },
+    {
+      "id": "b07528a4-cf68-4992-8390-e9addca0c419",
+      "title": "Edward Norton- DVP - IDV- Reimagining the Board Meeting-transcript-2025-09-08T16-31-13.601Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "session_type=internal_meeting"
+    },
+    {
+      "id": "81c52d12-e92f-44a6-bbd6-26409b58d327",
+      "title": "IO Co-Creation Call-transcript-2025-09-05T16-07-02.612Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "3f6bcd46-5b9c-4e8e-9163-55249be7e077",
+      "title": "Mina Lee - Ryan Vaughn-transcript-2025-09-03T16-22-03.280Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "4d706f89-16f9-4e61-83d7-ca4133434fde",
+      "title": "Ryan - Jem-transcript-2025-09-02T17-12-10.452Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "69d09c9a-fc47-4bd2-8d7a-9010763c1dfa",
+      "title": "Gabor Soter _ Ryan Vaughn - JJ Vega-transcript-2025-09-02T16-27-41.364Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "session_type=sales_call"
+    },
+    {
+      "id": "ccd633f5-a1c0-4ce3-9ab7-8240d34c44f5",
+      "title": "I-O - SixTwentySix- proposal review-transcript-2025-08-29T19-02-58.759Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "65781314-f8a6-4f30-8d3a-3c3790c4c64f",
+      "title": "Astrid Korin _ Ryan Vaughn-transcript-2025-08-29T16-33-50.097Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "session_type=sales_call"
+    },
+    {
+      "id": "8f581272-336c-4376-947c-bde6dc403a97",
+      "title": "Ryan Vaughn _ Ricky Sperber-transcript-2025-08-29T16-03-28.129Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "7dcd2faf-ea4f-45e9-ba18-a0c8c952d4cd",
+      "title": "Ryan Vaughn and Itay Forer-transcript-2025-08-29T15-32-49.941Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "93a57b68-5a2b-4517-940b-1c142227e0f6",
+      "title": "Ryan Vaughn _ Haley Hughes - Josh Felser-transcript-2025-08-27T20-57-26.378Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "144090cc-5ed1-4591-849a-cd977c65afc2",
+      "title": "Sasza Lohrey _ Ryan Vaughn-transcript-2025-08-27T19-41-54.232Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "session_type=sales_call"
+    },
+    {
+      "id": "855cd925-d58d-4877-89a8-db2bb0c07e3c",
+      "title": "Nnamdi Ugwu _ Ryan Vaughn-transcript-2025-08-26T17-47-20.209Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "session_type=sales_call"
+    },
+    {
+      "id": "03a02bf6-7b80-41f8-ae41-827924cd9488",
+      "title": "Santi and Ryan-transcript-2025-08-25T22-09-56.139Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "bbbbd70b-c198-4479-8a18-9d53242d5aaa",
+      "title": "CoachGPT- Retro Call with Nick-transcript-2025-08-25T20-00-44.829Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "64e52f67-52b1-498b-a58c-9a209fb81b63",
+      "title": "Ryan Vaughn(Inside-Out Leadership) _ Barak and Shlomo-transcript-2025-08-25T19-47-01.909Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "96e9ec3c-c0de-4f22-99de-e4c469d45b22",
+      "title": "Ryan- Ted- EJ discuss GP retreat-transcript-2025-08-25T18-47-42.805Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "session_type=internal_meeting"
+    },
+    {
+      "id": "ee9a940b-f127-4b3e-b30e-cd8e531b0b76",
+      "title": "SixTwentySix _ Inside-Out Leadership- Operating System-transcript-2025-08-22T18-14-14.315Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "ca56e14a-32e5-420b-ac48-f1ed0f3f48b8",
+      "title": "SixTwentySix _ Inside-Out Leadership- Operating System-transcript-2025-08-22T18-06-43.686Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "da2e1f67-31b3-4c26-9809-1122680a201a",
+      "title": "Ryan - Josh Ross reconnect-transcript-2025-08-22T15-36-02.859Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "7e55c695-68f3-42ed-b215-fab99aa9ed59",
+      "title": "Mina Lee - Ryan Vaughn-transcript-2025-08-21T19-04-04.684Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "f151d445-0c1a-447d-b7b3-759d3194dac1",
+      "title": "Ryan Vaughn - Receptiviti-transcript-2025-08-21T18-35-14.063Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "session_type=internal_meeting"
+    },
+    {
+      "id": "55be7d31-3094-45ad-a381-21a7cd8cdb05",
+      "title": "Yuheng Wang _ Ryan Vaughn-transcript-2025-08-19T16-09-04.896Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "session_type=sales_call"
+    },
+    {
+      "id": "b99e3eb8-75e6-4a9e-a1c7-17ebc09241f8",
+      "title": "Ryan - Jem-transcript-2025-08-18T20-15-08.083Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "f53a97fb-cf0a-47b0-9070-6d51b395dc03",
+      "title": "IO AI Meeting-transcript-2025-08-18T15-31-06.366Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "d25d3fbe-d7c4-4460-8c2f-c8fa17be0971",
+      "title": "Ryan Vaughn and Glenn Rubenstein-transcript-2025-08-13T19-42-21.160Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "e3a60e58-6f1c-4090-85d3-e14c2b888c4a",
+      "title": "Ryan- Jason- Matt align on Grand VC off-site-transcript-2025-08-13T18-55-11.918Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "a60e5fee-39ae-4ae0-8ce2-aa6c31c0416b",
+      "title": "Discuss about Justin-s Exit with Matt-transcript-2025-08-13T18-03-59.601Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "session_type=internal_meeting"
+    },
+    {
+      "id": "111ba1a8-0550-4c71-85e7-57eec7ed79e2",
+      "title": "Facilitator Office Hours with Core-transcript-2025-08-13T16-46-20.553Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "training",
+      "excluded_reason": "title matched training pattern"
+    },
+    {
+      "id": "26f0a3e4-e0b2-4fe2-a5c4-2a303befccb3",
+      "title": "Melissa - Ryan Hakomi-transcript-2025-08-11T19-12-25.629Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "training",
+      "excluded_reason": "title matched training pattern"
+    },
+    {
+      "id": "c5bc7cdb-529b-4cd0-8570-4bc31d1e3175",
+      "title": "I-O Fit Call- Rich Gerbe _ Ryan Vaughn-transcript-2025-08-08T15-07-57.132Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "title matched sales_call pattern"
+    },
+    {
+      "id": "9a93d69e-6a71-4b60-9f7f-d688b00f9506",
+      "title": "Collab chat with Bamboo Ann Arbor-transcript-2025-08-07T20-01-12.198Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "dfb14463-d246-4709-9494-c96bd4969856",
+      "title": "Ryan Vaughn and Astrid Schanz-Garbassi-transcript-2025-08-05T17-01-10.347Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "c1bce99a-e6d9-442b-952d-949530dd7015",
+      "title": "Ryan - Jem-transcript-2025-08-04T20-51-43.032Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "401861f0-6d14-482a-923a-6406cf79df99",
+      "title": "Ryan - Amita IFS work-transcript-2025-08-04T19-49-01.521Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "personal_development",
+      "excluded_reason": "title matched personal_development pattern"
+    },
+    {
+      "id": "e8d1f4b5-cd1a-450b-9f9e-238c8e54b8c7",
+      "title": "Ryan Vaughn - Philippe Vella-transcript-2025-08-04T17-47-55.871Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "dc1f3267-fc12-4030-8e4a-46708e9da524",
+      "title": "Coach AI x RapidDev Sync-transcript-2025-08-04T16-46-10.404Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "95dad97a-43f7-4dc4-8314-464e888049a2",
+      "title": "Ryan - Jem-transcript-2025-07-25T20-07-50.940Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "b8370998-f45e-4812-9831-63f6c0310a15",
+      "title": "Ryan - Matt discuss Bamboo-transcript-2025-07-25T19-18-48.113Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "e7b4fc17-b94c-4d9a-969d-1de7d83c9fc2",
+      "title": "Ryan- Matt- Jason quick touch base-transcript-2025-07-25T19-00-14.756Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "578f72c1-a6c7-435f-8ffc-721d24e5dc53",
+      "title": "Lulu Liang _ Ryan Vaughn-transcript-2025-07-25T16-01-35.255Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "session_type=sales_call"
+    },
+    {
+      "id": "245114e9-ac55-4db7-926a-d62679ece572",
+      "title": "Ryan - Bruno discuss coaching-transcript-2025-07-21T21-48-38.082Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "22baa1d8-8b62-480a-8800-60d1b15c4494",
+      "title": "Fritz Lensch _ Ryan Vaughn-transcript-2025-07-21T18-34-23.718Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "173cab7d-c57f-4c58-b8d4-a4b000fc24cd",
+      "title": "Ryan Vaughn and William Dickinson-transcript-2025-07-21T18-02-39.911Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "f14014e7-9822-4e6c-9935-8e2390bd27bd",
+      "title": "Ryan Vaughn _ Philip Swanson- Dennis Shaver - Margarit-transcript-2025-07-18T18-14-52.561Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "6dd259bc-1103-4d0f-ab09-35061aa4a94f",
+      "title": "Ryan Vaughn and Karl Brandt-transcript-2025-07-17T17-07-20.330Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "3304a3c7-dc4b-4f0a-b45b-6586204a89d7",
+      "title": "Katie Birge _ Ryan Vaughn-transcript-2025-07-15T19-54-45.010Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "054f1a0f-b231-42dc-ba41-5c4e666d63d7",
+      "title": "Ryan- Ted- Kristina talk fund manager retreat-transcript-2025-07-15T17-28-33.309Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "3acf6697-03e1-4841-a740-08b28f16d138",
+      "title": "Ryan - Jem-transcript-2025-07-14T20-33-50.854Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "ed56765c-1a03-4263-9bc6-2361625b3ce8",
+      "title": "Melissa - Ryan Hakomi-transcript-2025-07-14T19-04-38.245Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "training",
+      "excluded_reason": "title matched training pattern"
+    },
+    {
+      "id": "34f5f351-a0ee-4a64-9667-d5bcf30dd477",
+      "title": "Ryan Vaughn _ Mike Algrim-transcript-2025-07-11T20-16-38.832Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "cd8124b4-86d1-4de1-8ad6-82363be67e13",
+      "title": "Ryan Vaughn and Amanda Lewan-transcript-2025-07-11T16-25-57.151Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "b757b241-1e5f-4aa3-8613-02c148d15d16",
+      "title": "IO Co-Creation Call-transcript-2025-07-11T16-06-02.449Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched internal_meeting pattern"
+    },
+    {
+      "id": "01b9ae92-8f0e-442f-aae6-31f10d6d3256",
+      "title": "Jon Robin - Inside-Out Mutual Fit Call-transcript-2025-07-08T20-46-43.121Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "title matched sales_call pattern"
+    },
+    {
+      "id": "82b6c82a-3c37-40e9-b174-d448db1fa791",
+      "title": "Ryan - Jem-transcript-2025-07-07T21-08-02.848Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "93db5cb1-cef4-45d8-b005-e552bf2f31c4",
+      "title": "Matthew Attou _ Ryan Vaughn-transcript-2025-07-07T17-49-11.731Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "session_type=sales_call"
+    },
+    {
+      "id": "18ffff2d-d849-4c0a-96c8-3d5151f1e2f4",
+      "title": "Ryan Vaughn _ Shayn Diamond-transcript-2025-07-07T15-44-18.938Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "2757072f-a406-493f-b807-18d71093f52d",
+      "title": "Ryan Vaughn _ Jay Krause-transcript-2025-07-02T15-59-53.341Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "efd1507b-12c0-4bfc-96be-0667cf84d94b",
+      "title": "Fit-Call- Barron Caster _ Ryan Vaughn-transcript-2025-07-01T16-58-00.270Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "sales_call",
+      "excluded_reason": "title matched sales_call pattern"
+    },
+    {
+      "id": "5ca366bb-64a5-411d-9991-44c3d3ff6d10",
+      "title": "Ryan - Jem-transcript-2025-06-30T20-58-47.671Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "d847c5cf-a1e1-41b9-a640-4279b46deec9",
+      "title": "Ryan Vaughn _ Matt Auron - Dan Hunt-transcript-2025-06-30T20-11-54.616Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "d387489a-8682-4c5f-bc52-982803ba3bdd",
+      "title": "Melissa - Ryan Hakomi-transcript-2025-06-30T19-00-08.438Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "training",
+      "excluded_reason": "title matched training pattern"
+    },
+    {
+      "id": "e8a8986e-a962-4d14-8e56-2594999b807c",
+      "title": "Ryan Vaughn _ AJ Mizes-transcript-2025-06-30T17-53-21.454Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "08f54b5c-6eeb-4a59-8601-4e4cb11b4f3d",
+      "title": "Ted- Jim- - Ryan discuss VC Retreat-transcript-2025-06-30T17-05-00.522Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "session_type=internal_meeting"
+    },
+    {
+      "id": "138f77a3-c8ab-4e62-966e-c0e6f8b826ef",
+      "title": "Facilitator Training- MITs - Reflections led by Peter C-transcript-2025-06-26T19-31-49.769Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "training",
+      "excluded_reason": "title matched training pattern"
+    },
+    {
+      "id": "bcc4ddde-12af-4e2e-a7ac-81c0c89b124d",
+      "title": "Ryan Vaughn _ Guy Turner-transcript-2025-06-26T15-45-32.573Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "411f3e48-2c8c-4ac1-ae71-b13d0b649c13",
+      "title": "Ryan - Jem-transcript-2025-06-23T20-46-05.628Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "9cc59da4-e406-42cb-8770-8fb5098124e4",
+      "title": "Zoom- Ryan (Inside-Out Leadership) - Ritik (Savvy Wealt-transcript-2025-06-23T19-06-18.066Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "e00bc4c1-b073-4c4a-a2f2-6bf2640f40ff",
+      "title": "Ryan _ Kristina - Founder Health Retreat-transcript-2025-06-23T18-34-21.912Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "6530b851-873e-48d4-aa45-c06ef93e65c9",
+      "title": "Ryan Vaughn _ Chad Todd-transcript-2025-06-23T17-39-10.007Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "1bf0ee4a-74b8-4b76-889b-e440c4d809d0",
+      "title": "Talk retreats with Ryan Jason Matt-transcript-2025-06-13T19-02-20.995Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "session_type=internal_meeting"
+    },
+    {
+      "id": "0e4415f0-775b-41e0-9ad1-b90fcb29e057",
+      "title": "Ryan - Jacob - Thoughtleadr-transcript-2025-06-13T15-18-27.922Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "89d47478-328e-4923-8be7-09f2761da736",
+      "title": "Ryan - Brian connect-transcript-2025-06-13T15-16-10.179Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "f9c30dce-5093-461a-9ffc-797e32102e7a",
+      "title": "Andrea-Jason session-transcript-2025-06-04T13-52-56.904Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "other_coach_session",
+      "excluded_reason": "title matched other_coach_session pattern"
+    },
+    {
+      "id": "a009278e-6180-44fa-9054-6e9be196cdab",
+      "title": "Ryan - Jem-transcript-2025-06-03T19-11-26.391Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "staff_1on1",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    },
+    {
+      "id": "ff34dce7-94ff-4a3b-9805-344158a6aa3c",
+      "title": "Ryan Vaughn and Darren Clifford-transcript-2025-06-02T20-05-07.796Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "3dd35a4d-4f43-45df-bd61-6a9a8bc6a322",
+      "title": "Melissa - Ryan Hakomi-transcript-2025-06-02T19-03-18.468Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "training",
+      "excluded_reason": "title matched training pattern"
+    },
+    {
+      "id": "d300b9e0-9dbf-4b7e-976d-015bdfb2857a",
+      "title": "Ryan Vaughn _ Jordan Morgan-transcript-2025-05-30T18-09-44.373Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "networking",
+      "excluded_reason": "session_type=networking"
+    },
+    {
+      "id": "831f1801-79ae-4611-b82b-8a189c2ff9ca",
+      "title": "Ryan - Santi-transcript-2025-05-28T22-03-54.583Z",
+      "coach_name": "Ryan Vaughn",
+      "session_type": "internal_meeting",
+      "excluded_reason": "title matched staff_1on1 pattern"
+    }
+  ],
+  "new_clients_needed": [],
+  "manual_review_queue": [
+    {
+      "id": "c34639bb-6286-4f4d-92ea-1d5e9dc25099",
+      "session_date": "2026-02-18T00:00:00",
+      "created_at": "2026-02-18T19:55:41.39221",
+      "title": "Intro Call w/ Rob Scott - Flywheel Growth Engines",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Rob Scott",
+        "Ryan"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 30.43000030517578,
+      "transcript_url": "https://app.fireflies.ai/view/01KH967Y3YHJBX82HDF8T3M38B",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Flywheel Growth Engines"
+      }
+    },
+    {
+      "id": "a07644cf-54c1-4ff8-86df-963efe819530",
+      "session_date": "2026-02-17T00:00:00",
+      "created_at": "2026-02-17T21:05:22.005448",
+      "title": "Mattia & Ryan",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Mattia Gheda",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 29.729999542236328,
+      "transcript_url": "https://app.fireflies.ai/view/01KFH0M033YWWWTMNM0AXN7XAV",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Mattia"
+      }
+    },
+    {
+      "id": "7c211717-5807-42a3-9cf5-f2122811b15f",
+      "session_date": "2026-02-13T00:00:00",
+      "created_at": "2026-02-13T17:56:47.805165",
+      "title": "Inside-Out X Vance & Company || Bi-Weekly Interview",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "title contains name pair, extracted: \"Inside-Out X Vance\"",
+      "speaker_count": 3,
+      "speakers": [
+        "Adam Barr",
+        "Samantha Veneklase",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 11.100000381469727,
+      "transcript_url": "https://app.fireflies.ai/view/01KGWBATAF2DH7SKV07F2RMXDK",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Inside-Out X Vance"
+      }
+    },
+    {
+      "id": "150f6bf8-7051-41c5-b522-70cf58f7db8c",
+      "session_date": "2026-02-09T00:00:00",
+      "created_at": "2026-02-09T19:37:55.186438",
+      "title": "Inside-Out x Vance | Onboarding",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "title contains name pair, extracted: \"Inside\"",
+      "speaker_count": 5,
+      "speakers": [
+        "Caton Vance",
+        "Ryan Vaughn",
+        "Jemaima Mesina",
+        "Dominic Cipolla",
+        "Samantha"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 31.399999618530273,
+      "transcript_url": "https://app.fireflies.ai/view/01KGQFHBG303KBZXNFAZ5HKDJH",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Inside"
+      }
+    },
+    {
+      "id": "39faa03d-7740-44e3-84c6-1d30d3954985",
+      "session_date": "2026-02-06T00:00:00",
+      "created_at": "2026-02-12T19:32:57.240804",
+      "title": "Inside Out <> ST Ventures Lab",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "title contains name pair, extracted: \"Inside Out\"",
+      "speaker_count": 5,
+      "speakers": [
+        "Kristi DeLozier",
+        "Ryan Vaughn",
+        "Micah Baldwin",
+        "Keeisi Caballero",
+        "Matt Thieleman"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 53.20000076293945,
+      "transcript_url": "https://app.fireflies.ai/view/01KGG19NF45F2NEJE7B82YVTSX",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Inside Out"
+      }
+    },
+    {
+      "id": "2a6d7d8c-dbdb-4b63-85ab-649ce4df24d3",
+      "session_date": "2026-02-02T00:00:00",
+      "created_at": "2026-02-02T17:28:50.619222",
+      "title": "JourneyLoop Demo between Marco Lamina and JJ Vega",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Marco Lamina",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 27.290000915527344,
+      "transcript_url": "https://app.fireflies.ai/view/01KG0GTPTN6RGBGA0SFCWAV94K",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "JourneyLoop Demo between Marco Lamina"
+      }
+    },
+    {
+      "id": "5a3221bf-44b5-42d3-aef3-501337735230",
+      "session_date": "2026-02-02T00:00:00",
+      "created_at": "2026-02-02T23:02:58.793561",
+      "title": "CEO Calendar Workflow session",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Joel Garcia",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 64.11000061035156,
+      "transcript_url": "https://app.fireflies.ai/view/01KG7M2WMT97ZFDRNWTBE80W0J",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "8ccd5675-3850-4b1b-a182-81ec6ce3c24b",
+      "session_date": "2026-01-30T00:00:00",
+      "created_at": "2026-01-30T18:58:48.390726",
+      "title": "Tarikh & Ryan",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Tarikh Korula",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 46.5099983215332,
+      "transcript_url": "https://app.fireflies.ai/view/01KFP77PNNSPQDPDVR4RP6XZV1",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Tarikh"
+      }
+    },
+    {
+      "id": "53082285-8e2e-493b-bf54-9cecf0e81df9",
+      "session_date": "2026-01-30T00:00:00",
+      "created_at": "2026-01-30T18:58:33.945116",
+      "title": "jason@leadinsideout.io - Fri, 30 Jan 2026 13:05:08 EST - Untitled",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "unclear",
+      "classification_reason": "session_type=untagged, 3 speakers, no matching patterns",
+      "speaker_count": 3,
+      "speakers": [
+        "Andrea Holland",
+        "Raza Kassar",
+        "Jason Pliml"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 45.22999954223633,
+      "transcript_url": "https://app.fireflies.ai/view/01KG819311P0QYE56R17MR3XKV",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "d7250cfa-5bbb-4870-9574-00df3135b46b",
+      "session_date": "2026-01-29T00:00:00",
+      "created_at": "2026-01-29T21:54:45.058921",
+      "title": "Ted Serbinski <> Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Ted Serbinski"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 37.77000045776367,
+      "transcript_url": "https://app.fireflies.ai/view/01KFZZ69XFM8TBKFBD1EWTJD2C",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Ted Serbinski"
+      }
+    },
+    {
+      "id": "99a93452-4811-48de-8d92-3f2e29441707",
+      "session_date": "2026-01-28T00:00:00",
+      "created_at": "2026-01-28T20:22:07.786148",
+      "title": "Ryan Vaughn | Jen & Bob Westerfield",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Jennifer Westerfield"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 59.970001220703125,
+      "transcript_url": "https://app.fireflies.ai/view/01KFH0M039T9VK5X9TS7HKYY63",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Bob Westerfield"
+      }
+    },
+    {
+      "id": "0aa9a120-2d23-488c-95b3-76a4751011d2",
+      "session_date": "2026-01-21T00:00:00",
+      "created_at": "2026-01-21T18:09:14.804658",
+      "title": "Hampton: Transitioning to the New Core Model",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "unclear",
+      "classification_reason": "session_type=untagged, 8 speakers, no matching patterns",
+      "speaker_count": 8,
+      "speakers": [
+        "Hampton Member Experience",
+        "Hampton Member Experience",
+        "Marshall Hayes",
+        "Lauren Meagher",
+        "Rachel Peck",
+        "Euxie",
+        "Jason Pliml",
+        "Stephanie Redlener"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 62.540000915527344,
+      "transcript_url": "https://app.fireflies.ai/view/01KEZ5A2PG4ERBP6XWSDV5JFEY",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "24874284-0d5c-472e-9523-2667e7f611e0",
+      "session_date": "2025-12-22T00:00:00",
+      "created_at": "2025-12-22T16:37:35.262022",
+      "title": "ryan@leadinsideout.io - Mon, 22 Dec 2025 16:09:03 UTC - Untitled",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Brendan Mahoney"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 25.989999771118164,
+      "transcript_url": "https://app.fireflies.ai/view/01KD3D4GNYSRT046DJWP5GBMET",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "651fec5e-f1d7-40bb-8c5b-d8dc72b56b9f",
+      "session_date": "2025-12-10T00:00:00",
+      "created_at": "2025-12-10T18:58:54.392089",
+      "title": "JJ Fireflies <> UDL Auto-Save Test 4",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "test_data",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "title contains name pair, extracted: \"UDL Auto-Save Test 4\"",
+      "speaker_count": 1,
+      "speakers": [
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 6.400000095367432,
+      "transcript_url": "https://app.fireflies.ai/view/01KC4S5K51PKMC1E66TK6V2J4P",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "UDL Auto-Save Test 4"
+      }
+    },
+    {
+      "id": "3ad6b722-273c-4ad3-bfce-4420613e7adc",
+      "session_date": "2025-12-04T00:00:00",
+      "created_at": "2025-12-04T15:21:10.618836",
+      "title": "JJ <> Fireflies UDL Test 3",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "test_data",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "title contains name pair, extracted: \"Fireflies UDL Test 3\"",
+      "speaker_count": 0,
+      "speakers": [],
+      "attendee_emails": [],
+      "duration_seconds": 4.710000038146973,
+      "transcript_url": "https://app.fireflies.ai/view/01KBMSMDCY5FVYQNXM9NNFTRFD",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Fireflies UDL Test 3"
+      }
+    },
+    {
+      "id": "d60b264b-beda-4a33-a72f-621ac0624ebc",
+      "session_date": "2025-12-02T00:00:00",
+      "created_at": "2025-12-04T15:21:11.603595",
+      "title": "JJ Fireflies <> UDL Auto-Save Test 2",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "test_data",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "title contains name pair, extracted: \"UDL Auto-Save Test 2\"",
+      "speaker_count": 1,
+      "speakers": [
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 4.010000228881836,
+      "transcript_url": "https://app.fireflies.ai/view/01KBFWGQR4T3BJWWAGVDVT9F7B",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "UDL Auto-Save Test 2"
+      }
+    },
+    {
+      "id": "0d83dc82-0441-4158-b8d1-fcb383ddd0e9",
+      "session_date": "2025-11-20T00:00:00",
+      "created_at": "2025-12-18T20:43:41.554781",
+      "title": "Thoughtleader - Ryan Vaughn (Content Call)",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "other",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Alexander Perkins"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 35.220001220703125,
+      "transcript_url": "https://app.fireflies.ai/view/01KADR17QNZQC9RB9M1H87R50W",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Thoughtleader"
+      }
+    },
+    {
+      "id": "758a88a6-4a39-4b1e-b4d6-2eb474225883",
+      "session_date": "2025-11-16T00:00:00",
+      "created_at": "2026-02-12T19:11:08.435265",
+      "title": "League of Extraordinary Gentlemen talks with an Extraordinary Gentleman (Iain McGilchrist)",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "unclear",
+      "classification_reason": "session_type=untagged, 6 speakers, no matching patterns",
+      "speaker_count": 6,
+      "speakers": [
+        "Ryan Vaughn",
+        "Iain McGilchrist",
+        "J Tower",
+        "Ben VerWys",
+        "Ryan Kilpatrick",
+        "Andy Van Solkema"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 135.1999969482422,
+      "transcript_url": "https://app.fireflies.ai/view/01K9QQVMEBT4SGXVH3QHKMGFJ5",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "61c9d6e6-2b99-462e-b3ef-8105e0358b23",
+      "session_date": "2025-11-14T00:00:00",
+      "created_at": "2026-02-12T19:14:54.159317",
+      "title": "Brian Wang <> Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Brian Wang"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 45.77000045776367,
+      "transcript_url": "https://app.fireflies.ai/view/01K5V9330VAJ47W9CHQ15X7CEB",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Brian Wang"
+      }
+    },
+    {
+      "id": "49e99bf0-f39c-4eb8-bb9a-e512c726b80d",
+      "session_date": "2025-11-14T00:00:00",
+      "created_at": "2026-02-12T19:11:31.881416",
+      "title": "Ryan:Tim LE Connect",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Timothy Bragassa",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 30.1299991607666,
+      "transcript_url": "https://app.fireflies.ai/view/01K9QQVMDMQVPB7HW5MJB2QVW3",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "a47f7b48-9844-4681-a0f8-35d148176309",
+      "session_date": "2025-11-10T00:00:00",
+      "created_at": "2026-02-12T19:18:39.493445",
+      "title": "Corinda Hayes <> Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Corinda",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 24.780000686645508,
+      "transcript_url": "https://app.fireflies.ai/view/01K9JV5EVPFT5DAFRT00M6ZSDX",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Corinda Hayes"
+      }
+    },
+    {
+      "id": "11439258-8eaa-47d5-a2a2-6fda1e75d91e",
+      "session_date": "2025-11-10T00:00:00",
+      "created_at": "2026-02-12T19:18:14.876916",
+      "title": "Laker Launchpad GVSU: Ryan Vaughn, Josh Ross & Jake Rossi",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Josh Ross"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 34.619998931884766,
+      "transcript_url": "https://app.fireflies.ai/view/01K9JV5EXG8XXMVJD79DA1FTQ0",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Jake Rossi"
+      }
+    },
+    {
+      "id": "e0ba0dc4-50d5-434c-b3d6-daae100a4e3b",
+      "session_date": "2025-09-03T19:38:12",
+      "created_at": "2025-12-09T12:07:06.656135",
+      "title": "Ryan Vaughn _ 17144044911 -+17144044911- on Sep 3- 202-transcript-2025-09-03T19-38-12.745Z",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "miscellaneous",
+      "source": "manual_import",
+      "classification": "unclear",
+      "classification_reason": "session_type=miscellaneous, 0 speakers, no matching patterns",
+      "speaker_count": 0,
+      "speakers": [],
+      "attendee_emails": [],
+      "duration_seconds": null,
+      "transcript_url": null,
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    }
+  ]
+}

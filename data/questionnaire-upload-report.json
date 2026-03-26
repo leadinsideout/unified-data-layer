@@ -1,0 +1,98 @@
+{
+  "timestamp": "2026-02-05T17:58:45.367Z",
+  "dry_run": false,
+  "batch_tag": "questionnaires-2026-02",
+  "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+  "coach_name": "Ryan Vaughn",
+  "results": {
+    "success": [
+      {
+        "success": true,
+        "data_item_id": "e8687daf-c9ac-4ed5-ae37-093487faf2b6",
+        "chunks_created": 3,
+        "source_file": "Coaching Intake Questionnaire - Brandon Glickenstein (1).xlsx"
+      },
+      {
+        "success": true,
+        "data_item_id": "e6f7c4e1-2895-452b-baa2-6ddbdaf59901",
+        "chunks_created": 1,
+        "source_file": "Coaching Intake Questionnaire -- Sept 2020 33.csv"
+      },
+      {
+        "success": true,
+        "data_item_id": "f9551143-4b61-444a-9480-2bef7651c52a",
+        "chunks_created": 4,
+        "source_file": "Coaching Intake Questionnaire -- Sept 2020 41 with notes.xlsx"
+      },
+      {
+        "success": true,
+        "data_item_id": "39c08166-4d5f-44ca-aee0-885914ab56a3",
+        "chunks_created": 7,
+        "source_file": "Coaching Intake Questionnaire -- Sept 2020 46.xlsx"
+      },
+      {
+        "success": true,
+        "data_item_id": "2311954b-927a-4a18-b496-b8b6d7482e86",
+        "chunks_created": 5,
+        "source_file": "Coaching Intake Questionnaire -- Sept 2020 49 (1).xlsx"
+      },
+      {
+        "success": true,
+        "data_item_id": "a98f055a-e1fd-43ee-9822-03b2958f1c9d",
+        "chunks_created": 5,
+        "source_file": "Fred - Coaching Intake Questionnaire -- with notes.xlsx"
+      }
+    ],
+    "failed": [],
+    "skipped": [
+      {
+        "file": "Amar Kumar - Coaching Intake Questionnaire with notes.xlsx",
+        "reason": "Already exists"
+      },
+      {
+        "file": "Brad Hoos - Coaching Intake Questionnaire (1).xlsx",
+        "reason": "Already exists"
+      },
+      {
+        "file": "Coaching Intake Questionnaire -- Chris Fredericks with notes.xlsx",
+        "reason": "Already exists"
+      },
+      {
+        "file": "Coaching Intake Questionnaire -- Grant Gunnison w notes.xlsx",
+        "reason": "Already exists"
+      },
+      {
+        "file": "George Pallis -- Coaching Intake Questionnaire 121222.xlsx",
+        "reason": "Already exists"
+      },
+      {
+        "file": "Kim Moore - Coaching Intake Questionnaire (1).xlsx",
+        "reason": "Already exists"
+      },
+      {
+        "file": "Michael Ragheb Intake Questionnaire with notes (1).csv",
+        "reason": "Already exists"
+      },
+      {
+        "file": "Nick Neuman -- Coaching Intake Questionnaire with notes.xlsx",
+        "reason": "Already exists"
+      },
+      {
+        "file": "Pete Martin Coaching Intake Questionnaire -- with notes (1).xlsx",
+        "reason": "Already exists"
+      },
+      {
+        "file": "Sarah Fu - Intake Questionnaire (1).xlsx",
+        "reason": "Empty or too short"
+      }
+    ],
+    "clientsCreated": [
+      "Brandon Glickenstein",
+      "Unknown Client 33",
+      "Unknown Client 41",
+      "Unknown Client 46",
+      "Unknown Client 49",
+      "Fred"
+    ]
+  }
+}

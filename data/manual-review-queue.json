@@ -1,0 +1,2403 @@
+{
+  "generated_at": "2026-02-20T15:08:17.662Z",
+  "total": 83,
+  "by_coach": {
+    "Ryan Vaughn": 40,
+    "Jason Pliml": 20,
+    "JJ Vega": 22,
+    "Matt Thieleman": 1
+  },
+  "transcripts": [
+    {
+      "id": "a1b7f66d-f20f-451a-bdd4-c7214a0d90cc",
+      "session_date": "2026-02-16T00:00:00",
+      "created_at": "2026-02-16T21:55:32.486257",
+      "title": "Nick & Ryan Session",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Nick Neuman",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 79.08999633789062,
+      "transcript_url": "https://app.fireflies.ai/view/01KH1NAWP3A2V8EVGTF87PWFMV",
+      "linking": {
+        "action": "link_existing",
+        "confidence": "medium",
+        "method": "name_fuzzy",
+        "proposed_client_id": "61c65473-1671-4282-802e-daac63832068",
+        "proposed_client_name": "Nick Neuman",
+        "proposed_client_email": "nick.neuman@placeholder.io",
+        "extracted_name": "Nick",
+        "match_score": 80,
+        "alternative_matches": []
+      }
+    },
+    {
+      "id": "5c97588a-3b2c-48d5-87ed-be46030289ac",
+      "session_date": "2026-02-12T00:00:00",
+      "created_at": "2026-02-12T19:09:17.365512",
+      "title": "Fred & Ryan Session",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Fred Stutzman",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 71.52999877929688,
+      "transcript_url": "https://app.fireflies.ai/view/01KGQFHBG2TZWD2H4T0K7N7MR7",
+      "linking": {
+        "action": "link_existing",
+        "confidence": "medium",
+        "method": "name_fuzzy",
+        "proposed_client_id": "916d32ca-dd15-45fa-bacc-5e92137f7f38",
+        "proposed_client_name": "Fred",
+        "proposed_client_email": "fred@placeholder.local",
+        "extracted_name": "Fred",
+        "match_score": 100,
+        "alternative_matches": [
+          {
+            "client_name": "Fred Stutzman",
+            "client_email": "fred@80pct.com",
+            "score": 80
+          },
+          {
+            "client_name": "Chris Fredericks",
+            "client_email": "chris@empowered.ventures",
+            "score": 80
+          }
+        ]
+      }
+    },
+    {
+      "id": "07776ec7-f36c-461b-932d-862ed7eaef3b",
+      "session_date": "2026-02-12T00:00:00",
+      "created_at": "2026-02-13T00:52:56.889068",
+      "title": "Fred & Ryan Session",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Fred Stutzman",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 71.52999877929688,
+      "transcript_url": "https://app.fireflies.ai/view/01KGQFHBG2TZWD2H4T0K7N7MR7",
+      "linking": {
+        "action": "link_existing",
+        "confidence": "medium",
+        "method": "name_fuzzy",
+        "proposed_client_id": "916d32ca-dd15-45fa-bacc-5e92137f7f38",
+        "proposed_client_name": "Fred",
+        "proposed_client_email": "fred@placeholder.local",
+        "extracted_name": "Fred",
+        "match_score": 100,
+        "alternative_matches": [
+          {
+            "client_name": "Fred Stutzman",
+            "client_email": "fred@80pct.com",
+            "score": 80
+          },
+          {
+            "client_name": "Chris Fredericks",
+            "client_email": "chris@empowered.ventures",
+            "score": 80
+          }
+        ]
+      }
+    },
+    {
+      "id": "a9b7ac4e-349e-435b-8208-96e3b48de309",
+      "session_date": "2026-02-10T00:00:00",
+      "created_at": "2026-02-13T00:55:23.753147",
+      "title": "Heath O'Leary and Jason Pliml",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Jason Pliml\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Jason Pliml",
+        "Heath O'Leary"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 64.33000183105469,
+      "transcript_url": "https://app.fireflies.ai/view/01KGZ2EAY1YMBZHTS3R8YQ61PN",
+      "linking": {
+        "action": "link_existing",
+        "confidence": "medium",
+        "method": "name_fuzzy",
+        "proposed_client_id": "f6ad97b6-7d84-431a-8924-694a3afc2439",
+        "proposed_client_name": "Heath O'Leary",
+        "proposed_client_email": "heath.oleary@example.com",
+        "extracted_name": "Heath O'Leary",
+        "match_score": 100,
+        "alternative_matches": []
+      }
+    },
+    {
+      "id": "fc47404d-bf2d-4e33-9687-f3c6ef49e22c",
+      "session_date": "2026-02-10T00:00:00",
+      "created_at": "2026-02-10T16:45:01.37522",
+      "title": "Heath O'Leary and Jason Pliml",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Jason Pliml\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Jason Pliml",
+        "Heath O'Leary"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 64.33000183105469,
+      "transcript_url": "https://app.fireflies.ai/view/01KGZ2EAY1YMBZHTS3R8YQ61PN",
+      "linking": {
+        "action": "link_existing",
+        "confidence": "medium",
+        "method": "name_fuzzy",
+        "proposed_client_id": "f6ad97b6-7d84-431a-8924-694a3afc2439",
+        "proposed_client_name": "Heath O'Leary",
+        "proposed_client_email": "heath.oleary@example.com",
+        "extracted_name": "Heath O'Leary",
+        "match_score": 100,
+        "alternative_matches": []
+      }
+    },
+    {
+      "id": "5afde8d8-2a2a-4c1a-8ae0-b3feaac61845",
+      "session_date": "2026-02-09T00:00:00",
+      "created_at": "2026-02-09T21:27:40.259362",
+      "title": "Ryan <> Adam",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Adam Lurie"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 29.8700008392334,
+      "transcript_url": "https://app.fireflies.ai/view/01KGQFHBG2B6X0TGF5XSCB8413",
+      "linking": {
+        "action": "link_existing",
+        "confidence": "medium",
+        "method": "name_fuzzy",
+        "proposed_client_id": "550e8400-e29b-41d4-a716-44665544000b",
+        "proposed_client_name": "Rachel Adams",
+        "proposed_client_email": "rachel.adams@growthlabs.io",
+        "extracted_name": "Adam",
+        "match_score": 80,
+        "alternative_matches": []
+      }
+    },
+    {
+      "id": "8c5d54d1-9b97-4ef9-9803-3c3796678c25",
+      "session_date": "2026-02-05T00:00:00",
+      "created_at": "2026-02-05T18:33:22.897529",
+      "title": "Nick & Ryan Session",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Nick Neuman",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 56.2599983215332,
+      "transcript_url": "https://app.fireflies.ai/view/01KG7GD8WFQE5REVXPQ6VVF7WR",
+      "linking": {
+        "action": "link_existing",
+        "confidence": "medium",
+        "method": "name_fuzzy",
+        "proposed_client_id": "61c65473-1671-4282-802e-daac63832068",
+        "proposed_client_name": "Nick Neuman",
+        "proposed_client_email": "nick.neuman@placeholder.io",
+        "extracted_name": "Nick",
+        "match_score": 80,
+        "alternative_matches": []
+      }
+    },
+    {
+      "id": "018cd18c-f2c1-4afa-8455-829c02282a17",
+      "session_date": "2026-01-29T00:00:00",
+      "created_at": "2026-01-29T19:06:06.946562",
+      "title": "Fred & Ryan Session",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Fred Stutzman"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 78.66000366210938,
+      "transcript_url": "https://app.fireflies.ai/view/01KFP77PNAYMR3XQ5QQCRVZKY2",
+      "linking": {
+        "action": "link_existing",
+        "confidence": "medium",
+        "method": "name_fuzzy",
+        "proposed_client_id": "916d32ca-dd15-45fa-bacc-5e92137f7f38",
+        "proposed_client_name": "Fred",
+        "proposed_client_email": "fred@placeholder.local",
+        "extracted_name": "Fred",
+        "match_score": 100,
+        "alternative_matches": [
+          {
+            "client_name": "Fred Stutzman",
+            "client_email": "fred@80pct.com",
+            "score": 80
+          },
+          {
+            "client_name": "Chris Fredericks",
+            "client_email": "chris@empowered.ventures",
+            "score": 80
+          }
+        ]
+      }
+    },
+    {
+      "id": "e75e5c90-dde9-4bc9-8b92-6924c6ab5fcb",
+      "session_date": "2026-01-22T00:00:00",
+      "created_at": "2026-01-22T13:59:49.15825",
+      "title": "Adrianne <> JJ Connect",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Adrianne White | E7",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 26,
+      "transcript_url": "https://app.fireflies.ai/view/01KF82DATCEEA00Z95158EBHPA",
+      "linking": {
+        "action": "link_existing",
+        "confidence": "medium",
+        "method": "name_fuzzy",
+        "proposed_client_id": "1b8b8cfb-345a-4ef1-b0f2-c094a85236da",
+        "proposed_client_name": "Adrianne White",
+        "proposed_client_email": "adrianne.white@e7solutions.com",
+        "extracted_name": "Adrianne",
+        "match_score": 80,
+        "alternative_matches": []
+      }
+    },
+    {
+      "id": "09f14d17-16fc-4845-b2e1-75515a2e3705",
+      "session_date": "2026-01-15T00:00:00",
+      "created_at": "2026-01-15T18:56:33.228116",
+      "title": "Fred & Ryan Session",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Fred Stutzman",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 71.06999969482422,
+      "transcript_url": "https://app.fireflies.ai/view/01KEWJ29A3A98Q4HH2WJYM6MVM",
+      "linking": {
+        "action": "link_existing",
+        "confidence": "medium",
+        "method": "name_fuzzy",
+        "proposed_client_id": "916d32ca-dd15-45fa-bacc-5e92137f7f38",
+        "proposed_client_name": "Fred",
+        "proposed_client_email": "fred@placeholder.local",
+        "extracted_name": "Fred",
+        "match_score": 100,
+        "alternative_matches": [
+          {
+            "client_name": "Fred Stutzman",
+            "client_email": "fred@80pct.com",
+            "score": 80
+          },
+          {
+            "client_name": "Chris Fredericks",
+            "client_email": "chris@empowered.ventures",
+            "score": 80
+          }
+        ]
+      }
+    },
+    {
+      "id": "66cfad08-3e0f-452f-960a-42cce4fddd5e",
+      "session_date": "2026-01-12T00:00:00",
+      "created_at": "2026-01-12T19:27:44.861605",
+      "title": "Sarah & Ryan Session",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Sarah Fu",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 75.06999969482422,
+      "transcript_url": "https://app.fireflies.ai/view/01KECSTV8M7YAC0M74A3WT58YD",
+      "linking": {
+        "action": "link_existing",
+        "confidence": "medium",
+        "method": "name_fuzzy",
+        "proposed_client_id": "550e8400-e29b-41d4-a716-446655440001",
+        "proposed_client_name": "Sarah Williams",
+        "proposed_client_email": "sarah.williams@acmemedia.com",
+        "extracted_name": "Sarah",
+        "match_score": 80,
+        "alternative_matches": [
+          {
+            "client_name": "Sarah Fu",
+            "client_email": "sarah.fu@recast.io",
+            "score": 80
+          }
+        ]
+      }
+    },
+    {
+      "id": "025d3e16-207d-440c-8252-77e279174f33",
+      "session_date": "2026-01-12T00:00:00",
+      "created_at": "2026-01-12T15:35:53.383611",
+      "title": "Matt <> JJ AI & Stuff",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Matt Thieleman",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 33.08000183105469,
+      "transcript_url": "https://app.fireflies.ai/view/01KEMJEZMZCEV2KMJ2QSQET9JR",
+      "linking": {
+        "action": "link_existing",
+        "confidence": "medium",
+        "method": "name_fuzzy",
+        "proposed_client_id": "5c62d4b2-ab08-45a9-910c-e2fe027f657c",
+        "proposed_client_name": "Amrita Mattoo",
+        "proposed_client_email": "amrita@matterstudionyc.com",
+        "extracted_name": "Matt",
+        "match_score": 80,
+        "alternative_matches": []
+      }
+    },
+    {
+      "id": "f49e066e-5833-466e-8386-ee0e4bbb07f4",
+      "session_date": "2026-01-09T00:00:00",
+      "created_at": "2026-01-09T20:34:43.403547",
+      "title": "Nick & Ryan Session",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Nick Neuman",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 74.98999786376953,
+      "transcript_url": "https://app.fireflies.ai/view/01KECSTV8JRYXR8FPFBK0A39R4",
+      "linking": {
+        "action": "link_existing",
+        "confidence": "medium",
+        "method": "name_fuzzy",
+        "proposed_client_id": "61c65473-1671-4282-802e-daac63832068",
+        "proposed_client_name": "Nick Neuman",
+        "proposed_client_email": "nick.neuman@placeholder.io",
+        "extracted_name": "Nick",
+        "match_score": 80,
+        "alternative_matches": []
+      }
+    },
+    {
+      "id": "17ac301e-940e-4827-b674-6447e8eea3e7",
+      "session_date": "2025-11-13T00:00:00",
+      "created_at": "2026-02-12T19:16:01.128957",
+      "title": "Fred & Ryan session",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Fred Stutzman"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 71.9800033569336,
+      "transcript_url": "https://app.fireflies.ai/view/01K9QQVMH0P877TN4QH00TC7NR",
+      "linking": {
+        "action": "link_existing",
+        "confidence": "medium",
+        "method": "name_fuzzy",
+        "proposed_client_id": "916d32ca-dd15-45fa-bacc-5e92137f7f38",
+        "proposed_client_name": "Fred",
+        "proposed_client_email": "fred@placeholder.local",
+        "extracted_name": "Fred",
+        "match_score": 100,
+        "alternative_matches": [
+          {
+            "client_name": "Fred Stutzman",
+            "client_email": "fred@80pct.com",
+            "score": 80
+          },
+          {
+            "client_name": "Chris Fredericks",
+            "client_email": "chris@empowered.ventures",
+            "score": 80
+          }
+        ]
+      }
+    },
+    {
+      "id": "16bbfa6d-527b-490d-a8da-4c39358a2519",
+      "session_date": "2025-11-12T00:00:00",
+      "created_at": "2026-02-12T19:16:46.715643",
+      "title": "Phyllip <> Jason",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Jason Pliml\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Jason Pliml",
+        "Phyllip Hall"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 48.970001220703125,
+      "transcript_url": "https://app.fireflies.ai/view/01K9W7E6RZ1P9E3G8FQEPFRRY0",
+      "linking": {
+        "action": "link_existing",
+        "confidence": "medium",
+        "method": "name_fuzzy",
+        "proposed_client_id": "8f79a9af-6e4d-4ead-b10a-d0bf8e8417ca",
+        "proposed_client_name": "Phyllip Hall",
+        "proposed_client_email": "phyllip.hall@example.com",
+        "extracted_name": "Phyllip",
+        "match_score": 80,
+        "alternative_matches": []
+      }
+    },
+    {
+      "id": "c5f40855-1b45-4d64-a722-86952930a1aa",
+      "session_date": "2026-02-19T00:00:00",
+      "created_at": "2026-02-19T16:09:53.1105",
+      "title": "Reuben Levinsohn and Jason Pliml",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Jason Pliml\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Reuben Levinsohn",
+        "Jason Pliml"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 39.720001220703125,
+      "transcript_url": "https://app.fireflies.ai/view/01KHP80QND807RQJ0R3MWVS0ME",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Reuben Levinsohn"
+      }
+    },
+    {
+      "id": "dfa1398c-97dd-4e29-878e-a2e6458aad6a",
+      "session_date": "2026-02-18T00:00:00",
+      "created_at": "2026-02-18T18:08:58.722109",
+      "title": "Borg Integration: JJ & Ryan",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 32.849998474121094,
+      "transcript_url": "https://app.fireflies.ai/view/01KHPMNZHHSFNDHY6BA72CR1ZR",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Borg Integration: JJ"
+      }
+    },
+    {
+      "id": "c34639bb-6286-4f4d-92ea-1d5e9dc25099",
+      "session_date": "2026-02-18T00:00:00",
+      "created_at": "2026-02-18T19:55:41.39221",
+      "title": "Intro Call w/ Rob Scott - Flywheel Growth Engines",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Rob Scott",
+        "Ryan"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 30.43000030517578,
+      "transcript_url": "https://app.fireflies.ai/view/01KH967Y3YHJBX82HDF8T3M38B",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Flywheel Growth Engines"
+      }
+    },
+    {
+      "id": "a07644cf-54c1-4ff8-86df-963efe819530",
+      "session_date": "2026-02-17T00:00:00",
+      "created_at": "2026-02-17T21:05:22.005448",
+      "title": "Mattia & Ryan",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Mattia Gheda",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 29.729999542236328,
+      "transcript_url": "https://app.fireflies.ai/view/01KFH0M033YWWWTMNM0AXN7XAV",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Mattia"
+      }
+    },
+    {
+      "id": "4067f011-f038-4786-b829-3953d3ddbb29",
+      "session_date": "2026-02-16T00:00:00",
+      "created_at": "2026-02-16T19:47:19.751721",
+      "title": "Holly <> Jason + Ashley",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "title contains name pair, extracted: \"Holly\"",
+      "speaker_count": 3,
+      "speakers": [
+        "Jason Pliml",
+        "Ashley Butler",
+        "Holly M"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 77.2300033569336,
+      "transcript_url": "https://app.fireflies.ai/view/01KHF5DTH9DEFY9Y8DS1PDZ9H8",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Holly"
+      }
+    },
+    {
+      "id": "c825b78f-8580-402e-96f2-80b7bc656ef9",
+      "session_date": "2026-02-16T00:00:00",
+      "created_at": "2026-02-16T16:42:48.263717",
+      "title": "Phyl x Jason - Coaching Session",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Jason Pliml\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Phyllip Hall",
+        "Jason Pliml"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 60.54999923706055,
+      "transcript_url": "https://app.fireflies.ai/view/01KHEGTK7R79HQP29C8FW15P23",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "79e63260-8611-4187-b3d5-509fe1c49c97",
+      "session_date": "2026-02-16T00:00:00",
+      "created_at": "2026-02-16T15:21:48.815421",
+      "title": "Jason <> Lau",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Jason Pliml\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Laura Cifuentes Almanza",
+        "Jason Pliml"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 41.27000045776367,
+      "transcript_url": "https://app.fireflies.ai/view/01KHK8P367P4PZBPGWJ67FP183",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Lau"
+      }
+    },
+    {
+      "id": "bdd8cc06-e150-48e8-b851-4617774fdb81",
+      "session_date": "2026-02-13T00:00:00",
+      "created_at": "2026-02-13T17:56:50.753394",
+      "title": "JJ & Ryan",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 25.280000686645508,
+      "transcript_url": "https://app.fireflies.ai/view/01KGRYZRPZAHTZDWZVADFAV3Y9",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "JJ"
+      }
+    },
+    {
+      "id": "7c211717-5807-42a3-9cf5-f2122811b15f",
+      "session_date": "2026-02-13T00:00:00",
+      "created_at": "2026-02-13T17:56:47.805165",
+      "title": "Inside-Out X Vance & Company || Bi-Weekly Interview",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "title contains name pair, extracted: \"Inside-Out X Vance\"",
+      "speaker_count": 3,
+      "speakers": [
+        "Adam Barr",
+        "Samantha Veneklase",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 11.100000381469727,
+      "transcript_url": "https://app.fireflies.ai/view/01KGWBATAF2DH7SKV07F2RMXDK",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Inside-Out X Vance"
+      }
+    },
+    {
+      "id": "36a94aa8-b97a-4089-b019-ec2b29d4af3b",
+      "session_date": "2026-02-12T00:00:00",
+      "created_at": "2026-02-13T00:53:12.615051",
+      "title": "JJ Vega and Jason Pliml",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Jason Pliml\"",
+      "speaker_count": 2,
+      "speakers": [
+        "JJ Vega",
+        "Jason Pliml"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 61.380001068115234,
+      "transcript_url": "https://app.fireflies.ai/view/01KH3XSWGHFMXGXFQC7N9Q6F3C",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "JJ Vega"
+      }
+    },
+    {
+      "id": "1f16c36b-9ca0-4800-bc8f-89ca6849741f",
+      "session_date": "2026-02-12T00:00:00",
+      "created_at": "2026-02-12T14:34:00.184777",
+      "title": "JJ Vega and Jason Pliml",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Jason Pliml\"",
+      "speaker_count": 2,
+      "speakers": [
+        "JJ Vega",
+        "Jason Pliml"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 61.380001068115234,
+      "transcript_url": "https://app.fireflies.ai/view/01KH3XSWGHFMXGXFQC7N9Q6F3C",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "JJ Vega"
+      }
+    },
+    {
+      "id": "1e9ea93d-8f48-40d3-9715-21c96510b542",
+      "session_date": "2026-02-10T00:00:00",
+      "created_at": "2026-02-10T16:45:18.964265",
+      "title": "Mike <> JJ Coaching",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Mike Algrim",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 61.720001220703125,
+      "transcript_url": "https://app.fireflies.ai/view/01KGQ5PC70KCPTXGXH7X69CXNV",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Mike"
+      }
+    },
+    {
+      "id": "9d716e37-8fb9-497a-b1a2-574c628f311f",
+      "session_date": "2026-02-10T00:00:00",
+      "created_at": "2026-02-13T00:55:30.747389",
+      "title": "Mike <> JJ Coaching",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Mike Algrim",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 61.720001220703125,
+      "transcript_url": "https://app.fireflies.ai/view/01KGQ5PC70KCPTXGXH7X69CXNV",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Mike"
+      }
+    },
+    {
+      "id": "eb1fd66f-b1c0-42b2-b46b-6509efc9095b",
+      "session_date": "2026-02-09T00:00:00",
+      "created_at": "2026-02-09T19:38:09.08833",
+      "title": "Derek/Ryan Weekly",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Derek Haswell",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 58.189998626708984,
+      "transcript_url": "https://app.fireflies.ai/view/01KGQFHBG4V4P0Z3QTN51S94B1",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "150f6bf8-7051-41c5-b522-70cf58f7db8c",
+      "session_date": "2026-02-09T00:00:00",
+      "created_at": "2026-02-09T19:37:55.186438",
+      "title": "Inside-Out x Vance | Onboarding",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "title contains name pair, extracted: \"Inside\"",
+      "speaker_count": 5,
+      "speakers": [
+        "Caton Vance",
+        "Ryan Vaughn",
+        "Jemaima Mesina",
+        "Dominic Cipolla",
+        "Samantha"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 31.399999618530273,
+      "transcript_url": "https://app.fireflies.ai/view/01KGQFHBG303KBZXNFAZ5HKDJH",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Inside"
+      }
+    },
+    {
+      "id": "e9daf920-cc3b-442f-89d8-c40490150e96",
+      "session_date": "2026-02-09T00:00:00",
+      "created_at": "2026-02-09T16:37:27.041841",
+      "title": "Phyl x Jason - Coaching Session",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Jason Pliml\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Phyllip Hall",
+        "Jason Pliml"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 61.2400016784668,
+      "transcript_url": "https://app.fireflies.ai/view/01KGWG1KZPH98QKPS2TEVZV4R9",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "5a13eb64-1847-41ca-a4f8-bdf7d5aee8ad",
+      "session_date": "2026-02-09T00:00:00",
+      "created_at": "2026-02-09T20:55:34.704163",
+      "title": "Holly <> Jason",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Jason Pliml\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Holly M",
+        "Jason Pliml"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 72.51000213623047,
+      "transcript_url": "https://app.fireflies.ai/view/01KGX4MRP0ABA1S48WH9P3TJ6D",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Holly"
+      }
+    },
+    {
+      "id": "19ebdc06-d55f-4cb7-a16c-a42ea9be4cd2",
+      "session_date": "2026-02-09T00:00:00",
+      "created_at": "2026-02-09T15:34:40.926973",
+      "title": "Jason <> Lau",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Jason Pliml\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Jason Pliml",
+        "Laura Cifuentes Almanza"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 34.33000183105469,
+      "transcript_url": "https://app.fireflies.ai/view/01KGWG1KZP4Y243CYD6GJ6PBGJ",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Lau"
+      }
+    },
+    {
+      "id": "39faa03d-7740-44e3-84c6-1d30d3954985",
+      "session_date": "2026-02-06T00:00:00",
+      "created_at": "2026-02-12T19:32:57.240804",
+      "title": "Inside Out <> ST Ventures Lab",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "title contains name pair, extracted: \"Inside Out\"",
+      "speaker_count": 5,
+      "speakers": [
+        "Kristi DeLozier",
+        "Ryan Vaughn",
+        "Micah Baldwin",
+        "Keeisi Caballero",
+        "Matt Thieleman"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 53.20000076293945,
+      "transcript_url": "https://app.fireflies.ai/view/01KGG19NF45F2NEJE7B82YVTSX",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Inside Out"
+      }
+    },
+    {
+      "id": "1101ca04-c7da-45ce-b6d7-cce3d87e78dd",
+      "session_date": "2026-02-05T00:00:00",
+      "created_at": "2026-02-05T18:33:08.970668",
+      "title": "JJ & Ryan Vision",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 28.399999618530273,
+      "transcript_url": "https://app.fireflies.ai/view/01KGQFHK6WFDEEAYYZW5G8ZKW0",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "JJ"
+      }
+    },
+    {
+      "id": "59d514e1-c91e-427b-97ad-7771bc8ec6f0",
+      "session_date": "2026-02-05T00:00:00",
+      "created_at": "2026-02-12T19:33:12.625382",
+      "title": "Micah <> JJ Borg Jam",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Micah Baldwin",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 25.780000686645508,
+      "transcript_url": "https://app.fireflies.ai/view/01KGJHKRKZ3VPE3J55QY8ANC2A",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Micah"
+      }
+    },
+    {
+      "id": "782cd290-623a-4c89-bd0e-6f4120fd2387",
+      "session_date": "2026-02-05T00:00:00",
+      "created_at": "2026-02-12T19:33:07.680989",
+      "title": "Micah/Matt/Ryan discuss ST Ventures",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "unclear",
+      "classification_reason": "session_type=untagged, 3 speakers, no matching patterns",
+      "speaker_count": 3,
+      "speakers": [
+        "Matt Thieleman",
+        "Ryan Vaughn",
+        "Micah Baldwin"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 19.959999084472656,
+      "transcript_url": "https://app.fireflies.ai/view/01KGJVQVY55YP0MR861CKWBJ42",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "cb1375c5-0b5d-454a-87f2-5441b5e11db8",
+      "session_date": "2026-02-04T00:00:00",
+      "created_at": "2026-02-04T17:27:13.764393",
+      "title": "Derek/Ryan Weekly",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Derek Haswell",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 43.77000045776367,
+      "transcript_url": "https://app.fireflies.ai/view/01KG7M2WMXFNGQH9CCYBSQKGWD",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "4b54a400-db1d-4c14-bee4-9ec3fb40db5f",
+      "session_date": "2026-02-02T00:00:00",
+      "created_at": "2026-02-02T23:38:11.304864",
+      "title": "Laura C - Matt: Exploring Coaching",
+      "coach_name": "Matt Thieleman",
+      "coach_id": "f5fa94f1-c76b-41b6-b6ad-f8d18cfb4b39",
+      "coach_email": "matt@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Matt Thieleman\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Laura",
+        "Matt Thieleman"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 63.47999954223633,
+      "transcript_url": "https://app.fireflies.ai/view/01KGB9DC3EMDK9XYKQK917ED8A",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Laura C"
+      }
+    },
+    {
+      "id": "3a9b983c-53ab-47d8-bd59-59b544433d13",
+      "session_date": "2026-02-02T00:00:00",
+      "created_at": "2026-02-02T15:04:39.480525",
+      "title": "Jason <> Lau",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Jason Pliml\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Laura Cifuentes Almanza",
+        "Jason Pliml"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 40.41999816894531,
+      "transcript_url": "https://app.fireflies.ai/view/01KFZSW1MTT0GR2PGESQ9G7FNA",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Lau"
+      }
+    },
+    {
+      "id": "5a3221bf-44b5-42d3-aef3-501337735230",
+      "session_date": "2026-02-02T00:00:00",
+      "created_at": "2026-02-02T23:02:58.793561",
+      "title": "CEO Calendar Workflow session",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Joel Garcia",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 64.11000061035156,
+      "transcript_url": "https://app.fireflies.ai/view/01KG7M2WMT97ZFDRNWTBE80W0J",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "2a6d7d8c-dbdb-4b63-85ab-649ce4df24d3",
+      "session_date": "2026-02-02T00:00:00",
+      "created_at": "2026-02-02T17:28:50.619222",
+      "title": "JourneyLoop Demo between Marco Lamina and JJ Vega",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Marco Lamina",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 27.290000915527344,
+      "transcript_url": "https://app.fireflies.ai/view/01KG0GTPTN6RGBGA0SFCWAV94K",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "JourneyLoop Demo between Marco Lamina"
+      }
+    },
+    {
+      "id": "8ccd5675-3850-4b1b-a182-81ec6ce3c24b",
+      "session_date": "2026-01-30T00:00:00",
+      "created_at": "2026-01-30T18:58:48.390726",
+      "title": "Tarikh & Ryan",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Tarikh Korula",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 46.5099983215332,
+      "transcript_url": "https://app.fireflies.ai/view/01KFP77PNNSPQDPDVR4RP6XZV1",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Tarikh"
+      }
+    },
+    {
+      "id": "53082285-8e2e-493b-bf54-9cecf0e81df9",
+      "session_date": "2026-01-30T00:00:00",
+      "created_at": "2026-01-30T18:58:33.945116",
+      "title": "jason@leadinsideout.io - Fri, 30 Jan 2026 13:05:08 EST - Untitled",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "unclear",
+      "classification_reason": "session_type=untagged, 3 speakers, no matching patterns",
+      "speaker_count": 3,
+      "speakers": [
+        "Andrea Holland",
+        "Raza Kassar",
+        "Jason Pliml"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 45.22999954223633,
+      "transcript_url": "https://app.fireflies.ai/view/01KG819311P0QYE56R17MR3XKV",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "d7250cfa-5bbb-4870-9574-00df3135b46b",
+      "session_date": "2026-01-29T00:00:00",
+      "created_at": "2026-01-29T21:54:45.058921",
+      "title": "Ted Serbinski <> Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Ted Serbinski"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 37.77000045776367,
+      "transcript_url": "https://app.fireflies.ai/view/01KFZZ69XFM8TBKFBD1EWTJD2C",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Ted Serbinski"
+      }
+    },
+    {
+      "id": "b58fe887-fa41-40f1-8e25-9e0df182d6ec",
+      "session_date": "2026-01-29T00:00:00",
+      "created_at": "2026-01-29T18:24:14.191816",
+      "title": "Misty <> JJ Initial Session",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Misty Ontiveros | E7",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 34.349998474121094,
+      "transcript_url": "https://app.fireflies.ai/view/01KG0GTPTNBPP7EXS06F5HY6CT",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Misty"
+      }
+    },
+    {
+      "id": "2932cc31-c5a5-49c8-82c7-9130aaedfa97",
+      "session_date": "2026-01-28T00:00:00",
+      "created_at": "2026-01-28T19:20:09.322293",
+      "title": "Jonny <> JJ Coaching",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Jonny Edwards",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 56.02000045776367,
+      "transcript_url": "https://app.fireflies.ai/view/01KFXX61VF4KHS1826BSPBP4AC",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Jonny"
+      }
+    },
+    {
+      "id": "99a93452-4811-48de-8d92-3f2e29441707",
+      "session_date": "2026-01-28T00:00:00",
+      "created_at": "2026-01-28T20:22:07.786148",
+      "title": "Ryan Vaughn | Jen & Bob Westerfield",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Jennifer Westerfield"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 59.970001220703125,
+      "transcript_url": "https://app.fireflies.ai/view/01KFH0M039T9VK5X9TS7HKYY63",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Bob Westerfield"
+      }
+    },
+    {
+      "id": "b9a73d77-fcd8-42ac-a8b0-8d26f6041689",
+      "session_date": "2026-01-27T00:00:00",
+      "created_at": "2026-01-27T17:15:15.506696",
+      "title": "Derek/Ryan Weekly",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Derek Haswell",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 30.190000534057617,
+      "transcript_url": "https://app.fireflies.ai/view/01KFXQGK9FEVM0RKB1DDZCE69F",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "5f8f20ed-8e54-4120-92f7-3a6ba22b76a9",
+      "session_date": "2026-01-27T00:00:00",
+      "created_at": "2026-01-27T16:49:09.763412",
+      "title": "Heath/Jason session",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Jason Pliml\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Jason Pliml",
+        "Heath O'Leary"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 73.62999725341797,
+      "transcript_url": "https://app.fireflies.ai/view/01KFV0W97STJ4Q90NNEWPP3Y32",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "13f5691c-001b-4876-8b9e-5638548fb2b0",
+      "session_date": "2026-01-23T00:00:00",
+      "created_at": "2026-02-12T19:33:45.114055",
+      "title": "Micah and Matt, StVenture Lab",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "title contains name pair, extracted: \"Micah\"",
+      "speaker_count": 3,
+      "speakers": [
+        "Micah Baldwin",
+        "Ryan Vaughn",
+        "Matt Thieleman"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 25.729999542236328,
+      "transcript_url": "https://app.fireflies.ai/view/01KFP78XAB7BTY6ZKZZP61C4KT",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Micah"
+      }
+    },
+    {
+      "id": "0aa9a120-2d23-488c-95b3-76a4751011d2",
+      "session_date": "2026-01-21T00:00:00",
+      "created_at": "2026-01-21T18:09:14.804658",
+      "title": "Hampton: Transitioning to the New Core Model",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "unclear",
+      "classification_reason": "session_type=untagged, 8 speakers, no matching patterns",
+      "speaker_count": 8,
+      "speakers": [
+        "Hampton Member Experience",
+        "Hampton Member Experience",
+        "Marshall Hayes",
+        "Lauren Meagher",
+        "Rachel Peck",
+        "Euxie",
+        "Jason Pliml",
+        "Stephanie Redlener"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 62.540000915527344,
+      "transcript_url": "https://app.fireflies.ai/view/01KEZ5A2PG4ERBP6XWSDV5JFEY",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "01a2ddc7-8b7c-47b1-9790-a8d654b6b791",
+      "session_date": "2026-01-19T00:00:00",
+      "created_at": "2026-01-19T19:37:54.663813",
+      "title": "Derek/Ryan Weekly",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Derek Haswell",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 91.63999938964844,
+      "transcript_url": "https://app.fireflies.ai/view/01KEWHN0K0GK7VT9K7V12WVKD3",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "40734fce-9fa2-429b-99b0-c87bb5d5e90a",
+      "session_date": "2026-01-13T00:00:00",
+      "created_at": "2026-01-13T16:28:04.611014",
+      "title": "Mike <> JJ Coaching",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Mike Algrim",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 59.150001525878906,
+      "transcript_url": "https://app.fireflies.ai/view/01KEPDB3JTKXYCGC5W4VV0W2EM",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Mike"
+      }
+    },
+    {
+      "id": "e239ed69-44be-46a1-a3e4-9fb515c3eeda",
+      "session_date": "2026-01-06T00:00:00",
+      "created_at": "2026-01-06T15:50:49.202744",
+      "title": "Christian Kennedy <> JJ Vega Initial Session",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "JJ Vega",
+        "CK Mobile"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 35.77000045776367,
+      "transcript_url": "https://app.fireflies.ai/view/01KE59P7VD17NWCZWDBDYS08V9",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Christian Kennedy"
+      }
+    },
+    {
+      "id": "f1857095-6087-4c83-94b5-86b12cf999d2",
+      "session_date": "2026-01-06T00:00:00",
+      "created_at": "2026-01-06T19:01:17.512337",
+      "title": "Jonny <> JJ Coaching",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Jonny Edwards",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 55.040000915527344,
+      "transcript_url": "https://app.fireflies.ai/view/01KE58DWDF0GC55M72MFX8HRC7",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Jonny"
+      }
+    },
+    {
+      "id": "4afbf118-3599-4ab2-b090-5e10b4e6a6c3",
+      "session_date": "2026-01-05T00:00:00",
+      "created_at": "2026-01-05T17:21:08.470176",
+      "title": "Mikki <> JJ Intro",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Mikki Kragelund",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 41.630001068115234,
+      "transcript_url": "https://app.fireflies.ai/view/01KE2Q9EH5ZG2Y0A5F91AJRDFG",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Mikki"
+      }
+    },
+    {
+      "id": "38da4a6a-febc-4562-b970-dd7a31b3e04d",
+      "session_date": "2026-01-05T00:00:00",
+      "created_at": "2026-01-05T18:49:39.25741",
+      "title": "JJ & Ryan",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "JJ Vega",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 17.290000915527344,
+      "transcript_url": "https://app.fireflies.ai/view/01KE72HC7ZFP36E8A7VYM8HZDG",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "JJ"
+      }
+    },
+    {
+      "id": "24874284-0d5c-472e-9523-2667e7f611e0",
+      "session_date": "2025-12-22T00:00:00",
+      "created_at": "2025-12-22T16:37:35.262022",
+      "title": "ryan@leadinsideout.io - Mon, 22 Dec 2025 16:09:03 UTC - Untitled",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Brendan Mahoney"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 25.989999771118164,
+      "transcript_url": "https://app.fireflies.ai/view/01KD3D4GNYSRT046DJWP5GBMET",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "2c4b14ef-6817-40c7-a91d-80421a5bf1ce",
+      "session_date": "2025-12-18T00:00:00",
+      "created_at": "2025-12-18T16:12:57.184025",
+      "title": "Mike <> JJ Coaching",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Mike Algrim",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 62.31999969482422,
+      "transcript_url": "https://app.fireflies.ai/view/01KCMC4EZ0P7JDW6FRX4DD9YGV",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Mike"
+      }
+    },
+    {
+      "id": "1375cff6-8aa6-4d1b-bfda-d92f049c0aa7",
+      "session_date": "2025-12-18T00:00:00",
+      "created_at": "2026-02-12T19:34:22.893219",
+      "title": "Retro: Designing 2026 Webinar",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "unclear",
+      "classification_reason": "session_type=untagged, 3 speakers, no matching patterns",
+      "speaker_count": 3,
+      "speakers": [
+        "Ryan Vaughn",
+        "Jason Pliml",
+        "Micah Baldwin"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 27.559999465942383,
+      "transcript_url": "https://app.fireflies.ai/view/01KCS7NTZQHDS5AEVTXRCWZMXC",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "651fec5e-f1d7-40bb-8c5b-d8dc72b56b9f",
+      "session_date": "2025-12-10T00:00:00",
+      "created_at": "2025-12-10T18:58:54.392089",
+      "title": "JJ Fireflies <> UDL Auto-Save Test 4",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "title contains name pair, extracted: \"UDL Auto-Save Test 4\"",
+      "speaker_count": 1,
+      "speakers": [
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 6.400000095367432,
+      "transcript_url": "https://app.fireflies.ai/view/01KC4S5K51PKMC1E66TK6V2J4P",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "UDL Auto-Save Test 4"
+      }
+    },
+    {
+      "id": "2efe5ca0-c6bc-46a5-829d-a570efc02ae3",
+      "session_date": "2025-12-09T00:00:00",
+      "created_at": "2025-12-09T19:09:37.049994",
+      "title": "Jonny <> JJ Coaching",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": null,
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Jonny Edwards",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 58.47999954223633,
+      "transcript_url": "https://app.fireflies.ai/view/01KBJY2FJY63CND4M478NK1BBP",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Jonny"
+      }
+    },
+    {
+      "id": "a43921bc-5d5f-4997-8787-5171af475348",
+      "session_date": "2025-12-05T00:00:00",
+      "created_at": "2025-12-05T16:52:03.63773",
+      "title": "Mike <> JJ Coaching",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": null,
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Mike Algrim",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 61.18000030517578,
+      "transcript_url": "https://app.fireflies.ai/view/01KBFTRCKA601M8HYDY41F327E",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Mike"
+      }
+    },
+    {
+      "id": "3ad6b722-273c-4ad3-bfce-4420613e7adc",
+      "session_date": "2025-12-04T00:00:00",
+      "created_at": "2025-12-04T15:21:10.618836",
+      "title": "JJ <> Fireflies UDL Test 3",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": null,
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "title contains name pair, extracted: \"Fireflies UDL Test 3\"",
+      "speaker_count": 0,
+      "speakers": [],
+      "attendee_emails": [],
+      "duration_seconds": 4.710000038146973,
+      "transcript_url": "https://app.fireflies.ai/view/01KBMSMDCY5FVYQNXM9NNFTRFD",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Fireflies UDL Test 3"
+      }
+    },
+    {
+      "id": "d60b264b-beda-4a33-a72f-621ac0624ebc",
+      "session_date": "2025-12-02T00:00:00",
+      "created_at": "2025-12-04T15:21:11.603595",
+      "title": "JJ Fireflies <> UDL Auto-Save Test 2",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": null,
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "title contains name pair, extracted: \"UDL Auto-Save Test 2\"",
+      "speaker_count": 1,
+      "speakers": [
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 4.010000228881836,
+      "transcript_url": "https://app.fireflies.ai/view/01KBFWGQR4T3BJWWAGVDVT9F7B",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "UDL Auto-Save Test 2"
+      }
+    },
+    {
+      "id": "b5dcf7a8-a309-4ac9-8b51-65a933a37928",
+      "session_date": "2025-11-20T00:00:00",
+      "created_at": "2025-12-18T20:43:01.0156",
+      "title": "JJ <> Jonny Quick Sync",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Jonny Edwards",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 13.359999656677246,
+      "transcript_url": "https://app.fireflies.ai/view/01KAGYNK712HN70DE817NRJ44S",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Jonny Quick Sync"
+      }
+    },
+    {
+      "id": "0d83dc82-0441-4158-b8d1-fcb383ddd0e9",
+      "session_date": "2025-11-20T00:00:00",
+      "created_at": "2025-12-18T20:43:41.554781",
+      "title": "Thoughtleader - Ryan Vaughn (Content Call)",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "other",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Alexander Perkins"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 35.220001220703125,
+      "transcript_url": "https://app.fireflies.ai/view/01KADR17QNZQC9RB9M1H87R50W",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Thoughtleader"
+      }
+    },
+    {
+      "id": "5069d5c5-f13e-4f51-91a6-17c11bd90ca0",
+      "session_date": "2025-11-19T00:00:00",
+      "created_at": "2026-02-12T19:34:41.462677",
+      "title": "Micah <> Ryan Jam on Webinar",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Micah Baldwin"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 36.7599983215332,
+      "transcript_url": "https://app.fireflies.ai/view/01KAED74STBXC73486ARXQVDHA",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Micah"
+      }
+    },
+    {
+      "id": "1fd65d4e-7915-45a8-8363-c71e1f403a21",
+      "session_date": "2025-11-18T00:00:00",
+      "created_at": "2026-02-12T19:09:36.96708",
+      "title": "Mike <> JJ Coaching",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Mike Algrim",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 59.540000915527344,
+      "transcript_url": "https://app.fireflies.ai/view/01KA747SJ1DSJQ629GVTA9381F",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Mike"
+      }
+    },
+    {
+      "id": "669ee668-5490-4ae1-86b7-415b01871e0f",
+      "session_date": "2025-11-17T00:00:00",
+      "created_at": "2026-02-12T19:10:33.849705",
+      "title": "Phyl/Jason session",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Jason Pliml\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Jason Pliml",
+        "Phyllip Hall"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 60.06999969482422,
+      "transcript_url": "https://app.fireflies.ai/view/01KA46NS966WCDCT5E96FPCREH",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "6d468b68-fd7f-43da-aebd-815743fe598e",
+      "session_date": "2025-11-17T00:00:00",
+      "created_at": "2026-02-12T19:11:02.716586",
+      "title": "Jason <> Lau",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Jason Pliml\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Laura Cifuentes Almanza",
+        "Jason Pliml"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 28.700000762939453,
+      "transcript_url": "https://app.fireflies.ai/view/01KA46NS9DNYYSZMBHMSBYD670",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Lau"
+      }
+    },
+    {
+      "id": "758a88a6-4a39-4b1e-b4d6-2eb474225883",
+      "session_date": "2025-11-16T00:00:00",
+      "created_at": "2026-02-12T19:11:08.435265",
+      "title": "League of Extraordinary Gentlemen talks with an Extraordinary Gentleman (Iain McGilchrist)",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "unclear",
+      "classification_reason": "session_type=untagged, 6 speakers, no matching patterns",
+      "speaker_count": 6,
+      "speakers": [
+        "Ryan Vaughn",
+        "Iain McGilchrist",
+        "J Tower",
+        "Ben VerWys",
+        "Ryan Kilpatrick",
+        "Andy Van Solkema"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 135.1999969482422,
+      "transcript_url": "https://app.fireflies.ai/view/01K9QQVMEBT4SGXVH3QHKMGFJ5",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "61c9d6e6-2b99-462e-b3ef-8105e0358b23",
+      "session_date": "2025-11-14T00:00:00",
+      "created_at": "2026-02-12T19:14:54.159317",
+      "title": "Brian Wang <> Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Brian Wang"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 45.77000045776367,
+      "transcript_url": "https://app.fireflies.ai/view/01K5V9330VAJ47W9CHQ15X7CEB",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Brian Wang"
+      }
+    },
+    {
+      "id": "49e99bf0-f39c-4eb8-bb9a-e512c726b80d",
+      "session_date": "2025-11-14T00:00:00",
+      "created_at": "2026-02-12T19:11:31.881416",
+      "title": "Ryan:Tim LE Connect",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Timothy Bragassa",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 30.1299991607666,
+      "transcript_url": "https://app.fireflies.ai/view/01K9QQVMDMQVPB7HW5MJB2QVW3",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "846e4065-3269-4062-a7f2-e07d75a0bd2d",
+      "session_date": "2025-11-11T00:00:00",
+      "created_at": "2026-02-12T19:17:47.002553",
+      "title": "Phyl/Jason session",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Jason Pliml\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Phyllip Hall",
+        "Jason Pliml"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 53.540000915527344,
+      "transcript_url": "https://app.fireflies.ai/view/01K9PZJM0S4Z515VQQTYM1Z1GW",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    },
+    {
+      "id": "be600258-5e79-4ee8-a3a3-a1ccad722df8",
+      "session_date": "2025-11-11T00:00:00",
+      "created_at": "2026-02-12T19:17:17.188301",
+      "title": "Jonny <> JJ Coaching",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Jonny Edwards",
+        "JJ Vega"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 54.779998779296875,
+      "transcript_url": "https://app.fireflies.ai/view/01K9CRBWE70S277QJCCZS3AX9A",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Jonny"
+      }
+    },
+    {
+      "id": "a47f7b48-9844-4681-a0f8-35d148176309",
+      "session_date": "2025-11-10T00:00:00",
+      "created_at": "2026-02-12T19:18:39.493445",
+      "title": "Corinda Hayes <> Ryan Vaughn",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Corinda",
+        "Ryan Vaughn"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 24.780000686645508,
+      "transcript_url": "https://app.fireflies.ai/view/01K9JV5EVPFT5DAFRT00M6ZSDX",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Corinda Hayes"
+      }
+    },
+    {
+      "id": "11439258-8eaa-47d5-a2a2-6fda1e75d91e",
+      "session_date": "2025-11-10T00:00:00",
+      "created_at": "2026-02-12T19:18:14.876916",
+      "title": "Laker Launchpad GVSU: Ryan Vaughn, Josh Ross & Jake Rossi",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Ryan Vaughn\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Ryan Vaughn",
+        "Josh Ross"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 34.619998931884766,
+      "transcript_url": "https://app.fireflies.ai/view/01K9JV5EXG8XXMVJD79DA1FTQ0",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Jake Rossi"
+      }
+    },
+    {
+      "id": "a5f0463c-7f11-4811-a29f-09d60a594c5c",
+      "session_date": "2025-11-10T00:00:00",
+      "created_at": "2026-02-12T19:19:08.388742",
+      "title": "Mike <> JJ Coaching",
+      "coach_name": "JJ Vega",
+      "coach_id": "e506fd26-8ae3-4c9a-83f0-7a4daff10093",
+      "coach_email": "jj@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"JJ Vega\"",
+      "speaker_count": 2,
+      "speakers": [
+        "JJ Vega",
+        "Mike Algrim"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 58.81999969482422,
+      "transcript_url": "https://app.fireflies.ai/view/01K8QKWY0RMBC9JC6K31FCNBB5",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Mike"
+      }
+    },
+    {
+      "id": "8ab84d8e-1931-464e-aa18-aceddda266e7",
+      "session_date": "2025-11-10T00:00:00",
+      "created_at": "2026-02-12T19:19:18.171394",
+      "title": "Jason <> Lau",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Jason Pliml\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Laura Cifuentes Almanza",
+        "Jason Pliml"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 29.6200008392334,
+      "transcript_url": "https://app.fireflies.ai/view/01K9J5W34Y7Q7NB8Q1PR84EP6Z",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Lau"
+      }
+    },
+    {
+      "id": "2bad32c3-5ed7-4458-aba4-7175cb96241e",
+      "session_date": "2025-11-07T00:00:00",
+      "created_at": "2026-02-12T19:19:24.308795",
+      "title": "Kari and Jason Pliml",
+      "coach_name": "Jason Pliml",
+      "coach_id": "60eb2263-312b-4375-8bc9-357dfc912d39",
+      "coach_email": "jason@leadinsideout.io",
+      "session_type": "untagged",
+      "source": "fireflies",
+      "classification": "likely_coaching",
+      "classification_reason": "2 speakers, one matches coach \"Jason Pliml\"",
+      "speaker_count": 2,
+      "speakers": [
+        "Jason Pliml",
+        "Kari Gremore"
+      ],
+      "attendee_emails": [],
+      "duration_seconds": 34.119998931884766,
+      "transcript_url": "https://app.fireflies.ai/view/01K9B396MTWTX8MRSVDVV35ZGD",
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": "Kari"
+      }
+    },
+    {
+      "id": "e0ba0dc4-50d5-434c-b3d6-daae100a4e3b",
+      "session_date": "2025-09-03T19:38:12",
+      "created_at": "2025-12-09T12:07:06.656135",
+      "title": "Ryan Vaughn _ 17144044911 -+17144044911- on Sep 3- 202-transcript-2025-09-03T19-38-12.745Z",
+      "coach_name": "Ryan Vaughn",
+      "coach_id": "9185bd98-a828-414f-b335-c607b4ac3d11",
+      "coach_email": "ryan@leadinsideout.io",
+      "session_type": "miscellaneous",
+      "source": "manual_import",
+      "classification": "unclear",
+      "classification_reason": "session_type=miscellaneous, 0 speakers, no matching patterns",
+      "speaker_count": 0,
+      "speakers": [],
+      "attendee_emails": [],
+      "duration_seconds": null,
+      "transcript_url": null,
+      "linking": {
+        "action": "manual_review",
+        "confidence": "low",
+        "method": "no_signals",
+        "extracted_name": null
+      }
+    }
+  ]
+}

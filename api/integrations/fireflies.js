@@ -355,10 +355,20 @@ export function detectSessionType(title, hasClientMatch = false) {
     }
   }
 
+  // Coaching sessions detected by title pattern even without client email match
+  // Catches uploaded recordings like "Jake Krask & Ryan Vaughn Session 3192026.m4a"
+  if (t.includes('session') &&
+      (t.match(/[a-z]+\s*(and|&|[-_])\s*ryan/i) || t.match(/ryan\s*(and|&|[-_])\s*[a-z]+/i))) {
+    return 'unmatched_client';
+  }
+
   // Networking/external calls - named individuals without "session" context
-  if (t.match(/ryan\s*(vaughn)?\s*(and|&|_)\s*[a-z]+/i) ||
-      t.match(/[a-z]+\s*(and|&|_)\s*ryan\s*vaughn/i)) {
-    return 'networking';
+  // Skip titles with "session" or file extensions (uploaded recordings are coaching)
+  if (!t.includes('session') && !t.match(/\.\w{2,4}$/)) {
+    if (t.match(/ryan\s*(vaughn)?\s*(and|&|_)\s*[a-z]+/i) ||
+        t.match(/[a-z]+\s*(and|&|_)\s*ryan\s*vaughn/i)) {
+      return 'networking';
+    }
   }
 
   // Default - untagged for manual review

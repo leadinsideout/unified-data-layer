@@ -1,0 +1,285 @@
+JJ VEGA - COACHING TRANSCRIPT ANALYSIS
+=======================================
+Generated: 2026-02-28
+Source: 24 coaching transcripts | 215,578 total words
+Date Range: November 2025 - February 2026
+
+
+======================================================================
+TOP THEMES BY FREQUENCY
+======================================================================
+
+Rank  Theme                              Count   Category
+----  -----                              -----   --------
+1     Team / Teams                       372     Leadership & Organizations
+2     Leader / Leadership                304     Leadership & Organizations
+3     Conversation / Conversations       257     Communication
+4     Goal / Goals                       227     Action & Strategy
+5     Business / Career / Job            187     Professional Life
+6     Body / Somatic / Nervous System    181     Embodiment & Awareness
+7     Rest / Balance / Burnout           143     Wellness & Sustainability
+8     Family / Kids / Wife / Marriage    130     Personal Life
+9     Process                            130     Growth & Methodology
+10    Plan / Planning                    126     Action & Strategy
+11    Relationship / Partnerships        119     Relationships
+12    Focus                              98      Mindset & Intention
+13    Vision / Mission / Purpose         91      Identity & Direction
+14    DISC / Assessment                  88      Coaching Frameworks
+15    Energy                             88      Embodiment & Awareness
+16    Action / Next Steps                87      Accountability
+17    Curious / Curiosity                79      Coaching Approach
+18    Shift                              75      Transformation
+19    Fear / Anxiety / Stress            75      Emotional Processing
+20    Challenge / Challenges             75      Obstacles
+21    Intention / Intentional            74      Mindfulness & Action
+22    Boundaries / Boundary              65      Interpersonal Skills
+23    Pattern / Patterns / Trigger       59      Self-Awareness
+24    Confidence / Confident             57      Self-Belief
+25    Trust / Safety                     56      Relational Foundation
+26    Anger / Frustration / Resentment   53      Emotional Processing
+27    Growth / Transformation            46      Development
+28    Feedback                           43      Communication
+29    Inside Out / IOL                   32      Coaching Framework
+30    Connection / Disconnection         25      Relational
+
+
+======================================================================
+TOP 80 MOST FREQUENT MEANINGFUL WORDS
+======================================================================
+
+Word                   Count
+----                   -----
+team                    302
+conversation            185
+person                  163
+man                     148
+feels                   136
+coaching                122
+leadership              113
+care                    112
+question                107
+process                 107
+role                    101
+saying                   99
+happening                98
+myself                   97
+system                   97
+energy                   88
+mind                     85
+data                     82
+meeting                  81
+life                     81
+talk                     80
+comes                    79
+companies                77
+goals                    76
+experience               75
+forward                  73
+business                 73
+space                    73
+step                     72
+curious                  72
+conversations            71
+helpful                  71
+perspective              67
+yourself                 67
+organization             66
+family                   66
+questions                66
+focus                    65
+share                    65
+goal                     64
+understand               63
+job                      63
+group                    63
+fun                      61
+terms                    61
+context                  60
+human                    60
+aligned                  59
+wonder                   58
+coach                    58
+morning                  57
+call                     57
+approach                 56
+model                    55
+tools                    55
+value                    55
+deep                     55
+walk                     54
+piece                    53
+building                 52
+emotional                52
+session                  52
+personal                 51
+client                   51
+structure                50
+impact                   50
+support                  49
+decisions                49
+fear                     48
+trust                    48
+boundaries               48
+drive                    48
+learning                 47
+answer                   47
+probably                 47
+shift                    46
+explore                  46
+dynamic                  45
+intention                45
+power                    44
+
+
+======================================================================
+CLIENT SESSION BREAKDOWN
+======================================================================
+
+Client                Sessions    Words     Date Range
+------                --------    -----     ----------
+Mike Algrim           8           89,912    Nov 2025 - Feb 2026
+Jonny Edwards         4           35,650    Nov 2025 - Jan 2026
+E7 Explore Team       2           25,696    Nov 2025
+Matt Thieleman        2           17,518    Nov 2025 - Jan 2026
+Misty Ontiveros       2           16,998    Jan - Feb 2026
+Mikki Kragelund       1           6,423     Jan 2026
+Christian Kennedy     1           5,891     Jan 2026
+Adrianne White        1           5,671     Jan 2026
+Derek Haswell         1           5,338     Feb 2026
+Micah Baldwin         1           4,436     Feb 2026
+
+
+======================================================================
+TRANSCRIPTS ANALYZED
+======================================================================
+
+Date         Title                                            Words
+----         -----                                            -----
+2025-11-10   Mike <> JJ Coaching                              11,254
+2025-11-11   Jonny <> JJ Coaching                             9,018
+2025-11-18   Mike <> JJ Coaching                              11,644
+2025-11-20   JJ <> Jonny Quick Sync                           2,045
+2025-11-21   IO - E7 Explore Team Coaching                    12,848
+2025-11-21   IO - E7 Explore Team Coaching (duplicate)        12,848
+2025-11-25   Matt <> JJ E7 Jam                                11,142
+2025-12-05   Mike <> JJ Coaching                              11,809
+2025-12-09   Jonny <> JJ Coaching                             9,944
+2025-12-18   Mike <> JJ Coaching                              12,333
+2026-01-05   Mikki <> JJ Intro                                6,423
+2026-01-06   Christian Kennedy <> JJ Vega Initial Session     5,891
+2026-01-06   Jonny <> JJ Coaching                             8,281
+2026-01-12   Matt <> JJ AI & Stuff                            6,376
+2026-01-13   Mike <> JJ Coaching                              11,923
+2026-01-22   Adrianne <> JJ Connect                           5,671
+2026-01-28   Jonny <> JJ Coaching                             8,407
+2026-01-29   Misty <> JJ Initial Session                      6,036
+2026-02-05   Micah <> JJ Borg Jam                             4,436
+2026-02-10   Mike <> JJ Coaching                              10,410
+2026-02-10   Mike <> JJ Coaching (duplicate)                  10,410
+2026-02-20   JJ Vega and Derek Haswell                        5,338
+2026-02-24   Mike <> JJ Coaching                              10,129
+2026-02-27   Misty <> JJ Coaching                             10,962
+
+Excluded (test/demo, not analyzed):
+  - JJ Fireflies <> UDL Auto-Save Test 2
+  - JJ <> Fireflies UDL Test 3
+  - JJ Fireflies <> UDL Auto-Save Test 4
+  - JourneyLoop Demo between Marco Lamina and JJ Vega
+
+
+======================================================================
+SUMMARY: JJ VEGA'S COACHING PROFILE
+======================================================================
+
+PRIMARY FOCUSES AS A COACH
+--------------------------
+
+1. Leadership Development & Team Dynamics
+   The dominant theme by far. JJ spends the most time helping clients
+   navigate their roles as leaders -- managing teams, having difficult
+   conversations, building trust within organizations, and stepping
+   into leadership with greater confidence and intentionality.
+
+2. Body-Based / Somatic Awareness
+   A signature element of JJ's approach. References to the body,
+   nervous system, energy, and somatic awareness appear consistently
+   across sessions. JJ brings clients back to their physical
+   experience as a way to access deeper awareness and break reactive
+   patterns.
+
+3. Goal Setting & Action Planning
+   JJ is highly action-oriented. Sessions frequently center on
+   defining goals, creating plans, identifying next steps, and
+   establishing accountability. He balances depth work with practical
+   forward movement.
+
+4. Work-Life Integration
+   Family, kids, marriage, and personal life show up almost as much
+   as professional topics. JJ doesn't silo coaching into "just work"
+   -- he treats the whole person, addressing how career pressures
+   bleed into home life and vice versa.
+
+5. Relational Skills & Communication
+   Conversations, feedback, boundaries, listening, and conflict
+   resolution are recurring themes. JJ helps clients improve how they
+   communicate -- both with teams at work and with partners/family at
+   home.
+
+6. Identity, Vision & Values
+   JJ frequently works in the space of purpose, mission, core values,
+   and "who am I." He helps clients get clear on what they stand for
+   and align their actions with their deeper identity.
+
+
+CHALLENGES JJ HELPS CLIENTS NAVIGATE
+-------------------------------------
+
+- Navigating leadership transitions -- stepping into bigger roles,
+  leading teams for the first time, or redefining their leadership
+  style
+
+- Setting and holding boundaries -- both professionally (with teams,
+  bosses, organizations) and personally (with family, partners)
+
+- Processing fear, anger, and frustration -- emotional patterns that
+  show up in decision-making and relationships
+
+- Overcoming burnout and restoring balance -- managing energy, rest,
+  and sustainability in demanding roles
+
+- Building confidence and trust -- both self-trust and building trust
+  with teams
+
+- Breaking reactive patterns -- using body awareness and triggers as
+  doorways to more intentional responses
+
+- Aligning professional ambitions with personal values -- career
+  decisions, entrepreneurship, and finding meaning in work
+
+
+COACHING STYLE MARKERS
+----------------------
+
+- Curiosity-led: "curious" appears 79 times, signaling JJ
+  consistently uses open, exploratory questioning rather than
+  directive advice
+
+- Framework-informed: Regular use of DISC assessments and the
+  Inside-Out (IOL) coaching model as structural tools
+
+- Somatic integration: Consistently brings body, nervous system, and
+  energy into the coaching space
+
+- Conversational depth: Average session runs ~9,000 words, indicating
+  deep, exploratory sessions rather than quick check-ins
+
+
+======================================================================
+NOTES
+======================================================================
+
+- 2 duplicate transcript entries were identified in the database:
+  IO - E7 Explore Team Coaching (2025-11-21) and Mike <> JJ Coaching
+  (2026-02-10). These may be worth deduplicating.
+
+- 4 test/demo transcripts were excluded from the analysis.

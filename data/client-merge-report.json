@@ -1,0 +1,28 @@
+{
+  "canonical": {
+    "id": "3828a38b-038d-4109-a201-e3aa2e7ddea0",
+    "name": "Brandon Glickstein",
+    "email": "brandon@monsterlg.com"
+  },
+  "data_items_moved": 4,
+  "coach_clients_added": 2,
+  "api_keys_moved": 0,
+  "api_usage_moved": 0,
+  "clients_deleted": 2,
+  "sources_merged": [
+    {
+      "id": "a1d470fa-d89c-4044-9525-db28132ba229",
+      "name": "Brandon Glickstein",
+      "email": "brandonglickstein@gmail.com",
+      "items_moved": 3
+    },
+    {
+      "id": "2cc961b7-d09c-4b34-a6d3-e4cdbb8d95e8",
+      "name": "Brandon Glickenstein",
+      "email": "brandon.glickenstein@placeholder.local",
+      "items_moved": 1
+    }
+  ],
+  "executed_at": "2026-02-27T15:58:42.096Z",
+  "command": "node scripts/utilities/merge-duplicate-clients.js --canonical 3828a38b-038d-4109-a201-e3aa2e7ddea0 --sources a1d470fa-d89c-4044-9525-db28132ba229,2cc961b7-d09c-4b34-a6d3-e4cdbb8d95e8"
+}
