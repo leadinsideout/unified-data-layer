@@ -4,4 +4,4 @@
  * Exports MCP server and route creators
  */
 
-export { createMCPServer, createMCPRoutes } from './server.js';
+export { createMCPServer, createMCPRoutes, createStreamableHTTPHandler } from './server.js';

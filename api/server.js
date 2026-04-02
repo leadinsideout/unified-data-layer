@@ -29,7 +29,7 @@ import { createAdminRoutes } from './routes/admin.js';
 import { createApiKeyRoutes } from './routes/api-keys.js';
 import { createAdminAuthRoutes, createAdminSessionMiddleware } from './routes/admin-auth.js';
 import { createV2ClientRoutes, createV2SearchRoutes, createV2TranscriptRoutes } from './routes/v2/index.js';
-import { createMCPRoutes } from './mcp/index.js';
+import { createMCPRoutes, createStreamableHTTPHandler } from './mcp/index.js';
 import { createFirefliesRoutes } from './integrations/fireflies.js';
 import { createAnalyticsMiddleware, logCostEvent, calculateEmbeddingCost } from './middleware/analytics.js';
 
@@ -453,9 +453,16 @@ app.use('/api/v2/search', v2SearchRoutes);
 app.use('/api/v2/transcripts', v2TranscriptRoutes);
 
 // Register MCP routes (Model Context Protocol for AI assistants)
+// Legacy SSE transport (deprecated, kept for backward compatibility)
 const mcpRoutes = createMCPRoutes(supabase, openai, authMiddleware);
 app.get('/api/mcp/sse', ...mcpRoutes.handleSSE);
 app.post('/api/mcp/messages', ...mcpRoutes.handleMessages);
+
+// Streamable HTTP transport (recommended for remote MCP clients)
+const streamableHTTP = createStreamableHTTPHandler(supabase, openai, authMiddleware);
+app.post('/api/mcp', ...streamableHTTP.handlePost);
+app.get('/api/mcp', ...streamableHTTP.handleGet);
+app.delete('/api/mcp', ...streamableHTTP.handleDelete);
 
 // Register Fireflies.ai integration routes (Phase 5)
 const firefliesRoutes = createFirefliesRoutes(supabase, openai);

@@ -2,7 +2,7 @@
  * MCP Server for Unified Data Layer
  *
  * Provides Model Context Protocol tools for AI assistants to interact
- * with coaching data. Designed for hosted deployment on Vercel with SSE transport.
+ * with coaching data. Supports both Streamable HTTP (recommended) and SSE (legacy) transports.
  *
  * Tools:
  * - search_data: Semantic search across coaching data with filters
@@ -12,6 +12,7 @@
 
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { SSEServerTransport } from '@modelcontextprotocol/sdk/server/sse.js';
+import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import {
   CallToolRequestSchema,
   ListToolsRequestSchema
@@ -560,5 +561,72 @@ export function createMCPRoutes(supabase, openai, authMiddleware) {
       // Handle the message
       await transport.handlePostMessage(req, res);
     }]
+  };
+}
+
+/**
+ * Create Express routes for MCP Streamable HTTP transport (recommended)
+ *
+ * Stateless mode: each request creates a fresh Server + Transport pair.
+ * This is required for Vercel serverless where there is no shared memory between invocations.
+ *
+ * @param {Object} supabase - Supabase client
+ * @param {Object} openai - OpenAI client
+ * @param {Function} authMiddleware - Authentication middleware
+ * @returns {Object} Express route handlers for POST, GET, DELETE on /api/mcp
+ */
+export function createStreamableHTTPHandler(supabase, openai, authMiddleware) {
+  return {
+    /**
+     * Streamable HTTP endpoint
+     * POST /api/mcp
+     */
+    handlePost: [authMiddleware, async (req, res) => {
+      const server = createMCPServer(supabase, openai);
+      const transport = new StreamableHTTPServerTransport({
+        sessionIdGenerator: undefined, // stateless mode for Vercel serverless
+      });
+
+      res.on('close', () => {
+        transport.close();
+        server.close();
+      });
+
+      try {
+        await server.connect(transport);
+        await transport.handleRequest(req, res, req.body);
+      } catch (error) {
+        console.error('MCP Streamable HTTP error:', error);
+        if (!res.headersSent) {
+          res.status(500).json({
+            jsonrpc: '2.0',
+            error: { code: -32603, message: 'Internal server error' },
+            id: null,
+          });
+        }
+      }
+    }],
+
+    /**
+     * GET /api/mcp — 405 Method Not Allowed (spec compliance for stateless servers)
+     */
+    handleGet: [(_req, res) => {
+      res.status(405).set('Allow', 'POST').json({
+        jsonrpc: '2.0',
+        error: { code: -32000, message: 'Method not allowed. Use POST for Streamable HTTP transport.' },
+        id: null,
+      });
+    }],
+
+    /**
+     * DELETE /api/mcp — 405 Method Not Allowed (stateless servers don't support session deletion)
+     */
+    handleDelete: [(_req, res) => {
+      res.status(405).set('Allow', 'POST').json({
+        jsonrpc: '2.0',
+        error: { code: -32000, message: 'Method not allowed. Stateless server does not support session deletion.' },
+        id: null,
+      });
+    }],
   };
 }
